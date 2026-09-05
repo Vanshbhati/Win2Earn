@@ -12,6 +12,7 @@ const indianNames = [
 ];
 
 let registeredUsers = [];
+let currentUser = null; // Session tracking
 let tickerAnimId = null;
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +31,44 @@ window.addEventListener('DOMContentLoaded', () => {
   initHardwareAcceleratedTicker();
 });
 
-// Ultra-Smooth 60fps Ticker Loop using Time Delta
+// Protected Route Handler for Bottom Nav Tabs
+function handleNavClick(event, tabName) {
+  event.preventDefault();
+
+  if (tabName === 'home') {
+    updateActiveNav(event.currentTarget);
+    return;
+  }
+
+  // Lock feature for unauthenticated visitors
+  if (!currentUser) {
+    showErrorPopup(`Please Log In or Sign Up to access the ${tabName.toUpperCase()} section.`);
+    openAuthModal('signup');
+    return;
+  }
+
+  updateActiveNav(event.currentTarget);
+  alert(`Navigating to ${tabName.toUpperCase()} section...`);
+}
+
+function updateActiveNav(targetElement) {
+  const navItems = document.querySelectorAll('.bottom-nav .nav-item');
+  navItems.forEach(item => item.classList.remove('active'));
+  targetElement.classList.add('active');
+}
+
+// Telegram Modal Controls
+function openTelegramModal() {
+  document.getElementById('telegramModal').classList.remove('hidden');
+  document.body.classList.add('no-scroll');
+}
+
+function closeTelegramModal() {
+  document.getElementById('telegramModal').classList.add('hidden');
+  document.body.classList.remove('no-scroll');
+}
+
+// Smooth Winner Ticker Loop
 function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
@@ -43,7 +81,7 @@ function initHardwareAcceleratedTicker() {
 
   let currentX = 0;
   let lastTime = performance.now();
-  const pixelsPerSecond = 90; // Smooth consistent speed across all displays
+  const pixelsPerSecond = 90;
 
   function step(currentTime) {
     const deltaTime = (currentTime - lastTime) / 1000;
@@ -56,7 +94,6 @@ function initHardwareAcceleratedTicker() {
       currentX += halfWidth;
     }
 
-    // Force sub-pixel rendering GPU acceleration
     track.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0)`;
     tickerAnimId = requestAnimationFrame(step);
   }
@@ -65,7 +102,7 @@ function initHardwareAcceleratedTicker() {
   tickerAnimId = requestAnimationFrame(step);
 }
 
-// Global Priority Error Popup
+// Priority Error Popup
 function showErrorPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('errorPopup').classList.remove('hidden');
@@ -97,7 +134,6 @@ function openAuthModal(tab) {
 }
 
 function closeAuthModal() {
-  document.getElementById('authModal').classList.hidden = true;
   document.getElementById('authModal').classList.add('hidden');
   document.body.classList.remove('no-scroll');
 }
@@ -144,7 +180,8 @@ function handleSignup(event) {
   if (!confirmPassword) return showErrorPopup('Please confirm your password.');
   if (password !== confirmPassword) return showErrorPopup('Passwords do not match. Please check again.');
 
-  registeredUsers.push({ email, password, name, mobile });
+  const newUser = { email, password, name, mobile };
+  registeredUsers.push(newUser);
   alert('Registration Successful! Please Log In with your credentials.');
   switchTab('login');
 }
@@ -166,7 +203,12 @@ function handleLogin(event) {
     return;
   }
 
+  currentUser = userExists;
   alert(`Welcome back, ${userExists.name}! Logged in successfully.`);
+  
+  // Update header UI
+  document.getElementById('navAuthBtns').innerHTML = `<span style="color:#facc15; font-size:0.85rem; font-weight:800;">👤 ${userExists.name}</span>`;
+  
   closeAuthModal();
 }
 
