@@ -16,12 +16,30 @@
     </div>
   </div>
 
-  <!-- Error Popup -->
+  <!-- Global Priority Error Popup (Z-Index Fix) -->
   <div id="errorPopup" class="popup-overlay hidden">
     <div class="popup-box stake-card">
-      <div class="popup-icon-wrapper">⚠️</div>
+      <div class="popup-icon">⚠️</div>
+      <h3 class="popup-title">Attention</h3>
       <p id="popupMessage">An error occurred.</p>
-      <button class="stake-btn primary-btn" onclick="closePopup()">OK</button>
+      <button class="stake-btn primary-btn popup-btn" onclick="closePopup()">Got it</button>
+    </div>
+  </div>
+
+  <!-- Important Notice Modal -->
+  <div id="noticeModal" class="modal-overlay hidden">
+    <div class="modal-card stake-card notice-modal-card">
+      <button class="close-btn" onclick="closeNoticeModal()">&times;</button>
+      <div class="notice-header">
+        <span class="notice-icon">📢</span>
+        <h3>Important Rules & Announcements</h3>
+      </div>
+      <div class="notice-body">
+        <p><strong>Daily Winners:</strong> Daily tournament winners are announced every night at <strong>10:00 PM</strong>. The winning prize amount is transferred directly to the winner's account shortly after the result.</p>
+        <p><strong>Weekly Winners:</strong> Weekly tournament winners are announced every <strong>Sunday at 12:00 PM (Noon)</strong>, and reward payouts are disbursed immediately.</p>
+        <p>Keep playing, show off your gaming skills, and boost your score! <strong>Win2Earn</strong> is the ultimate platform to earn real cash without spending a single rupee—100% Free & Skill-Based!</p>
+      </div>
+      <button class="stake-btn action-btn" onclick="closeNoticeModal()">I Understand</button>
     </div>
   </div>
 
@@ -33,8 +51,8 @@
       <!-- Login Form -->
       <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
         <h2>Log In</h2>
-        <input type="email" id="loginEmail" class="stake-input" placeholder="Email" required>
-        <input type="password" id="loginPassword" class="stake-input" placeholder="Password" required>
+        <input type="email" id="loginEmail" class="stake-input" placeholder="Email Address">
+        <input type="password" id="loginPassword" class="stake-input" placeholder="Password">
         <button type="submit" class="stake-btn action-btn">LOG IN</button>
         <p class="switch-text">Don't have an account? <a href="#" onclick="switchTab('signup')">Sign Up</a></p>
       </form>
@@ -43,20 +61,22 @@
       <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
         <h2>Sign Up</h2>
         <div class="input-group">
-          <label for="profilePic">Profile Picture</label>
+          <label for="profilePic">Profile Picture (Optional)</label>
           <input type="file" id="profilePic" class="stake-input" accept="image/*">
         </div>
         <input type="text" id="signupName" class="stake-input" placeholder="Full Name">
-        <input type="tel" id="signupMobile" class="stake-input" placeholder="Mobile Number">
+        <input type="tel" id="signupMobile" class="stake-input" placeholder="10-Digit Mobile Number">
         <input type="email" id="signupEmail" class="stake-input" placeholder="Email Address">
         
-        <button type="button" class="stake-btn otp-btn" onclick="sendOtp()">Get OTP</button>
-        <input type="text" id="signupOtp" class="stake-input" placeholder="Enter OTP (Temp: 1234)">
+        <div class="otp-row">
+          <input type="text" id="signupOtp" class="stake-input" placeholder="Enter OTP">
+          <button type="button" class="stake-btn otp-btn" onclick="sendOtp()">Get OTP</button>
+        </div>
 
         <input type="password" id="signupPassword" class="stake-input" placeholder="Password">
         <input type="password" id="signupConfirmPassword" class="stake-input" placeholder="Confirm Password">
         
-        <button type="submit" class="stake-btn action-btn">REGISTER</button>
+        <button type="submit" class="stake-btn action-btn">REGISTER NOW</button>
         <p class="switch-text">Already registered? <a href="#" onclick="switchTab('login')">Log In</a></p>
       </form>
     </div>
@@ -83,13 +103,26 @@
       </div>
     </section>
 
-    <!-- Tournament Showcase Card (As per screenshot) -->
+    <!-- Mega Tournament Upcoming Banner -->
+    <section class="mega-banner-card stake-card">
+      <div class="mega-badge">LIMITED EDITION</div>
+      <h2 class="mega-title">₹50,000 MEGA TOURNAMENT</h2>
+      <p class="mega-status">COMING SOON • CURRENTLY UNDER WORK</p>
+      <p class="mega-desc">Gear up for the biggest eSports event! Massive prize pool, zero entry fee, and instant payouts for top rankers.</p>
+      <div class="mega-tags">
+        <span>⚡ Huge Pool</span>
+        <span>🔥 100% Free</span>
+        <span>👑 Rank Rewards</span>
+      </div>
+    </section>
+
+    <!-- Tournament Showcase Card -->
     <section class="tournament-hero-card stake-card">
       
       <!-- Live Status Badge -->
       <div class="status-badge-wrapper">
         <span class="live-status-pill">
-          <span class="live-dot"></span> LIVE WEEKLY TOURNAMENTS
+          <span class="live-dot"></span> LIVE TOURNAMENTS
         </span>
       </div>
 
@@ -101,7 +134,7 @@
       <!-- Daily Prize Card -->
       <div class="prize-box daily-prize-box">
         <span class="prize-label">DAILY PRIZE</span>
-        <div class="prize-amount gold-text">₹500 <span class="prize-sub">PER GAME</span></div>
+        <div class="prize-amount gold-text">₹500</div>
       </div>
 
       <!-- Weekly Prize Card -->
@@ -127,7 +160,48 @@
 
     </section>
 
+    <!-- Important Notice Trigger Card -->
+    <section class="notice-trigger-card stake-card" onclick="openNoticeModal()">
+      <div class="notice-trigger-content">
+        <span class="pulse-icon">📌</span>
+        <div>
+          <h4>Important Information & Timing</h4>
+          <p>Click here to read winner timings & payout rules</p>
+        </div>
+      </div>
+      <span class="chevron">➔</span>
+    </section>
+
   </main>
+
+  <!-- Comprehensive Footer -->
+  <footer class="footer stake-card">
+    <div class="footer-brand">
+      <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+      <p class="footer-tagline">India's Premier 100% Free Skill-Based Gaming & Earning Platform.</p>
+    </div>
+
+    <div class="footer-links-grid">
+      <div class="footer-col">
+        <h5>Terms & Conditions</h5>
+        <p>Win2Earn is purely a skill-based platform. Users participate without any financial investment. No real money gambling involved.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Privacy Policy</h5>
+        <p>We respect your privacy. User data, phone numbers, and UPI details are encrypted and securely stored strictly for prize distribution.</p>
+      </div>
+
+      <div class="footer-col">
+        <h5>Community Guidelines</h5>
+        <p>Fair play is mandatory. Use of bots, hacks, multiple accounts, or score manipulation leads to an immediate permanent ban.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Win2Earn Inc. All rights reserved. Play Fair & Skillfully.</p>
+    </div>
+  </footer>
 
   <!-- Bottom Navigation Bar -->
   <nav class="bottom-nav stake-nav">
