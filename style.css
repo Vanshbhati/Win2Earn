@@ -1,4 +1,4 @@
-/* Premium Obsidian Theme */
+/* High Performance & Zero-Lag Premium Theme */
 * {
   margin: 0;
   padding: 0;
@@ -9,13 +9,15 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-body {
-  background: #090d16;
-  background-image: radial-gradient(circle at top center, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+html, body {
+  background: #080c14;
   color: #f1f5f9;
   padding-bottom: 90px;
   min-height: 100vh;
   overflow-x: hidden;
+  /* Hardware acceleration for page scrolling */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 body.no-scroll {
@@ -23,7 +25,7 @@ body.no-scroll {
   height: 100vh;
 }
 
-/* Metallic & Neon Colors */
+/* Optimized Metallic & Neon Text */
 .gold-text {
   background: linear-gradient(135deg, #ffe066 0%, #facc15 50%, #eab308 100%);
   -webkit-background-clip: text;
@@ -45,19 +47,20 @@ body.no-scroll {
 
 .logo-text { font-size: 1.35rem; letter-spacing: -0.02em; }
 
-/* Ultra-Premium Glassmorphism Cards */
+/* GPU Accelerated Cards */
 .stake-card {
-  background: linear-gradient(180deg, rgba(22, 30, 46, 0.9) 0%, rgba(15, 22, 35, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  border-radius: 24px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
+  background: #111827;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  transform: translateZ(0); /* Enable GPU composite layer */
+  backface-visibility: hidden;
 }
 
 .stake-nav {
-  background: rgba(9, 13, 22, 0.9);
+  background: rgba(8, 12, 20, 0.95);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
+  transform: translateZ(0);
 }
 
 /* Inputs & Buttons */
@@ -81,15 +84,14 @@ body.no-scroll {
   font-size: 0.85rem;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.1s ease;
 }
 
-.stake-btn:active { transform: scale(0.97); }
+.stake-btn:active { transform: scale(0.96) translateZ(0); }
 
 .primary-btn {
   background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   color: #ffffff;
-  box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
 }
 
 .secondary-btn {
@@ -105,7 +107,6 @@ body.no-scroll {
   color: #090d16;
   font-size: 0.95rem;
   font-weight: 800;
-  box-shadow: 0 6px 20px rgba(250, 204, 21, 0.25);
 }
 
 .otp-row { display: flex; gap: 8px; }
@@ -116,32 +117,31 @@ body.no-scroll {
   border: 1px solid rgba(56, 189, 248, 0.25);
 }
 
-/* Splash Screen Centered */
+/* Splash Screen */
 .splash-screen {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #090d16;
+  background: #080c14;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 99999;
-  transition: opacity 0.5s ease-out;
+  transition: opacity 0.4s ease-out;
 }
 
 .splash-logo { font-size: 2.2rem; letter-spacing: -0.02em; text-align: center; }
 
-/* Z-Index Priority Popups */
+/* Modals & Popups */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(9, 13, 22, 0.88);
-  backdrop-filter: blur(16px);
+  background: rgba(8, 12, 20, 0.92);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -155,8 +155,7 @@ body.no-scroll {
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(9, 13, 22, 0.85);
-  backdrop-filter: blur(12px);
+  background: rgba(8, 12, 20, 0.9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -198,7 +197,7 @@ body.no-scroll {
 .switch-text { font-size: 0.8rem; text-align: center; color: #94a3b8; }
 .switch-text a { color: #38bdf8; text-decoration: none; font-weight: 700; }
 
-/* Navbar */
+/* Sticky Navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -211,21 +210,21 @@ body.no-scroll {
 
 .auth-btns { display: flex; gap: 8px; }
 
-/* Main Content Area */
+/* Main Container */
 .main-content {
   padding: 16px;
   max-width: 440px;
   margin: 0 auto;
 }
 
-/* Winner Scroll Ticker */
+/* 60fps Ultra-Smooth Winner Ticker */
 .ticker-wrapper {
   display: flex;
   align-items: center;
   overflow: hidden;
   margin-bottom: 16px;
   padding: 10px 14px;
-  background: rgba(22, 30, 46, 0.7);
+  background: #111827;
 }
 
 .ticker-badge {
@@ -238,15 +237,23 @@ body.no-scroll {
   border-radius: 8px;
   white-space: nowrap;
   margin-right: 12px;
+  z-index: 2;
 }
 
-.ticker-viewport { flex: 1; overflow: hidden; position: relative; white-space: nowrap; }
+.ticker-viewport { 
+  flex: 1; 
+  overflow: hidden; 
+  position: relative; 
+  white-space: nowrap; 
+}
 
 .ticker-track {
   display: inline-block;
   white-space: nowrap;
   will-change: transform;
   transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 .ticker-item {
@@ -254,24 +261,22 @@ body.no-scroll {
   font-size: 0.82rem;
   color: #94a3b8;
   font-weight: 600;
-  margin-right: 24px;
+  margin-right: 28px;
 }
 
 .ticker-item span { color: #facc15; font-weight: 800; }
 
-/* Updated 50,000 Mega Tournament Card */
+/* Mega Tournament Card */
 .mega-banner-card {
   padding: 24px 20px;
   text-align: center;
   margin-bottom: 16px;
-  background: radial-gradient(ellipse at top, rgba(250, 204, 21, 0.08) 0%, rgba(15, 22, 35, 0.95) 80%);
+  background: linear-gradient(180deg, rgba(250, 204, 21, 0.05) 0%, #111827 100%);
   border: 1.5px solid rgba(250, 204, 21, 0.35);
-  position: relative;
-  overflow: hidden;
 }
 
 .mega-title-large {
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   font-weight: 900;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -312,7 +317,7 @@ body.no-scroll {
   font-weight: 600;
 }
 
-/* Main Tournament Showcase Card */
+/* Tournament Showcase Card */
 .tournament-hero-card {
   padding: 26px 20px;
   text-align: center;
@@ -343,7 +348,7 @@ body.no-scroll {
   height: 7px;
   background-color: #10b981;
   border-radius: 50%;
-  box-shadow: 0 0 10px #10b981;
+  box-shadow: 0 0 8px #10b981;
 }
 
 .hero-logo-text {
@@ -402,7 +407,6 @@ body.no-scroll {
 
 .hero-cta-btn {
   width: 100%;
-  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
   background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
   color: #ffffff;
   padding: 16px;
@@ -413,10 +417,9 @@ body.no-scroll {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  box-shadow: 0 8px 25px rgba(56, 189, 248, 0.3);
 }
 
-/* Important Notice Card */
+/* Notice Trigger Card */
 .notice-trigger-card {
   padding: 16px;
   display: flex;
