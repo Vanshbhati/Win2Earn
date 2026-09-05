@@ -41,11 +41,15 @@ window.addEventListener('DOMContentLoaded', () => {
   
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
-    splash.style.opacity = '0';
-    setTimeout(() => {
-      splash.classList.add('hidden');
+    if (splash) {
+      splash.style.opacity = '0';
+      setTimeout(() => {
+        splash.classList.add('hidden');
+        document.body.classList.remove('no-scroll');
+      }, 400);
+    } else {
       document.body.classList.remove('no-scroll');
-    }, 400);
+    }
   }, 2500);
 
   initHardwareAcceleratedTicker();
@@ -97,7 +101,9 @@ function switchTabContent(tabName) {
 function updateActiveNav(targetElement) {
   const navItems = document.querySelectorAll('.bottom-nav .nav-item');
   navItems.forEach(item => item.classList.remove('active'));
-  targetElement.classList.add('active');
+  if (targetElement) {
+    targetElement.classList.add('active');
+  }
 }
 
 // Game Play Launcher
@@ -118,28 +124,37 @@ function handleGameLaunch() {
 
 // Wallet Operations
 function openWalletModal() {
-  document.getElementById('walletActivationModal').classList.remove('hidden');
-  document.body.classList.add('no-scroll');
+  const modal = document.getElementById('walletActivationModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
 }
 
 function closeWalletModal() {
-  document.getElementById('walletActivationModal').classList.add('hidden');
-  document.body.classList.remove('no-scroll');
+  const modal = document.getElementById('walletActivationModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
 }
 
 function activateWallet(e) {
-  e.preventDefault();
-  const upiVal = document.getElementById('upiInput').value.trim();
+  if (e) e.preventDefault();
+  const upiInput = document.getElementById('upiInput');
+  const upiVal = upiInput ? upiInput.value.trim() : '';
 
   if (!upiVal || !upiVal.includes('@')) {
     showErrorPopup('Please enter a valid UPI ID (e.g. mobile@paytm or user@ybl)');
     return;
   }
 
-  currentUser.upiId = upiVal;
-  currentUser.transactions = currentUser.transactions || [
-    { title: "Daily Tournament Win Reward", date: "Today, 10:15 PM", amount: "+ ₹50.00" }
-  ];
+  if (currentUser) {
+    currentUser.upiId = upiVal;
+    currentUser.transactions = currentUser.transactions || [
+      { title: "Daily Tournament Win Reward", date: "Today, 10:15 PM", amount: "+ ₹50.00" }
+    ];
+  }
 
   alert('✅ Wallet Activated Successfully! Your UPI ID is linked.');
   closeWalletModal();
@@ -151,8 +166,10 @@ function renderWalletView() {
   const txList = document.getElementById('txList');
 
   if (currentUser && currentUser.upiId) {
-    upiDisp.innerText = currentUser.upiId;
-    upiDisp.style.color = '#34d399';
+    if (upiDisp) {
+      upiDisp.innerText = currentUser.upiId;
+      upiDisp.style.color = '#10b981';
+    }
     
     let txHtml = '';
     const txs = currentUser.transactions || [];
@@ -171,24 +188,30 @@ function renderWalletView() {
         `;
       });
     }
-    txList.innerHTML = txHtml;
+    if (txList) txList.innerHTML = txHtml;
   } else {
-    upiDisp.innerText = "Not Activated";
-    upiDisp.style.color = '#ef4444';
-    txList.innerHTML = `
-      <div style="text-align:center; padding:16px;">
-        <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Wallet is inactive. Link UPI ID to view payouts.</p>
-        <button class="stake-btn primary-btn" onclick="openWalletModal()">Activate Wallet Now</button>
-      </div>
-    `;
+    if (upiDisp) {
+      upiDisp.innerText = "Not Activated";
+      upiDisp.style.color = '#ef4444';
+    }
+    if (txList) {
+      txList.innerHTML = `
+        <div style="text-align:center; padding:16px;">
+          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Wallet is inactive. Link UPI ID to view payouts.</p>
+          <button class="glass-btn primary-btn" onclick="openWalletModal()">Activate Wallet Now</button>
+        </div>
+      `;
+    }
   }
 }
 
 // Leaderboard Renders
 function switchLeaderboard(type) {
   currentLbType = type;
-  document.getElementById('btnDailyLb').classList.toggle('active', type === 'daily');
-  document.getElementById('btnWeeklyLb').classList.toggle('active', type === 'weekly');
+  const btnDaily = document.getElementById('btnDailyLb');
+  const btnWeekly = document.getElementById('btnWeeklyLb');
+  if (btnDaily) btnDaily.classList.toggle('active', type === 'daily');
+  if (btnWeekly) btnWeekly.classList.toggle('active', type === 'weekly');
   renderLeaderboard();
 }
 
@@ -213,30 +236,33 @@ function renderLeaderboard() {
     `;
   });
 
-  container.innerHTML = listHtml;
+  if (container) container.innerHTML = listHtml;
 
   const userScore = currentLbType === 'daily' ? 1420 : 4850;
   const userRank = currentLbType === 'daily' ? 14 : 22;
 
-  userRankCard.innerHTML = `
-    <div>
-      <span style="font-size:0.7rem; color:#94a3b8; font-weight:700;">YOUR LIVE RANK</span>
-      <div style="font-size:1rem; font-weight:800; color:#ffffff;">${currentUser ? currentUser.name : 'Guest User'}</div>
-    </div>
-    <div style="text-align:right;">
-      <div style="font-size:1.1rem; font-weight:900; color:#facc15;">#${userRank}</div>
-      <div style="font-size:0.75rem; color:#38bdf8; font-weight:800;">${userScore} pts</div>
-    </div>
-  `;
+  if (userRankCard) {
+    userRankCard.innerHTML = `
+      <div>
+        <span style="font-size:0.7rem; color:#64748b; font-weight:700;">YOUR LIVE RANK</span>
+        <div style="font-size:1rem; font-weight:800; color:#0f172a;">${currentUser ? currentUser.name : 'Guest User'}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:1.1rem; font-weight:900; color:#d97706;">#${userRank}</div>
+        <div style="font-size:0.75rem; color:#0284c7; font-weight:800;">${userScore} pts</div>
+      </div>
+    `;
+  }
 }
 
 // Render Notifications
 function renderAlertsFeed() {
   const container = document.getElementById('alertsFeed');
+  if (!container) return;
   let html = '';
   sampleAlerts.forEach(item => {
     html += `
-      <div class="alert-card stake-card">
+      <div class="alert-card glass-card">
         <div class="alert-time">${item.time}</div>
         <div class="alert-title">${item.title}</div>
         <div class="alert-desc">${item.desc}</div>
@@ -249,27 +275,36 @@ function renderAlertsFeed() {
 // Auth Logic with Strict Validations
 function openAuthModal(tab) {
   switchTab(tab);
-  document.getElementById('authModal').classList.remove('hidden');
-  document.body.classList.add('no-scroll');
+  const modal = document.getElementById('authModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
 }
 
 function closeAuthModal() {
-  document.getElementById('authModal').classList.add('hidden');
-  document.body.classList.remove('no-scroll');
+  const modal = document.getElementById('authModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
 }
 
 function switchTab(tab) {
+  const loginForm = document.getElementById('loginForm');
+  const signupForm = document.getElementById('signupForm');
   if (tab === 'login') {
-    document.getElementById('loginForm').classList.remove('hidden');
-    document.getElementById('signupForm').classList.add('hidden');
+    if (loginForm) loginForm.classList.remove('hidden');
+    if (signupForm) signupForm.classList.add('hidden');
   } else {
-    document.getElementById('signupForm').classList.remove('hidden');
-    document.getElementById('loginForm').classList.add('hidden');
+    if (signupForm) signupForm.classList.remove('hidden');
+    if (loginForm) loginForm.classList.add('hidden');
   }
 }
 
 function sendOtp() {
-  const email = document.getElementById('signupEmail').value.trim();
+  const emailInput = document.getElementById('signupEmail');
+  const email = emailInput ? emailInput.value.trim() : '';
   if (!email || !email.includes('@')) {
     return showErrorPopup('Please enter a valid Email Address to receive OTP.');
   }
@@ -279,7 +314,7 @@ function sendOtp() {
 
 // STRICT SIGNUP VALIDATION & DIRECT LOGIN
 function handleSignup(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   
   const name = document.getElementById('signupName').value.trim();
   const mobile = document.getElementById('signupMobile').value.trim();
@@ -332,22 +367,32 @@ function handleSignup(e) {
   setupUserSession();
 
   // Trigger Welcome Card Popup
-  document.getElementById('welcomeUserName').innerText = `Welcome, ${currentUser.name}!`;
-  document.getElementById('welcomeModal').classList.remove('hidden');
-  document.body.classList.add('no-scroll');
+  const welcomeNameElem = document.getElementById('welcomeUserName');
+  if (welcomeNameElem) welcomeNameElem.innerText = `Welcome, ${currentUser.name}!`;
+  
+  const welcomeModal = document.getElementById('welcomeModal');
+  if (welcomeModal) {
+    welcomeModal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
 }
 
 function closeWelcomeModal() {
-  document.getElementById('welcomeModal').classList.add('hidden');
-  document.body.classList.remove('no-scroll');
+  const welcomeModal = document.getElementById('welcomeModal');
+  if (welcomeModal) {
+    welcomeModal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
 }
 
 // STRICT LOGIN VALIDATION
 function handleLogin(e) {
-  e.preventDefault();
+  if (e) e.preventDefault();
   
-  const email = document.getElementById('loginEmail').value.trim();
-  const password = document.getElementById('loginPassword').value;
+  const emailInput = document.getElementById('loginEmail');
+  const passwordInput = document.getElementById('loginPassword');
+  const email = emailInput ? emailInput.value.trim() : '';
+  const password = passwordInput ? passwordInput.value : '';
 
   if (!email || !password) {
     return showErrorPopup('Please fill in both Email and Password fields.');
@@ -366,41 +411,109 @@ function handleLogin(e) {
 }
 
 function setupUserSession() {
-  document.getElementById('navAuthBtns').innerHTML = `
-    <div class="active-players-badge">
-      <span class="active-dot"></span>
-      <span id="activePlayersCount">${activePlayersCount.toLocaleString()}</span> Active
-    </div>
-  `;
+  const navAuthBtns = document.getElementById('navAuthBtns');
+  if (navAuthBtns) {
+    navAuthBtns.innerHTML = `
+      <div class="active-players-badge" style="display:flex; align-items:center; gap:6px; font-size:0.75rem; background:rgba(16,185,129,0.12); color:#10b981; padding:6px 12px; border-radius:20px; font-weight:800;">
+        <span class="active-dot" style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span>
+        <span id="activePlayersCount">${activePlayersCount.toLocaleString()}</span> Active
+      </div>
+    `;
+  }
 
   startActivePlayersCounter();
   switchTabContent('home');
 }
 
-// Telegram Modal
-function openTelegramModal() {
-  document.getElementById('telegramModal').classList.remove('hidden');
+// Info & Legal Modals Handlers
+function openInfoModal() {
+  const modal = document.getElementById('infoModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
+}
+
+function closeInfoModal() {
+  const modal = document.getElementById('infoModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
+}
+
+function openLegalModal(type) {
+  const modal = document.getElementById('legalModal');
+  const title = document.getElementById('legalModalTitle');
+  const body = document.getElementById('legalModalBody');
+
+  if (!modal || !title || !body) return;
+
+  if (type === 'privacy') {
+    title.innerText = 'Privacy Policy';
+    body.innerHTML = `
+      <p>We respect your privacy. Your personal information (Name, Email, Mobile, and UPI ID) is securely stored and processed strictly for authentication and prize distribution.</p>
+      <p>We do not share or sell your data to third parties. All financial transactions are protected with industry-standard encryption.</p>
+    `;
+  } else if (type === 'terms') {
+    title.innerText = 'Terms & Conditions';
+    body.innerHTML = `
+      <p>By using Paper Glide Arena, you agree to comply with game rules and fair competition standards. Any use of bots, exploits, or fraudulent activity will result in immediate ban.</p>
+      <p>Tournament rewards are calculated based on verified leaderboard scores at the end of each daily/weekly cycle.</p>
+    `;
+  } else if (type === 'community') {
+    title.innerText = 'Community Guidelines';
+    body.innerHTML = `
+      <p>Maintain sportsmanship and respect across all platform channels. Harassment, spamming, or fraudulent behavior toward fellow players will lead to permanent account suspension.</p>
+    `;
+  }
+
+  modal.classList.remove('hidden');
   document.body.classList.add('no-scroll');
 }
 
+function closeLegalModal() {
+  const modal = document.getElementById('legalModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
+}
+
+// Telegram Modal
+function openTelegramModal() {
+  const modal = document.getElementById('telegramModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
+}
+
 function closeTelegramModal() {
-  document.getElementById('telegramModal').classList.add('hidden');
-  document.body.classList.remove('no-scroll');
+  const modal = document.getElementById('telegramModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
 }
 
 // Error Popup
 function showErrorPopup(msg) {
-  document.getElementById('popupMessage').innerText = msg;
-  document.getElementById('errorPopup').classList.remove('hidden');
+  const msgElem = document.getElementById('popupMessage');
+  const popup = document.getElementById('errorPopup');
+  if (msgElem) msgElem.innerText = msg;
+  if (popup) popup.classList.remove('hidden');
 }
 
 function closePopup() {
-  document.getElementById('errorPopup').classList.add('hidden');
+  const popup = document.getElementById('errorPopup');
+  if (popup) popup.classList.add('hidden');
 }
 
 // Ticker Animation
 function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
+  if (!track) return;
   let content = '';
   indianNames.forEach(name => {
     content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
@@ -419,4 +532,3 @@ function initHardwareAcceleratedTicker() {
   }
   requestAnimationFrame(step);
 }
-
