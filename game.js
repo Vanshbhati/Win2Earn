@@ -12,24 +12,26 @@ const indianNames = [
 ];
 
 let registeredUsers = [];
+let tickerAnimId = null;
 
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Splash Timer set to ~4.5 Seconds
+  // Splash Screen Timer (4.5s)
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
     splash.style.opacity = '0';
     setTimeout(() => {
       splash.classList.add('hidden');
       document.body.classList.remove('no-scroll');
-    }, 500);
+    }, 600);
   }, 4500);
 
-  renderTicker();
+  initSmoothTicker();
 });
 
-function renderTicker() {
+// Ultra-Smooth 60 FPS JS Animation loop using requestAnimationFrame
+function initSmoothTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
   
@@ -37,9 +39,30 @@ function renderTicker() {
     content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
   });
 
+  // Duplicate content for infinite loop effect
   track.innerHTML = content + content;
+
+  let currentX = 0;
+  const speed = 0.6; // Adjust speed (lower = smoother/slower)
+
+  function step() {
+    currentX -= speed;
+    
+    // Half width check for seamless loop
+    const halfWidth = track.scrollWidth / 2;
+    if (Math.abs(currentX) >= halfWidth) {
+      currentX = 0;
+    }
+
+    track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+    tickerAnimId = requestAnimationFrame(step);
+  }
+
+  if (tickerAnimId) cancelAnimationFrame(tickerAnimId);
+  tickerAnimId = requestAnimationFrame(step);
 }
 
+// Error Popup Controls
 function showErrorPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('errorPopup').classList.remove('hidden');
@@ -54,6 +77,7 @@ function closePopup() {
   }
 }
 
+// Auth Controls
 function openAuthModal(tab) {
   switchTab(tab);
   document.getElementById('authModal').classList.remove('hidden');
@@ -81,10 +105,10 @@ function switchTab(tab) {
 function sendOtp() {
   const email = document.getElementById('signupEmail').value;
   if (!email || !email.includes('@')) {
-    showErrorPopup('Please enter a valid Email Address first!');
+    showErrorPopup('Please enter a valid email address first.');
     return;
   }
-  alert('OTP Sent! Temporary OTP is: 1234');
+  alert('OTP Sent! Temporary OTP is 1234');
 }
 
 function handleSignup(event) {
@@ -97,12 +121,12 @@ function handleSignup(event) {
   const password = document.getElementById('signupPassword').value;
   const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  if (!name) return showErrorPopup('Please enter your Full Name!');
-  if (!mobile || mobile.length < 10) return showErrorPopup('Please enter a valid 10-digit Mobile Number!');
-  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid Email Address!');
-  if (otp !== '1234') return showErrorPopup('Invalid OTP! Temporary OTP is 1234');
-  if (!password) return showErrorPopup('Password is required!');
-  if (password !== confirmPassword) return showErrorPopup('Passwords do not match!');
+  if (!name) return showErrorPopup('Please enter your full name.');
+  if (!mobile || mobile.length < 10) return showErrorPopup('Please enter a valid 10-digit mobile number.');
+  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid email address.');
+  if (otp !== '1234') return showErrorPopup('Invalid OTP. Temporary OTP is 1234');
+  if (!password) return showErrorPopup('Password is required.');
+  if (password !== confirmPassword) return showErrorPopup('Passwords do not match.');
 
   registeredUsers.push({ email, password, name });
   alert('Registration Successful! Please Log In.');
@@ -118,7 +142,7 @@ function handleLogin(event) {
   const userExists = registeredUsers.find(u => u.email === email && u.password === password);
 
   if (!userExists) {
-    showErrorPopup('Account not found! Please Sign Up first.');
+    showErrorPopup('Account not found. Please Sign Up first.');
     return;
   }
 
