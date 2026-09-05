@@ -17,20 +17,20 @@ let tickerAnimId = null;
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Splash Screen Timer (4.5s)
+  // Splash Timer (4.5s)
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
     splash.style.opacity = '0';
     setTimeout(() => {
       splash.classList.add('hidden');
       document.body.classList.remove('no-scroll');
-    }, 600);
+    }, 500);
   }, 4500);
 
   initSmoothTicker();
 });
 
-// Ultra-Smooth 60 FPS JS Animation loop using requestAnimationFrame
+// Slightly Faster & Extremely Smooth 60FPS Ticker
 function initSmoothTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
@@ -39,16 +39,14 @@ function initSmoothTicker() {
     content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
   });
 
-  // Duplicate content for infinite loop effect
   track.innerHTML = content + content;
 
   let currentX = 0;
-  const speed = 0.6; // Adjust speed (lower = smoother/slower)
+  const speed = 1.2; // Increased speed for faster smooth scroll
 
   function step() {
     currentX -= speed;
     
-    // Half width check for seamless loop
     const halfWidth = track.scrollWidth / 2;
     if (Math.abs(currentX) >= halfWidth) {
       currentX = 0;
@@ -62,7 +60,6 @@ function initSmoothTicker() {
   tickerAnimId = requestAnimationFrame(step);
 }
 
-// Error Popup Controls
 function showErrorPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('errorPopup').classList.remove('hidden');
@@ -77,7 +74,6 @@ function closePopup() {
   }
 }
 
-// Auth Controls
 function openAuthModal(tab) {
   switchTab(tab);
   document.getElementById('authModal').classList.remove('hidden');
