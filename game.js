@@ -17,7 +17,7 @@ let tickerAnimId = null;
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Splash Screen Timeout (4.5 seconds)
+  // Splash Screen Timeout
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
     splash.style.opacity = '0';
@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
   initFastSmoothTicker();
 });
 
-// Fast & Smooth 60fps Ticker (Speed increased to 2.0)
+// Smooth Ticker Scroll
 function initFastSmoothTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
@@ -42,7 +42,7 @@ function initFastSmoothTicker() {
   track.innerHTML = content + content;
 
   let currentX = 0;
-  const speed = 2.0; // Faster scroll rate
+  const speed = 2.0;
 
   function step() {
     currentX -= speed;
