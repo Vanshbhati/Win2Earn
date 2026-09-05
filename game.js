@@ -17,7 +17,7 @@ let tickerAnimId = null;
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Splash Timer (4.5s)
+  // Splash Screen Timeout (4.5 seconds)
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
     splash.style.opacity = '0';
@@ -27,11 +27,11 @@ window.addEventListener('DOMContentLoaded', () => {
     }, 500);
   }, 4500);
 
-  initSmoothTicker();
+  initFastSmoothTicker();
 });
 
-// Slightly Faster & Extremely Smooth 60FPS Ticker
-function initSmoothTicker() {
+// Fast & Smooth 60fps Ticker (Speed increased to 2.0)
+function initFastSmoothTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
   
@@ -42,7 +42,7 @@ function initSmoothTicker() {
   track.innerHTML = content + content;
 
   let currentX = 0;
-  const speed = 1.2; // Increased speed for faster smooth scroll
+  const speed = 2.0; // Faster scroll rate
 
   function step() {
     currentX -= speed;
@@ -60,20 +60,31 @@ function initSmoothTicker() {
   tickerAnimId = requestAnimationFrame(step);
 }
 
+// Global Priority Error Popup
 function showErrorPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('errorPopup').classList.remove('hidden');
-  document.body.classList.add('no-scroll');
 }
 
 function closePopup() {
   document.getElementById('errorPopup').classList.add('hidden');
+}
+
+// Notice Modal Controls
+function openNoticeModal() {
+  document.getElementById('noticeModal').classList.remove('hidden');
+  document.body.classList.add('no-scroll');
+}
+
+function closeNoticeModal() {
+  document.getElementById('noticeModal').classList.add('hidden');
   const isAuthOpen = !document.getElementById('authModal').classList.contains('hidden');
   if (!isAuthOpen) {
     document.body.classList.remove('no-scroll');
   }
 }
 
+// Auth Modal Controls
 function openAuthModal(tab) {
   switchTab(tab);
   document.getElementById('authModal').classList.remove('hidden');
@@ -99,14 +110,15 @@ function switchTab(tab) {
 }
 
 function sendOtp() {
-  const email = document.getElementById('signupEmail').value;
+  const email = document.getElementById('signupEmail').value.trim();
   if (!email || !email.includes('@')) {
-    showErrorPopup('Please enter a valid email address first.');
+    showErrorPopup('Please enter a valid email address first to receive OTP.');
     return;
   }
-  alert('OTP Sent! Temporary OTP is 1234');
+  alert('OTP Sent successfully! Use temporary OTP: 1234');
 }
 
+// Strict Sign Up Validation
 function handleSignup(event) {
   event.preventDefault();
 
@@ -117,32 +129,38 @@ function handleSignup(event) {
   const password = document.getElementById('signupPassword').value;
   const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  if (!name) return showErrorPopup('Please enter your full name.');
-  if (!mobile || mobile.length < 10) return showErrorPopup('Please enter a valid 10-digit mobile number.');
-  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid email address.');
-  if (otp !== '1234') return showErrorPopup('Invalid OTP. Temporary OTP is 1234');
-  if (!password) return showErrorPopup('Password is required.');
-  if (password !== confirmPassword) return showErrorPopup('Passwords do not match.');
+  if (!name) return showErrorPopup('Full Name is required. Please enter your name.');
+  if (!mobile || mobile.length < 10) return showErrorPopup('A valid 10-digit Mobile Number is required.');
+  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid Email Address.');
+  if (!otp) return showErrorPopup('OTP is required. Click "Get OTP" to receive it.');
+  if (otp !== '1234') return showErrorPopup('Invalid OTP. Temporary OTP is 1234.');
+  if (!password) return showErrorPopup('Password field cannot be empty.');
+  if (!confirmPassword) return showErrorPopup('Please confirm your password.');
+  if (password !== confirmPassword) return showErrorPopup('Passwords do not match. Please check again.');
 
-  registeredUsers.push({ email, password, name });
-  alert('Registration Successful! Please Log In.');
+  registeredUsers.push({ email, password, name, mobile });
+  alert('Registration Successful! Please Log In with your credentials.');
   switchTab('login');
 }
 
+// Strict Login Validation
 function handleLogin(event) {
   event.preventDefault();
 
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
 
+  if (!email) return showErrorPopup('Please enter your registered Email Address.');
+  if (!password) return showErrorPopup('Please enter your password.');
+
   const userExists = registeredUsers.find(u => u.email === email && u.password === password);
 
   if (!userExists) {
-    showErrorPopup('Account not found. Please Sign Up first.');
+    showErrorPopup('Account not found or password incorrect. Please Sign Up first.');
     return;
   }
 
-  alert(`Welcome, ${userExists.name}! You are logged in.`);
+  alert(`Welcome back, ${userExists.name}! Logged in successfully.`);
   closeAuthModal();
 }
 
