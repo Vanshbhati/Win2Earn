@@ -26,6 +26,16 @@
     </div>
   </div>
 
+  <!-- Welcome Popup (Shown after Signup) -->
+  <div id="welcomeModal" class="modal-overlay hidden">
+    <div class="modal-card stake-card welcome-card">
+      <div class="welcome-icon">🎉</div>
+      <h2 id="welcomeUserName">Welcome!</h2>
+      <p>Your account has been created successfully. Start playing free tournaments now!</p>
+      <button class="stake-btn action-btn" onclick="closeWelcomeModal()">LET'S PLAY 🚀</button>
+    </div>
+  </div>
+
   <!-- Telegram Support Modal -->
   <div id="telegramModal" class="modal-overlay hidden">
     <div class="modal-card stake-card tg-modal-card">
@@ -170,21 +180,51 @@
     <!-- GAMES TAB CONTENT -->
     <div id="tab-games" class="tab-content hidden">
       <div class="section-title-box">
-        <h2>Tournament Arenas</h2>
-        <p>Select a game and climb the leaderboard</p>
+        <h2>Live Tournaments</h2>
+        <p>Compete in featured games and win real rewards</p>
       </div>
-      <div class="games-grid">
-        <div class="game-card stake-card" onclick="handleGameLaunch()">
-          <div class="game-badge">HOT</div>
-          <h3>🎮 Speed Runner</h3>
-          <p>Zero Entry • Max Pool ₹500</p>
-          <button class="stake-btn primary-btn game-btn">Play Arena</button>
+
+      <div class="featured-games-wrapper">
+        <!-- Daily Tournament Card (Paper Glide) -->
+        <div class="featured-card stake-card">
+          <div class="card-header-bar">
+            <span>⭐ Featured Daily Game</span>
+          </div>
+          <div class="card-image-container">
+            <span class="entry-badge">₹0 Entry Fee</span>
+            <div class="paper-plane-banner">
+              <div class="paper-plane-graphic">✈️</div>
+            </div>
+          </div>
+          <div class="card-details">
+            <div class="details-top">
+              <h3 class="game-title">Paper Glide</h3>
+              <span class="tag-daily">DAILY TOURNAMENT</span>
+            </div>
+            <div class="win-label">Daily Win <span>₹500</span></div>
+            <button class="stake-btn game-play-btn" onclick="handleGameLaunch()">PLAY NOW</button>
+          </div>
         </div>
-        <div class="game-card stake-card" onclick="handleGameLaunch()">
-          <div class="game-badge cyan-badge">WEEKLY</div>
-          <h3>🎯 Target Master</h3>
-          <p>Zero Entry • Pool ₹2,000</p>
-          <button class="stake-btn primary-btn game-btn">Play Arena</button>
+
+        <!-- Weekly Tournament Card (Paper Glide) -->
+        <div class="featured-card stake-card">
+          <div class="card-header-bar weekly-bar">
+            <span>⭐ Featured Weekly Game</span>
+          </div>
+          <div class="card-image-container">
+            <span class="entry-badge">₹0 Entry Fee</span>
+            <div class="paper-plane-banner weekly-bg">
+              <div class="paper-plane-graphic">🛩️</div>
+            </div>
+          </div>
+          <div class="card-details">
+            <div class="details-top">
+              <h3 class="game-title">Paper Glide</h3>
+              <span class="tag-weekly">WEEKLY TOURNAMENT</span>
+            </div>
+            <div class="win-label">Weekly Win <span class="cyan-win">₹2,000</span></div>
+            <button class="stake-btn game-play-btn weekly-btn" onclick="handleGameLaunch()">PLAY NOW</button>
+          </div>
         </div>
       </div>
     </div>
@@ -201,15 +241,9 @@
         <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')">Weekly Tournament</button>
       </div>
 
-      <!-- Leaderboard List -->
-      <div class="lb-list-container stake-card" id="lbList">
-        <!-- Rendered dynamically -->
-      </div>
+      <div class="lb-list-container stake-card" id="lbList"></div>
 
-      <!-- Current User Personal Rank Sticky Card -->
-      <div class="user-rank-card stake-card" id="userRankCard">
-        <!-- Rendered dynamically -->
-      </div>
+      <div class="user-rank-card stake-card" id="userRankCard"></div>
     </div>
 
     <!-- WALLET TAB CONTENT -->
@@ -229,9 +263,7 @@
 
       <div class="tx-history-wrapper">
         <h4>Winning Transactions</h4>
-        <div id="txList" class="tx-list">
-          <!-- Rendered dynamically -->
-        </div>
+        <div id="txList" class="tx-list"></div>
       </div>
     </div>
 
@@ -241,9 +273,7 @@
         <h2>Activity & Alerts</h2>
         <p>Tournament updates, payouts & rank prompts</p>
       </div>
-      <div class="alerts-feed" id="alertsFeed">
-        <!-- Rendered dynamically -->
-      </div>
+      <div class="alerts-feed" id="alertsFeed"></div>
     </div>
 
   </main>
