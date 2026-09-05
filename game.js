@@ -12,40 +12,38 @@ const indianNames = [
   "Shruti Ghosh", "Swati Bhasin", "Kriti Shrivastava", "Divya Rastogi", "Simran Dutta"
 ];
 
-let registeredUsers = []; // Stores fake DB for users
+let registeredUsers = [];
 
-// Initialize Features
+// Initialize Page Features
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Splash Screen Timer (3 Seconds)
+  // Splash Screen Fadeout (2.5 Seconds)
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
     splash.style.opacity = '0';
     setTimeout(() => {
       splash.classList.add('hidden');
       document.body.classList.remove('no-scroll');
-    }, 500);
-  }, 3000);
+    }, 600);
+  }, 2500);
 
-  // Render Ticker
   renderTicker();
 });
 
-// Render Marquee Ticker with 50 names
+// Render Smooth Marquee Ticker with 50 names
 function renderTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
   
   indianNames.forEach(name => {
-    content += `<div class="ticker-item">${name}: <span>₹5000</span></div>`;
+    content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
   });
 
-  // Duplicate for seamless infinite scrolling loop
   track.innerHTML = content + content;
 }
 
-// Error Popup Controls
+// Custom Error Popup Controls
 function showErrorPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('errorPopup').classList.remove('hidden');
@@ -55,7 +53,6 @@ function showErrorPopup(message) {
 function closePopup() {
   document.getElementById('errorPopup').classList.add('hidden');
   
-  // Keep body non-scrollable if Auth Modal is still active
   const isAuthOpen = !document.getElementById('authModal').classList.contains('hidden');
   if (!isAuthOpen) {
     document.body.classList.remove('no-scroll');
@@ -91,13 +88,13 @@ function switchTab(tab) {
 function sendOtp() {
   const email = document.getElementById('signupEmail').value;
   if (!email || !email.includes('@')) {
-    showErrorPopup('Pehle valid Email Address darj karein OTP bhejne ke liye!');
+    showErrorPopup('Please enter a valid email address!');
     return;
   }
-  alert('OTP sent! Temporary OTP is: 1234');
+  alert('OTP Sent! Temporary OTP is 1234');
 }
 
-// Sign Up Handler
+// Registration Handler
 function handleSignup(event) {
   event.preventDefault();
 
@@ -108,17 +105,15 @@ function handleSignup(event) {
   const password = document.getElementById('signupPassword').value;
   const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  // Validations
-  if (!name) return showErrorPopup('Kripya apna Full Name bharein!');
-  if (!mobile || mobile.length < 10) return showErrorPopup('Kripya sahi Mobile Number darj karein!');
-  if (!email || !email.includes('@')) return showErrorPopup('Kripya sahi Email Address bharein!');
-  if (otp !== '1234') return showErrorPopup('Galat OTP! Temporary OTP 1234 hai.');
-  if (!password) return showErrorPopup('Password bharna anivarya hai!');
-  if (password !== confirmPassword) return showErrorPopup('Password aur Confirm Password match nahi ho rahe hain!');
+  if (!name) return showErrorPopup('Please enter your full name!');
+  if (!mobile || mobile.length < 10) return showErrorPopup('Please enter a valid 10-digit mobile number!');
+  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid email address!');
+  if (otp !== '1234') return showErrorPopup('Invalid OTP! Temporary OTP is 1234');
+  if (!password) return showErrorPopup('Password is required!');
+  if (password !== confirmPassword) return showErrorPopup('Passwords do not match!');
 
-  // Save Registered User
   registeredUsers.push({ email, password, name });
-  alert('Registration Successful! Ab aap Log In kar sakte hain.');
+  alert('Registration Successful! Please Log In.');
   switchTab('login');
 }
 
@@ -129,15 +124,14 @@ function handleLogin(event) {
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
 
-  // Search in database
   const userExists = registeredUsers.find(u => u.email === email && u.password === password);
 
   if (!userExists) {
-    showErrorPopup('Galat Email ya Password! Pehle Sign Up karein.');
+    showErrorPopup('Account not found! Please Sign Up first.');
     return;
   }
 
-  alert(`Welcome back, ${userExists.name}! You are logged in.`);
+  alert(`Welcome, ${userExists.name}! You are logged in.`);
   closeAuthModal();
 }
 
