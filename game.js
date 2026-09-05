@@ -7,12 +7,12 @@ const indianNames = [
 ];
 
 let registeredUsers = [];
-let currentUser = null; // Stores logged-in user object
+let currentUser = null;
 let currentTab = 'home';
 let currentLbType = 'daily';
 let activePlayersCount = 4980;
+let generatedOtp = null;
 
-// Dynamic Mock Feed Data for Scheduled Alerts (Every 2-3 Hrs Format)
 const sampleAlerts = [
   {
     time: "2 Hours Ago",
@@ -22,7 +22,7 @@ const sampleAlerts = [
   {
     time: "5 Hours Ago",
     title: "🏆 Tournament Victory Alert",
-    desc: "Congratulations! You scored 2,450 points in Speed Runner arena. Check leaderboard for your rank update."
+    desc: "Congratulations! You scored 2,450 points in Paper Glide arena. Check leaderboard for your rank update."
   },
   {
     time: "8 Hours Ago",
@@ -32,7 +32,7 @@ const sampleAlerts = [
   {
     time: "11 Hours Ago",
     title: "⚔️ Match Outcome Notice",
-    desc: "Target Master Arena match completed. Hard luck! Practice again to climb back to the top 10."
+    desc: "Paper Glide Arena match completed. Hard luck! Practice again to climb back to the top 10."
   }
 ];
 
@@ -51,10 +51,10 @@ window.addEventListener('DOMContentLoaded', () => {
   initHardwareAcceleratedTicker();
 });
 
-// Live Active Players Counter Fluctuation
+// Counter Fluctuation
 function startActivePlayersCounter() {
   setInterval(() => {
-    const change = Math.floor(Math.random() * 11) - 5; // -5 to +5
+    const change = Math.floor(Math.random() * 11) - 5;
     activePlayersCount = Math.max(4800, activePlayersCount + change);
     const counterElem = document.getElementById('activePlayersCount');
     if (counterElem) {
@@ -63,7 +63,7 @@ function startActivePlayersCounter() {
   }, 3000);
 }
 
-// Protected Route Handler for Bottom Nav Tabs
+// Protected Route Handler
 function handleNavClick(event, tabName) {
   if (event) event.preventDefault();
 
@@ -73,9 +73,8 @@ function handleNavClick(event, tabName) {
     return;
   }
 
-  // Enforce Guest Lock
   if (!currentUser) {
-    showErrorPopup(`Please Log In or Sign Up to access the ${tabName.toUpperCase()} section.`);
+    showErrorPopup(`Please Log In or Sign Up first to view ${tabName.toUpperCase()} section.`);
     openAuthModal('signup');
     return;
   }
@@ -90,7 +89,6 @@ function switchTabContent(tabName) {
   const targetTab = document.getElementById(`tab-${tabName}`);
   if (targetTab) targetTab.classList.remove('hidden');
 
-  // Tab specific renders
   if (tabName === 'leaderboard') renderLeaderboard();
   if (tabName === 'wallet') renderWalletView();
   if (tabName === 'alerts') renderAlertsFeed();
@@ -102,7 +100,7 @@ function updateActiveNav(targetElement) {
   targetElement.classList.add('active');
 }
 
-// Game Play Trigger - Enforces UPI Activation First
+// Game Play Launcher
 function handleGameLaunch() {
   if (!currentUser) {
     showErrorPopup('Please Log In or Sign Up first to enter gaming arenas.');
@@ -115,10 +113,10 @@ function handleGameLaunch() {
     return;
   }
 
-  alert('🎮 Arena loading... Get ready to score high!');
+  alert('✈️ Paper Glide Arena is loading... Get ready to fly and win!');
 }
 
-// Wallet Activation & Lock Logic
+// Wallet Operations
 function openWalletModal() {
   document.getElementById('walletActivationModal').classList.remove('hidden');
   document.body.classList.add('no-scroll');
@@ -134,7 +132,7 @@ function activateWallet(e) {
   const upiVal = document.getElementById('upiInput').value.trim();
 
   if (!upiVal || !upiVal.includes('@')) {
-    showErrorPopup('Please enter a valid official UPI ID (e.g. mobile@paytm or user@ybl)');
+    showErrorPopup('Please enter a valid UPI ID (e.g. mobile@paytm or user@ybl)');
     return;
   }
 
@@ -143,7 +141,7 @@ function activateWallet(e) {
     { title: "Daily Tournament Win Reward", date: "Today, 10:15 PM", amount: "+ ₹50.00" }
   ];
 
-  alert('✅ Wallet Activated Successfully! Your UPI ID is now linked.');
+  alert('✅ Wallet Activated Successfully! Your UPI ID is linked.');
   closeWalletModal();
   if (currentTab === 'wallet') renderWalletView();
 }
@@ -217,7 +215,6 @@ function renderLeaderboard() {
 
   container.innerHTML = listHtml;
 
-  // Render User Personal Rank
   const userScore = currentLbType === 'daily' ? 1420 : 4850;
   const userRank = currentLbType === 'daily' ? 14 : 22;
 
@@ -233,7 +230,7 @@ function renderLeaderboard() {
   `;
 }
 
-// Render Notifications Feed
+// Render Notifications
 function renderAlertsFeed() {
   const container = document.getElementById('alertsFeed');
   let html = '';
@@ -249,7 +246,7 @@ function renderAlertsFeed() {
   container.innerHTML = html;
 }
 
-// Auth Handlers
+// Auth Logic with Strict Validations
 function openAuthModal(tab) {
   switchTab(tab);
   document.getElementById('authModal').classList.remove('hidden');
@@ -273,41 +270,102 @@ function switchTab(tab) {
 
 function sendOtp() {
   const email = document.getElementById('signupEmail').value.trim();
-  if (!email || !email.includes('@')) return showErrorPopup('Enter a valid Email Address first.');
-  alert('OTP Sent! Temporary OTP is 1234');
+  if (!email || !email.includes('@')) {
+    return showErrorPopup('Please enter a valid Email Address to receive OTP.');
+  }
+  generatedOtp = '1234';
+  alert('📨 OTP sent successfully to ' + email + '!\nYour verification OTP is: 1234');
 }
 
+// STRICT SIGNUP VALIDATION & DIRECT LOGIN
 function handleSignup(e) {
   e.preventDefault();
+  
   const name = document.getElementById('signupName').value.trim();
   const mobile = document.getElementById('signupMobile').value.trim();
   const email = document.getElementById('signupEmail').value.trim();
   const otp = document.getElementById('signupOtp').value.trim();
   const password = document.getElementById('signupPassword').value;
+  const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  if (!name || mobile.length < 10 || !email.includes('@') || otp !== '1234' || !password) {
-    return showErrorPopup('Please fill all signup details correctly (OTP: 1234).');
+  // 1. Name Check
+  if (!name || name.length < 2) {
+    return showErrorPopup('Please enter your full name.');
   }
 
-  const user = { name, mobile, email, password, upiId: null, transactions: [] };
-  registeredUsers.push(user);
-  alert('Registration Successful! Please Log In now.');
-  switchTab('login');
+  // 2. Mobile Check (10 digits)
+  if (!mobile || !/^\d{10}$/.test(mobile)) {
+    return showErrorPopup('Please enter a valid 10-digit mobile number.');
+  }
+
+  // 3. Email Check
+  if (!email || !email.includes('@') || !email.includes('.')) {
+    return showErrorPopup('Please enter a valid email address.');
+  }
+
+  // Check duplicate email
+  if (registeredUsers.some(u => u.email === email)) {
+    return showErrorPopup('An account with this email already exists. Please Log In.');
+  }
+
+  // 4. OTP Check
+  if (!otp || otp !== '1234') {
+    return showErrorPopup('Invalid OTP! Please click "Get OTP" and enter 1234.');
+  }
+
+  // 5. Password Length
+  if (!password || password.length < 6) {
+    return showErrorPopup('Password must be at least 6 characters long.');
+  }
+
+  // 6. Confirm Password Match Check
+  if (password !== confirmPassword) {
+    return showErrorPopup('Passwords do not match. Please verify and try again.');
+  }
+
+  // Register & Direct Auto-Login
+  const newUser = { name, mobile, email, password, upiId: null, transactions: [] };
+  registeredUsers.push(newUser);
+  currentUser = newUser;
+
+  closeAuthModal();
+  setupUserSession();
+
+  // Trigger Welcome Card Popup
+  document.getElementById('welcomeUserName').innerText = `Welcome, ${currentUser.name}!`;
+  document.getElementById('welcomeModal').classList.remove('hidden');
+  document.body.classList.add('no-scroll');
 }
 
+function closeWelcomeModal() {
+  document.getElementById('welcomeModal').classList.add('hidden');
+  document.body.classList.remove('no-scroll');
+}
+
+// STRICT LOGIN VALIDATION
 function handleLogin(e) {
   e.preventDefault();
+  
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
 
+  if (!email || !password) {
+    return showErrorPopup('Please fill in both Email and Password fields.');
+  }
+
   const found = registeredUsers.find(u => u.email === email && u.password === password);
+  
   if (!found) {
-    return showErrorPopup('User not found. Please Sign Up first.');
+    return showErrorPopup('Invalid Email or Password. Please check your credentials or Sign Up.');
   }
 
   currentUser = found;
-  
-  // Replace Nav Auth Buttons with Live Active Players Counter
+  closeAuthModal();
+  setupUserSession();
+  alert(`Welcome back, ${currentUser.name}!`);
+}
+
+function setupUserSession() {
   document.getElementById('navAuthBtns').innerHTML = `
     <div class="active-players-badge">
       <span class="active-dot"></span>
@@ -316,8 +374,7 @@ function handleLogin(e) {
   `;
 
   startActivePlayersCounter();
-  closeAuthModal();
-  alert(`Welcome ${currentUser.name}!`);
+  switchTabContent('home');
 }
 
 // Telegram Modal
@@ -331,7 +388,7 @@ function closeTelegramModal() {
   document.body.classList.remove('no-scroll');
 }
 
-// Global Error Popup
+// Error Popup
 function showErrorPopup(msg) {
   document.getElementById('popupMessage').innerText = msg;
   document.getElementById('errorPopup').classList.remove('hidden');
@@ -341,7 +398,7 @@ function closePopup() {
   document.getElementById('errorPopup').classList.add('hidden');
 }
 
-// Smooth Winner Ticker
+// Ticker Animation
 function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
