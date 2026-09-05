@@ -3,42 +3,86 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Win2Earn - Global Skill Gaming Platform</title>
+  <title>Win2Earn - Premium Skill Gaming Platform</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen">
     <div class="splash-logo">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
     </div>
   </div>
 
-  <!-- Global Priority Error Popup -->
   <div id="errorPopup" class="popup-overlay hidden">
-    <div class="popup-box stake-card">
+    <div class="popup-box glass-card">
       <div class="popup-icon">⚠️</div>
       <h3 class="popup-title">Attention</h3>
       <p id="popupMessage">An error occurred.</p>
-      <button class="stake-btn primary-btn popup-btn" onclick="closePopup()">Got it</button>
+      <button class="glass-btn primary-btn popup-btn" onclick="closePopup()">Got it</button>
     </div>
   </div>
 
-  <!-- Welcome Popup (Shown after Signup) -->
   <div id="welcomeModal" class="modal-overlay hidden">
-    <div class="modal-card stake-card welcome-card">
+    <div class="modal-card glass-card welcome-card">
       <div class="welcome-icon">🎉</div>
       <h2 id="welcomeUserName">Welcome!</h2>
       <p>Your account has been created successfully. Start playing free tournaments now!</p>
-      <button class="stake-btn action-btn" onclick="closeWelcomeModal()">LET'S PLAY 🚀</button>
+      <button class="glass-btn action-btn" onclick="closeWelcomeModal()">LET'S PLAY 🚀</button>
     </div>
   </div>
 
-  <!-- Telegram Support Modal -->
+  <div id="infoModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card info-modal-card">
+      <button class="close-btn" onclick="closeInfoModal()">&times;</button>
+      <div class="info-header">
+        <span class="info-icon">ℹ️</span>
+        <h3>Important Information</h3>
+      </div>
+      <div class="info-body">
+        <p>Win2Earn does not charge you a single rupee. This is completely 100% free skill-based gaming and is strictly NOT gambling or betting.</p>
+        <p>It is designed purely for skill entertainment, allowing users to enjoy their time while offering exciting opportunities to earn real cash rewards through performance.</p>
+      </div>
+      <button class="glass-btn primary-btn modal-dismiss-btn" onclick="closeInfoModal()">I UNDERSTAND</button>
+    </div>
+  </div>
+
+  <div id="privacyModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card legal-modal-card">
+      <button class="close-btn" onclick="closePrivacyModal()">&times;</button>
+      <h3>Privacy Policy</h3>
+      <div class="legal-body">
+        <p>Your privacy is important to us. Win2Earn collects minimal user details (Name, Email, Mobile Number, and UPI ID) strictly for authentication, account management, and payout distribution.</p>
+        <p>We do not sell or share your personal information with any third-party marketing networks. All data is stored securely using modern encryption protocols.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="termsModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card legal-modal-card">
+      <button class="close-btn" onclick="closeTermsModal()">&times;</button>
+      <h3>Terms & Conditions</h3>
+      <div class="legal-body">
+        <p>By registering on Win2Earn, you agree to participate in fair skill gaming. Multiple accounts, bot usage, or score manipulation are strictly prohibited and will result in permanent ban.</p>
+        <p>Win2Earn is a zero-entry-fee platform. Rewards are distributed purely based on leaderboard performance and skill rank.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="guidelinesModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card legal-modal-card">
+      <button class="close-btn" onclick="closeGuidelinesModal()">&times;</button>
+      <h3>Community Guidelines</h3>
+      <div class="legal-body">
+        <p>Maintain sportsmanship and respectful behavior within our community. Abusive behavior toward support agents or attempts to exploit bugs will result in immediate disqualification.</p>
+        <p>Always ensure your UPI ID is linked correctly to receive cash prizes without delay.</p>
+      </div>
+    </div>
+  </div>
+
   <div id="telegramModal" class="modal-overlay hidden">
-    <div class="modal-card stake-card tg-modal-card">
+    <div class="modal-card glass-card tg-modal-card">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
       <div class="tg-header">
         <div class="tg-icon-circle">
@@ -50,95 +94,87 @@
         <p class="tg-status-tag">🟢 Live Assistance Available</p>
         <p>If you face any issues regarding login, tournaments, payouts, or score updates, our official support team is available 24/7 on Telegram.</p>
       </div>
-      <a href="https://t.me" target="_blank" class="stake-btn tg-action-btn">
+      <a href="https://t.me" target="_blank" class="glass-btn tg-action-btn">
         Contact Team on Telegram
       </a>
     </div>
   </div>
 
-  <!-- Wallet Activation Modal (UPI Setup) -->
   <div id="walletActivationModal" class="modal-overlay hidden">
-    <div class="modal-card stake-card">
+    <div class="modal-card glass-card">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
       <div class="auth-form">
         <div class="notice-header">
           <span class="notice-icon">💳</span>
           <h3>Activate Payout Wallet</h3>
         </div>
-        <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4; margin-bottom: 8px;">
+        <p style="font-size: 0.8rem; color: #64748b; line-height: 1.4; margin-bottom: 8px;">
           Enter your official UPI ID (GPay / PhonePe / Paytm / BHIM) to receive tournament winnings automatically.
         </p>
         <div class="upi-warning-box">
           ⚠️ <strong>Note:</strong> UPI ID cannot be changed once linked. To modify it later, you will need to contact 24x7 Telegram Support.
         </div>
         <form onsubmit="activateWallet(event)">
-          <input type="text" id="upiInput" class="stake-input" placeholder="e.g. username@upi or 9876543210@paytm" style="margin-bottom: 12px;">
-          <button type="submit" class="stake-btn action-btn">LINK UPI & ACTIVATE</button>
+          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. username@upi or 9876543210@paytm" style="margin-bottom: 12px;">
+          <button type="submit" class="glass-btn action-btn">LINK UPI & ACTIVATE</button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- Auth Modal -->
   <div id="authModal" class="modal-overlay hidden">
-    <div class="modal-card stake-card">
+    <div class="modal-card glass-card">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
-      <!-- Login Form -->
       <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
         <h2>Log In</h2>
-        <input type="email" id="loginEmail" class="stake-input" placeholder="Email Address">
-        <input type="password" id="loginPassword" class="stake-input" placeholder="Password">
-        <button type="submit" class="stake-btn action-btn">LOG IN</button>
+        <input type="email" id="loginEmail" class="glass-input" placeholder="Email Address">
+        <input type="password" id="loginPassword" class="glass-input" placeholder="Password">
+        <button type="submit" class="glass-btn action-btn">LOG IN</button>
         <p class="switch-text">Don't have an account? <a href="#" onclick="switchTab('signup')">Sign Up</a></p>
       </form>
 
-      <!-- Sign Up Form -->
       <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
         <h2>Sign Up</h2>
-        <input type="text" id="signupName" class="stake-input" placeholder="Full Name">
-        <input type="tel" id="signupMobile" class="stake-input" placeholder="10-Digit Mobile Number">
-        <input type="email" id="signupEmail" class="stake-input" placeholder="Email Address">
+        <input type="text" id="signupName" class="glass-input" placeholder="Full Name">
+        <input type="tel" id="signupMobile" class="glass-input" placeholder="10-Digit Mobile Number">
+        <input type="email" id="signupEmail" class="glass-input" placeholder="Email Address">
         
         <div class="otp-row">
-          <input type="text" id="signupOtp" class="stake-input" placeholder="Enter OTP">
-          <button type="button" class="stake-btn otp-btn" onclick="sendOtp()">Get OTP</button>
+          <input type="text" id="signupOtp" class="glass-input" placeholder="Enter OTP">
+          <button type="button" class="glass-btn otp-btn" onclick="sendOtp()">Get OTP</button>
         </div>
 
-        <input type="password" id="signupPassword" class="stake-input" placeholder="Password">
-        <input type="password" id="signupConfirmPassword" class="stake-input" placeholder="Confirm Password">
+        <input type="password" id="signupPassword" class="glass-input" placeholder="Password">
+        <input type="password" id="signupConfirmPassword" class="glass-input" placeholder="Confirm Password">
         
-        <button type="submit" class="stake-btn action-btn">REGISTER NOW</button>
+        <button type="submit" class="glass-btn action-btn">REGISTER NOW</button>
         <p class="switch-text">Already registered? <a href="#" onclick="switchTab('login')">Log In</a></p>
       </form>
     </div>
   </div>
 
-  <!-- Top Navbar -->
-  <header class="navbar stake-nav">
+  <header class="navbar glass-nav">
     <div class="logo-text">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
     </div>
     <div class="auth-btns" id="navAuthBtns">
-      <button class="stake-btn secondary-btn" onclick="openAuthModal('login')">Log In</button>
-      <button class="stake-btn primary-btn" onclick="openAuthModal('signup')">Sign Up</button>
+      <button class="glass-btn secondary-btn" onclick="openAuthModal('login')">Log In</button>
+      <button class="glass-btn primary-btn" onclick="openAuthModal('signup')">Sign Up</button>
     </div>
   </header>
 
   <main class="main-content">
 
-    <!-- HOME TAB CONTENT -->
     <div id="tab-home" class="tab-content">
-      <!-- Winner Ticker -->
-      <section class="ticker-wrapper stake-card">
-        <div class="ticker-badge">GLOBAL WINNERS</div>
+      <section class="ticker-wrapper glass-card">
+        <div class="ticker-badge">LAST WEEK WINNERS</div>
         <div class="ticker-viewport">
           <div class="ticker-track" id="tickerTrack"></div>
         </div>
       </section>
 
-      <!-- Mega Tournament Banner -->
-      <section class="mega-banner-card stake-card">
+      <section class="mega-banner-card glass-card">
         <h2 class="mega-title-large">50,000 MEGA TOURNAMENT</h2>
         <p class="mega-status">COMING SOON • PRE-REGISTRATION OPEN</p>
         <p class="mega-desc">Prepare for the ultimate skill tournament. Massive prize pools, global rankings, and zero entry fees.</p>
@@ -149,8 +185,7 @@
         </div>
       </section>
 
-      <!-- Tournament Showcase Card -->
-      <section class="tournament-hero-card stake-card">
+      <section class="tournament-hero-card glass-card">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> LIVE COMPETITIONS</span>
         </div>
@@ -159,25 +194,31 @@
           <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
         </h1>
 
-        <div class="prize-box daily-prize-box">
-          <span class="prize-label">DAILY PRIZE POOL</span>
-          <div class="prize-amount gold-text">₹500</div>
-        </div>
-
-        <div class="prize-box weekly-prize-box">
-          <span class="prize-label">WEEKLY PRIZE POOL</span>
-          <div class="prize-amount cyan-text">₹2,000</div>
+        <div class="prize-box total-prize-box">
+          <span class="prize-label">TOTAL TOURNAMENT PRIZE POOL</span>
+          <div class="prize-amount gold-text">PRIZE POOL 1 LAKH+</div>
+          <p class="pool-sub-note">Rewards for all top ranking leaderboard players</p>
         </div>
 
         <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
-        <button class="stake-btn hero-cta-btn" onclick="handleGameLaunch()">
+        <button class="glass-btn hero-cta-btn" onclick="handleGameLaunch()">
           PLAY NOW <span class="arrow-icon">➔</span>
         </button>
       </section>
+
+      <section class="info-trigger-card glass-card" onclick="openInfoModal()">
+        <div class="info-trigger-content">
+          <span class="trigger-icon">💡</span>
+          <div>
+            <h4>Important Information</h4>
+            <p>Read about Win2Earn's 100% Free Fair Gaming Commitment</p>
+          </div>
+        </div>
+        <span class="trigger-arrow">➔</span>
+      </section>
     </div>
 
-    <!-- GAMES TAB CONTENT -->
     <div id="tab-games" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Live Tournaments</h2>
@@ -185,8 +226,7 @@
       </div>
 
       <div class="featured-games-wrapper">
-        <!-- Daily Tournament Card (Paper Glide) -->
-        <div class="featured-card stake-card">
+        <div class="featured-card glass-card">
           <div class="card-header-bar">
             <span>⭐ Featured Daily Game</span>
           </div>
@@ -202,12 +242,11 @@
               <span class="tag-daily">DAILY TOURNAMENT</span>
             </div>
             <div class="win-label">Daily Win <span>₹500</span></div>
-            <button class="stake-btn game-play-btn" onclick="handleGameLaunch()">PLAY NOW</button>
+            <button class="glass-btn game-play-btn" onclick="handleGameLaunch()">PLAY NOW</button>
           </div>
         </div>
 
-        <!-- Weekly Tournament Card (Paper Glide) -->
-        <div class="featured-card stake-card">
+        <div class="featured-card glass-card">
           <div class="card-header-bar weekly-bar">
             <span>⭐ Featured Weekly Game</span>
           </div>
@@ -223,13 +262,12 @@
               <span class="tag-weekly">WEEKLY TOURNAMENT</span>
             </div>
             <div class="win-label">Weekly Win <span class="cyan-win">₹2,000</span></div>
-            <button class="stake-btn game-play-btn weekly-btn" onclick="handleGameLaunch()">PLAY NOW</button>
+            <button class="glass-btn game-play-btn weekly-btn" onclick="handleGameLaunch()">PLAY NOW</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- LEADERBOARD TAB CONTENT -->
     <div id="tab-leaderboard" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Global Leaderboards</h2>
@@ -241,19 +279,18 @@
         <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')">Weekly Tournament</button>
       </div>
 
-      <div class="lb-list-container stake-card" id="lbList"></div>
+      <div class="lb-list-container glass-card" id="lbList"></div>
 
-      <div class="user-rank-card stake-card" id="userRankCard"></div>
+      <div class="user-rank-card glass-card" id="userRankCard"></div>
     </div>
 
-    <!-- WALLET TAB CONTENT -->
     <div id="tab-wallet" class="tab-content hidden">
       <div class="section-title-box">
         <h2>My Payout Wallet</h2>
         <p>Linked payment details & winning payouts</p>
       </div>
 
-      <div class="wallet-card stake-card">
+      <div class="wallet-card glass-card">
         <div class="wallet-upi-status">
           <span class="upi-label">LINKED UPI ID</span>
           <div class="upi-value-display" id="walletUpiDisplay">Not Activated</div>
@@ -267,7 +304,6 @@
       </div>
     </div>
 
-    <!-- ALERTS TAB CONTENT -->
     <div id="tab-alerts" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Activity & Alerts</h2>
@@ -278,24 +314,28 @@
 
   </main>
 
-  <!-- Comprehensive Footer -->
-  <footer class="footer stake-card">
+  <footer class="footer glass-card">
     <div class="footer-brand">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
-      <p class="footer-tagline">Next-Generation Free Skill Gaming Platform.</p>
+      <p class="footer-tagline">Next-Generation Apple-Style Free Skill Gaming Platform.</p>
     </div>
+    
+    <div class="legal-links">
+      <a href="#" onclick="openPrivacyModal(event)">Privacy Policy</a> • 
+      <a href="#" onclick="openTermsModal(event)">Terms & Conditions</a> • 
+      <a href="#" onclick="openGuidelinesModal(event)">Community Guidelines</a>
+    </div>
+
     <div class="footer-bottom">
       <p>© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
-  <!-- Floating Telegram Support Button -->
   <div class="floating-tg-btn" onclick="openTelegramModal()">
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav stake-nav">
+  <nav class="bottom-nav glass-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       <span>Home</span>
