@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Win2Earn</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splashScreen" class="splash-screen">
+    <h1>Win2Earn</h1>
+  </div>
+
+  <!-- Custom Popup Alert -->
+  <div id="errorPopup" class="popup-overlay hidden">
+    <div class="popup-box">
+      <span class="popup-icon">⚠️</span>
+      <p id="popupMessage">Error message goes here</p>
+      <button onclick="closePopup()">OK</button>
+    </div>
+  </div>
+
+  <!-- Auth Modal (Login / Sign Up) -->
+  <div id="authModal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <button class="close-btn" onclick="closeAuthModal()">&times;</button>
+      
+      <!-- Login Form -->
+      <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
+        <h2>Log In</h2>
+        <input type="email" id="loginEmail" placeholder="Email Address" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button type="submit" class="submit-btn">Log In</button>
+        <p class="switch-text">Account nahi hai? <a href="#" onclick="switchTab('signup')">Sign Up karein</a></p>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
+        <h2>Sign Up</h2>
+        <div class="input-group">
+          <label for="profilePic">Profile Picture</label>
+          <input type="file" id="profilePic" accept="image/*">
+        </div>
+        <input type="text" id="signupName" placeholder="Full Name">
+        <input type="tel" id="signupMobile" placeholder="Mobile Number">
+        <input type="email" id="signupEmail" placeholder="Email Address">
+        
+        <div class="otp-group">
+          <input type="text" id="signupOtp" placeholder="Enter OTP (Temp: 1234)">
+          <button type="button" class="otp-btn" onclick="sendOtp()">Send OTP</button>
+        </div>
+
+        <input type="password" id="signupPassword" placeholder="Password">
+        <input type="password" id="signupConfirmPassword" placeholder="Confirm Password">
+        
+        <button type="submit" class="submit-btn">Register</button>
+        <p class="switch-text">Pehle se account hai? <a href="#" onclick="switchTab('login')">Log In karein</a></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Website Layout -->
+  <header class="navbar">
+    <div class="logo">Win2Earn</div>
+    <div class="auth-btns">
+      <button class="btn-secondary" onclick="openAuthModal('login')">Log In</button>
+      <button class="btn-primary" onclick="openAuthModal('signup')">Sign Up</button>
+    </div>
+  </header>
+
+  <main class="main-content">
+
+    <!-- Marquee Ticker Section -->
+    <section class="ticker-wrapper">
+      <div class="ticker-badge">Last Week Winners</div>
+      <div class="ticker-container">
+        <div class="ticker-track" id="tickerTrack"></div>
+      </div>
+    </section>
+
+    <!-- Mega Tournament Banner -->
+    <section class="mega-banner">
+      <h2>🔥 50000 Tournament Coming Soon 🔥</h2>
+    </section>
+
+    <!-- Live Tournaments -->
+    <section class="tournaments-container">
+      <h3>Live Tournaments</h3>
+      
+      <div class="tournament-card daily">
+        <div class="card-info">
+          <h4>Daily Tournament</h4>
+          <p>Prize Pool: <strong>₹1000</strong></p>
+        </div>
+        <button class="btn-register" onclick="openAuthModal('signup')">Register</button>
+      </div>
+
+      <div class="tournament-card weekly">
+        <div class="card-info">
+          <h4>Weekly Tournament</h4>
+          <p>Prize Pool: <strong>₹5000</strong></p>
+        </div>
+        <button class="btn-register" onclick="openAuthModal('signup')">Register</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav">
+    <a href="#" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span>Home</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🎮</span>
+      <span>Games</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🏆</span>
+      <span>Leaderboard</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">👛</span>
+      <span>Wallet</span>
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🔔</span>
+      <span>Notification</span>
+    </a>
+  </nav>
+
+  <script src="game.js"></script>
+</body>
+</html>
