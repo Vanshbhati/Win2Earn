@@ -24,14 +24,14 @@ window.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       splash.classList.add('hidden');
       document.body.classList.remove('no-scroll');
-    }, 500);
-  }, 4500);
+    }, 400);
+  }, 3500);
 
-  initFastSmoothTicker();
+  initHardwareAcceleratedTicker();
 });
 
-// Smooth Ticker Scroll
-function initFastSmoothTicker() {
+// Ultra-Smooth 60fps Ticker Loop using Time Delta
+function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
   
@@ -42,17 +42,22 @@ function initFastSmoothTicker() {
   track.innerHTML = content + content;
 
   let currentX = 0;
-  const speed = 2.0;
+  let lastTime = performance.now();
+  const pixelsPerSecond = 90; // Smooth consistent speed across all displays
 
-  function step() {
-    currentX -= speed;
+  function step(currentTime) {
+    const deltaTime = (currentTime - lastTime) / 1000;
+    lastTime = currentTime;
+
+    currentX -= pixelsPerSecond * deltaTime;
     
     const halfWidth = track.scrollWidth / 2;
     if (Math.abs(currentX) >= halfWidth) {
-      currentX = 0;
+      currentX += halfWidth;
     }
 
-    track.style.transform = `translate3d(${currentX}px, 0, 0)`;
+    // Force sub-pixel rendering GPU acceleration
+    track.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0)`;
     tickerAnimId = requestAnimationFrame(step);
   }
 
@@ -92,6 +97,7 @@ function openAuthModal(tab) {
 }
 
 function closeAuthModal() {
+  document.getElementById('authModal').classList.hidden = true;
   document.getElementById('authModal').classList.add('hidden');
   document.body.classList.remove('no-scroll');
 }
