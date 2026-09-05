@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Win2Earn - Premium Gaming Platform</title>
+  <title>Win2Earn - Global Skill Gaming Platform</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
@@ -26,6 +26,26 @@
     </div>
   </div>
 
+  <!-- Telegram Support Modal -->
+  <div id="telegramModal" class="modal-overlay hidden">
+    <div class="modal-card stake-card tg-modal-card">
+      <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
+      <div class="tg-header">
+        <div class="tg-icon-circle">
+          <svg viewBox="0 0 24 24" class="tg-svg-modal"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+        </div>
+        <h3>24x7 Customer Support</h3>
+      </div>
+      <div class="tg-body">
+        <p class="tg-status-tag">🟢 Live Assistance Available</p>
+        <p>If you face any issues regarding login, tournaments, payouts, or score updates, our official support team is available 24/7 on Telegram.</p>
+      </div>
+      <a href="https://t.me" target="_blank" class="stake-btn tg-action-btn">
+        Contact Team on Telegram
+      </a>
+    </div>
+  </div>
+
   <!-- Important Notice Modal -->
   <div id="noticeModal" class="modal-overlay hidden">
     <div class="modal-card stake-card notice-modal-card">
@@ -35,9 +55,9 @@
         <h3>Important Rules & Announcements</h3>
       </div>
       <div class="notice-body">
-        <p><strong>Daily Winners:</strong> Daily tournament winners are announced every night at <strong>10:00 PM</strong>. The winning prize amount is transferred directly to the winner's account shortly after the result.</p>
-        <p><strong>Weekly Winners:</strong> Weekly tournament winners are announced every <strong>Sunday at 12:00 PM (Noon)</strong>, and reward payouts are disbursed immediately.</p>
-        <p>Keep playing, show off your gaming skills, and boost your score! <strong>Win2Earn</strong> is the ultimate platform to earn real cash without spending a single rupee—100% Free & Skill-Based!</p>
+        <p><strong>Daily Winners:</strong> Daily tournament winners are announced every night at <strong>10:00 PM</strong>. Payouts are transferred directly to winner accounts.</p>
+        <p><strong>Weekly Winners:</strong> Weekly tournament winners are announced every <strong>Sunday at 12:00 PM (Noon)</strong>.</p>
+        <p>Compete, top the leaderboards, and demonstrate your gaming skills! <strong>Win2Earn</strong> provides zero-entry competitive tournaments.</p>
       </div>
       <button class="stake-btn action-btn" onclick="closeNoticeModal()">I Understand</button>
     </div>
@@ -87,7 +107,7 @@
     <div class="logo-text">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
     </div>
-    <div class="auth-btns">
+    <div class="auth-btns" id="navAuthBtns">
       <button class="stake-btn secondary-btn" onclick="openAuthModal('login')">Log In</button>
       <button class="stake-btn primary-btn" onclick="openAuthModal('signup')">Sign Up</button>
     </div>
@@ -97,7 +117,7 @@
 
     <!-- Winner Ticker -->
     <section class="ticker-wrapper stake-card">
-      <div class="ticker-badge">LAST WEEK WINNERS</div>
+      <div class="ticker-badge">GLOBAL WINNERS</div>
       <div class="ticker-viewport">
         <div class="ticker-track" id="tickerTrack"></div>
       </div>
@@ -106,12 +126,12 @@
     <!-- Mega Tournament Banner -->
     <section class="mega-banner-card stake-card">
       <h2 class="mega-title-large">50,000 MEGA TOURNAMENT</h2>
-      <p class="mega-status">COMING SOON • CURRENTLY UNDER WORK</p>
-      <p class="mega-desc">Gear up for the eSports event! Massive prize pool, zero entry fee, and instant payouts for top rankers.</p>
+      <p class="mega-status">COMING SOON • PRE-REGISTRATION OPEN</p>
+      <p class="mega-desc">Prepare for the ultimate skill tournament. Massive prize pools, global rankings, and zero entry fees.</p>
       <div class="mega-tags">
-        <span>⚡ Huge Pool</span>
+        <span>⚡ Global Pool</span>
         <span>🔥 100% Free</span>
-        <span>👑 Rank Rewards</span>
+        <span>👑 Tier Rewards</span>
       </div>
     </section>
 
@@ -120,7 +140,7 @@
       
       <div class="status-badge-wrapper">
         <span class="live-status-pill">
-          <span class="live-dot"></span> LIVE TOURNAMENTS
+          <span class="live-dot"></span> LIVE COMPETITIONS
         </span>
       </div>
 
@@ -129,25 +149,25 @@
       </h1>
 
       <div class="prize-box daily-prize-box">
-        <span class="prize-label">DAILY PRIZE</span>
+        <span class="prize-label">DAILY PRIZE POOL</span>
         <div class="prize-amount gold-text">₹500</div>
       </div>
 
       <div class="prize-box weekly-prize-box">
-        <span class="prize-label">WEEKLY PRIZE</span>
+        <span class="prize-label">WEEKLY PRIZE POOL</span>
         <div class="prize-amount cyan-text">₹2,000</div>
       </div>
 
-      <p class="hero-subtext">100% Free Entry • Play & Win Real UPI Cash</p>
+      <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
       <div class="feature-chips">
-        <span class="chip">🔥 Instant Payout</span>
-        <span class="chip">🎯 ₹0 Entry Fee</span>
-        <span class="chip">🏆 Skill Based</span>
+        <span class="chip">⚡ Direct Cashout</span>
+        <span class="chip">🎯 Zero Fee</span>
+        <span class="chip">🏆 Verified Fair Play</span>
       </div>
 
       <button class="stake-btn hero-cta-btn" onclick="openAuthModal('signup')">
-        REGISTER NOW <span class="arrow-icon">➔</span>
+        GET STARTED NOW <span class="arrow-icon">➔</span>
       </button>
 
     </section>
@@ -157,8 +177,8 @@
       <div class="notice-trigger-content">
         <span class="pulse-icon">📌</span>
         <div>
-          <h4>Important Information & Timing</h4>
-          <p>Click here to read winner timings & payout rules</p>
+          <h4>Important Platform Rules & Schedule</h4>
+          <p>Click to view payout distribution and announcement times</p>
         </div>
       </div>
       <span class="chevron">➔</span>
@@ -170,50 +190,55 @@
   <footer class="footer stake-card">
     <div class="footer-brand">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
-      <p class="footer-tagline">India's Premier 100% Free Skill-Based Gaming & Earning Platform.</p>
+      <p class="footer-tagline">Next-Generation Free Skill Gaming & Tournament Platform.</p>
     </div>
 
     <div class="footer-links-grid">
       <div class="footer-col">
-        <h5>Terms & Conditions</h5>
-        <p>Win2Earn is purely a skill-based platform. Users participate without any financial investment. No real money gambling involved.</p>
+        <h5>Fair Play Standard</h5>
+        <p>Win2Earn operates strictly as a skill-first gaming platform. Zero financial investment required to participate.</p>
       </div>
 
       <div class="footer-col">
-        <h5>Privacy Policy</h5>
-        <p>We respect your privacy. User data, phone numbers, and UPI details are encrypted and securely stored strictly for prize distribution.</p>
+        <h5>Data & Security</h5>
+        <p>All accounts, phone numbers, and payment details are safeguarded with enterprise-grade encryption.</p>
       </div>
 
       <div class="footer-col">
-        <h5>Community Guidelines</h5>
-        <p>Fair play is mandatory. Use of bots, hacks, multiple accounts, or score manipulation leads to an immediate permanent ban.</p>
+        <h5>Global Conduct</h5>
+        <p>Anti-cheat mechanisms monitor all matches. Any automated bot or fraud attempt results in instant disqualification.</p>
       </div>
     </div>
 
     <div class="footer-bottom">
-      <p>© 2026 Win2Earn Inc. All rights reserved. Play Fair & Skillfully.</p>
+      <p>© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
-  <!-- Bottom Navigation Bar -->
+  <!-- Floating Telegram Support Button -->
+  <div class="floating-tg-btn" onclick="openTelegramModal()">
+    <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+  </div>
+
+  <!-- Bottom Navigation Bar with Protected Route Handler -->
   <nav class="bottom-nav stake-nav">
-    <a href="#" class="nav-item active">
+    <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       <span>Home</span>
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
       <span>Games</span>
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c2.12-.39 3.79-2.02 4.61-4.1C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
       <span>Leaderboard</span>
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5z"/></svg>
       <span>Wallet</span>
     </a>
-    <a href="#" class="nav-item">
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
       <span>Alerts</span>
     </a>
