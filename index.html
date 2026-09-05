@@ -46,20 +46,26 @@
     </div>
   </div>
 
-  <!-- Important Notice Modal -->
-  <div id="noticeModal" class="modal-overlay hidden">
-    <div class="modal-card stake-card notice-modal-card">
-      <button class="close-btn" onclick="closeNoticeModal()">&times;</button>
-      <div class="notice-header">
-        <span class="notice-icon">📢</span>
-        <h3>Important Rules & Announcements</h3>
+  <!-- Wallet Activation Modal (UPI Setup) -->
+  <div id="walletActivationModal" class="modal-overlay hidden">
+    <div class="modal-card stake-card">
+      <button class="close-btn" onclick="closeWalletModal()">&times;</button>
+      <div class="auth-form">
+        <div class="notice-header">
+          <span class="notice-icon">💳</span>
+          <h3>Activate Payout Wallet</h3>
+        </div>
+        <p style="font-size: 0.8rem; color: #94a3b8; line-height: 1.4; margin-bottom: 8px;">
+          Enter your official UPI ID (GPay / PhonePe / Paytm / BHIM) to receive tournament winnings automatically.
+        </p>
+        <div class="upi-warning-box">
+          ⚠️ <strong>Note:</strong> UPI ID cannot be changed once linked. To modify it later, you will need to contact 24x7 Telegram Support.
+        </div>
+        <form onsubmit="activateWallet(event)">
+          <input type="text" id="upiInput" class="stake-input" placeholder="e.g. username@upi or 9876543210@paytm" style="margin-bottom: 12px;">
+          <button type="submit" class="stake-btn action-btn">LINK UPI & ACTIVATE</button>
+        </form>
       </div>
-      <div class="notice-body">
-        <p><strong>Daily Winners:</strong> Daily tournament winners are announced every night at <strong>10:00 PM</strong>. Payouts are transferred directly to winner accounts.</p>
-        <p><strong>Weekly Winners:</strong> Weekly tournament winners are announced every <strong>Sunday at 12:00 PM (Noon)</strong>.</p>
-        <p>Compete, top the leaderboards, and demonstrate your gaming skills! <strong>Win2Earn</strong> provides zero-entry competitive tournaments.</p>
-      </div>
-      <button class="stake-btn action-btn" onclick="closeNoticeModal()">I Understand</button>
     </div>
   </div>
 
@@ -80,10 +86,6 @@
       <!-- Sign Up Form -->
       <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
         <h2>Sign Up</h2>
-        <div class="input-group">
-          <label for="profilePic">Profile Picture (Optional)</label>
-          <input type="file" id="profilePic" class="stake-input" accept="image/*">
-        </div>
         <input type="text" id="signupName" class="stake-input" placeholder="Full Name">
         <input type="tel" id="signupMobile" class="stake-input" placeholder="10-Digit Mobile Number">
         <input type="email" id="signupEmail" class="stake-input" placeholder="Email Address">
@@ -115,74 +117,134 @@
 
   <main class="main-content">
 
-    <!-- Winner Ticker -->
-    <section class="ticker-wrapper stake-card">
-      <div class="ticker-badge">GLOBAL WINNERS</div>
-      <div class="ticker-viewport">
-        <div class="ticker-track" id="tickerTrack"></div>
+    <!-- HOME TAB CONTENT -->
+    <div id="tab-home" class="tab-content">
+      <!-- Winner Ticker -->
+      <section class="ticker-wrapper stake-card">
+        <div class="ticker-badge">GLOBAL WINNERS</div>
+        <div class="ticker-viewport">
+          <div class="ticker-track" id="tickerTrack"></div>
+        </div>
+      </section>
+
+      <!-- Mega Tournament Banner -->
+      <section class="mega-banner-card stake-card">
+        <h2 class="mega-title-large">50,000 MEGA TOURNAMENT</h2>
+        <p class="mega-status">COMING SOON • PRE-REGISTRATION OPEN</p>
+        <p class="mega-desc">Prepare for the ultimate skill tournament. Massive prize pools, global rankings, and zero entry fees.</p>
+        <div class="mega-tags">
+          <span>⚡ Global Pool</span>
+          <span>🔥 100% Free</span>
+          <span>👑 Tier Rewards</span>
+        </div>
+      </section>
+
+      <!-- Tournament Showcase Card -->
+      <section class="tournament-hero-card stake-card">
+        <div class="status-badge-wrapper">
+          <span class="live-status-pill"><span class="live-dot"></span> LIVE COMPETITIONS</span>
+        </div>
+
+        <h1 class="hero-logo-text">
+          <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+        </h1>
+
+        <div class="prize-box daily-prize-box">
+          <span class="prize-label">DAILY PRIZE POOL</span>
+          <div class="prize-amount gold-text">₹500</div>
+        </div>
+
+        <div class="prize-box weekly-prize-box">
+          <span class="prize-label">WEEKLY PRIZE POOL</span>
+          <div class="prize-amount cyan-text">₹2,000</div>
+        </div>
+
+        <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+
+        <button class="stake-btn hero-cta-btn" onclick="handleGameLaunch()">
+          PLAY NOW <span class="arrow-icon">➔</span>
+        </button>
+      </section>
+    </div>
+
+    <!-- GAMES TAB CONTENT -->
+    <div id="tab-games" class="tab-content hidden">
+      <div class="section-title-box">
+        <h2>Tournament Arenas</h2>
+        <p>Select a game and climb the leaderboard</p>
       </div>
-    </section>
-
-    <!-- Mega Tournament Banner -->
-    <section class="mega-banner-card stake-card">
-      <h2 class="mega-title-large">50,000 MEGA TOURNAMENT</h2>
-      <p class="mega-status">COMING SOON • PRE-REGISTRATION OPEN</p>
-      <p class="mega-desc">Prepare for the ultimate skill tournament. Massive prize pools, global rankings, and zero entry fees.</p>
-      <div class="mega-tags">
-        <span>⚡ Global Pool</span>
-        <span>🔥 100% Free</span>
-        <span>👑 Tier Rewards</span>
-      </div>
-    </section>
-
-    <!-- Tournament Showcase Card -->
-    <section class="tournament-hero-card stake-card">
-      
-      <div class="status-badge-wrapper">
-        <span class="live-status-pill">
-          <span class="live-dot"></span> LIVE COMPETITIONS
-        </span>
-      </div>
-
-      <h1 class="hero-logo-text">
-        <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
-      </h1>
-
-      <div class="prize-box daily-prize-box">
-        <span class="prize-label">DAILY PRIZE POOL</span>
-        <div class="prize-amount gold-text">₹500</div>
-      </div>
-
-      <div class="prize-box weekly-prize-box">
-        <span class="prize-label">WEEKLY PRIZE POOL</span>
-        <div class="prize-amount cyan-text">₹2,000</div>
-      </div>
-
-      <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
-
-      <div class="feature-chips">
-        <span class="chip">⚡ Direct Cashout</span>
-        <span class="chip">🎯 Zero Fee</span>
-        <span class="chip">🏆 Verified Fair Play</span>
-      </div>
-
-      <button class="stake-btn hero-cta-btn" onclick="openAuthModal('signup')">
-        GET STARTED NOW <span class="arrow-icon">➔</span>
-      </button>
-
-    </section>
-
-    <!-- Important Notice Trigger Card -->
-    <section class="notice-trigger-card stake-card" onclick="openNoticeModal()">
-      <div class="notice-trigger-content">
-        <span class="pulse-icon">📌</span>
-        <div>
-          <h4>Important Platform Rules & Schedule</h4>
-          <p>Click to view payout distribution and announcement times</p>
+      <div class="games-grid">
+        <div class="game-card stake-card" onclick="handleGameLaunch()">
+          <div class="game-badge">HOT</div>
+          <h3>🎮 Speed Runner</h3>
+          <p>Zero Entry • Max Pool ₹500</p>
+          <button class="stake-btn primary-btn game-btn">Play Arena</button>
+        </div>
+        <div class="game-card stake-card" onclick="handleGameLaunch()">
+          <div class="game-badge cyan-badge">WEEKLY</div>
+          <h3>🎯 Target Master</h3>
+          <p>Zero Entry • Pool ₹2,000</p>
+          <button class="stake-btn primary-btn game-btn">Play Arena</button>
         </div>
       </div>
-      <span class="chevron">➔</span>
-    </section>
+    </div>
+
+    <!-- LEADERBOARD TAB CONTENT -->
+    <div id="tab-leaderboard" class="tab-content hidden">
+      <div class="section-title-box">
+        <h2>Global Leaderboards</h2>
+        <p>Live ranks & tournament standings</p>
+      </div>
+
+      <div class="lb-type-toggle">
+        <button id="btnDailyLb" class="lb-toggle-btn active" onclick="switchLeaderboard('daily')">Daily Tournament</button>
+        <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')">Weekly Tournament</button>
+      </div>
+
+      <!-- Leaderboard List -->
+      <div class="lb-list-container stake-card" id="lbList">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Current User Personal Rank Sticky Card -->
+      <div class="user-rank-card stake-card" id="userRankCard">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- WALLET TAB CONTENT -->
+    <div id="tab-wallet" class="tab-content hidden">
+      <div class="section-title-box">
+        <h2>My Payout Wallet</h2>
+        <p>Linked payment details & winning payouts</p>
+      </div>
+
+      <div class="wallet-card stake-card">
+        <div class="wallet-upi-status">
+          <span class="upi-label">LINKED UPI ID</span>
+          <div class="upi-value-display" id="walletUpiDisplay">Not Activated</div>
+          <p class="upi-note">🔒 UPI ID is locked. To modify, message our Telegram Team.</p>
+        </div>
+      </div>
+
+      <div class="tx-history-wrapper">
+        <h4>Winning Transactions</h4>
+        <div id="txList" class="tx-list">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERTS TAB CONTENT -->
+    <div id="tab-alerts" class="tab-content hidden">
+      <div class="section-title-box">
+        <h2>Activity & Alerts</h2>
+        <p>Tournament updates, payouts & rank prompts</p>
+      </div>
+      <div class="alerts-feed" id="alertsFeed">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
 
   </main>
 
@@ -190,26 +252,8 @@
   <footer class="footer stake-card">
     <div class="footer-brand">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
-      <p class="footer-tagline">Next-Generation Free Skill Gaming & Tournament Platform.</p>
+      <p class="footer-tagline">Next-Generation Free Skill Gaming Platform.</p>
     </div>
-
-    <div class="footer-links-grid">
-      <div class="footer-col">
-        <h5>Fair Play Standard</h5>
-        <p>Win2Earn operates strictly as a skill-first gaming platform. Zero financial investment required to participate.</p>
-      </div>
-
-      <div class="footer-col">
-        <h5>Data & Security</h5>
-        <p>All accounts, phone numbers, and payment details are safeguarded with enterprise-grade encryption.</p>
-      </div>
-
-      <div class="footer-col">
-        <h5>Global Conduct</h5>
-        <p>Anti-cheat mechanisms monitor all matches. Any automated bot or fraud attempt results in instant disqualification.</p>
-      </div>
-    </div>
-
     <div class="footer-bottom">
       <p>© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
     </div>
@@ -220,7 +264,7 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar with Protected Route Handler -->
+  <!-- Bottom Navigation Bar -->
   <nav class="bottom-nav stake-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
