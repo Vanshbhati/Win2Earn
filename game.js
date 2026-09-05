@@ -1,4 +1,3 @@
-// Sample 50 Indian Names for Ticker
 const indianNames = [
   "Aarav Sharma", "Vivaan Patel", "Aditya Verma", "Vihaan Gupta", "Arjun Singh",
   "Sai Kumar", "Reyansh Reddy", "Ayaan Joshi", "Krishna Mehta", "Ishaan Bhat",
@@ -14,24 +13,22 @@ const indianNames = [
 
 let registeredUsers = [];
 
-// Initialize Page Features
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Splash Screen Fadeout (2.5 Seconds)
+  // Splash Timer set to ~4.5 Seconds
   setTimeout(() => {
     const splash = document.getElementById('splashScreen');
     splash.style.opacity = '0';
     setTimeout(() => {
       splash.classList.add('hidden');
       document.body.classList.remove('no-scroll');
-    }, 600);
-  }, 2500);
+    }, 500);
+  }, 4500);
 
   renderTicker();
 });
 
-// Render Smooth Marquee Ticker with 50 names
 function renderTicker() {
   const track = document.getElementById('tickerTrack');
   let content = '';
@@ -43,7 +40,6 @@ function renderTicker() {
   track.innerHTML = content + content;
 }
 
-// Custom Error Popup Controls
 function showErrorPopup(message) {
   document.getElementById('popupMessage').innerText = message;
   document.getElementById('errorPopup').classList.remove('hidden');
@@ -52,14 +48,12 @@ function showErrorPopup(message) {
 
 function closePopup() {
   document.getElementById('errorPopup').classList.add('hidden');
-  
   const isAuthOpen = !document.getElementById('authModal').classList.contains('hidden');
   if (!isAuthOpen) {
     document.body.classList.remove('no-scroll');
   }
 }
 
-// Auth Modal Controls
 function openAuthModal(tab) {
   switchTab(tab);
   document.getElementById('authModal').classList.remove('hidden');
@@ -84,17 +78,15 @@ function switchTab(tab) {
   }
 }
 
-// Send OTP Simulation
 function sendOtp() {
   const email = document.getElementById('signupEmail').value;
   if (!email || !email.includes('@')) {
-    showErrorPopup('Please enter a valid email address!');
+    showErrorPopup('Please enter a valid Email Address first!');
     return;
   }
-  alert('OTP Sent! Temporary OTP is 1234');
+  alert('OTP Sent! Temporary OTP is: 1234');
 }
 
-// Registration Handler
 function handleSignup(event) {
   event.preventDefault();
 
@@ -105,9 +97,9 @@ function handleSignup(event) {
   const password = document.getElementById('signupPassword').value;
   const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  if (!name) return showErrorPopup('Please enter your full name!');
-  if (!mobile || mobile.length < 10) return showErrorPopup('Please enter a valid 10-digit mobile number!');
-  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid email address!');
+  if (!name) return showErrorPopup('Please enter your Full Name!');
+  if (!mobile || mobile.length < 10) return showErrorPopup('Please enter a valid 10-digit Mobile Number!');
+  if (!email || !email.includes('@')) return showErrorPopup('Please enter a valid Email Address!');
   if (otp !== '1234') return showErrorPopup('Invalid OTP! Temporary OTP is 1234');
   if (!password) return showErrorPopup('Password is required!');
   if (password !== confirmPassword) return showErrorPopup('Passwords do not match!');
@@ -117,7 +109,6 @@ function handleSignup(event) {
   switchTab('login');
 }
 
-// Login Handler
 function handleLogin(event) {
   event.preventDefault();
 
