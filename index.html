@@ -9,14 +9,16 @@
 </head>
 <body class="smooth-scroll">
 
-  <!-- Splash Screen -->
+  <!-- Splash Screen (Scaled down & Perfectly Centered) -->
   <div id="splashScreen" class="splash-screen">
-    <div class="splash-logo">
-      <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+    <div class="splash-logo-container">
+      <div class="splash-logo">
+        <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+      </div>
     </div>
   </div>
 
-  <!-- Custom Error / Alert Popup -->
+  <!-- High-Priority Alert / Error Popup (z-index highest) -->
   <div id="errorPopup" class="popup-overlay hidden">
     <div class="popup-box glass-card popup-animated">
       <div class="popup-icon">⚠️</div>
@@ -26,13 +28,30 @@
     </div>
   </div>
 
-  <!-- Attractive OTP Sent Popup -->
+  <!-- OTP Sent Popup -->
   <div id="otpPopup" class="popup-overlay hidden">
     <div class="popup-box glass-card otp-modal-card">
       <div class="otp-icon-glow">🔐</div>
       <h3 class="popup-title">OTP Sent Successfully</h3>
       <p id="otpPopupMessage">A 6-digit verification code has been dispatched to your mobile number. Please check your messages.</p>
       <button class="glass-btn action-btn popup-btn" onclick="closeOtpPopup()">ENTER OTP NOW</button>
+    </div>
+  </div>
+
+  <!-- Prize Pool Info Modal (Ad Revenue Distribution Explanation) -->
+  <div id="payoutInfoModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card info-modal-card">
+      <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
+      <div class="info-header">
+        <span class="info-icon">💎</span>
+        <h3>Prize Pool & Earnings Breakdown</h3>
+      </div>
+      <div class="info-body">
+        <p>Our monthly prize pool is directly funded through platform advertising revenue.</p>
+        <p>Nearly <strong>50% of the total monthly ad earnings</strong> will be equally distributed among the <strong>Top 100 leaderboard players</strong> at the end of every cycle.</p>
+        <p>Keep playing, hone your skills, and make sure to stay in the Top 100 to secure your cash reward share!</p>
+      </div>
+      <button class="glass-btn primary-btn modal-dismiss-btn" onclick="closePayoutInfoModal()">GOT IT</button>
     </div>
   </div>
 
@@ -224,8 +243,8 @@
         </div>
       </section>
 
-      <!-- Mega Banner: Updated 10 Lakh Coming Soon -->
-      <section class="mega-banner-card glass-card mega-glow">
+      <!-- Mega Banner (Will be hidden on user login/signup) -->
+      <section id="megaBannerCard" class="mega-banner-card glass-card mega-glow">
         <h2 class="mega-title-large">10 LAKH PRIZE POOL COMING SOON</h2>
         <p class="mega-desc">Prepare for the ultimate mega tournament. Massive prize pool, national leaderboard competition, and zero entry fees.</p>
         <div class="mega-tags">
@@ -235,7 +254,7 @@
         </div>
       </section>
 
-      <!-- Hero Tournament Card: Updated 1 Lakh Glass UI -->
+      <!-- Hero Tournament Card: 1 Lakh Glass UI -->
       <section class="tournament-hero-card glass-card ultra-hero-glow">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> LIVE COMPETITIONS</span>
@@ -250,6 +269,11 @@
           <div class="prize-amount gold-text glow-text">1 LAKH + PRIZE POOL</div>
           <p class="pool-sub-note">Guaranteed rewards for Top 100 Leaderboard Winners!</p>
         </div>
+
+        <!-- Small Prize Pool Information Trigger Button -->
+        <button class="glass-btn info-btn-sm" onclick="openPayoutInfoModal()">
+          ℹ️ How is Prize Pool Calculated?
+        </button>
 
         <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
@@ -346,11 +370,28 @@
       <div class="user-rank-card glass-card" id="userRankCard"></div>
     </div>
 
-    <!-- WALLET TAB -->
+    <!-- ALERTS TAB (Position Swapped with Wallet) -->
+    <div id="tab-alerts" class="tab-content hidden">
+      <div class="section-title-box">
+        <h2>Activity & Alerts</h2>
+        <p>Hourly rank tracking & instant payout updates</p>
+      </div>
+      <div class="alerts-feed" id="alertsFeed"></div>
+    </div>
+
+    <!-- WALLET TAB (Position Swapped with Alerts & Profile Details Added) -->
     <div id="tab-wallet" class="tab-content hidden">
       <div class="section-title-box">
         <h2>My Payout Wallet</h2>
         <p>Linked payment details & winning payouts</p>
+      </div>
+
+      <!-- User Profile Details Section (Non-Editable Glass Card) -->
+      <div id="walletProfileCard" class="wallet-card glass-card profile-info-card">
+        <h4 class="profile-card-title">👤 Account & Profile Information</h4>
+        <div class="profile-details-grid" id="walletProfileDetails">
+          <!-- Dynamic JS Injection -->
+        </div>
       </div>
 
       <div class="wallet-card glass-card">
@@ -365,15 +406,6 @@
         <h4>Winning Transactions</h4>
         <div id="txList" class="tx-list"></div>
       </div>
-    </div>
-
-    <!-- ALERTS TAB -->
-    <div id="tab-alerts" class="tab-content hidden">
-      <div class="section-title-box">
-        <h2>Activity & Alerts</h2>
-        <p>Hourly rank tracking & instant payout updates</p>
-      </div>
-      <div class="alerts-feed" id="alertsFeed"></div>
     </div>
 
   </main>
@@ -396,12 +428,12 @@
     </div>
   </footer>
 
-  <!-- Floating Telegram Support Button -->
+  <!-- Floating Telegram Support Button (Fixed / Locked) -->
   <div class="floating-tg-btn" onclick="openTelegramModal()">
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation -->
+  <!-- Fixed / Locked Bottom Navigation Bar (Swapped Wallet & Alerts Icons) -->
   <nav class="bottom-nav glass-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -415,13 +447,13 @@
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c2.12-.39 3.79-2.02 4.61-4.1C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
       <span>Leaderboard</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5z"/></svg>
-      <span>Wallet</span>
-    </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
       <span>Alerts</span>
+    </a>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5z"/></svg>
+      <span>Wallet</span>
     </a>
   </nav>
 
