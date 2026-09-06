@@ -50,7 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
       document.body.classList.remove('no-scroll');
     }
-  }, 2500);
+  }, 2200);
 
   initHardwareAcceleratedTicker();
 });
@@ -122,7 +122,7 @@ function handleGameLaunch() {
   alert('✈️ Paper Glide Arena is loading... Get ready to fly and win!');
 }
 
-// Wallet Operations
+// Wallet Operations & Profile Details Render
 function openWalletModal() {
   const modal = document.getElementById('walletActivationModal');
   if (modal) {
@@ -164,7 +164,24 @@ function activateWallet(e) {
 function renderWalletView() {
   const upiDisp = document.getElementById('walletUpiDisplay');
   const txList = document.getElementById('txList');
+  const profileContainer = document.getElementById('profileDetailsContainer');
 
+  // Render User Non-Editable Profile Details
+  if (profileContainer && currentUser) {
+    profileContainer.innerHTML = `
+      <div class="glass-card profile-info-card">
+        <div class="profile-card-title">👤 Account & Profile Info</div>
+        <div class="profile-details-grid">
+          <div class="profile-item"><span class="profile-key">Full Name</span><span class="profile-val">${currentUser.name}</span></div>
+          <div class="profile-item"><span class="profile-key">Mobile Number</span><span class="profile-val">+91 ${currentUser.mobile}</span></div>
+          <div class="profile-item"><span class="profile-key">Email ID</span><span class="profile-val">${currentUser.email}</span></div>
+          <div class="profile-item"><span class="profile-key">KYC / Wallet Status</span><span class="profile-val" style="color: ${currentUser.upiId ? '#10b981' : '#ef4444'};">${currentUser.upiId ? 'Verified' : 'Pending Activation'}</span></div>
+        </div>
+      </div>
+    `;
+  }
+
+  // Render Wallet Details & Transactions
   if (currentUser && currentUser.upiId) {
     if (upiDisp) {
       upiDisp.innerText = currentUser.upiId;
@@ -309,7 +326,25 @@ function sendOtp() {
     return showErrorPopup('Please enter a valid Email Address to receive OTP.');
   }
   generatedOtp = '1234';
-  alert('📨 OTP sent successfully to ' + email + '!\nYour verification OTP is: 1234');
+  
+  // Custom OTP Display Trigger
+  const otpMsg = document.getElementById('otpPopupMessage');
+  const otpModal = document.getElementById('otpDisplayModal');
+  if (otpMsg) otpMsg.innerText = `Verification OTP sent to ${email}.\nYour One-Time Password is: 1234`;
+  if (otpModal) {
+    otpModal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
+}
+
+function closeOtpModal() {
+  const otpModal = document.getElementById('otpDisplayModal');
+  if (otpModal) {
+    otpModal.classList.add('hidden');
+    if (!document.getElementById('authModal') || document.getElementById('authModal').classList.contains('hidden')) {
+      document.body.classList.remove('no-scroll');
+    }
+  }
 }
 
 // STRICT SIGNUP VALIDATION & DIRECT LOGIN
@@ -407,7 +442,6 @@ function handleLogin(e) {
   currentUser = found;
   closeAuthModal();
   setupUserSession();
-  alert(`Welcome back, ${currentUser.name}!`);
 }
 
 function setupUserSession() {
@@ -502,15 +536,23 @@ function showErrorPopup(msg) {
   const msgElem = document.getElementById('popupMessage');
   const popup = document.getElementById('errorPopup');
   if (msgElem) msgElem.innerText = msg;
-  if (popup) popup.classList.remove('hidden');
+  if (popup) {
+    popup.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+  }
 }
 
 function closePopup() {
   const popup = document.getElementById('errorPopup');
-  if (popup) popup.classList.add('hidden');
+  if (popup) {
+    popup.classList.add('hidden');
+    if (!document.getElementById('authModal') || document.getElementById('authModal').classList.contains('hidden')) {
+      document.body.classList.remove('no-scroll');
+    }
+  }
 }
 
-// Ticker Animation
+// Ticker Animation (GPU Accelerated)
 function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
   if (!track) return;
@@ -532,3 +574,4 @@ function initHardwareAcceleratedTicker() {
   }
   requestAnimationFrame(step);
 }
+
