@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Splash Screen Logic (6.5s smooth transition)
 function initSplashScreen() {
   const splash = document.getElementById("splashScreen");
+  if (!splash) return;
   setTimeout(() => {
     splash.style.opacity = "0";
     splash.style.visibility = "hidden";
@@ -193,7 +194,8 @@ function openAuthModal(tab) {
 function closeAuthModal() { hideModal("authModal"); }
 
 function openPopup(msg) {
-  document.getElementById("popupMessage").innerText = msg;
+  const msgElement = document.getElementById("popupMessage");
+  if (msgElement) msgElement.innerText = msg;
   showModal("errorPopup");
 }
 function closePopup() { hideModal("errorPopup"); }
@@ -206,17 +208,18 @@ function switchTab(type) {
   const signupForm = document.getElementById("signupForm");
   
   if (type === 'login') {
-    loginForm.classList.remove("hidden");
-    signupForm.classList.add("hidden");
+    if (loginForm) loginForm.classList.remove("hidden");
+    if (signupForm) signupForm.classList.add("hidden");
   } else {
-    loginForm.classList.add("hidden");
-    signupForm.classList.remove("hidden");
+    if (loginForm) loginForm.classList.add("hidden");
+    if (signupForm) signupForm.classList.remove("hidden");
   }
 }
 
 // OTP Generation Mock
 function sendOtp() {
-  const mobile = document.getElementById("signupMobile").value;
+  const mobileInput = document.getElementById("signupMobile");
+  const mobile = mobileInput ? mobileInput.value : "";
   if (!mobile || mobile.length < 10) {
     openPopup("Please enter a valid 10-digit mobile number.");
     return;
@@ -225,14 +228,18 @@ function sendOtp() {
   const generated = Math.floor(1000 + Math.random() * 9000);
   appState.generatedOtp = generated.toString();
   
-  document.getElementById("otpPopupMessage").innerText = `Your Win2Earn OTP Code is: ${generated}`;
+  const otpMsgElement = document.getElementById("otpPopupMessage");
+  if (otpMsgElement) {
+    otpMsgElement.innerText = `Your Win2Earn OTP Code is: ${generated}`;
+  }
   showModal("otpDisplayModal");
 }
 
 // Handle Login Form Submit
 function handleLogin(e) {
   e.preventDefault();
-  const email = document.getElementById("loginEmail").value;
+  const emailInput = document.getElementById("loginEmail");
+  const email = emailInput ? emailInput.value : "user@example.com";
   
   appState.currentUser = {
     name: email.split("@")[0].toUpperCase(),
@@ -247,11 +254,11 @@ function handleLogin(e) {
 // Handle Signup Form Submit
 function handleSignup(e) {
   e.preventDefault();
-  const name = document.getElementById("signupName").value;
-  const email = document.getElementById("signupEmail").value;
-  const otpInput = document.getElementById("signupOtp").value;
-  const pass = document.getElementById("signupPassword").value;
-  const confirmPass = document.getElementById("signupConfirmPassword").value;
+  const name = document.getElementById("signupName")?.value || "Player";
+  const email = document.getElementById("signupEmail")?.value || "";
+  const otpInput = document.getElementById("signupOtp")?.value || "";
+  const pass = document.getElementById("signupPassword")?.value || "";
+  const confirmPass = document.getElementById("signupConfirmPassword")?.value || "";
 
   if (pass !== confirmPass) {
     openPopup("Passwords do not match!");
@@ -270,7 +277,9 @@ function handleSignup(e) {
   };
 
   closeAuthModal();
-  document.getElementById("welcomeUserName").innerText = `Welcome, ${name}!`;
+  
+  const welcomeText = document.getElementById("welcomeUserName");
+  if (welcomeText) welcomeText.innerText = `Welcome, ${name}!`;
   showModal("welcomeModal");
 
   onUserLoggedIn();
@@ -315,13 +324,16 @@ function closeGameScreen() {
 // Leaderboard Logic
 function switchLeaderboard(type) {
   appState.leaderboardType = type;
-  document.getElementById("btnDailyLb").classList.toggle("active", type === 'daily');
-  document.getElementById("btnWeeklyLb").classList.toggle("active", type === 'weekly');
+  const btnDaily = document.getElementById("btnDailyLb");
+  const btnWeekly = document.getElementById("btnWeeklyLb");
+  if (btnDaily) btnDaily.classList.toggle("active", type === 'daily');
+  if (btnWeekly) btnWeekly.classList.toggle("active", type === 'weekly');
   renderLeaderboard(type);
 }
 
 function renderLeaderboard(type) {
   const container = document.getElementById("lbList");
+  if (!container) return;
   const data = type === 'daily' ? lbDailyData : lbWeeklyData;
 
   container.innerHTML = data.map(item => `
@@ -415,7 +427,7 @@ function renderProfileWallet() {
 
 function activateWallet(e) {
   e.preventDefault();
-  const upiInput = document.getElementById("upiInput").value;
+  const upiInput = document.getElementById("upiInput")?.value;
   if (!upiInput || !upiInput.includes("@")) {
     openPopup("Please enter a valid UPI ID (e.g. username@upi)");
     return;
@@ -448,8 +460,10 @@ const legalTexts = {
 function openLegalModal(type) {
   const content = legalTexts[type];
   if (content) {
-    document.getElementById("legalModalTitle").innerText = content.title;
-    document.getElementById("legalModalBody").innerHTML = content.body;
+    const titleEl = document.getElementById("legalModalTitle");
+    const bodyEl = document.getElementById("legalModalBody");
+    if (titleEl) titleEl.innerText = content.title;
+    if (bodyEl) bodyEl.innerHTML = content.body;
     showModal("legalModal");
   }
 }
