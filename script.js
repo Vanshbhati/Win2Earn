@@ -1,42 +1,20 @@
-const indianNames = [
-  "Aarav Sharma", "Vivaan Patel", "Aditya Verma", "Vihaan Gupta", "Arjun Singh",
-  "Sai Kumar", "Reyansh Reddy", "Ayaan Joshi", "Krishna Mehta", "Ishaan Bhat",
-  "Shaurya Yadava", "Atharva Kulkarni", "Gautam Rao", "Ananya Mishra", "Diya Choudhary",
-  "Saanvi Agarwal", "Aadhya Jain", "Pari Saxena", "Kiara Nair", "Riya Das",
-  "Anaya Pillai", "Kavya Menon", "Rohan Sethi", "Karan Malhotra", "Dhruv Kapoor"
-];
+/**
+ * Paper Glide Arena - Main Logic Script
+ * Apple-inspired sleek dark architecture with secure session management.
+ */
 
-let registeredUsers = [];
+const SESSION_KEY = 'pga_user_session';
+const LOGIN_TIMESTAMP_KEY = 'pga_login_time';
+const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+let registeredUsers = JSON.parse(localStorage.getItem('pga_registered_users') || '[]');
 let currentUser = null;
 let currentTab = 'home';
 let currentLbType = 'daily';
 let activePlayersCount = 4980;
 let generatedOtp = null;
 
-const sampleAlerts = [
-  {
-    time: "2 Hours Ago",
-    title: "⚡ Play Now & Claim Rank 1!",
-    desc: "The Daily Tournament is live! Compete now to secure Rank 1 and grab your share of the ₹500 prize pool."
-  },
-  {
-    time: "5 Hours Ago",
-    title: "🏆 Tournament Victory Alert",
-    desc: "Congratulations! You scored 2,450 points in Paper Glide arena. Check leaderboard for your rank update."
-  },
-  {
-    time: "8 Hours Ago",
-    title: "💸 Payout Processed Successfully",
-    desc: "Your tournament winning reward of ₹50.00 has been transferred directly to your linked UPI ID."
-  },
-  {
-    time: "11 Hours Ago",
-    title: "⚔️ Match Outcome Notice",
-    desc: "Paper Glide Arena match completed. Hard luck! Practice again to climb back to the top 10."
-  }
-];
-
-// Guaranteed Splash Screen Unlocking & Force Fail-Safe
+// Guaranteed Splash Screen Unlocking & Safe Unmounting
 function dismissSplashScreen() {
   const splash = document.getElementById('splashScreen') || document.querySelector('.splash-screen');
   if (splash) {
@@ -46,7 +24,7 @@ function dismissSplashScreen() {
       splash.classList.add('hidden');
       splash.style.setProperty('display', 'none', 'important');
       document.body.classList.remove('no-scroll');
-    }, 400);
+    }, 500);
   } else {
     document.body.classList.remove('no-scroll');
   }
@@ -55,16 +33,58 @@ function dismissSplashScreen() {
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Synchronized with loader animation (1.6s transition)
-  setTimeout(dismissSplashScreen, 1600);
+  // Check 24-Hour Session Validity
+  checkAndRestoreSession();
+
+  // Splash Screen Duration set to match CSS 6.5s animation
+  setTimeout(dismissSplashScreen, 6500);
 
   initHardwareAcceleratedTicker();
 });
 
-// Extra fail-safe in case of network lags or execution delays
+// Fail-safe load event handler
 window.addEventListener('load', () => {
-  setTimeout(dismissSplashScreen, 1800);
+  setTimeout(dismissSplashScreen, 6800);
 });
+
+// Session Check (24-Hour Auto Logout)
+function checkAndRestoreSession() {
+  const savedUser = localStorage.getItem(SESSION_KEY);
+  const loginTime = localStorage.getItem(LOGIN_TIMESTAMP_KEY);
+
+  if (savedUser && loginTime) {
+    const timeElapsed = Date.now() - parseInt(loginTime, 10);
+
+    if (timeElapsed > TWENTY_FOUR_HOURS) {
+      // Session Expired after 24 Hours
+      logoutUser(true);
+    } else {
+      currentUser = JSON.parse(savedUser);
+      setupUserSession();
+    }
+  }
+}
+
+function logoutUser(isAutoLogout = false) {
+  currentUser = null;
+  localStorage.removeItem(SESSION_KEY);
+  localStorage.removeItem(LOGIN_TIMESTAMP_KEY);
+
+  // Reset Nav Header UI
+  const navAuthBtns = document.getElementById('navAuthBtns');
+  if (navAuthBtns) {
+    navAuthBtns.innerHTML = `
+      <button class="glass-btn secondary-btn" onclick="openAuthModal('login')">Log In</button>
+      <button class="glass-btn primary-btn" onclick="openAuthModal('signup')">Sign Up</button>
+    `;
+  }
+
+  switchTabContent('home');
+
+  if (isAutoLogout) {
+    showErrorPopup('Your session has expired after 24 hours. Please log in again.');
+  }
+}
 
 // Counter Fluctuation
 function startActivePlayersCounter() {
@@ -117,7 +137,7 @@ function updateActiveNav(targetElement) {
   }
 }
 
-// Game Play Launcher
+// Direct Game Launch Flow
 function handleGameLaunch() {
   if (!currentUser) {
     showErrorPopup('Please Log In or Sign Up first to enter gaming arenas.');
@@ -135,7 +155,7 @@ function handleGameLaunch() {
     gameModal.classList.remove('hidden');
     document.body.classList.add('no-scroll');
   } else {
-    alert('✈️ Paper Glide Arena is loading... Get ready to fly and win!');
+    alert('✈️ Paper Glide Arena is loading... Launching game environment!');
   }
 }
 
@@ -193,12 +213,18 @@ function activateWallet(e) {
 
   if (currentUser) {
     currentUser.upiId = upiVal;
-    currentUser.transactions = currentUser.transactions || [
-      { title: "Daily Tournament Win Reward", date: "Today, 10:15 PM", amount: "+ ₹50.00" }
-    ];
+    
+    // Save updated state to LocalStorage
+    localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+    
+    // Sync across registered users array
+    const idx = registeredUsers.findIndex(u => u.email === currentUser.email);
+    if (idx !== -1) {
+      registeredUsers[idx] = currentUser;
+      localStorage.setItem('pga_registered_users', JSON.stringify(registeredUsers));
+    }
   }
 
-  alert('✅ Wallet Activated Successfully! Your UPI ID is linked.');
   closeWalletModal();
   if (currentTab === 'wallet') renderWalletView();
 }
@@ -211,12 +237,12 @@ function renderWalletView() {
   if (profileContainer && currentUser) {
     profileContainer.innerHTML = `
       <div class="glass-card profile-info-card" style="padding:16px; margin-bottom:14px;">
-        <div class="profile-card-title" style="font-size:0.9rem; font-weight:800; color:var(--accent-cyan); margin-bottom:10px;">👤 Account & Profile Info</div>
+        <div class="profile-card-title" style="font-size:0.9rem; font-weight:800; color:var(--accent-cyan); margin-bottom:10px;">👤 Profile Account Details</div>
         <div class="profile-details-grid" style="font-size:0.8rem; display:flex; flex-direction:column; gap:6px;">
           <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Full Name:</span> <strong>${currentUser.name}</strong></div>
           <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Mobile:</span> <strong>+91 ${currentUser.mobile}</strong></div>
           <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Email ID:</span> <strong>${currentUser.email}</strong></div>
-          <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Status:</span> <strong style="color: ${currentUser.upiId ? '#10b981' : '#ef4444'};">${currentUser.upiId ? 'Verified' : 'Pending Activation'}</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Status:</span> <strong style="color: ${currentUser.upiId ? '#30d158' : '#ff453a'};">${currentUser.upiId ? 'UPI Verified' : 'Pending Activation'}</strong></div>
         </div>
       </div>
     `;
@@ -225,13 +251,13 @@ function renderWalletView() {
   if (currentUser && currentUser.upiId) {
     if (upiDisp) {
       upiDisp.innerText = currentUser.upiId;
-      upiDisp.style.color = '#10b981';
+      upiDisp.style.color = '#30d158';
     }
     
     let txHtml = '';
     const txs = currentUser.transactions || [];
     if (txs.length === 0) {
-      txHtml = `<p style="font-size:0.8rem; color:#64748b; text-align:center; padding:12px;">No winning payouts yet. Play games to earn!</p>`;
+      txHtml = `<p style="font-size:0.8rem; color:#6e6e73; text-align:center; padding:12px;">No tournament payouts yet. Participate in arenas to start winning!</p>`;
     } else {
       txs.forEach(tx => {
         txHtml += `
@@ -249,13 +275,13 @@ function renderWalletView() {
   } else {
     if (upiDisp) {
       upiDisp.innerText = "Not Activated";
-      upiDisp.style.color = '#ef4444';
+      upiDisp.style.color = '#ff453a';
     }
     if (txList) {
       txList.innerHTML = `
         <div style="text-align:center; padding:16px;">
-          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Wallet is inactive. Link UPI ID to view payouts.</p>
-          <button class="glass-btn primary-btn" onclick="openWalletModal()">Activate Wallet Now</button>
+          <p style="font-size:0.8rem; color:#a1a1a6; margin-bottom:10px;">Wallet inactive. Link your UPI ID to receive automatic rewards.</p>
+          <button class="glass-btn primary-btn" onclick="openWalletModal()">Link UPI ID Now</button>
         </div>
       `;
     }
@@ -276,60 +302,41 @@ function renderLeaderboard() {
   const container = document.getElementById('lbList');
   const userRankCard = document.getElementById('userRankCard');
   
-  const multiplier = currentLbType === 'daily' ? 1 : 3.5;
-  
-  let listHtml = '';
-  indianNames.slice(0, 10).forEach((name, idx) => {
-    const rank = idx + 1;
-    const score = Math.floor((3000 - idx * 210) * multiplier);
-    const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
-    
-    listHtml += `
-      <div class="lb-row">
-        <span class="lb-rank ${rankClass}">#${rank}</span>
-        <span class="lb-name">${name}</span>
-        <span class="lb-score">${score.toLocaleString()} pts</span>
+  if (container) {
+    container.innerHTML = `
+      <div style="text-align:center; padding:24px;">
+        <p style="font-size:0.82rem; color:var(--text-secondary);">Tournament matches are currently under live calculation. Complete matches to see active rankings!</p>
       </div>
     `;
-  });
-
-  if (container) container.innerHTML = listHtml;
-
-  const userScore = currentLbType === 'daily' ? 1420 : 4850;
-  const userRank = currentLbType === 'daily' ? 14 : 22;
+  }
 
   if (userRankCard) {
     userRankCard.innerHTML = `
       <div>
-        <span style="font-size:0.7rem; color:#64748b; font-weight:700;">YOUR LIVE RANK</span>
-        <div style="font-size:1rem; font-weight:800; color:#f8fafc;">${currentUser ? currentUser.name : 'Guest User'}</div>
+        <span style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">YOUR ACTIVE STATUS</span>
+        <div style="font-size:0.95rem; font-weight:800; color:var(--text-primary);">${currentUser ? currentUser.name : 'Guest Player'}</div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:1.1rem; font-weight:900; color:#f59e0b;">#${userRank}</div>
-        <div style="font-size:0.75rem; color:#38bdf8; font-weight:800;">${userScore} pts</div>
+        <div style="font-size:0.9rem; font-weight:800; color:var(--accent-gold);">Unranked</div>
+        <div style="font-size:0.75rem; color:var(--accent-cyan); font-weight:800;">0 pts</div>
       </div>
     `;
   }
 }
 
-// Notifications
+// Notifications Feed
 function renderAlertsFeed() {
   const container = document.getElementById('alertsFeed');
   if (!container) return;
-  let html = '';
-  sampleAlerts.forEach(item => {
-    html += `
-      <div class="alert-card glass-card">
-        <div class="alert-time">${item.time}</div>
-        <div class="alert-title">${item.title}</div>
-        <div class="alert-desc">${item.desc}</div>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
+  
+  container.innerHTML = `
+    <div class="glass-card" style="padding:20px; text-align:center;">
+      <p style="font-size:0.82rem; color:var(--text-secondary);">You have no unread notifications at this time.</p>
+    </div>
+  `;
 }
 
-// Authentication
+// Authentication Modal Controls
 function openAuthModal(tab) {
   switchTab(tab);
   const modal = document.getElementById('authModal');
@@ -363,14 +370,16 @@ function sendOtp() {
   const emailInput = document.getElementById('signupEmail');
   const email = emailInput ? emailInput.value.trim() : '';
   if (!email || !email.includes('@')) {
-    return showErrorPopup('Please enter a valid Email Address to receive OTP.');
+    return showErrorPopup('Please enter a valid Email Address to receive your OTP.');
   }
   generatedOtp = '1234';
   
   const otpMsg = document.getElementById('otpPopupMessage');
   const otpModal = document.getElementById('otpDisplayModal');
-  if (otpMsg) otpMsg.innerText = `Verification OTP sent to ${email}.\nYour One-Time Password is: 1234`;
+  
+  if (otpMsg) otpMsg.innerText = `Verification code sent to ${email}.\nYour One-Time Password is: 1234`;
   if (otpModal) {
+    otpModal.classList.add('super-high-priority-z'); // Ensures OTP pops above auth modal
     otpModal.classList.remove('hidden');
     document.body.classList.add('no-scroll');
   }
@@ -404,13 +413,17 @@ function handleSignup(e) {
     return showErrorPopup('An account with this email already exists. Please Log In.');
   }
 
-  if (!otp || otp !== '1234') return showErrorPopup('Invalid OTP! Please click "Get OTP" and enter 1234.');
+  if (!otp || otp !== '1234') return showErrorPopup('Invalid OTP! Click "Get OTP" and enter 1234.');
   if (!password || password.length < 6) return showErrorPopup('Password must be at least 6 characters long.');
   if (password !== confirmPassword) return showErrorPopup('Passwords do not match. Please verify and try again.');
 
   const newUser = { name, mobile, email, password, upiId: null, transactions: [] };
   registeredUsers.push(newUser);
+  localStorage.setItem('pga_registered_users', JSON.stringify(registeredUsers));
+
   currentUser = newUser;
+  localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+  localStorage.setItem(LOGIN_TIMESTAMP_KEY, Date.now().toString());
 
   closeAuthModal();
   setupUserSession();
@@ -441,13 +454,16 @@ function handleLogin(e) {
   const email = emailInput ? emailInput.value.trim() : '';
   const password = passwordInput ? passwordInput.value : '';
 
-  if (!email || !password) return showErrorPopup('Please fill in both Email and Password fields.');
+  if (!email || !password) return showErrorPopup('Please enter both Email and Password.');
 
   const found = registeredUsers.find(u => u.email === email && u.password === password);
   
-  if (!found) return showErrorPopup('Invalid Email or Password. Please check your credentials or Sign Up.');
+  if (!found) return showErrorPopup('Invalid credentials. Please verify your details or Sign Up.');
 
   currentUser = found;
+  localStorage.setItem(SESSION_KEY, JSON.stringify(currentUser));
+  localStorage.setItem(LOGIN_TIMESTAMP_KEY, Date.now().toString());
+
   closeAuthModal();
   setupUserSession();
 }
@@ -456,9 +472,9 @@ function setupUserSession() {
   const navAuthBtns = document.getElementById('navAuthBtns');
   if (navAuthBtns) {
     navAuthBtns.innerHTML = `
-      <div class="active-players-badge" style="display:flex; align-items:center; gap:6px; font-size:0.75rem; background:rgba(16,185,129,0.12); color:#10b981; padding:6px 12px; border-radius:20px; font-weight:800;">
-        <span class="active-dot" style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span>
-        <span id="activePlayersCount">${activePlayersCount.toLocaleString()}</span> Active
+      <div class="active-players-badge" style="display:flex; align-items:center; gap:6px; font-size:0.75rem; background:rgba(48,209,88,0.12); color:#30d158; padding:6px 12px; border-radius:20px; font-weight:800;">
+        <span class="active-dot" style="width:6px; height:6px; background:#30d158; border-radius:50%;"></span>
+        <span id="activePlayersCount">${activePlayersCount.toLocaleString()}</span> Live
       </div>
     `;
   }
@@ -467,7 +483,7 @@ function setupUserSession() {
   switchTabContent('home');
 }
 
-// Modals
+// Modals Setup
 function openInfoModal() {
   const modal = document.getElementById('infoModal');
   if (modal) {
@@ -494,19 +510,19 @@ function openLegalModal(type) {
   if (type === 'privacy') {
     title.innerText = 'Privacy Policy';
     body.innerHTML = `
-      <p>We respect your privacy. Your personal information (Name, Email, Mobile, and UPI ID) is securely stored and processed strictly for authentication and prize distribution.</p>
-      <p>We do not share or sell your data to third parties. All financial transactions are protected with industry-standard encryption.</p>
+      <p>Your privacy is important to us. Account details (Name, Email, Mobile, and UPI ID) are stored securely for account verification and tournament prize distribution.</p>
+      <p>Data is handled strictly in compliance with privacy guidelines and is never shared with third parties.</p>
     `;
   } else if (type === 'terms') {
     title.innerText = 'Terms & Conditions';
     body.innerHTML = `
-      <p>By using Paper Glide Arena, you agree to comply with game rules and fair competition standards. Any use of bots, exploits, or fraudulent activity will result in immediate ban.</p>
-      <p>Tournament rewards are calculated based on verified leaderboard scores at the end of each daily/weekly cycle.</p>
+      <p>By participating in Paper Glide Arena, players agree to compete fairly. Unfair exploits, unauthorized automation, or multi-accounting will lead to immediate account suspension.</p>
+      <p>All tournament prize payouts are subject to score verification upon match completion.</p>
     `;
   } else if (type === 'community') {
     title.innerText = 'Community Guidelines';
     body.innerHTML = `
-      <p>Maintain sportsmanship and respect across all platform channels. Harassment, spamming, or fraudulent behavior toward fellow players will lead to permanent account suspension.</p>
+      <p>Respect fellow competitors across platform channels. Fraudulent behavior or abusive conduct will result in account termination.</p>
     `;
   }
 
@@ -543,6 +559,7 @@ function showErrorPopup(msg) {
   const popup = document.getElementById('errorPopup');
   if (msgElem) msgElem.innerText = msg;
   if (popup) {
+    popup.classList.add('high-priority-z');
     popup.classList.remove('hidden');
     document.body.classList.add('no-scroll');
   }
@@ -558,22 +575,31 @@ function closePopup() {
   }
 }
 
-// Ticker
+// Ticker Animation
 function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
   if (!track) return;
+
+  const announcements = [
+    "⚡ Daily Arena Tournament Live!",
+    "🏆 Top Players Compete for Prize Pools",
+    "✈️ Master Paper Glide & Rise to Rank 1",
+    "💸 Direct Instant UPI Rewards"
+  ];
+
   let content = '';
-  indianNames.forEach(name => {
-    content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
+  announcements.forEach(item => {
+    content += `<div class="ticker-item">${item}</div>`;
   });
   track.innerHTML = content + content;
 
   let currentX = 0;
   let lastTime = performance.now();
+  
   function step(time) {
     const delta = (time - lastTime) / 1000;
     lastTime = time;
-    currentX -= 80 * delta;
+    currentX -= 60 * delta;
     if (Math.abs(currentX) >= track.scrollWidth / 2) currentX = 0;
     track.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0)`;
     requestAnimationFrame(step);
