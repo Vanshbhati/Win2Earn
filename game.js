@@ -36,25 +36,27 @@ const sampleAlerts = [
   }
 ];
 
-// Guaranteed Splash Screen Unlocking Mechanism
-window.addEventListener('load', () => {
+// Guaranteed Splash Screen Unlocking
+function dismissSplashScreen() {
   const splash = document.getElementById('splashScreen');
-  
-  // Timeout safety fallback (2 Seconds)
-  setTimeout(() => {
-    if (splash) {
-      splash.style.transition = 'opacity 0.5s ease';
-      splash.style.opacity = '0';
-      
-      setTimeout(() => {
-        splash.classList.add('hidden');
-        splash.style.display = 'none';
-        document.body.classList.remove('no-scroll');
-      }, 500);
-    } else {
+  if (splash) {
+    splash.style.opacity = '0';
+    splash.style.visibility = 'hidden';
+    setTimeout(() => {
+      splash.classList.add('hidden');
+      splash.style.display = 'none';
       document.body.classList.remove('no-scroll');
-    }
-  }, 1800);
+    }, 400);
+  } else {
+    document.body.classList.remove('no-scroll');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.body.classList.add('no-scroll');
+  
+  // Unlock page after 1.8 seconds (Synchronized with loader animation)
+  setTimeout(dismissSplashScreen, 1800);
 
   initHardwareAcceleratedTicker();
 });
@@ -204,12 +206,12 @@ function renderWalletView() {
   if (profileContainer && currentUser) {
     profileContainer.innerHTML = `
       <div class="glass-card profile-info-card" style="padding:16px; margin-bottom:14px;">
-        <div class="profile-card-title" style="font-size:0.9rem; font-weight:800; color:var(--accent-cyan, #00f2fe); margin-bottom:10px;">👤 Account & Profile Info</div>
+        <div class="profile-card-title" style="font-size:0.9rem; font-weight:800; color:var(--accent-cyan); margin-bottom:10px;">👤 Account & Profile Info</div>
         <div class="profile-details-grid" style="font-size:0.8rem; display:flex; flex-direction:column; gap:6px;">
-          <div style="display:flex; justify-content:space-between;"><span style="color:#94a3b8;">Full Name:</span> <strong>${currentUser.name}</strong></div>
-          <div style="display:flex; justify-content:space-between;"><span style="color:#94a3b8;">Mobile:</span> <strong>+91 ${currentUser.mobile}</strong></div>
-          <div style="display:flex; justify-content:space-between;"><span style="color:#94a3b8;">Email ID:</span> <strong>${currentUser.email}</strong></div>
-          <div style="display:flex; justify-content:space-between;"><span style="color:#94a3b8;">Status:</span> <strong style="color: ${currentUser.upiId ? '#10b981' : '#ef4444'};">${currentUser.upiId ? 'Verified' : 'Pending Activation'}</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Full Name:</span> <strong>${currentUser.name}</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Mobile:</span> <strong>+91 ${currentUser.mobile}</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Email ID:</span> <strong>${currentUser.email}</strong></div>
+          <div style="display:flex; justify-content:space-between;"><span style="color:var(--text-muted);">Status:</span> <strong style="color: ${currentUser.upiId ? '#10b981' : '#ef4444'};">${currentUser.upiId ? 'Verified' : 'Pending Activation'}</strong></div>
         </div>
       </div>
     `;
@@ -228,12 +230,12 @@ function renderWalletView() {
     } else {
       txs.forEach(tx => {
         txHtml += `
-          <div class="tx-item" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.1);">
+          <div class="tx-item">
             <div>
-              <div class="tx-title" style="font-weight:600;">${tx.title}</div>
-              <div class="tx-date" style="font-size:0.75rem; color:#64748b;">${tx.date}</div>
+              <div class="tx-title">${tx.title}</div>
+              <div class="tx-date">${tx.date}</div>
             </div>
-            <div class="tx-amount" style="color:#10b981; font-weight:700;">${tx.amount}</div>
+            <div class="tx-amount">${tx.amount}</div>
           </div>
         `;
       });
@@ -278,7 +280,7 @@ function renderLeaderboard() {
     const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
     
     listHtml += `
-      <div class="lb-row" style="display:flex; justify-content:space-between; padding:8px 12px; margin-bottom:6px; background:rgba(255,255,255,0.03); border-radius:8px;">
+      <div class="lb-row">
         <span class="lb-rank ${rankClass}">#${rank}</span>
         <span class="lb-name">${name}</span>
         <span class="lb-score">${score.toLocaleString()} pts</span>
@@ -293,15 +295,13 @@ function renderLeaderboard() {
 
   if (userRankCard) {
     userRankCard.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:12px;">
-        <div>
-          <span style="font-size:0.7rem; color:#64748b; font-weight:700;">YOUR LIVE RANK</span>
-          <div style="font-size:1rem; font-weight:800; color:#f8fafc;">${currentUser ? currentUser.name : 'Guest User'}</div>
-        </div>
-        <div style="text-align:right;">
-          <div style="font-size:1.1rem; font-weight:900; color:#f59e0b;">#${userRank}</div>
-          <div style="font-size:0.75rem; color:#38bdf8; font-weight:800;">${userScore} pts</div>
-        </div>
+      <div>
+        <span style="font-size:0.7rem; color:#64748b; font-weight:700;">YOUR LIVE RANK</span>
+        <div style="font-size:1rem; font-weight:800; color:#f8fafc;">${currentUser ? currentUser.name : 'Guest User'}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:1.1rem; font-weight:900; color:#f59e0b;">#${userRank}</div>
+        <div style="font-size:0.75rem; color:#38bdf8; font-weight:800;">${userScore} pts</div>
       </div>
     `;
   }
@@ -314,10 +314,10 @@ function renderAlertsFeed() {
   let html = '';
   sampleAlerts.forEach(item => {
     html += `
-      <div class="alert-card glass-card" style="padding:12px; margin-bottom:10px;">
-        <div class="alert-time" style="font-size:0.7rem; color:#94a3b8;">${item.time}</div>
-        <div class="alert-title" style="font-weight:700; color:#ffb703; margin:4px 0;">${item.title}</div>
-        <div class="alert-desc" style="font-size:0.8rem; color:#cbd5e1;">${item.desc}</div>
+      <div class="alert-card glass-card">
+        <div class="alert-time">${item.time}</div>
+        <div class="alert-title">${item.title}</div>
+        <div class="alert-desc">${item.desc}</div>
       </div>
     `;
   });
@@ -559,7 +559,7 @@ function initHardwareAcceleratedTicker() {
   if (!track) return;
   let content = '';
   indianNames.forEach(name => {
-    content += `<div class="ticker-item" style="display:inline-block; margin-right:20px;">${name} <span style="color:#f59e0b;">₹5000</span></div>`;
+    content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
   });
   track.innerHTML = content + content;
 
