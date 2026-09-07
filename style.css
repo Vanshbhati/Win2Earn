@@ -97,7 +97,7 @@ body.no-scroll {
   box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.4);
 }
 
-/* Fixed Splash Loader Time (2s Sync) */
+/* Fixed Splash Loader Time (Safe Unmounting) */
 .splash-screen {
   position: fixed; 
   top: 0; 
@@ -110,6 +110,8 @@ body.no-scroll {
   align-items: center;
   z-index: 99999999 !important; 
   transition: opacity 0.4s ease, visibility 0.4s ease;
+  opacity: 1;
+  visibility: visible;
 }
 
 .splash-content {
@@ -147,7 +149,7 @@ body.no-scroll {
   width: 100%;
   height: 100%;
   background: linear-gradient(90deg, var(--accent-gold) 0%, var(--accent-cyan) 100%);
-  animation: splashProgress 2s linear forwards;
+  animation: splashProgress 1.8s linear forwards;
   transform-origin: left;
 }
 
@@ -489,7 +491,7 @@ body.no-scroll {
 .floating-tg-btn-fixed:active { transform: scale(0.92) translate3d(0, 0, 0); }
 .tg-floating-icon { width: 25px; height: 25px; color: #ffffff; }
 
-/* Force Hidden Display Override */
+/* Strict Override For Hidden Elements */
 .hidden { 
   display: none !important; 
   visibility: hidden !important; 
