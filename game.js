@@ -12,6 +12,7 @@ let currentTab = 'home';
 let currentLbType = 'daily';
 let activePlayersCount = 4980;
 let generatedOtp = null;
+let activeTickerAnimationFrame = null;
 
 const sampleAlerts = [
   {
@@ -36,6 +37,7 @@ const sampleAlerts = [
   }
 ];
 
+// App Bootstrapper
 window.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
@@ -106,7 +108,9 @@ function updateActiveNav(targetElement) {
   }
 }
 
-// Game Play Launcher
+/* =========================================================
+   GAME LAUNCHER & game.js INTEGRATION BRIDGE
+   ========================================================= */
 function handleGameLaunch() {
   if (!currentUser) {
     showErrorPopup('Please Log In or Sign Up first to enter gaming arenas.');
@@ -115,14 +119,71 @@ function handleGameLaunch() {
   }
 
   if (!currentUser.upiId) {
+    showErrorPopup('Please link your UPI ID before entering paid tournament arenas.');
     openWalletModal();
     return;
   }
 
-  alert('✈️ Paper Glide Arena is loading... Get ready to fly and win!');
+  openGameArenaView();
 }
 
-// Wallet Operations & Profile Details Render
+function openGameArenaView() {
+  const gameOverlay = document.getElementById('gameContainerModal') || document.getElementById('fullGameView');
+  if (gameOverlay) {
+    gameOverlay.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+    
+    // Trigger game.js initialization
+    if (typeof window.initGame === 'function') {
+      window.initGame();
+    } else if (typeof window.startGame === 'function') {
+      window.startGame();
+    }
+  } else {
+    showErrorPopup('Game Arena is initializing. Please try again in a moment.');
+  }
+}
+
+function closeGameView() {
+  const gameOverlay = document.getElementById('gameContainerModal') || document.getElementById('fullGameView');
+  if (gameOverlay) {
+    gameOverlay.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
+
+  // Safely stop game loops from game.js
+  if (typeof window.stopGame === 'function') {
+    window.stopGame();
+  } else if (typeof window.resetGame === 'function') {
+    window.resetGame();
+  }
+
+  if (currentTab === 'leaderboard') renderLeaderboard();
+}
+
+// Callback invoked by game.js on game over
+function onGameOverCallback(finalScore) {
+  if (currentUser) {
+    if (!currentUser.bestScore || finalScore > currentUser.bestScore) {
+      currentUser.bestScore = finalScore;
+    }
+    
+    // Auto-credit reward if milestone reached
+    if (finalScore >= 1000) {
+      const reward = Math.floor(finalScore / 100);
+      currentUser.transactions = currentUser.transactions || [];
+      currentUser.transactions.unshift({
+        title: "Arena Match Cash Reward",
+        date: "Just Now",
+        amount: `+ ₹${reward}.00`
+      });
+    }
+  }
+}
+
+/* =========================================================
+   WALLET OPERATIONS & PROFILE DETAILS
+   ========================================================= */
 function openWalletModal() {
   const modal = document.getElementById('walletActivationModal');
   if (modal) {
@@ -156,8 +217,8 @@ function activateWallet(e) {
     ];
   }
 
-  alert('✅ Wallet Activated Successfully! Your UPI ID is linked.');
   closeWalletModal();
+  showErrorPopup('✅ Wallet Activated Successfully! Your UPI ID is linked.');
   if (currentTab === 'wallet') renderWalletView();
 }
 
@@ -166,22 +227,22 @@ function renderWalletView() {
   const txList = document.getElementById('txList');
   const profileContainer = document.getElementById('profileDetailsContainer');
 
-  // Render User Non-Editable Profile Details
+  // Profile Section Render
   if (profileContainer && currentUser) {
     profileContainer.innerHTML = `
       <div class="glass-card profile-info-card">
-        <div class="profile-card-title">👤 Account & Profile Info</div>
-        <div class="profile-details-grid">
-          <div class="profile-item"><span class="profile-key">Full Name</span><span class="profile-val">${currentUser.name}</span></div>
-          <div class="profile-item"><span class="profile-key">Mobile Number</span><span class="profile-val">+91 ${currentUser.mobile}</span></div>
-          <div class="profile-item"><span class="profile-key">Email ID</span><span class="profile-val">${currentUser.email}</span></div>
-          <div class="profile-item"><span class="profile-key">KYC / Wallet Status</span><span class="profile-val" style="color: ${currentUser.upiId ? '#10b981' : '#ef4444'};">${currentUser.upiId ? 'Verified' : 'Pending Activation'}</span></div>
+        <div class="profile-card-title" style="font-size:0.9rem; font-weight:800; margin-bottom:12px; color:var(--accent-cyan);">👤 Account & Profile Info</div>
+        <div class="profile-details-grid" style="display:flex; flex-direction:column; gap:8px; font-size:0.82rem; text-align:left;">
+          <div class="profile-item" style="display:flex; justify-between; border-bottom:1px solid var(--glass-border); padding-bottom:6px;"><span style="color:var(--text-muted);">Full Name</span><span style="font-weight:700;">${currentUser.name}</span></div>
+          <div class="profile-item" style="display:flex; justify-between; border-bottom:1px solid var(--glass-border); padding-bottom:6px;"><span style="color:var(--text-muted);">Mobile</span><span style="font-weight:700;">+91 ${currentUser.mobile}</span></div>
+          <div class="profile-item" style="display:flex; justify-between; border-bottom:1px solid var(--glass-border); padding-bottom:6px;"><span style="color:var(--text-muted);">Email ID</span><span style="font-weight:700;">${currentUser.email}</span></div>
+          <div class="profile-item" style="display:flex; justify-between;"><span style="color:var(--text-muted);">KYC / Status</span><span style="font-weight:800; color: ${currentUser.upiId ? 'var(--accent-green)' : 'var(--accent-red)'};">${currentUser.upiId ? 'Verified' : 'Pending Activation'}</span></div>
         </div>
       </div>
     `;
   }
 
-  // Render Wallet Details & Transactions
+  // Wallet Status Render
   if (currentUser && currentUser.upiId) {
     if (upiDisp) {
       upiDisp.innerText = currentUser.upiId;
@@ -191,7 +252,7 @@ function renderWalletView() {
     let txHtml = '';
     const txs = currentUser.transactions || [];
     if (txs.length === 0) {
-      txHtml = `<p style="font-size:0.8rem; color:#64748b; text-align:center; padding:12px;">No winning payouts yet. Play games to earn!</p>`;
+      txHtml = `<p style="font-size:0.8rem; color:var(--text-muted); text-align:center; padding:12px;">No winning payouts yet. Play games to earn!</p>`;
     } else {
       txs.forEach(tx => {
         txHtml += `
@@ -214,7 +275,7 @@ function renderWalletView() {
     if (txList) {
       txList.innerHTML = `
         <div style="text-align:center; padding:16px;">
-          <p style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Wallet is inactive. Link UPI ID to view payouts.</p>
+          <p style="font-size:0.8rem; color:var(--text-secondary); margin-bottom:10px;">Wallet is inactive. Link UPI ID to view payouts.</p>
           <button class="glass-btn primary-btn" onclick="openWalletModal()">Activate Wallet Now</button>
         </div>
       `;
@@ -222,7 +283,9 @@ function renderWalletView() {
   }
 }
 
-// Leaderboard Renders
+/* =========================================================
+   LEADERBOARD SYSTEM
+   ========================================================= */
 function switchLeaderboard(type) {
   currentLbType = type;
   const btnDaily = document.getElementById('btnDailyLb');
@@ -255,24 +318,26 @@ function renderLeaderboard() {
 
   if (container) container.innerHTML = listHtml;
 
-  const userScore = currentLbType === 'daily' ? 1420 : 4850;
-  const userRank = currentLbType === 'daily' ? 14 : 22;
+  const userScore = currentUser && currentUser.bestScore ? currentUser.bestScore : (currentLbType === 'daily' ? 1420 : 4850);
+  const userRank = currentUser && currentUser.bestScore ? 8 : (currentLbType === 'daily' ? 14 : 22);
 
   if (userRankCard) {
     userRankCard.innerHTML = `
       <div>
-        <span style="font-size:0.7rem; color:#64748b; font-weight:700;">YOUR LIVE RANK</span>
-        <div style="font-size:1rem; font-weight:800; color:#0f172a;">${currentUser ? currentUser.name : 'Guest User'}</div>
+        <span style="font-size:0.7rem; color:var(--text-muted); font-weight:700;">YOUR LIVE RANK</span>
+        <div style="font-size:1rem; font-weight:800; color:var(--text-primary);">${currentUser ? currentUser.name : 'Guest User'}</div>
       </div>
       <div style="text-align:right;">
-        <div style="font-size:1.1rem; font-weight:900; color:#d97706;">#${userRank}</div>
-        <div style="font-size:0.75rem; color:#0284c7; font-weight:800;">${userScore} pts</div>
+        <div style="font-size:1.1rem; font-weight:900; color:var(--accent-gold);">#${userRank}</div>
+        <div style="font-size:0.75rem; color:var(--accent-cyan); font-weight:800;">${userScore} pts</div>
       </div>
     `;
   }
 }
 
-// Render Notifications
+/* =========================================================
+   NOTIFICATIONS & ALERTS FEED
+   ========================================================= */
 function renderAlertsFeed() {
   const container = document.getElementById('alertsFeed');
   if (!container) return;
@@ -289,7 +354,9 @@ function renderAlertsFeed() {
   container.innerHTML = html;
 }
 
-// Auth Logic with Strict Validations
+/* =========================================================
+   AUTHENTICATION LOGIC
+   ========================================================= */
 function openAuthModal(tab) {
   switchTab(tab);
   const modal = document.getElementById('authModal');
@@ -327,7 +394,6 @@ function sendOtp() {
   }
   generatedOtp = '1234';
   
-  // Custom OTP Display Trigger
   const otpMsg = document.getElementById('otpPopupMessage');
   const otpModal = document.getElementById('otpDisplayModal');
   if (otpMsg) otpMsg.innerText = `Verification OTP sent to ${email}.\nYour One-Time Password is: 1234`;
@@ -347,7 +413,6 @@ function closeOtpModal() {
   }
 }
 
-// STRICT SIGNUP VALIDATION & DIRECT LOGIN
 function handleSignup(e) {
   if (e) e.preventDefault();
   
@@ -358,50 +423,25 @@ function handleSignup(e) {
   const password = document.getElementById('signupPassword').value;
   const confirmPassword = document.getElementById('signupConfirmPassword').value;
 
-  // 1. Name Check
-  if (!name || name.length < 2) {
-    return showErrorPopup('Please enter your full name.');
-  }
-
-  // 2. Mobile Check (10 digits)
-  if (!mobile || !/^\d{10}$/.test(mobile)) {
-    return showErrorPopup('Please enter a valid 10-digit mobile number.');
-  }
-
-  // 3. Email Check
-  if (!email || !email.includes('@') || !email.includes('.')) {
-    return showErrorPopup('Please enter a valid email address.');
-  }
-
-  // Check duplicate email
+  if (!name || name.length < 2) return showErrorPopup('Please enter your full name.');
+  if (!mobile || !/^\d{10}$/.test(mobile)) return showErrorPopup('Please enter a valid 10-digit mobile number.');
+  if (!email || !email.includes('@') || !email.includes('.')) return showErrorPopup('Please enter a valid email address.');
+  
   if (registeredUsers.some(u => u.email === email)) {
     return showErrorPopup('An account with this email already exists. Please Log In.');
   }
 
-  // 4. OTP Check
-  if (!otp || otp !== '1234') {
-    return showErrorPopup('Invalid OTP! Please click "Get OTP" and enter 1234.');
-  }
+  if (!otp || otp !== '1234') return showErrorPopup('Invalid OTP! Please click "Get OTP" and enter 1234.');
+  if (!password || password.length < 6) return showErrorPopup('Password must be at least 6 characters long.');
+  if (password !== confirmPassword) return showErrorPopup('Passwords do not match. Please verify and try again.');
 
-  // 5. Password Length
-  if (!password || password.length < 6) {
-    return showErrorPopup('Password must be at least 6 characters long.');
-  }
-
-  // 6. Confirm Password Match Check
-  if (password !== confirmPassword) {
-    return showErrorPopup('Passwords do not match. Please verify and try again.');
-  }
-
-  // Register & Direct Auto-Login
-  const newUser = { name, mobile, email, password, upiId: null, transactions: [] };
+  const newUser = { name, mobile, email, password, upiId: null, bestScore: 0, transactions: [] };
   registeredUsers.push(newUser);
   currentUser = newUser;
 
   closeAuthModal();
   setupUserSession();
 
-  // Trigger Welcome Card Popup
   const welcomeNameElem = document.getElementById('welcomeUserName');
   if (welcomeNameElem) welcomeNameElem.innerText = `Welcome, ${currentUser.name}!`;
   
@@ -420,7 +460,6 @@ function closeWelcomeModal() {
   }
 }
 
-// STRICT LOGIN VALIDATION
 function handleLogin(e) {
   if (e) e.preventDefault();
   
@@ -429,15 +468,11 @@ function handleLogin(e) {
   const email = emailInput ? emailInput.value.trim() : '';
   const password = passwordInput ? passwordInput.value : '';
 
-  if (!email || !password) {
-    return showErrorPopup('Please fill in both Email and Password fields.');
-  }
+  if (!email || !password) return showErrorPopup('Please fill in both Email and Password fields.');
 
   const found = registeredUsers.find(u => u.email === email && u.password === password);
   
-  if (!found) {
-    return showErrorPopup('Invalid Email or Password. Please check your credentials or Sign Up.');
-  }
+  if (!found) return showErrorPopup('Invalid Email or Password. Please check your credentials or Sign Up.');
 
   currentUser = found;
   closeAuthModal();
@@ -448,7 +483,7 @@ function setupUserSession() {
   const navAuthBtns = document.getElementById('navAuthBtns');
   if (navAuthBtns) {
     navAuthBtns.innerHTML = `
-      <div class="active-players-badge" style="display:flex; align-items:center; gap:6px; font-size:0.75rem; background:rgba(16,185,129,0.12); color:#10b981; padding:6px 12px; border-radius:20px; font-weight:800;">
+      <div class="active-players-badge" style="display:flex; align-items:center; gap:6px; font-size:0.75rem; background:rgba(16,185,129,0.12); color:#10b981; padding:6px 12px; border-radius:20px; font-weight:800; border:1px solid rgba(16,185,129,0.3);">
         <span class="active-dot" style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span>
         <span id="activePlayersCount">${activePlayersCount.toLocaleString()}</span> Active
       </div>
@@ -459,7 +494,9 @@ function setupUserSession() {
   switchTabContent('home');
 }
 
-// Info & Legal Modals Handlers
+/* =========================================================
+   INFORMATIONAL & LEGAL MODALS
+   ========================================================= */
 function openInfoModal() {
   const modal = document.getElementById('infoModal');
   if (modal) {
@@ -514,7 +551,6 @@ function closeLegalModal() {
   }
 }
 
-// Telegram Modal
 function openTelegramModal() {
   const modal = document.getElementById('telegramModal');
   if (modal) {
@@ -531,7 +567,6 @@ function closeTelegramModal() {
   }
 }
 
-// Error Popup
 function showErrorPopup(msg) {
   const msgElem = document.getElementById('popupMessage');
   const popup = document.getElementById('errorPopup');
@@ -552,10 +587,17 @@ function closePopup() {
   }
 }
 
-// Ticker Animation (GPU Accelerated)
+/* =========================================================
+   TICKER ANIMATION (GPU ACCELERATED)
+   ========================================================= */
 function initHardwareAcceleratedTicker() {
   const track = document.getElementById('tickerTrack');
   if (!track) return;
+  
+  if (activeTickerAnimationFrame) {
+    cancelAnimationFrame(activeTickerAnimationFrame);
+  }
+
   let content = '';
   indianNames.forEach(name => {
     content += `<div class="ticker-item">${name} <span class="gold-text">₹5000</span></div>`;
@@ -564,14 +606,16 @@ function initHardwareAcceleratedTicker() {
 
   let currentX = 0;
   let lastTime = performance.now();
+  
   function step(time) {
     const delta = (time - lastTime) / 1000;
     lastTime = time;
     currentX -= 80 * delta;
     if (Math.abs(currentX) >= track.scrollWidth / 2) currentX = 0;
     track.style.transform = `translate3d(${currentX.toFixed(2)}px, 0, 0)`;
-    requestAnimationFrame(step);
+    activeTickerAnimationFrame = requestAnimationFrame(step);
   }
-  requestAnimationFrame(step);
+  
+  activeTickerAnimationFrame = requestAnimationFrame(step);
 }
 
