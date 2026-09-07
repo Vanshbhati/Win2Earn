@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="apple-dark-theme no-scroll">
+<body class="royal-dark-theme no-scroll">
 
   <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen">
@@ -32,7 +32,7 @@
     </div>
   </div>
 
-  <!-- OTP Popup (Fix: Layered above Signup Modal) -->
+  <!-- OTP Popup -->
   <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
     <div class="popup-box glass-card otp-modal-card">
       <div class="otp-icon-glow">🔐</div>
@@ -81,7 +81,7 @@
       <div class="welcome-icon">🎉</div>
       <h2 id="welcomeUserName">Welcome!</h2>
       <p>Your account has been created successfully. Launching gaming arena...</p>
-      <button class="glass-btn action-btn" onclick="closeWelcomeModal()">LET'S PLAY 🚀</button>
+      <button class="glass-btn action-btn" onclick="handleWelcomePlay()">LET'S PLAY 🚀</button>
     </div>
   </div>
 
@@ -101,7 +101,7 @@
     </div>
   </div>
 
-  <!-- Legal Modal (Detailed Content) -->
+  <!-- Legal Modal -->
   <div id="legalModal" class="modal-overlay hidden">
     <div class="modal-card glass-card legal-modal-card">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
@@ -209,7 +209,7 @@
         </div>
       </section>
 
-      <!-- 10 Lakh Banner (Will automatically hide after Login/Signup via JS) -->
+      <!-- 10 Lakh Banner (Hides upon Login/Signup) -->
       <section id="megaBannerCard" class="mega-banner-card glass-card">
         <h2 class="mega-title-large">10 LAKH PRIZE POOL COMING SOON</h2>
         <p class="mega-desc">Prepare for the ultimate mega tournament with national leaderboard competition and zero entry fees.</p>
@@ -303,10 +303,10 @@
               <h3 class="game-title">Grand Monthly Championship</h3>
               <span class="tag-monthly">MONTHLY GRAND</span>
             </div>
-            <p class="premium-desc-text" style="font-size: 0.8rem; color: #94a3b8; margin: 8px 0; line-height: 1.4;">
+            <p class="premium-desc-text" style="font-size: 0.8rem; color: #a1a1aa; margin: 8px 0; line-height: 1.4;">
               <strong>50% of total website ad revenue</strong> generated every month will be divided equally among the <strong>Top 100 Leaderboard Users</strong>. Transparent proof of earnings will be published at the end of each month.
             </p>
-            <div class="win-label">Grand Prize: <span>50% Ad Share (Top 100 Winners)</span></div>
+            <div class="win-label">Grand Prize: <span>50% Ad Share Pool for Top 100 Winners</span></div>
             <button class="glass-btn game-play-btn" onclick="handleGameLaunch()">ENTER CHAMPIONSHIP</button>
           </div>
         </div>
@@ -411,3 +411,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
