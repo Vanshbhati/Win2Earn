@@ -36,15 +36,15 @@ const sampleAlerts = [
   }
 ];
 
-// Guaranteed Splash Screen Unlocking
+// Guaranteed Splash Screen Unlocking & Force Fail-Safe
 function dismissSplashScreen() {
-  const splash = document.getElementById('splashScreen');
+  const splash = document.getElementById('splashScreen') || document.querySelector('.splash-screen');
   if (splash) {
     splash.style.opacity = '0';
     splash.style.visibility = 'hidden';
     setTimeout(() => {
       splash.classList.add('hidden');
-      splash.style.display = 'none';
+      splash.style.setProperty('display', 'none', 'important');
       document.body.classList.remove('no-scroll');
     }, 400);
   } else {
@@ -55,10 +55,15 @@ function dismissSplashScreen() {
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('no-scroll');
   
-  // Unlock page after 1.8 seconds (Synchronized with loader animation)
-  setTimeout(dismissSplashScreen, 1800);
+  // Synchronized with loader animation (1.6s transition)
+  setTimeout(dismissSplashScreen, 1600);
 
   initHardwareAcceleratedTicker();
+});
+
+// Extra fail-safe in case of network lags or execution delays
+window.addEventListener('load', () => {
+  setTimeout(dismissSplashScreen, 1800);
 });
 
 // Counter Fluctuation
