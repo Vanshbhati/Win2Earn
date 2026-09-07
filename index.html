@@ -9,7 +9,6 @@
 </head>
 <body class="apple-dark-theme no-scroll">
 
-  <!-- Splash Screen (Full Screen Fit - 6 to 7 Seconds Locks) -->
   <div id="splashScreen" class="splash-screen">
     <div class="splash-content">
       <div class="splash-logo">
@@ -22,7 +21,6 @@
     </div>
   </div>
 
-  <!-- High-Priority Alert / Error Popup (z-index highest - Above all Modals) -->
   <div id="errorPopup" class="popup-overlay hidden high-priority-z">
     <div class="popup-box glass-card popup-animated">
       <div class="popup-icon">⚠️</div>
@@ -32,7 +30,6 @@
     </div>
   </div>
 
-  <!-- OTP Sent Popup -->
   <div id="otpDisplayModal" class="popup-overlay hidden">
     <div class="popup-box glass-card otp-modal-card">
       <div class="otp-icon-glow">🔐</div>
@@ -42,7 +39,6 @@
     </div>
   </div>
 
-  <!-- Compact Prize Pool Calculation Info Modal -->
   <div id="payoutInfoModal" class="modal-overlay hidden">
     <div class="modal-card glass-card info-modal-card">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
@@ -59,7 +55,6 @@
     </div>
   </div>
 
-  <!-- Game Arena View Modal (Loads immediately after auth or direct play click) -->
   <div id="gameScreenModal" class="modal-overlay hidden full-game-view">
     <div class="game-screen-header">
       <button class="back-btn" onclick="closeGameScreen()">➔ Exit Game</button>
@@ -75,7 +70,6 @@
     </div>
   </div>
 
-  <!-- Welcome Modal -->
   <div id="welcomeModal" class="modal-overlay hidden">
     <div class="modal-card glass-card welcome-card">
       <div class="welcome-icon">🎉</div>
@@ -85,7 +79,6 @@
     </div>
   </div>
 
-  <!-- Important Info Modal -->
   <div id="infoModal" class="modal-overlay hidden">
     <div class="modal-card glass-card info-modal-card">
       <button class="close-btn" onclick="closeInfoModal()">&times;</button>
@@ -101,20 +94,16 @@
     </div>
   </div>
 
-  <!-- Legal Modal (Privacy, Terms, Guidelines Dynamic Content) -->
   <div id="legalModal" class="modal-overlay hidden">
     <div class="modal-card glass-card legal-modal-card">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="legal-header">
         <h3 id="legalModalTitle">Legal Information</h3>
       </div>
-      <div class="legal-body" id="legalModalBody">
-        <!-- Content Injected via JS -->
-      </div>
+      <div class="legal-body" id="legalModalBody"></div>
     </div>
   </div>
 
-  <!-- Telegram Support Modal -->
   <div id="telegramModal" class="modal-overlay hidden">
     <div class="modal-card glass-card tg-modal-card">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
@@ -128,13 +117,10 @@
         <p class="tg-status-tag">🟢 Live Assistance Active</p>
         <p>If you face any issues regarding login, tournaments, payouts, or score updates, our official support team is available 24/7 on Telegram.</p>
       </div>
-      <a href="https://t.me" target="_blank" class="glass-btn tg-action-btn">
-        Contact Team on Telegram
-      </a>
+      <a href="https://t.me" target="_blank" class="glass-btn tg-action-btn">Contact Team on Telegram</a>
     </div>
   </div>
 
-  <!-- Wallet Activation Modal -->
   <div id="walletActivationModal" class="modal-overlay hidden">
     <div class="modal-card glass-card">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
@@ -157,7 +143,6 @@
     </div>
   </div>
 
-  <!-- Auth Modal (Login / Signup) -->
   <div id="authModal" class="modal-overlay hidden">
     <div class="modal-card glass-card">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
@@ -190,7 +175,6 @@
     </div>
   </div>
 
-  <!-- Fixed Top Navbar -->
   <header class="navbar glass-nav">
     <div class="logo-text">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
@@ -201,10 +185,7 @@
     </div>
   </header>
 
-  <!-- Main View Container -->
   <main class="main-content">
-
-    <!-- HOME TAB -->
     <div id="tab-home" class="tab-content">
       <section class="ticker-wrapper glass-card">
         <div class="ticker-badge">LAST WEEK WINNERS</div>
@@ -213,7 +194,6 @@
         </div>
       </section>
 
-      <!-- Mega Banner (Hidden on user login) -->
       <section id="megaBannerCard" class="mega-banner-card glass-card mega-glow">
         <h2 class="mega-title-large">10 LAKH PRIZE POOL COMING SOON</h2>
         <p class="mega-desc">Prepare for the ultimate mega tournament with national leaderboard competition and zero entry fees.</p>
@@ -224,7 +204,6 @@
         </div>
       </section>
 
-      <!-- Hero Tournament Card -->
       <section class="tournament-hero-card glass-card ultra-hero-glow">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> LIVE COMPETITIONS</span>
@@ -240,7 +219,6 @@
           <p class="pool-sub-note">Guaranteed rewards for Top 100 Leaderboard Winners!</p>
         </div>
 
-        <!-- Compact Prize Pool Info Button -->
         <button class="glass-btn info-btn-compact" onclick="openPayoutInfoModal()">
           ℹ️ How is Prize Pool Calculated?
         </button>
@@ -264,7 +242,6 @@
       </section>
     </div>
 
-    <!-- GAMES TAB -->
     <div id="tab-games" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Live Tournaments</h2>
@@ -294,7 +271,6 @@
       </div>
     </div>
 
-    <!-- LEADERBOARD TAB -->
     <div id="tab-leaderboard" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Global Leaderboards</h2>
@@ -310,7 +286,6 @@
       <div class="user-rank-card glass-card" id="userRankCard"></div>
     </div>
 
-    <!-- ALERTS TAB -->
     <div id="tab-alerts" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Activity & Alerts</h2>
@@ -319,7 +294,6 @@
       <div class="alerts-feed" id="alertsFeed"></div>
     </div>
 
-    <!-- WALLET TAB -->
     <div id="tab-wallet" class="tab-content hidden">
       <div class="section-title-box">
         <h2>My Payout Wallet</h2>
@@ -340,10 +314,8 @@
         <div id="txList" class="tx-list"></div>
       </div>
     </div>
-
   </main>
 
-  <!-- Footer -->
   <footer class="footer glass-card">
     <div class="footer-brand">
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
@@ -361,12 +333,10 @@
     </div>
   </footer>
 
-  <!-- Fixed / Locked Telegram Button (Right Side Lower Screen) -->
   <div class="floating-tg-btn-fixed" onclick="openTelegramModal()">
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Locked Bottom Navigation Bar (Non-scrollable) -->
   <nav class="bottom-nav glass-nav-fixed">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
