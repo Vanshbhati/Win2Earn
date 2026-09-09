@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Win2Earn - Premium Skill Gaming Platform</title>
   <link rel="stylesheet" href="style.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-<body class="royal-dark-theme no-scroll">
+<body class="no-scroll">
 
   <!-- Splash Screen -->
-  <div id="splashScreen" class="splash-screen">
+  <div id="splashScreen" class="splash-screen gpu-accelerated">
     <div class="splash-content">
       <div class="splash-logo">
         <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
@@ -24,7 +24,7 @@
 
   <!-- Error / Alert Popup -->
   <div id="errorPopup" class="popup-overlay hidden high-priority-z">
-    <div class="popup-box glass-card popup-animated">
+    <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠️</div>
       <h3 class="popup-title">Attention</h3>
       <p id="popupMessage">An error occurred.</p>
@@ -34,8 +34,8 @@
 
   <!-- OTP Popup -->
   <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
-    <div class="popup-box glass-card otp-modal-card">
-      <div class="otp-icon-glow">🔐</div>
+    <div class="popup-box glass-card otp-modal-card popup-animated gpu-accelerated">
+      <div class="popup-icon">🔐</div>
       <h3 class="popup-title">OTP Verification Code</h3>
       <p id="otpPopupMessage">Verification code generated successfully.</p>
       <button class="glass-btn action-btn popup-btn" onclick="closeOtpModal()">ENTER OTP NOW</button>
@@ -44,7 +44,7 @@
 
   <!-- Payout Info Modal -->
   <div id="payoutInfoModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card info-modal-card">
+    <div class="modal-card glass-card info-modal-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header">
         <span class="info-icon">💎</span>
@@ -60,7 +60,7 @@
   </div>
 
   <!-- FULL SCREEN DAILY TOURNAMENT GAME MODAL (FLAPPY HELICOPTER - HELI DASH HD) -->
-  <div id="gameScreenModal" class="modal-overlay hidden full-game-view">
+  <div id="gameScreenModal" class="modal-overlay hidden full-game-view gpu-accelerated">
     <div class="game-screen-header">
       <button class="back-btn" onclick="closeGameScreen()">➔ Exit Arena</button>
       <span class="game-header-title">🚁 Heli Dash - Daily Tournament</span>
@@ -80,15 +80,15 @@
       <canvas id="heliCanvas" style="width: 100%; height: 100%; max-width: 480px; display: block; background: #70c5ce;"></canvas>
 
       <!-- Overlay UI Before Game Start -->
-      <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); color:#fff; text-align:center; padding:20px; z-index:20;">
+      <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); color:#fff; text-align:center; padding:20px; z-index:20;">
         <div style="font-size:3.8rem; margin-bottom:10px; filter:drop-shadow(0 4px 12px rgba(0,113,227,0.4));">🚁</div>
         <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:8px; letter-spacing:-0.02em;">HELI DASH HD</h2>
         <p style="font-size:0.85rem; color:#e5e5ea; margin-bottom:24px; max-width:280px; line-height:1.45;">Tap screen or press Spacebar to control altitude. Navigate through metallic obstacle towers!</p>
-        <button class="glass-btn action-btn glow-btn" style="padding: 16px 36px; font-size:1.05rem; border-radius:16px;" onclick="startHeliGame()">START FLYING 🚀</button>
+        <button class="glass-btn action-btn" style="padding: 16px 36px; font-size:1.05rem; border-radius:16px;" onclick="startHeliGame()">START FLYING 🚀</button>
       </div>
 
       <!-- Game Over Overlay -->
-      <div id="gameOverOverlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); color:#fff; text-align:center; padding:20px; z-index:20;">
+      <div id="gameOverOverlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); color:#fff; text-align:center; padding:20px; z-index:20;">
         <div style="font-size:3.2rem; margin-bottom:8px;">💥</div>
         <h2 style="font-size:1.6rem; font-weight:900; color:#ff3b30; margin-bottom:6px;">HELICOPTER CRASHED!</h2>
         
@@ -110,17 +110,17 @@
 
   <!-- Welcome Modal -->
   <div id="welcomeModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card welcome-card">
-      <div class="welcome-icon">🎉</div>
-      <h2 id="welcomeUserName">Welcome!</h2>
-      <p>Your account has been created successfully. Launching gaming arena...</p>
+    <div class="modal-card glass-card welcome-card gpu-accelerated">
+      <div class="popup-icon">🎉</div>
+      <h2 id="welcomeUserName" style="font-weight: 800; margin-bottom: 6px;">Welcome!</h2>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 16px;">Your account has been created successfully. Launching gaming arena...</p>
       <button class="glass-btn action-btn" onclick="handleWelcomePlay()">LET'S PLAY 🚀</button>
     </div>
   </div>
 
   <!-- Info Modal -->
   <div id="infoModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card info-modal-card">
+    <div class="modal-card glass-card info-modal-card gpu-accelerated">
       <button class="close-btn" onclick="closeInfoModal()">&times;</button>
       <div class="info-header">
         <span class="info-icon">💡</span>
@@ -136,7 +136,7 @@
 
   <!-- Legal Modal -->
   <div id="legalModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card legal-modal-card">
+    <div class="modal-card glass-card legal-modal-card gpu-accelerated">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="legal-header">
         <h3 id="legalModalTitle">Legal Information</h3>
@@ -149,7 +149,7 @@
 
   <!-- Telegram Support Modal -->
   <div id="telegramModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card tg-modal-card">
+    <div class="modal-card glass-card tg-modal-card gpu-accelerated">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
       <div class="tg-header">
         <div class="tg-icon-circle">
@@ -167,12 +167,12 @@
 
   <!-- Wallet Activation Modal -->
   <div id="walletActivationModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card wallet-popup-card">
+    <div class="modal-card glass-card wallet-popup-card gpu-accelerated">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
       <div class="auth-form">
-        <div class="notice-header">
-          <span class="notice-icon">💳</span>
-          <h3>Activate Payout Wallet</h3>
+        <div class="info-header" style="margin-bottom: 8px;">
+          <span class="info-icon">💳</span>
+          <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary);">Activate Payout Wallet</h3>
         </div>
         <p class="wallet-modal-desc">
           Enter your official UPI ID (GPay / PhonePe / Paytm / BHIM) to receive tournament winnings directly.
@@ -181,7 +181,7 @@
           ⚠️ <strong>Note:</strong> UPI ID cannot be changed once linked.
         </div>
         <form onsubmit="activateWallet(event)">
-          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. username@upi" required>
+          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. username@upi" required style="margin-bottom: 12px;">
           <button type="submit" class="glass-btn action-btn">LINK UPI & ACTIVATE</button>
         </form>
       </div>
@@ -190,7 +190,7 @@
 
   <!-- Auth Modal -->
   <div id="authModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card">
+    <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
       <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
@@ -234,11 +234,12 @@
 
   <!-- Main Content -->
   <main class="main-content">
+    <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       <section class="ticker-wrapper glass-card">
         <div class="ticker-badge">RECENT WINNERS</div>
         <div class="ticker-viewport">
-          <div class="ticker-track" id="tickerTrack"></div>
+          <div class="ticker-track gpu-accelerated" id="tickerTrack"></div>
         </div>
       </section>
 
@@ -262,9 +263,9 @@
           <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
         </h1>
 
-        <div class="prize-box total-prize-box premium-glass-prize">
+        <div class="total-prize-box premium-glass-prize">
           <span class="prize-label">FEATURED MONTHLY GRAND POOL</span>
-          <div class="prize-amount gold-text">LAKH + PRIZE POOL</div>
+          <div class="prize-amount gold-text">50% AD SHARE POOL</div>
           <p class="pool-sub-note">Guaranteed rewards for Top 100 Leaderboard Winners!</p>
         </div>
 
@@ -275,7 +276,7 @@
         <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
         <button class="glass-btn hero-cta-btn" onclick="handleGameLaunch()">
-          PLAY NOW <span class="arrow-icon">➔</span>
+          PLAY NOW ➔
         </button>
       </section>
 
@@ -319,7 +320,7 @@
         </div>
 
         <!-- 2. Monthly Premium Tournament -->
-        <div class="featured-card glass-card monthly-premium-card" style="margin-top: 18px;">
+        <div class="featured-card glass-card monthly-premium-card">
           <div class="card-header-bar premium-header-bar">
             <span>👑 Monthly Premium Tournament</span>
           </div>
@@ -332,7 +333,7 @@
               <h3 class="game-title">Grand Monthly Championship</h3>
               <span class="tag-monthly">MONTHLY GRAND</span>
             </div>
-            <p class="premium-desc-text" style="font-size: 0.8rem; color: #a1a1aa; margin: 8px 0; line-height: 1.4;">
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">
               <strong>50% of total website ad revenue</strong> generated every month will be divided equally among the <strong>Top 100 Leaderboard Users</strong>. Transparent proof of earnings will be published at the end of each month.
             </p>
             <div class="win-label">Grand Prize: <span>50% Ad Share Pool for Top 100 Winners</span></div>
@@ -377,7 +378,7 @@
       <div id="profileDetailsContainer"></div>
 
       <div class="wallet-card glass-card">
-        <div class="wallet-upi-status">
+        <div>
           <span class="upi-label">LINKED UPI ID</span>
           <div class="upi-value-display" id="walletUpiDisplay">Not Activated</div>
         </div>
@@ -392,7 +393,7 @@
 
   <!-- Footer -->
   <footer class="footer glass-card">
-    <div class="footer-brand">
+    <div>
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
       <p class="footer-tagline">Skill based gaming</p>
     </div>
@@ -409,12 +410,12 @@
   </footer>
 
   <!-- Floating Telegram Support Button -->
-  <div class="floating-tg-btn-fixed" onclick="openTelegramModal()">
+  <div class="floating-tg-btn-fixed gpu-accelerated" onclick="openTelegramModal()">
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
   <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav glass-nav-fixed">
+  <nav class="bottom-nav glass-nav-fixed gpu-accelerated">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       <span>Home</span>
