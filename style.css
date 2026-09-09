@@ -99,11 +99,15 @@ body.no-scroll {
 
 .glass-nav {
   background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--glass-border);
 }
 
 .glass-nav-fixed {
   background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--glass-border);
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
 }
@@ -180,6 +184,8 @@ body.no-scroll {
   height: 100vh;
   height: 100dvh;
   background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex; 
   justify-content: center; 
   align-items: center;
@@ -302,6 +308,12 @@ body.no-scroll {
 .switch-text a { color: var(--accent-cyan); text-decoration: none; font-weight: 700; }
 
 .full-game-view {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
   padding: 0 !important;
   background: #f5f5f7 !important;
   z-index: 999999 !important;
@@ -351,9 +363,14 @@ body.no-scroll {
 .ticker-wrapper { display: flex; align-items: center; overflow: hidden; margin-bottom: 16px; padding: 10px 14px; background: #ffffff; border-radius: 14px; border: 1px solid var(--glass-border); }
 .ticker-badge { background: rgba(212, 160, 23, 0.12); color: var(--accent-gold-dark); font-weight: 800; font-size: 0.65rem; padding: 5px 10px; border-radius: 8px; white-space: nowrap; margin-right: 12px; }
 .ticker-viewport { flex: 1; overflow: hidden; position: relative; white-space: nowrap; }
-.ticker-track { display: inline-block; white-space: nowrap; }
+.ticker-track { display: inline-block; white-space: nowrap; animation: tickerScroll 25s linear infinite; }
 .ticker-item { display: inline-block; font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; margin-right: 28px; }
 .ticker-item span { color: var(--accent-gold-dark); font-weight: 800; }
+
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
 
 .mega-banner-card { padding: 22px 18px; text-align: center; margin-bottom: 16px; background: #ffffff; border: 1px solid var(--glass-border); }
 .mega-title-large { font-size: 1.15rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 8px; letter-spacing: -0.01em; }
@@ -364,7 +381,14 @@ body.no-scroll {
 .tournament-hero-card { padding: 24px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
 .status-badge-wrapper { margin-bottom: 14px; }
 .live-status-pill { background: rgba(52, 199, 89, 0.12); color: var(--accent-green); font-size: 0.68rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; }
-.live-dot { width: 7px; height: 7px; background-color: var(--accent-green); border-radius: 50%; }
+.live-dot { width: 7px; height: 7px; background-color: var(--accent-green); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
 .hero-logo-text { font-size: 2.2rem; margin-bottom: 16px; }
 
 .premium-glass-prize { background: #fafafa; border: 1px solid var(--glass-border-gold); }
