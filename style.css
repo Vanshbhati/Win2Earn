@@ -88,8 +88,15 @@ body.no-scroll {
   font-weight: 800;
 }
 
-.glow-text { text-shadow: none; }
-.logo-text { font-size: 1.35rem; letter-spacing: -0.02em; font-weight: 800; }
+.glow-text { 
+  text-shadow: none; 
+}
+
+.logo-text { 
+  font-size: 1.35rem; 
+  letter-spacing: -0.02em; 
+  font-weight: 800; 
+}
 
 /* Light Apple Card & Components */
 .glass-card {
@@ -229,7 +236,13 @@ body.no-scroll {
   background: #ffffff;
 }
 
-.info-modal-card { text-align: left; max-height: 85vh; max-height: 85dvh; overflow-y: auto; }
+.info-modal-card { 
+  text-align: left; 
+  max-height: 85vh; 
+  max-height: 85dvh; 
+  overflow-y: auto; 
+}
+
 .info-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
 .info-icon { font-size: 1.5rem; }
 .info-header h3 { font-size: 1.1rem; font-weight: 800; color: var(--text-primary); }
@@ -303,7 +316,17 @@ body.no-scroll {
 .otp-row { display: flex; gap: 8px; }
 .otp-btn { background: rgba(0, 113, 227, 0.1); color: var(--accent-cyan); white-space: nowrap; }
 
-.close-btn { position: absolute; top: 14px; right: 16px; background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; }
+.close-btn { 
+  position: absolute; 
+  top: 14px; 
+  right: 16px; 
+  background: none; 
+  border: none; 
+  color: var(--text-muted); 
+  font-size: 1.5rem; 
+  cursor: pointer; 
+}
+
 .auth-form { display: flex; flex-direction: column; gap: 12px; text-align: left; }
 .auth-form h2 { font-size: 1.3rem; font-weight: 800; color: var(--text-primary); }
 .switch-text { font-size: 0.82rem; text-align: center; color: var(--text-secondary); margin-top: 4px; }
