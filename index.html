@@ -59,18 +59,42 @@
     </div>
   </div>
 
-  <!-- Game Screen Modal -->
+  <!-- FULL SCREEN DAILY TOURNAMENT GAME MODAL (FLAPPY HELICOPTER - HELI DASH) -->
   <div id="gameScreenModal" class="modal-overlay hidden full-game-view">
     <div class="game-screen-header">
-      <button class="back-btn" onclick="closeGameScreen()">➔ Exit Game</button>
-      <span class="game-header-title">Paper Glide Arena</span>
+      <button class="back-btn" onclick="closeGameScreen()">➔ Exit Arena</button>
+      <span class="game-header-title">🚁 Heli Dash - Daily Tournament</span>
     </div>
-    <div class="game-screen-body">
-      <div class="game-placeholder-card glass-card">
-        <div class="paper-plane-hero">✈️</div>
-        <h2>Arena Loaded & Ready!</h2>
-        <p>Get ready to fly, smash high scores, and climb the rank list!</p>
-        <button class="glass-btn action-btn glow-btn" onclick="alert('Starting match...')">START MATCH</button>
+    
+    <div class="game-screen-body" style="padding:0; position:relative; width:100%; height:calc(100vh - 60px); display:flex; justify-content:center; align-items:center; background:#000;">
+      <!-- Dynamic Responsive Game Canvas -->
+      <canvas id="heliCanvas" style="width: 100%; height: 100%; max-width: 480px; display: block; background: #70c5ce;"></canvas>
+
+      <!-- Overlay UI Before Game Start -->
+      <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.6); color:#fff; text-align:center; padding:20px; z-index:10;">
+        <div style="font-size:3.5rem; margin-bottom:10px;">🚁</div>
+        <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:8px;">HELI DASH</h2>
+        <p style="font-size:0.85rem; color:#d1d5db; margin-bottom:20px; max-width:280px; line-height:1.4;">Tap/Click screen or press Spacebar to fly upward. Avoid the green obstacles!</p>
+        <button class="glass-btn action-btn glow-btn" style="padding: 14px 32px; font-size:1.05rem;" onclick="startHeliGame()">TAP TO FLY 🚀</button>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div id="gameOverOverlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.85); color:#fff; text-align:center; padding:20px; z-index:10;">
+        <div style="font-size:3rem; margin-bottom:10px;">💥</div>
+        <h2 style="font-size:1.6rem; font-weight:800; color:#ff3b30; margin-bottom:6px;">HELICOPTER CRASHED!</h2>
+        
+        <div style="background:rgba(255,255,255,0.1); padding:16px 24px; border-radius:16px; margin:16px 0; border:1px solid rgba(255,255,255,0.2); width:240px;">
+          <div style="font-size:0.8rem; color:#aaa; margin-bottom:4px;">RUN SCORE</div>
+          <div id="currentRunScore" style="font-size:2rem; font-weight:900; color:#fff;">0</div>
+          
+          <hr style="border:0; border-top:1px solid rgba(255,255,255,0.15); margin:10px 0;">
+          
+          <div style="font-size:0.75rem; color:#d4a017; font-weight:700;">DAILY TOTAL COMBINED</div>
+          <div id="dailyTotalScoreDisplay" style="font-size:1.3rem; font-weight:800; color:#d4a017;">0</div>
+        </div>
+
+        <button class="glass-btn primary-btn" style="padding: 12px 28px; margin-bottom:10px; width:240px;" onclick="startHeliGame()">RETRY / FLY AGAIN 🔄</button>
+        <button class="glass-btn secondary-btn" style="padding: 10px 28px; width:240px; background:rgba(255,255,255,0.2); color:#fff;" onclick="closeGameScreen()">EXIT TO HOME</button>
       </div>
     </div>
   </div>
@@ -277,7 +301,7 @@
           </div>
           <div class="card-details">
             <div class="details-top">
-              <h3 class="game-title">Paper Glide</h3>
+              <h3 class="game-title">Heli Dash</h3>
               <span class="tag-daily">DAILY TOURNAMENT</span>
             </div>
             <div class="win-label">Rewards: <span>Top 10 winners receive ₹100 each daily!</span></div>
