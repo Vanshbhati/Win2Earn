@@ -364,7 +364,8 @@ function initHeliGameListeners() {
   });
 
   window.addEventListener("keydown", (e) => {
-    if (e.code === "Space" && !document.getElementById("gameScreenModal").classList.contains("hidden")) {
+    const gameModal = document.getElementById("gameScreenModal");
+    if (e.code === "Space" && gameModal && !gameModal.classList.contains("hidden")) {
       e.preventDefault();
       triggerHeliJump();
     }
@@ -383,8 +384,8 @@ function resetHeliGameUI() {
   
   const canvas = heliGame.canvas;
   if (!canvas) return;
-  canvas.width = canvas.parentElement.clientWidth || 360;
-  canvas.height = canvas.parentElement.clientHeight || 540;
+  canvas.width = canvas.parentElement ? canvas.parentElement.clientWidth : 360;
+  canvas.height = canvas.parentElement ? canvas.parentElement.clientHeight : 540;
 
   heliGame.y = canvas.height / 2;
   heliGame.velocity = 0;
@@ -418,8 +419,8 @@ function startHeliGame() {
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
 
   const canvas = heliGame.canvas;
-  canvas.width = canvas.parentElement.clientWidth || 360;
-  canvas.height = canvas.parentElement.clientHeight || 540;
+  canvas.width = canvas.parentElement ? canvas.parentElement.clientWidth : 360;
+  canvas.height = canvas.parentElement ? canvas.parentElement.clientHeight : 540;
 
   heliGame.y = canvas.height / 2;
   heliGame.velocity = 0;
@@ -543,7 +544,7 @@ function renderHeliGameCanvas() {
   ctx.fillStyle = "#ffffff";
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 4;
-  ctx.font = "800 28px 'Plus Jakarta Sans', sans-serif";
+  ctx.font = "800 28px sans-serif";
   ctx.strokeText(heliGame.currentRunScore, canvas.width / 2 - 12, 50);
   ctx.fillText(heliGame.currentRunScore, canvas.width / 2 - 12, 50);
 }
