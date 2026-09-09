@@ -65,7 +65,9 @@ body.no-scroll {
 .ticker-track,
 .bottom-nav,
 .floating-tg-btn-fixed,
-.splash-screen {
+.splash-screen,
+.game-canvas-container,
+#heliCanvas {
   transform: translateZ(0);
   will-change: transform;
 }
@@ -307,6 +309,7 @@ body.no-scroll {
 .switch-text { font-size: 0.82rem; text-align: center; color: var(--text-secondary); margin-top: 4px; }
 .switch-text a { color: var(--accent-cyan); text-decoration: none; font-weight: 700; }
 
+/* Full Screen Game Container */
 .full-game-view {
   position: fixed;
   top: 0;
@@ -329,6 +332,7 @@ body.no-scroll {
   justify-content: space-between;
   background: #ffffff;
   border-bottom: 1px solid var(--glass-border);
+  z-index: 10;
 }
 
 .back-btn {
@@ -349,7 +353,85 @@ body.no-scroll {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  background: #2ec1cc;
+}
+
+/* Dynamic Game Canvas & Canvas Stage */
+.game-canvas-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#heliCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: #2ec1cc;
+  touch-action: manipulation;
+}
+
+/* Game Start & Game Over Overlays */
+.game-overlay-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 88%;
+  max-width: 320px;
+  padding: 24px 20px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+  z-index: 20;
+}
+
+.game-overlay-title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.game-overlay-sub {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  line-height: 1.4;
+}
+
+.game-score-badge-box {
+  background: #f2f2f7;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 12px;
+  margin-bottom: 18px;
+}
+
+.game-score-number {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--accent-cyan);
+}
+
+.game-score-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 800;
+  margin-top: 2px;
 }
 
 .game-placeholder-card { padding: 30px 20px; text-align: center; width: 100%; max-width: 360px; }
