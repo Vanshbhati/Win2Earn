@@ -66,7 +66,7 @@
       <span class="game-header-title">🚁 Heli Dash - Daily Tournament</span>
     </div>
     
-    <div class="game-screen-body" style="padding:0; position:relative; width:100%; height:calc(100vh - 60px); display:flex; justify-content:center; align-items:center; background:#000;">
+    <div class="game-screen-body">
       
       <!-- Live Dynamic Score Board (Top Right Corner) -->
       <div id="gameHudContainer" class="game-hud-overlay" style="position:absolute; top:16px; right:16px; z-index:15; pointer-events:none; display:none;">
@@ -76,8 +76,10 @@
         </div>
       </div>
 
-      <!-- Dynamic Responsive Game Canvas -->
-      <canvas id="heliCanvas" style="width: 100%; height: 100%; max-width: 480px; display: block; background: #70c5ce;"></canvas>
+      <!-- Dynamic Responsive Game Canvas Stage -->
+      <div class="game-canvas-container">
+        <canvas id="heliCanvas"></canvas>
+      </div>
 
       <!-- Overlay UI Before Game Start -->
       <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); color:#fff; text-align:center; padding:20px; z-index:20;">
