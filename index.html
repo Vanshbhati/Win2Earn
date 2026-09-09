@@ -59,7 +59,7 @@
     </div>
   </div>
 
-  <!-- FULL SCREEN DAILY TOURNAMENT GAME MODAL (FLAPPY HELICOPTER - HELI DASH) -->
+  <!-- FULL SCREEN DAILY TOURNAMENT GAME MODAL (FLAPPY HELICOPTER - HELI DASH HD) -->
   <div id="gameScreenModal" class="modal-overlay hidden full-game-view">
     <div class="game-screen-header">
       <button class="back-btn" onclick="closeGameScreen()">➔ Exit Arena</button>
@@ -67,34 +67,43 @@
     </div>
     
     <div class="game-screen-body" style="padding:0; position:relative; width:100%; height:calc(100vh - 60px); display:flex; justify-content:center; align-items:center; background:#000;">
+      
+      <!-- Live Dynamic Score Board (Top Right Corner) -->
+      <div id="gameHudContainer" class="game-hud-overlay" style="position:absolute; top:16px; right:16px; z-index:15; pointer-events:none; display:none;">
+        <div class="hud-score-badge" style="background:rgba(255, 255, 255, 0.92); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(0,0,0,0.1); padding:8px 18px; border-radius:30px; box-shadow:0 6px 20px rgba(0,0,0,0.12); display:flex; align-items:center; gap:8px;">
+          <span style="font-size:0.7rem; font-weight:800; color:#86868b; letter-spacing:0.05em;">SCORE</span>
+          <span id="liveScoreText" style="font-size:1.4rem; font-weight:900; color:#0071e3; font-family:'Plus Jakarta Sans', sans-serif; transition:transform 0.1s ease;">0</span>
+        </div>
+      </div>
+
       <!-- Dynamic Responsive Game Canvas -->
       <canvas id="heliCanvas" style="width: 100%; height: 100%; max-width: 480px; display: block; background: #70c5ce;"></canvas>
 
       <!-- Overlay UI Before Game Start -->
-      <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.6); color:#fff; text-align:center; padding:20px; z-index:10;">
-        <div style="font-size:3.5rem; margin-bottom:10px;">🚁</div>
-        <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:8px;">HELI DASH</h2>
-        <p style="font-size:0.85rem; color:#d1d5db; margin-bottom:20px; max-width:280px; line-height:1.4;">Tap/Click screen or press Spacebar to fly upward. Avoid the green obstacles!</p>
-        <button class="glass-btn action-btn glow-btn" style="padding: 14px 32px; font-size:1.05rem;" onclick="startHeliGame()">TAP TO FLY 🚀</button>
+      <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px); color:#fff; text-align:center; padding:20px; z-index:20;">
+        <div style="font-size:3.8rem; margin-bottom:10px; filter:drop-shadow(0 4px 12px rgba(0,113,227,0.4));">🚁</div>
+        <h2 style="font-size:1.8rem; font-weight:900; margin-bottom:8px; letter-spacing:-0.02em;">HELI DASH HD</h2>
+        <p style="font-size:0.85rem; color:#e5e5ea; margin-bottom:24px; max-width:280px; line-height:1.45;">Tap screen or press Spacebar to control altitude. Navigate through metallic obstacle towers!</p>
+        <button class="glass-btn action-btn glow-btn" style="padding: 16px 36px; font-size:1.05rem; border-radius:16px;" onclick="startHeliGame()">START FLYING 🚀</button>
       </div>
 
       <!-- Game Over Overlay -->
-      <div id="gameOverOverlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.85); color:#fff; text-align:center; padding:20px; z-index:10;">
-        <div style="font-size:3rem; margin-bottom:10px;">💥</div>
-        <h2 style="font-size:1.6rem; font-weight:800; color:#ff3b30; margin-bottom:6px;">HELICOPTER CRASHED!</h2>
+      <div id="gameOverOverlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.85); backdrop-filter:blur(8px); color:#fff; text-align:center; padding:20px; z-index:20;">
+        <div style="font-size:3.2rem; margin-bottom:8px;">💥</div>
+        <h2 style="font-size:1.6rem; font-weight:900; color:#ff3b30; margin-bottom:6px;">HELICOPTER CRASHED!</h2>
         
-        <div style="background:rgba(255,255,255,0.1); padding:16px 24px; border-radius:16px; margin:16px 0; border:1px solid rgba(255,255,255,0.2); width:240px;">
-          <div style="font-size:0.8rem; color:#aaa; margin-bottom:4px;">RUN SCORE</div>
-          <div id="currentRunScore" style="font-size:2rem; font-weight:900; color:#fff;">0</div>
+        <div style="background:rgba(255,255,255,0.08); padding:18px 24px; border-radius:20px; margin:18px 0; border:1px solid rgba(255,255,255,0.15); width:250px; box-shadow:0 8px 32px rgba(0,0,0,0.3);">
+          <div style="font-size:0.75rem; color:#a1a1aa; font-weight:700; letter-spacing:0.05em; margin-bottom:4px;">MATCH SCORE</div>
+          <div id="currentRunScore" style="font-size:2.4rem; font-weight:900; color:#ffffff;">0</div>
           
-          <hr style="border:0; border-top:1px solid rgba(255,255,255,0.15); margin:10px 0;">
+          <hr style="border:0; border-top:1px solid rgba(255,255,255,0.12); margin:12px 0;">
           
-          <div style="font-size:0.75rem; color:#d4a017; font-weight:700;">DAILY TOTAL COMBINED</div>
-          <div id="dailyTotalScoreDisplay" style="font-size:1.3rem; font-weight:800; color:#d4a017;">0</div>
+          <div style="font-size:0.72rem; color:#d4a017; font-weight:800; letter-spacing:0.05em;">DAILY COMBINED TOTAL</div>
+          <div id="dailyTotalScoreDisplay" style="font-size:1.4rem; font-weight:900; color:#d4a017;">0</div>
         </div>
 
-        <button class="glass-btn primary-btn" style="padding: 12px 28px; margin-bottom:10px; width:240px;" onclick="startHeliGame()">RETRY / FLY AGAIN 🔄</button>
-        <button class="glass-btn secondary-btn" style="padding: 10px 28px; width:240px; background:rgba(255,255,255,0.2); color:#fff;" onclick="closeGameScreen()">EXIT TO HOME</button>
+        <button class="glass-btn primary-btn" style="padding: 14px 28px; margin-bottom:12px; width:250px; border-radius:14px; font-size:0.95rem;" onclick="startHeliGame()">RETRY / FLY AGAIN 🔄</button>
+        <button class="glass-btn secondary-btn" style="padding: 12px 28px; width:250px; background:rgba(255,255,255,0.15); color:#fff; border-radius:14px; font-size:0.9rem;" onclick="closeGameScreen()">EXIT TO ARENA</button>
       </div>
     </div>
   </div>
