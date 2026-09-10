@@ -362,14 +362,24 @@ body.no-scroll {
   background: #f2f2f7;
   border: 1px solid var(--glass-border);
   color: var(--text-primary);
-  padding: 8px 14px;
-  border-radius: 10px;
+  padding: 6px 14px;
+  border-radius: 20px;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
-.game-header-title { font-size: 0.95rem; font-weight: 800; color: var(--accent-cyan); }
+.back-btn:active {
+  background: #e5e5ea;
+  transform: scale(0.95);
+}
+
+.game-header-title { 
+  font-size: 0.95rem; 
+  font-weight: 800; 
+  color: var(--accent-cyan); 
+}
 
 .game-screen-body {
   flex: 1;
@@ -468,14 +478,9 @@ body.no-scroll {
 .ticker-wrapper { display: flex; align-items: center; overflow: hidden; margin-bottom: 16px; padding: 10px 14px; background: #ffffff; border-radius: 14px; border: 1px solid var(--glass-border); }
 .ticker-badge { background: rgba(212, 160, 23, 0.12); color: var(--accent-gold-dark); font-weight: 800; font-size: 0.65rem; padding: 5px 10px; border-radius: 8px; white-space: nowrap; margin-right: 12px; }
 .ticker-viewport { flex: 1; overflow: hidden; position: relative; white-space: nowrap; }
-.ticker-track { display: inline-block; white-space: nowrap; animation: tickerScroll 25s linear infinite; }
+.ticker-track { display: inline-block; white-space: nowrap; }
 .ticker-item { display: inline-block; font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; margin-right: 28px; }
 .ticker-item span { color: var(--accent-gold-dark); font-weight: 800; }
-
-@keyframes tickerScroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
 
 .mega-banner-card { padding: 22px 18px; text-align: center; margin-bottom: 16px; background: #ffffff; border: 1px solid var(--glass-border); }
 .mega-title-large { font-size: 1.15rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 8px; letter-spacing: -0.01em; }
@@ -680,4 +685,3 @@ body.no-scroll {
   opacity: 0 !important; 
   pointer-events: none !important;
 }
-
