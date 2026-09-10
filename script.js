@@ -1,1741 +1,379 @@
-// ==========================================================================
-// STATE MANAGEMENT & DATA
-// ==========================================================================
-const appState = {
+/* ==========================================================================
+   WIN2EARN - FULL PLATFORM ENGINE & OPTIMIZED HELI DASH GAME
+   ========================================================================== */
+
+// --- Global App State ---
+const AppState = {
   currentUser: null,
   activeTab: 'home',
-  leaderboardType: 'daily',
+  activeLbType: 'daily', // 'daily' or 'weekly'
   generatedOtp: null,
-  dailyScore: 0,
-  monthlyScore: 0,
-  currentRunScore: 0,
-  activeGameType: 'daily' // 'daily' or 'monthly'
+  activeTournamentMode: 'daily', // 'daily' or 'monthly'
+  tickerData: [
+    { name: "Rahul S.", amount: "₹100" },
+    { name: "Aman K.", amount: "₹100" },
+    { name: "Priya M.", amount: "₹100" },
+    { name: "Vikram R.", amount: "₹100" },
+    { name: "Sneha P.", amount: "₹100" },
+    { name: "Rohan V.", amount: "₹100" }
+  ],
+  dummyLeaderboard: [
+    { rank: 1, name: "Arjun Verma", score: 4820 },
+    { rank: 2, name: "Karan Sharma", score: 4210 },
+    { rank: 3, name: "Neha Gupta", score: 3950 },
+    { rank: 4, name: "Rohan Mehta", score: 3600 },
+    { rank: 5, name: "Suresh Kumar", score: 3100 },
+    { rank: 6, name: "Pooja Singh", score: 2850 },
+    { rank: 7, name: "Amit Patel", score: 2400 },
+    { rank: 8, name: "Divya Joshi", score: 2100 },
+    { rank: 9, name: "Manish Kumar", score: 1850 },
+    { rank: 10, name: "Sanjay Reddy", score: 1500 }
+  ],
+  userScores: {
+    dailyTotal: 0,
+    monthlyTotal: 0,
+    dailyHigh: 0,
+    monthlyHigh: 0
+  }
 };
 
-// 50 Real Indian Names with ₹5000 Winnings
-const recentWinnersData = [
-  { name: "Rahul Sharma", amount: "₹5000" },
-  { name: "Priya Verma", amount: "₹5000" },
-  { name: "Amit Patel", amount: "₹5000" },
-  { name: "Sneha Gupta", amount: "₹5000" },
-  { name: "Vikram Singh", amount: "₹5000" },
-  { name: "Ananya Roy", amount: "₹5000" },
-  { name: "Rohan Mehta", amount: "₹5000" },
-  { name: "Pooja Joshi", amount: "₹5000" },
-  { name: "Karan Malhotra", amount: "₹5000" },
-  { name: "Neha Kapoor", amount: "₹5000" },
-  { name: "Arjun Reddy", amount: "₹5000" },
-  { name: "Divya Nair", amount: "₹5000" },
-  { name: "Suresh Kumar", amount: "₹5000" },
-  { name: "Riya Sen", amount: "₹5000" },
-  { name: "Manish Agarwal", amount: "₹5000" },
-  { name: "Kavya Deshmukh", amount: "₹5000" },
-  { name: "Deepak Yadav", amount: "₹5000" },
-  { name: "Shweta Tiwari", amount: "₹5000" },
-  { name: "Aakash Mishra", amount: "₹5000" },
-  { name: "Isha Choudhary", amount: "₹5000" },
-  { name: "Siddharth Jain", amount: "₹5000" },
-  { name: "Meera Das", amount: "₹5000" },
-  { name: "Gaurav Saxena", amount: "₹5000" },
-  { name: "Simran Kaur", amount: "₹5000" },
-  { name: "Varun Bhatia", amount: "₹5000" },
-  { name: "Tanvi Hegde", amount: "₹5000" },
-  { name: "Nikhil Pandey", amount: "₹5000" },
-  { name: "Kirti Solanki", amount: "₹5000" },
-  { name: "Rajesh Rao", amount: "₹5000" },
-  { name: "Aditi Joshi", amount: "₹5000" },
-  { name: "Sachin Tendulkar", amount: "₹5000" },
-  { name: "Kavita Pillai", amount: "₹5000" },
-  { name: "Alok Srivastava", amount: "₹5000" },
-  { name: "Sonali Kulkarni", amount: "₹5000" },
-  { name: "Prateek Bansal", amount: "₹5000" },
-  { name: "Richa Sharma", amount: "₹5000" },
-  { name: "Mohit Chauhan", amount: "₹5000" },
-  { name: "Bhavna Shah", amount: "₹5000" },
-  { name: "Tarun Gill", amount: "₹5000" },
-  { name: "Swati Bhatt", amount: "₹5000" },
-  { name: "Abhishek Dube", amount: "₹5000" },
-  { name: "Preeti Mahajan", amount: "₹5000" },
-  { name: "Harish Chandra", amount: "₹5000" },
-  { name: "Nisha Raj", amount: "₹5000" },
-  { name: "Sanjay Singhania", amount: "₹5000" },
-  { name: "Monika Arora", amount: "₹5000" },
-  { name: "Vishal Pandey", amount: "₹5000" },
-  { name: "Shalini Tripathi", amount: "₹5000" },
-  { name: "Aman Gupta", amount: "₹5000" },
-  { name: "Rutuja Bhosale", amount: "₹5000" }
-];
+// --- DOM Elements ---
+let canvas, ctx;
 
-// Leaderboard Mock Data
-let lbDailyData = [
-  { rank: 1, name: "Aarav Sharma", score: 9850 },
-  { rank: 2, name: "Rohan Verma", score: 9420 },
-  { rank: 3, name: "Priya Patel", score: 9100 },
-  { rank: 4, name: "Kabir Singh", score: 8750 },
-  { rank: 5, name: "Ananya Iyer", score: 8300 },
-  { rank: 6, name: "Siddharth Rao", score: 8120 },
-  { rank: 7, name: "Neha Gupta", score: 7900 },
-  { rank: 8, name: "Karan Mehta", score: 7650 },
-  { rank: 9, name: "Diya Deshmukh", score: 7400 },
-  { rank: 10, name: "Vikram Joshi", score: 7150 }
-];
-
-const lbWeeklyData = [
-  { rank: 1, name: "Vikram Joshi", score: 48200 },
-  { rank: 2, name: "Aarav Sharma", score: 46100 },
-  { rank: 3, name: "Ananya Iyer", score: 44500 },
-  { rank: 4, name: "Rohan Verma", score: 42800 },
-  { rank: 5, name: "Priya Patel", score: 40100 },
-  { rank: 6, name: "Kabir Singh", score: 38900 },
-  { rank: 7, name: "Siddharth Rao", score: 36400 },
-  { rank: 8, name: "Neha Gupta", score: 34200 },
-  { rank: 9, name: "Karan Mehta", score: 32800 },
-  { rank: 10, name: "Diya Deshmukh", score: 31000 }
-];
-
-// Alerts Mock Data
-const alertsData = [
-  { title: "🔥 Daily Tournament Active", desc: "Top 10 daily players get ₹100 each directly in their UPI wallet!", time: "2 mins ago" },
-  { title: "👑 Quantum Rush Monthly Live", desc: "Premium Sci-Fi Championship is LIVE! Win up to ₹1,00,000 GTD!", time: "1 hour ago" },
-  { title: "🚀 Fast Engine Loaded", desc: "Performance engine optimized for smooth high-speed gameplay.", time: "3 hours ago" }
-];
-
-// On Document Ready
-document.addEventListener("DOMContentLoaded", () => {
+// --- App Initialization ---
+window.addEventListener('DOMContentLoaded', () => {
   initSplashScreen();
-  initTicker();
-  renderLeaderboard('daily');
+  loadStoredUser();
+  renderTicker();
+  setupCanvas();
+  setupEventListeners();
+  renderLeaderboard();
   renderAlerts();
-  initHeliGameListeners();
-  initQuantumGameListeners();
-  setupMonthlyButtons();
 });
 
-// Setup Monthly Buttons
-function setupMonthlyButtons() {
-  const monthlyCards = document.querySelectorAll('.monthly-premium-card .game-play-btn');
-  monthlyCards.forEach(btn => {
-    btn.setAttribute('onclick', 'handleMonthlyTournamentLaunch()');
-  });
-}
-
-// Splash Screen Logic
+// Hide Splash Screen after initial load
 function initSplashScreen() {
-  const splash = document.getElementById("splashScreen");
-  if (!splash) return;
-  setTimeout(() => {
-    splash.style.opacity = "0";
-    splash.style.visibility = "hidden";
-    document.body.classList.remove("no-scroll");
-  }, 3500);
+  const splash = document.getElementById('splashScreen');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      splash.style.visibility = 'hidden';
+      document.body.classList.remove('no-scroll');
+    }, 2000);
+  }
 }
 
-// Ticker Animation
-let tickerAnimationId = null;
-function initTicker() {
-  const track = document.getElementById("tickerTrack");
-  if (!track) return;
-
-  const fullWinners = [...recentWinnersData, ...recentWinnersData];
-  track.innerHTML = fullWinners.map(item => `
-    <div class="ticker-item">🎉 <strong>${item.name}</strong> won <span>${item.amount}</span></div>
-  `).join("");
-
-  let pos = 0;
-  const speed = 0.6;
-
-  function step() {
-    pos -= speed;
-    const halfWidth = track.scrollWidth / 2;
-    if (Math.abs(pos) >= halfWidth) {
-      pos = 0;
+// User Storage Management
+function loadStoredUser() {
+  const stored = localStorage.getItem('win2earn_user');
+  if (stored) {
+    try {
+      AppState.currentUser = JSON.parse(stored);
+      updateAuthUI();
+    } catch (e) {
+      console.error('Failed to parse stored user data', e);
     }
-    track.style.transform = `translate3d(${pos}px, 0, 0)`;
-    tickerAnimationId = requestAnimationFrame(step);
   }
-
-  if (tickerAnimationId) cancelAnimationFrame(tickerAnimationId);
-  tickerAnimationId = requestAnimationFrame(step);
-}
-
-// Navigation Handler
-function handleNavClick(e, tabName) {
-  if (e) e.preventDefault();
-  
-  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
-  document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
-
-  const selectedTab = document.getElementById(`tab-${tabName}`);
-  if (selectedTab) selectedTab.classList.remove("hidden");
-
-  const activeNavItem = Array.from(document.querySelectorAll(".nav-item")).find(item => 
-    item.getAttribute("onclick") && item.getAttribute("onclick").includes(`'${tabName}'`)
-  );
-  if (activeNavItem) activeNavItem.classList.add("active");
-
-  appState.activeTab = tabName;
-
-  if (tabName === 'wallet') {
-    renderProfileWallet();
+  const scores = localStorage.getItem('win2earn_scores');
+  if (scores) {
+    try {
+      AppState.userScores = JSON.parse(scores);
+    } catch (e) {
+      console.error('Failed to parse saved scores', e);
+    }
   }
 }
 
-// Modal Controllers
-function showModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal) modal.classList.remove("hidden");
+function saveScores() {
+  localStorage.setItem('win2earn_scores', JSON.stringify(AppState.userScores));
 }
 
-function hideModal(modalId) {
-  const modal = document.getElementById(modalId);
-  if (modal) modal.classList.add("hidden");
-}
-
-function openInfoModal() { showModal("infoModal"); }
-function closeInfoModal() { hideModal("infoModal"); }
-
-function openPayoutInfoModal() { showModal("payoutInfoModal"); }
-function closePayoutInfoModal() { hideModal("payoutInfoModal"); }
-
-function openTelegramModal() { showModal("telegramModal"); }
-function closeTelegramModal() { hideModal("telegramModal"); }
-
-function openAuthModal(tab) {
-  switchTab(tab);
-  showModal("authModal");
-}
-function closeAuthModal() { hideModal("authModal"); }
-
-function openPopup(msg) {
-  const msgElement = document.getElementById("popupMessage");
-  if (msgElement) msgElement.innerText = msg;
-  showModal("errorPopup");
-}
-function closePopup() { hideModal("errorPopup"); }
-
-function closeOtpModal() { hideModal("otpDisplayModal"); }
-
-// Auth Tab Switching
-function switchTab(type) {
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");
+// Update Nav & Profile UI upon auth status
+function updateAuthUI() {
+  const navAuth = document.getElementById('navAuthBtns');
+  const megaBanner = document.getElementById('megaBannerCard');
   
-  if (type === 'login') {
-    if (loginForm) loginForm.classList.remove("hidden");
-    if (signupForm) signupForm.classList.add("hidden");
+  if (AppState.currentUser) {
+    if (navAuth) {
+      navAuth.innerHTML = `
+        <button class="glass-btn secondary-btn" onclick="handleLogout()">Logout</button>
+      `;
+    }
+    if (megaBanner) {
+      megaBanner.classList.add('hidden');
+    }
   } else {
-    if (loginForm) loginForm.classList.add("hidden");
-    if (signupForm) signupForm.classList.remove("hidden");
+    if (navAuth) {
+      navAuth.innerHTML = `
+        <button class="glass-btn secondary-btn" onclick="openAuthModal('login')">Log In</button>
+        <button class="glass-btn primary-btn" onclick="openAuthModal('signup')">Sign Up</button>
+      `;
+    }
+    if (megaBanner) {
+      megaBanner.classList.remove('hidden');
+    }
+  }
+  renderProfileWallet();
+}
+
+// Render Header Ticker
+function renderTicker() {
+  const track = document.getElementById('tickerTrack');
+  if (!track) return;
+  
+  let html = '';
+  AppState.tickerData.forEach(item => {
+    html += `<div class="ticker-item">🏆 <strong>${item.name}</strong> won <span>${item.amount}</span></div>`;
+  });
+  // Duplicate items for infinite seamless scroll
+  track.innerHTML = html + html;
+}
+
+// Global Nav & Tab Switcher
+function handleNavClick(e, tabId) {
+  if (e) e.preventDefault();
+  AppState.activeTab = tabId;
+  
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+  const activeEl = document.getElementById(`tab-${tabId}`);
+  if (activeEl) activeEl.classList.remove('hidden');
+  
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
+  const activeNavBtn = document.querySelector(`.bottom-nav .nav-item[onclick*="'${tabId}'"]`);
+  if (activeNavBtn) activeNavBtn.classList.add('active');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// --- Modals Controller ---
+function showPopup(msg) {
+  const popup = document.getElementById('errorPopup');
+  const msgEl = document.getElementById('popupMessage');
+  if (msgEl) msgEl.innerText = msg;
+  if (popup) popup.classList.remove('hidden');
+}
+
+function closePopup() {
+  const popup = document.getElementById('errorPopup');
+  if (popup) popup.classList.add('hidden');
+}
+
+function openAuthModal(tab = 'login') {
+  const modal = document.getElementById('authModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    switchTab(tab);
   }
 }
 
-// OTP Generation
+function closeAuthModal() {
+  const modal = document.getElementById('authModal');
+  if (modal) modal.classList.add('hidden');
+}
+
+function switchTab(tab) {
+  const loginF = document.getElementById('loginForm');
+  const signupF = document.getElementById('signupForm');
+  if (tab === 'login') {
+    if (loginF) loginF.classList.remove('hidden');
+    if (signupF) signupF.classList.add('hidden');
+  } else {
+    if (loginF) loginF.classList.add('hidden');
+    if (signupF) signupF.classList.remove('hidden');
+  }
+}
+
 function sendOtp() {
-  const mobileInput = document.getElementById("signupMobile");
-  const mobile = mobileInput ? mobileInput.value : "";
-  if (!mobile || mobile.length < 10) {
-    openPopup("Please enter a valid 10-digit mobile number.");
+  const mob = document.getElementById('signupMobile')?.value;
+  if (!mob || mob.length < 10) {
+    showPopup('Please enter a valid 10-digit mobile number to receive OTP.');
     return;
   }
-  
-  const generated = Math.floor(1000 + Math.random() * 9000);
-  appState.generatedOtp = generated.toString();
-  
-  const otpMsgElement = document.getElementById("otpPopupMessage");
-  if (otpMsgElement) {
-    otpMsgElement.innerText = `Your Win2Earn OTP Code is: ${generated}`;
-  }
-  showModal("otpDisplayModal");
+  AppState.generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+  const msgEl = document.getElementById('otpPopupMessage');
+  if (msgEl) msgEl.innerText = `Your Win2Earn Verification Code is: ${AppState.generatedOtp}`;
+  const modal = document.getElementById('otpDisplayModal');
+  if (modal) modal.classList.remove('hidden');
+}
+
+function closeOtpModal() {
+  const modal = document.getElementById('otpDisplayModal');
+  if (modal) modal.classList.add('hidden');
 }
 
 function handleLogin(e) {
   e.preventDefault();
-  const emailInput = document.getElementById("loginEmail");
-  const email = emailInput ? emailInput.value : "user@example.com";
-  
-  appState.currentUser = {
-    name: email.split("@")[0].toUpperCase(),
+  const email = document.getElementById('loginEmail')?.value;
+  AppState.currentUser = {
+    name: email.split('@')[0],
     email: email,
-    upi: null
+    upi: ''
   };
-
+  localStorage.setItem('win2earn_user', JSON.stringify(AppState.currentUser));
+  updateAuthUI();
   closeAuthModal();
-  onUserLoggedIn();
 }
 
 function handleSignup(e) {
   e.preventDefault();
-  const name = document.getElementById("signupName")?.value || "Player";
-  const email = document.getElementById("signupEmail")?.value || "";
-  const otpInput = document.getElementById("signupOtp")?.value || "";
-  const pass = document.getElementById("signupPassword")?.value || "";
-  const confirmPass = document.getElementById("signupConfirmPassword")?.value || "";
+  const name = document.getElementById('signupName')?.value;
+  const email = document.getElementById('signupEmail')?.value;
+  const otp = document.getElementById('signupOtp')?.value;
+  const pass = document.getElementById('signupPassword')?.value;
+  const confirm = document.getElementById('signupConfirmPassword')?.value;
 
-  if (pass !== confirmPass) {
-    openPopup("Passwords do not match!");
+  if (otp !== AppState.generatedOtp) {
+    showPopup('Invalid OTP. Please check the code and try again.');
+    return;
+  }
+  if (pass !== confirm) {
+    showPopup('Passwords do not match.');
     return;
   }
 
-  if (appState.generatedOtp && otpInput !== appState.generatedOtp) {
-    openPopup("Invalid OTP code. Please check and try again.");
-    return;
-  }
-
-  appState.currentUser = {
-    name: name,
-    email: email,
-    upi: null
-  };
-
+  AppState.currentUser = { name, email, upi: '' };
+  localStorage.setItem('win2earn_user', JSON.stringify(AppState.currentUser));
+  updateAuthUI();
   closeAuthModal();
-  
-  const welcomeText = document.getElementById("welcomeUserName");
-  if (welcomeText) welcomeText.innerText = `Welcome, ${name}!`;
-  showModal("welcomeModal");
 
-  onUserLoggedIn();
+  const welcomeName = document.getElementById('welcomeUserName');
+  if (welcomeName) welcomeName.innerText = `Welcome, ${name}!`;
+  const welcomeM = document.getElementById('welcomeModal');
+  if (welcomeM) welcomeM.classList.remove('hidden');
 }
 
-function onUserLoggedIn() {
-  const megaCard = document.getElementById("megaBannerCard");
-  if (megaCard) megaCard.classList.add("hidden");
-
-  const navAuth = document.getElementById("navAuthBtns");
-  if (navAuth && appState.currentUser) {
-    navAuth.innerHTML = `
-      <div class="user-pill-badge" style="background: rgba(245, 197, 24, 0.15); border: 1px solid var(--accent-gold); padding: 6px 14px; border-radius: 12px; color: var(--accent-gold-dark); font-size: 0.8rem; font-weight: 800;">
-        👤 ${appState.currentUser.name}
-      </div>
-    `;
-  }
+function handleLogout() {
+  AppState.currentUser = null;
+  localStorage.removeItem('win2earn_user');
+  updateAuthUI();
+  handleNavClick(null, 'home');
 }
 
 function handleWelcomePlay() {
-  hideModal("welcomeModal");
-  handleNavClick(null, "games");
+  const welcomeM = document.getElementById('welcomeModal');
+  if (welcomeM) welcomeM.classList.add('hidden');
+  handleGameLaunch('daily');
 }
 
-// Trigger Heli Dash exclusively for Daily Tournament
-function handleGameLaunch() {
-  if (!appState.currentUser) {
-    openAuthModal('login');
+// Payout Info Modal
+function openPayoutInfoModal() {
+  document.getElementById('payoutInfoModal')?.classList.remove('hidden');
+}
+function closePayoutInfoModal() {
+  document.getElementById('payoutInfoModal')?.classList.add('hidden');
+}
+
+// Important Info Modal
+function openInfoModal() {
+  document.getElementById('infoModal')?.classList.remove('hidden');
+}
+function closeInfoModal() {
+  document.getElementById('infoModal')?.classList.add('hidden');
+}
+
+// Telegram Modal
+function openTelegramModal() {
+  document.getElementById('telegramModal')?.classList.remove('hidden');
+}
+function closeTelegramModal() {
+  document.getElementById('telegramModal')?.classList.add('hidden');
+}
+
+// Wallet Modal
+function openWalletModal() {
+  document.getElementById('walletActivationModal')?.classList.remove('hidden');
+}
+function closeWalletModal() {
+  document.getElementById('walletActivationModal')?.classList.add('hidden');
+}
+
+function activateWallet(e) {
+  e.preventDefault();
+  const upi = document.getElementById('upiInput')?.value;
+  if (!upi || !upi.includes('@')) {
+    showPopup('Please enter a valid UPI ID (e.g. name@upi)');
     return;
   }
-  
-  appState.activeGameType = 'daily';
-  
-  const headerTitle = document.querySelector(".game-header-title");
-  if (headerTitle) headerTitle.innerHTML = "🚁 Copter Cash - Daily Tournament";
-
-  const backBtn = document.querySelector(".back-btn");
-  if (backBtn) {
-    backBtn.innerHTML = "➔ Exit";
-    backBtn.style.padding = "6px 14px";
-    backBtn.style.fontSize = "0.8rem";
-    backBtn.style.borderRadius = "20px";
+  if (AppState.currentUser) {
+    AppState.currentUser.upi = upi;
+    localStorage.setItem('win2earn_user', JSON.stringify(AppState.currentUser));
+    renderProfileWallet();
+    closeWalletModal();
   }
-
-  showModal("gameScreenModal");
-  resetHeliGameUI();
 }
 
-// Handler for Monthly Premium Tournament (Quantum Rush 3D)
-function handleMonthlyTournamentLaunch() {
-  if (!appState.currentUser) {
-    openAuthModal('login');
-    return;
-  }
+// Legal Information Modal
+function openLegalModal(type) {
+  const title = document.getElementById('legalModalTitle');
+  const body = document.getElementById('legalModalBody');
+  const modal = document.getElementById('legalModal');
+  if (!modal || !title || !body) return;
 
-  appState.activeGameType = 'monthly';
-
-  const headerTitle = document.querySelector(".game-header-title");
-  if (headerTitle) headerTitle.innerHTML = "⚡ QUANTUM RUSH - Monthly Championship";
-
-  const backBtn = document.querySelector(".back-btn");
-  if (backBtn) {
-    backBtn.innerHTML = "➔ Exit";
-    backBtn.style.padding = "6px 14px";
-    backBtn.style.fontSize = "0.8rem";
-    backBtn.style.borderRadius = "20px";
-  }
-
-  showModal("gameScreenModal");
-  resetQuantumGameUI();
-}
-
-function closeGameScreen() {
-  stopGameMusic();
-  stopQuantumMusic();
-
-  if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
-  if (quantumGame.loopId) cancelAnimationFrame(quantumGame.loopId);
-
-  heliGame.active = false;
-  quantumGame.active = false;
-
-  hideModal("gameScreenModal");
-}
-
-function handleUniversalStart() {
-  if (appState.activeGameType === 'daily') {
-    startHeliGame();
+  if (type === 'privacy') {
+    title.innerText = "Privacy Policy";
+    body.innerHTML = `
+      <h4>1. Data Protection</h4>
+      <p>We do not sell or leak user personal details. Your information is stored strictly for managing game accounts and prize distributions.</p>
+      <h4>2. Safe & Secure</h4>
+      <p>No financial information or passwords are held on public servers. UPI details are solely used for direct prize transfers.</p>
+    `;
+  } else if (type === 'terms') {
+    title.innerText = "Terms & Conditions";
+    body.innerHTML = `
+      <h4>1. 100% Free Skill Gaming</h4>
+      <p>Win2Earn does NOT charge entry fees or deposit money. It is completely free to participate.</p>
+      <h4>2. Fair Play Policy</h4>
+      <p>Any attempt to manipulate scores using bots or scripts will lead to instant account termination.</p>
+    `;
   } else {
-    startQuantumGame();
-  }
-}
-
-
-// ==========================================================================
-// AUDIO SYNTHESIZERS & SOUND EFFECTS
-// ==========================================================================
-let audioCtx = null;
-let musicInterval = null;
-let quantumMusicInterval = null;
-let isMusicPlaying = false;
-
-function initAudioContext() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  }
-  if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
-  }
-}
-
-// Copter Cash Music
-function startGameMusic() {
-  initAudioContext();
-  if (isMusicPlaying) return;
-  isMusicPlaying = true;
-
-  let noteIndex = 0;
-  const bassNotes = [110, 110, 130, 146, 110, 110, 164, 146];
-
-  musicInterval = setInterval(() => {
-    if (!heliGame.active || !isMusicPlaying) return;
-    try {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'triangle';
-      const freq = bassNotes[noteIndex % bassNotes.length];
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.18);
-
-      noteIndex++;
-    } catch (e) {}
-  }, 180);
-}
-
-function stopGameMusic() {
-  isMusicPlaying = false;
-  if (musicInterval) {
-    clearInterval(musicInterval);
-    musicInterval = null;
-  }
-}
-
-// Quantum Rush Synthwave Synth Music
-function startQuantumMusic() {
-  initAudioContext();
-  if (isMusicPlaying) return;
-  isMusicPlaying = true;
-
-  let noteIndex = 0;
-  const synthArp = [130.81, 164.81, 196.00, 246.94, 261.63, 329.63, 392.00, 493.88];
-
-  quantumMusicInterval = setInterval(() => {
-    if (!quantumGame.active || !isMusicPlaying) return;
-    try {
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-
-      osc.type = 'sawtooth';
-      const freq = synthArp[noteIndex % synthArp.length];
-      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      osc.start();
-      osc.stop(audioCtx.currentTime + 0.12);
-
-      noteIndex++;
-    } catch (e) {}
-  }, 120);
-}
-
-function stopQuantumMusic() {
-  isMusicPlaying = false;
-  if (quantumMusicInterval) {
-    clearInterval(quantumMusicInterval);
-    quantumMusicInterval = null;
-  }
-}
-
-function playWooshSound() {
-  try {
-    initAudioContext();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(320, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.1);
-    
-    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.1);
-  } catch(e) {}
-}
-
-function playQuantumPickupSound() {
-  try {
-    initAudioContext();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(1046.50, audioCtx.currentTime + 0.15);
-
-    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
-
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.15);
-  } catch(e) {}
-}
-
-
-// ==========================================================================
-// COPTER CASH - DAILY TOURNAMENT ENGINE
-// ==========================================================================
-const heliGame = {
-  canvas: null,
-  ctx: null,
-  active: false,
-  loopId: null,
-  lastTime: 0,
-  
-  x: 60,
-  y: 200,
-  targetY: 200,
-  width: 44,
-  height: 22,
-  hitboxW: 32,
-  hitboxH: 18,
-  gravity: 0.38,
-  velocity: 0,
-  jumpVelocity: -7.5,
-  maxFallSpeed: 9,
-  angle: 0,
-  rotorFrame: 0,
-  hoverTime: 0,
-  
-  pipes: [],
-  pipeWidth: 46,
-  pipeGap: 165,
-  basePipeSpeed: 4.0,
-  currentPipeSpeed: 4.0,
-  pipeSpacing: 220,
-  groundHeight: 85,
-  groundOffset: 0,
-  
-  clouds: [
-    { x: 20, y: 40, speed: 0.8, scale: 0.9 },
-    { x: 160, y: 80, speed: 1.2, scale: 0.7 },
-    { x: 280, y: 30, speed: 0.6, scale: 1.1 }
-  ],
-  
-  distanceMeters: 0,
-  bestScore: 0,
-  shakeTime: 0,
-  particles: []
-};
-
-function initHeliGameListeners() {
-  const canvas = document.getElementById("heliCanvas");
-  if (!canvas) return;
-  heliGame.canvas = canvas;
-  heliGame.ctx = canvas.getContext("2d");
-
-  const handleInteraction = (e) => {
-    e.preventDefault();
-    if (appState.activeGameType === 'daily') triggerHeliJump();
-  };
-
-  canvas.addEventListener("touchstart", handleInteraction, { passive: false });
-  canvas.addEventListener("mousedown", handleInteraction);
-
-  window.addEventListener("keydown", (e) => {
-    const gameModal = document.getElementById("gameScreenModal");
-    if (e.code === "Space" && gameModal && !gameModal.classList.contains("hidden")) {
-      e.preventDefault();
-      if (appState.activeGameType === 'daily') triggerHeliJump();
-    }
-  });
-}
-
-function triggerHeliJump() {
-  if (!heliGame.active) return;
-  heliGame.velocity = heliGame.jumpVelocity;
-  playWooshSound();
-}
-
-function resetHeliGameUI() {
-  document.getElementById("gameStartOverlay")?.classList.remove("hidden");
-  document.getElementById("gameOverOverlay")?.classList.add("hidden");
-  
-  const canvas = heliGame.canvas;
-  if (!canvas) return;
-  
-  const container = canvas.parentElement;
-  canvas.width = container ? container.clientWidth : window.innerWidth;
-  canvas.height = container ? container.clientHeight : window.innerHeight;
-
-  heliGame.y = (canvas.height - heliGame.groundHeight) / 2;
-  heliGame.targetY = heliGame.y;
-  heliGame.velocity = 0;
-  heliGame.angle = 0;
-  heliGame.pipes = [];
-  heliGame.particles = [];
-  heliGame.distanceMeters = 0;
-  heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
-  heliGame.shakeTime = 0;
-  heliGame.hoverTime = 0;
-  
-  drawHeliStaticPreview();
-}
-
-function drawHeliStaticPreview() {
-  const ctx = heliGame.ctx;
-  const canvas = heliGame.canvas;
-  if (!ctx || !canvas) return;
-
-  heliGame.hoverTime += 0.05;
-  const bobbing = Math.sin(heliGame.hoverTime * 3) * 3;
-
-  renderBackground(ctx, canvas.width, canvas.height);
-  renderGround(ctx, canvas.width, canvas.height);
-  drawAttractiveHelicopter(ctx, heliGame.x, heliGame.y + bobbing, 0, Math.floor(Date.now() / 60) % 3);
-}
-
-function startHeliGame() {
-  document.getElementById("gameStartOverlay")?.classList.add("hidden");
-  document.getElementById("gameOverOverlay")?.classList.add("hidden");
-
-  const canvas = heliGame.canvas;
-  const container = canvas.parentElement;
-  canvas.width = container ? container.clientWidth : window.innerWidth;
-  canvas.height = container ? container.clientHeight : window.innerHeight;
-
-  heliGame.y = (canvas.height - heliGame.groundHeight) / 2;
-  heliGame.targetY = heliGame.y;
-  heliGame.velocity = 0;
-  heliGame.angle = 0;
-  heliGame.pipes = [];
-  heliGame.particles = [];
-  heliGame.distanceMeters = 0;
-  heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
-  heliGame.shakeTime = 0;
-  heliGame.active = true;
-  heliGame.lastTime = performance.now();
-
-  startGameMusic();
-
-  if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
-  heliGameLoop(performance.now());
-}
-
-function heliGameLoop(now) {
-  if (!heliGame.active) return;
-
-  const dt = Math.min((now - heliGame.lastTime) / 1000, 0.033);
-  heliGame.lastTime = now;
-
-  updateHeliGamePhysics(dt);
-  renderHeliGameCanvas();
-
-  heliGame.loopId = requestAnimationFrame(heliGameLoop);
-}
-
-function updateHeliGamePhysics(dt) {
-  const canvas = heliGame.canvas;
-  const playableHeight = canvas.height - heliGame.groundHeight;
-
-  heliGame.velocity += heliGame.gravity;
-  if (heliGame.velocity > heliGame.maxFallSpeed) {
-    heliGame.velocity = heliGame.maxFallSpeed;
-  }
-  
-  heliGame.y += heliGame.velocity;
-
-  if (heliGame.velocity < 0) {
-    heliGame.angle = Math.max(-20, heliGame.angle - 4);
-  } else {
-    heliGame.angle = Math.min(28, heliGame.angle + 2.5);
-  }
-
-  heliGame.distanceMeters += Math.round(heliGame.currentPipeSpeed * 0.35);
-  heliGame.rotorFrame = Math.floor(Date.now() / 50) % 3;
-
-  const speedTier = Math.floor(heliGame.distanceMeters / 150);
-  heliGame.currentPipeSpeed = Math.min(7.5, heliGame.basePipeSpeed + (speedTier * 0.2));
-
-  heliGame.groundOffset = (heliGame.groundOffset + heliGame.currentPipeSpeed) % 24;
-  heliGame.clouds.forEach(cloud => {
-    cloud.x -= cloud.speed;
-    if (cloud.x < -80) cloud.x = canvas.width + 40;
-  });
-
-  if (heliGame.y <= 0) {
-    heliGame.y = 0;
-    heliGame.velocity = 0;
-  }
-
-  const heliHitbox = {
-    x: heliGame.x + (heliGame.width - heliGame.hitboxW) / 2,
-    y: heliGame.y + (heliGame.height - heliGame.hitboxH) / 2,
-    w: heliGame.hitboxW,
-    h: heliGame.hitboxH
-  };
-
-  if (heliHitbox.y + heliHitbox.h >= playableHeight) {
-    triggerCollisionEffects();
-    return;
-  }
-
-  if (heliGame.pipes.length === 0) {
-    spawnPipe(canvas.width);
-  } else {
-    const lastPipe = heliGame.pipes[heliGame.pipes.length - 1];
-    if (canvas.width - lastPipe.x >= heliGame.pipeSpacing) {
-      spawnPipe(canvas.width);
-    }
-  }
-
-  for (let i = 0; i < heliGame.pipes.length; i++) {
-    const p = heliGame.pipes[i];
-    p.x -= heliGame.currentPipeSpeed;
-
-    const topPipeBox = { x: p.x, y: 0, w: heliGame.pipeWidth, h: p.topHeight };
-    const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY };
-
-    if (checkAABBCollision(heliHitbox, topPipeBox) || checkAABBCollision(heliHitbox, bottomPipeBox)) {
-      triggerCollisionEffects();
-      return;
-    }
-  }
-
-  if (heliGame.pipes.length > 0 && heliGame.pipes[0].x < -heliGame.pipeWidth) {
-    heliGame.pipes.shift();
-  }
-
-  for (let i = heliGame.particles.length - 1; i >= 0; i--) {
-    const pt = heliGame.particles[i];
-    pt.x += pt.vx;
-    pt.y += pt.vy;
-    pt.alpha -= 0.04;
-    if (pt.alpha <= 0) heliGame.particles.splice(i, 1);
-  }
-}
-
-function spawnPipe(startX) {
-  const canvas = heliGame.canvas;
-  const playableHeight = canvas.height - heliGame.groundHeight;
-  const minHeight = 60;
-  const maxHeight = playableHeight - heliGame.pipeGap - minHeight;
-  const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
-
-  heliGame.pipes.push({
-    x: startX,
-    topHeight: topHeight,
-    bottomY: topHeight + heliGame.pipeGap,
-    passed: false
-  });
-}
-
-function checkAABBCollision(a, b) {
-  return a.x < b.x + b.w &&
-         a.x + a.w > b.x &&
-         a.y < b.y + b.h &&
-         a.y + a.h > b.y;
-}
-
-function renderHeliGameCanvas() {
-  const ctx = heliGame.ctx;
-  const canvas = heliGame.canvas;
-
-  ctx.save();
-
-  if (heliGame.shakeTime > 0) {
-    heliGame.shakeTime -= 16;
-    const dx = (Math.random() - 0.5) * 8;
-    const dy = (Math.random() - 0.5) * 8;
-    ctx.translate(dx, dy);
-  }
-
-  renderBackground(ctx, canvas.width, canvas.height);
-  renderPipes(ctx, canvas.height);
-  renderGround(ctx, canvas.width, canvas.height);
-  drawAttractiveHelicopter(ctx, heliGame.x, heliGame.y, -heliGame.angle, heliGame.rotorFrame);
-  renderParticles(ctx);
-  renderSubwayStyleMeterUI(ctx, canvas.width);
-
-  ctx.restore();
-}
-
-function renderBackground(ctx, w, h) {
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-  skyGrad.addColorStop(0, "#1A73E8");
-  skyGrad.addColorStop(0.6, "#2EC1CC");
-  skyGrad.addColorStop(1, "#80DEEA");
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, w, h);
-
-  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-  heliGame.clouds.forEach(c => {
-    drawCloud(ctx, c.x, c.y, c.scale);
-  });
-
-  const groundY = h - heliGame.groundHeight;
-
-  ctx.fillStyle = "#A0E0E0";
-  const buildingHeights = [65, 45, 80, 55, 90, 50, 75];
-  let currentX = 0;
-  let idx = 0;
-  while (currentX < w) {
-    const bw = 32;
-    const bh = buildingHeights[idx % buildingHeights.length];
-    ctx.fillRect(currentX, groundY - bh - 20, bw, bh + 20);
-    currentX += bw + 4;
-    idx++;
-  }
-
-  ctx.fillStyle = "#8FD68E";
-  ctx.fillRect(0, groundY - 20, w, 20);
-}
-
-function drawCloud(ctx, x, y, scale) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.scale(scale, scale);
-  ctx.beginPath();
-  ctx.arc(0, 0, 16, Math.PI * 0.5, Math.PI * 1.5);
-  ctx.arc(16, -12, 18, Math.PI * 1, Math.PI * 1.85);
-  ctx.arc(36, -6, 14, Math.PI * 1.37, Math.PI * 1.91);
-  ctx.arc(46, 0, 14, Math.PI * 1.5, Math.PI * 0.5);
-  ctx.moveTo(46, 16);
-  ctx.lineTo(0, 16);
-  ctx.fill();
-  ctx.restore();
-}
-
-function renderPipes(ctx, canvasHeight) {
-  for (let i = 0; i < heliGame.pipes.length; i++) {
-    const p = heliGame.pipes[i];
-    drawThinMetallicPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
-    const bottomHeight = (canvasHeight - heliGame.groundHeight) - p.bottomY;
-    drawThinMetallicPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomHeight, false);
-  }
-}
-
-function drawThinMetallicPipe(ctx, x, y, width, height, isTop) {
-  if (height <= 0) return;
-
-  const bodyGrad = ctx.createLinearGradient(x, 0, x + width, 0);
-  bodyGrad.addColorStop(0, "#2E7D32");
-  bodyGrad.addColorStop(0.3, "#4CAF50");
-  bodyGrad.addColorStop(0.5, "#A5D6A7");
-  bodyGrad.addColorStop(0.8, "#4CAF50");
-  bodyGrad.addColorStop(1, "#1B5E20");
-
-  ctx.fillStyle = bodyGrad;
-  ctx.fillRect(x, y, width, height);
-  
-  ctx.strokeStyle = "#0D3B11";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(x, y, width, height);
-
-  const capH = 18;
-  const overhang = 4;
-  const capX = x - overhang;
-  const capW = width + (overhang * 2);
-  const capY = isTop ? y + height - capH : y;
-
-  const capGrad = ctx.createLinearGradient(capX, 0, capX + capW, 0);
-  capGrad.addColorStop(0, "#388E3C");
-  capGrad.addColorStop(0.5, "#C8E6C9");
-  capGrad.addColorStop(1, "#1B5E20");
-
-  ctx.fillStyle = capGrad;
-  ctx.fillRect(capX, capY, capW, capH);
-  ctx.strokeRect(capX, capY, capW, capH);
-}
-
-function renderGround(ctx, width, height) {
-  const groundY = height - heliGame.groundHeight;
-
-  ctx.fillStyle = "#3CB043";
-  ctx.fillRect(0, groundY, width, 12);
-  
-  ctx.fillStyle = "#2E8B37";
-  for (let gx = -heliGame.groundOffset; gx < width + 24; gx += 16) {
-    ctx.beginPath();
-    ctx.arc(gx, groundY + 12, 6, 0, Math.PI);
-    ctx.fill();
-  }
-
-  const woodY = groundY + 12;
-  const woodH = heliGame.groundHeight - 12;
-  ctx.fillStyle = "#8B4513";
-  ctx.fillRect(0, woodY, width, woodH);
-
-  ctx.strokeStyle = "#A0522D";
-  ctx.lineWidth = 2;
-  for (let lx = -heliGame.groundOffset; lx < width + 40; lx += 32) {
-    ctx.beginPath();
-    ctx.moveTo(lx, woodY);
-    ctx.lineTo(lx + 12, woodY + woodH);
-    ctx.stroke();
-  }
-}
-
-function drawAttractiveHelicopter(ctx, x, y, angleDeg, rotorFrame) {
-  ctx.save();
-  ctx.translate(x + 22, y + 11);
-  ctx.rotate((angleDeg * Math.PI) / 180);
-
-  ctx.strokeStyle = "#1A1A1A";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(-10, 10); ctx.lineTo(-4, 6);
-  ctx.moveTo(8, 10); ctx.lineTo(12, 6);
-  ctx.moveTo(-16, 10); ctx.lineTo(18, 10);
-  ctx.stroke();
-
-  const tailGrad = ctx.createLinearGradient(-26, -4, -10, 4);
-  tailGrad.addColorStop(0, "#FF8C00");
-  tailGrad.addColorStop(1, "#FFD700");
-  ctx.fillStyle = tailGrad;
-  ctx.fillRect(-26, -3, 16, 6);
-
-  ctx.fillStyle = "#D32F2F";
-  ctx.beginPath();
-  ctx.moveTo(-26, -3);
-  ctx.lineTo(-30, -9);
-  ctx.lineTo(-24, -3);
-  ctx.fill();
-
-  const bodyGrad = ctx.createRadialGradient(4, -2, 2, 0, 0, 18);
-  bodyGrad.addColorStop(0, "#FFF176");
-  bodyGrad.addColorStop(0.5, "#FFC107");
-  bodyGrad.addColorStop(1, "#FF8F00");
-
-  ctx.fillStyle = bodyGrad;
-  ctx.beginPath();
-  ctx.ellipse(2, 0, 18, 11, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "#5D4037";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  const glassGrad = ctx.createLinearGradient(6, -6, 16, 4);
-  glassGrad.addColorStop(0, "#80DEEA");
-  glassGrad.addColorStop(0.6, "#00ACC1");
-  glassGrad.addColorStop(1, "#006064");
-
-  ctx.fillStyle = glassGrad;
-  ctx.beginPath();
-  ctx.arc(9, -1, 6, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "#FFFFFF";
-  ctx.lineWidth = 1;
-  ctx.stroke();
-
-  ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-  ctx.beginPath();
-  ctx.arc(11, -3, 2, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = "#37474F";
-  ctx.fillRect(0, -14, 4, 5);
-
-  ctx.fillStyle = "rgba(33, 33, 33, 0.8)";
-  if (rotorFrame === 0) {
-    ctx.fillRect(-18, -15, 38, 3);
-  } else if (rotorFrame === 1) {
-    ctx.fillRect(-12, -15, 26, 3);
-  } else {
-    ctx.fillRect(-20, -15, 42, 2);
-  }
-
-  ctx.restore();
-}
-
-function renderParticles(ctx) {
-  heliGame.particles.forEach(pt => {
-    ctx.fillStyle = `rgba(255, 193, 7, ${pt.alpha})`;
-    ctx.beginPath();
-    ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
-    ctx.fill();
-  });
-}
-
-function renderSubwayStyleMeterUI(ctx, canvasWidth) {
-  ctx.save();
-  const rightX = canvasWidth - 18;
-  const topY = 16;
-  const meterText = `${heliGame.distanceMeters}m`;
-
-  ctx.font = "900 28px 'Plus Jakarta Sans', sans-serif";
-  const textMetrics = ctx.measureText(meterText);
-  const pillW = Math.max(110, textMetrics.width + 36);
-  const pillH = 42;
-  const pillX = rightX - pillW;
-
-  const bgGrad = ctx.createLinearGradient(pillX, topY, pillX + pillW, topY + pillH);
-  bgGrad.addColorStop(0, "rgba(0, 0, 0, 0.75)");
-  bgGrad.addColorStop(1, "rgba(20, 20, 20, 0.85)");
-
-  ctx.fillStyle = bgGrad;
-  ctx.strokeStyle = "rgba(255, 215, 0, 0.6)";
-  ctx.lineWidth = 1.5;
-
-  ctx.beginPath();
-  if (ctx.roundRect) {
-    ctx.roundRect(pillX, topY, pillW, pillH, 20);
-  } else {
-    ctx.rect(pillX, topY, pillW, pillH);
-  }
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.font = "900 24px 'Plus Jakarta Sans', sans-serif";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-
-  ctx.fillStyle = "#FFD700";
-  ctx.fillText(meterText, pillX + (pillW / 2), topY + (pillH / 2));
-
-  ctx.restore();
-}
-
-function triggerCollisionEffects() {
-  heliGame.active = false;
-  stopGameMusic();
-  if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
-
-  heliGame.shakeTime = 120;
-
-  heliGame.particles = [];
-  for (let i = 0; i < 12; i++) {
-    heliGame.particles.push({
-      x: heliGame.x + 22,
-      y: heliGame.y + 11,
-      vx: (Math.random() - 0.5) * 8,
-      vy: (Math.random() - 0.5) * 8,
-      radius: 2 + Math.random() * 4,
-      alpha: 1.0
-    });
-  }
-
-  renderHeliGameCanvas();
-
-  setTimeout(() => {
-    handleHeliCrash();
-  }, 180);
-}
-
-function handleHeliCrash() {
-  appState.currentRunScore = heliGame.distanceMeters;
-  appState.dailyScore += heliGame.distanceMeters;
-
-  if (heliGame.distanceMeters > heliGame.bestScore) {
-    heliGame.bestScore = heliGame.distanceMeters;
-  }
-
-  const runScoreEl = document.getElementById("currentRunScore");
-  const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
-  
-  if (runScoreEl) runScoreEl.innerText = `${appState.currentRunScore}m`;
-  if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}m (Best: ${heliGame.bestScore}m)`;
-
-  updateLeaderboardWithUserScore();
-  document.getElementById("gameOverOverlay")?.classList.remove("hidden");
-}
-
-
-// ==========================================================================
-// QUANTUM RUSH 3D - MONTHLY PREMIUM CHAMPIONSHIP ENGINE
-// ==========================================================================
-const quantumGame = {
-  canvas: null,
-  ctx: null,
-  active: false,
-  loopId: null,
-  lastTime: 0,
-
-  // Jet Properties
-  x: 80,
-  y: 200,
-  targetY: 200,
-  width: 50,
-  height: 24,
-  speedY: 0.15,
-  tilt: 0,
-  
-  // Power-Up State
-  shieldActive: false,
-  shieldTime: 0,
-  nitroActive: false,
-  nitroTime: 0,
-  scoreMultiplier: 1,
-  multiplierTime: 0,
-
-  // Game Physics & Scoring
-  distance: 0,
-  score: 0,
-  bestScore: 0,
-  speed: 6.0,
-  baseSpeed: 6.0,
-  
-  // Dynamic Entities
-  cyberGates: [],
-  gems: [],
-  particles: [],
-  stars: [],
-  shakeTime: 0,
-  gridOffset: 0
-};
-
-function initQuantumGameListeners() {
-  const canvas = document.getElementById("heliCanvas");
-  if (!canvas) return;
-
-  const handleMove = (e) => {
-    if (!quantumGame.active || appState.activeGameType !== 'monthly') return;
-    const rect = canvas.getBoundingClientRect();
-    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-    quantumGame.targetY = clientY - rect.top;
-  };
-
-  canvas.addEventListener("mousemove", handleMove);
-  canvas.addEventListener("touchmove", handleMove, { passive: true });
-}
-
-function resetQuantumGameUI() {
-  document.getElementById("gameStartOverlay")?.classList.remove("hidden");
-  document.getElementById("gameOverOverlay")?.classList.add("hidden");
-
-  const canvas = heliGame.canvas;
-  if (!canvas) return;
-
-  const container = canvas.parentElement;
-  canvas.width = container ? container.clientWidth : window.innerWidth;
-  canvas.height = container ? container.clientHeight : window.innerHeight;
-
-  quantumGame.x = 80;
-  quantumGame.y = canvas.height / 2;
-  quantumGame.targetY = quantumGame.y;
-  quantumGame.distance = 0;
-  quantumGame.score = 0;
-  quantumGame.speed = quantumGame.baseSpeed;
-  quantumGame.cyberGates = [];
-  quantumGame.gems = [];
-  quantumGame.particles = [];
-  quantumGame.stars = [];
-  quantumGame.shieldActive = false;
-  quantumGame.nitroActive = false;
-  quantumGame.scoreMultiplier = 1;
-  quantumGame.shakeTime = 0;
-
-  // Generate Starfield Background
-  for (let i = 0; i < 60; i++) {
-    quantumGame.stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      size: Math.random() * 2 + 1,
-      speed: Math.random() * 2 + 1
-    });
-  }
-
-  drawQuantumStaticPreview();
-}
-
-function drawQuantumStaticPreview() {
-  const ctx = heliGame.ctx;
-  const canvas = heliGame.canvas;
-  if (!ctx || !canvas) return;
-
-  renderCyberpunkBackground(ctx, canvas.width, canvas.height);
-  drawQuantumJet(ctx, quantumGame.x, canvas.height / 2, 0);
-}
-
-function startQuantumGame() {
-  document.getElementById("gameStartOverlay")?.classList.add("hidden");
-  document.getElementById("gameOverOverlay")?.classList.add("hidden");
-
-  const canvas = heliGame.canvas;
-  const container = canvas.parentElement;
-  canvas.width = container ? container.clientWidth : window.innerWidth;
-  canvas.height = container ? container.clientHeight : window.innerHeight;
-
-  quantumGame.x = 80;
-  quantumGame.y = canvas.height / 2;
-  quantumGame.targetY = quantumGame.y;
-  quantumGame.distance = 0;
-  quantumGame.score = 0;
-  quantumGame.speed = quantumGame.baseSpeed;
-  quantumGame.cyberGates = [];
-  quantumGame.gems = [];
-  quantumGame.particles = [];
-  quantumGame.shieldActive = false;
-  quantumGame.nitroActive = false;
-  quantumGame.scoreMultiplier = 1;
-  quantumGame.shakeTime = 0;
-  quantumGame.active = true;
-  quantumGame.lastTime = performance.now();
-
-  startQuantumMusic();
-
-  if (quantumGame.loopId) cancelAnimationFrame(quantumGame.loopId);
-  quantumGameLoop(performance.now());
-}
-
-function quantumGameLoop(now) {
-  if (!quantumGame.active) return;
-
-  const dt = Math.min((now - quantumGame.lastTime) / 1000, 0.033);
-  quantumGame.lastTime = now;
-
-  updateQuantumPhysics(dt);
-  renderQuantumCanvas();
-
-  quantumGame.loopId = requestAnimationFrame(quantumGameLoop);
-}
-
-function updateQuantumPhysics(dt) {
-  const canvas = heliGame.canvas;
-
-  // Smooth Y Movement towards target touch/mouse position
-  const dy = quantumGame.targetY - quantumGame.y;
-  quantumGame.y += dy * 0.12;
-  quantumGame.tilt = Math.max(-25, Math.min(25, dy * 0.8));
-
-  // Clamping within screen
-  quantumGame.y = Math.max(30, Math.min(canvas.height - 30, quantumGame.y));
-
-  // Timers
-  if (quantumGame.shieldTime > 0) {
-    quantumGame.shieldTime -= dt;
-    if (quantumGame.shieldTime <= 0) quantumGame.shieldActive = false;
-  }
-
-  if (quantumGame.nitroTime > 0) {
-    quantumGame.nitroTime -= dt;
-    quantumGame.speed = quantumGame.baseSpeed * 1.8;
-    if (quantumGame.nitroTime <= 0) {
-      quantumGame.nitroActive = false;
-      quantumGame.speed = quantumGame.baseSpeed;
-    }
-  }
-
-  if (quantumGame.multiplierTime > 0) {
-    quantumGame.multiplierTime -= dt;
-    if (quantumGame.multiplierTime <= 0) quantumGame.scoreMultiplier = 1;
-  }
-
-  // Distance & Score progression
-  quantumGame.distance += Math.round(quantumGame.speed * 0.5);
-  quantumGame.score += Math.round(quantumGame.speed * 0.2 * quantumGame.scoreMultiplier);
-
-  // Speed scale with distance
-  quantumGame.baseSpeed = Math.min(12.0, 6.0 + (quantumGame.distance / 2000));
-
-  // Scroll Grid & Starfield
-  quantumGame.gridOffset = (quantumGame.gridOffset + quantumGame.speed) % 40;
-  quantumGame.stars.forEach(s => {
-    s.x -= s.speed * (quantumGame.speed / 4);
-    if (s.x < 0) s.x = canvas.width;
-  });
-
-  // Spawn Cyber Gates
-  if (quantumGame.cyberGates.length === 0 || canvas.width - quantumGame.cyberGates[quantumGame.cyberGates.length - 1].x >= 280) {
-    spawnCyberGate(canvas.width, canvas.height);
-  }
-
-  // Gate Logic & Collisions
-  const jetBox = { x: quantumGame.x, y: quantumGame.y - 10, w: quantumGame.width, h: quantumGame.height };
-
-  for (let i = quantumGame.cyberGates.length - 1; i >= 0; i--) {
-    const gate = quantumGame.cyberGates[i];
-    gate.x -= quantumGame.speed;
-
-    // Moving gate effect
-    if (gate.isMoving) {
-      gate.gapY += Math.sin(Date.now() / 200) * 2;
-    }
-
-    const topGateBox = { x: gate.x, y: 0, w: gate.width, h: gate.gapY };
-    const bottomGateBox = { x: gate.x, y: gate.gapY + gate.gapH, w: gate.width, h: canvas.height - (gate.gapY + gate.gapH) };
-
-    if (!quantumGame.nitroActive && (checkAABBCollision(jetBox, topGateBox) || checkAABBCollision(jetBox, bottomGateBox))) {
-      if (quantumGame.shieldActive) {
-        quantumGame.shieldActive = false;
-        quantumGame.shieldTime = 0;
-        quantumGame.shakeTime = 150;
-        quantumGame.cyberGates.splice(i, 1);
-        playQuantumPickupSound();
-      } else {
-        triggerQuantumCrash();
-        return;
-      }
-    }
-
-    if (gate.x < -gate.width) quantumGame.cyberGates.splice(i, 1);
-  }
-
-  // Spawn Power Gems
-  if (Math.random() < 0.02) {
-    spawnQuantumGem(canvas.width, canvas.height);
-  }
-
-  // Gems Collection Logic
-  for (let i = quantumGame.gems.length - 1; i >= 0; i--) {
-    const gem = quantumGame.gems[i];
-    gem.x -= quantumGame.speed;
-
-    const gemBox = { x: gem.x - 12, y: gem.y - 12, w: 24, h: 24 };
-    if (checkAABBCollision(jetBox, gemBox)) {
-      applyQuantumPowerup(gem.type);
-      quantumGame.gems.splice(i, 1);
-      playQuantumPickupSound();
-    } else if (gem.x < -30) {
-      quantumGame.gems.splice(i, 1);
-    }
-  }
-
-  // Particles update
-  for (let i = quantumGame.particles.length - 1; i >= 0; i--) {
-    const pt = quantumGame.particles[i];
-    pt.x += pt.vx;
-    pt.y += pt.vy;
-    pt.alpha -= 0.03;
-    if (pt.alpha <= 0) quantumGame.particles.splice(i, 1);
-  }
-}
-
-function spawnCyberGate(w, h) {
-  const gapH = 140;
-  const minTop = 50;
-  const maxTop = h - gapH - 50;
-  const gapY = Math.floor(Math.random() * (maxTop - minTop + 1)) + minTop;
-
-  quantumGame.cyberGates.push({
-    x: w,
-    width: 36,
-    gapY: gapY,
-    gapH: gapH,
-    isMoving: Math.random() > 0.6
-  });
-}
-
-function spawnQuantumGem(w, h) {
-  const types = ['shield', 'nitro', 'multiplier'];
-  const type = types[Math.floor(Math.random() * types.length)];
-  quantumGame.gems.push({
-    x: w,
-    y: Math.random() * (h - 100) + 50,
-    type: type
-  });
-}
-
-function applyQuantumPowerup(type) {
-  if (type === 'shield') {
-    quantumGame.shieldActive = true;
-    quantumGame.shieldTime = 6.0;
-  } else if (type === 'nitro') {
-    quantumGame.nitroActive = true;
-    quantumGame.nitroTime = 4.0;
-    quantumGame.shakeTime = 80;
-  } else if (type === 'multiplier') {
-    quantumGame.scoreMultiplier = 2;
-    quantumGame.multiplierTime = 8.0;
-  }
-}
-
-function renderQuantumCanvas() {
-  const ctx = heliGame.ctx;
-  const canvas = heliGame.canvas;
-
-  ctx.save();
-
-  if (quantumGame.shakeTime > 0) {
-    quantumGame.shakeTime -= 16;
-    ctx.translate((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
-  }
-
-  renderCyberpunkBackground(ctx, canvas.width, canvas.height);
-  renderCyberGates(ctx, canvas.height);
-  renderGems(ctx);
-  drawQuantumJet(ctx, quantumGame.x, quantumGame.y, quantumGame.tilt);
-  renderQuantumParticles(ctx);
-  renderQuantumHUD(ctx, canvas.width);
-
-  ctx.restore();
-}
-
-function renderCyberpunkBackground(ctx, w, h) {
-  // Deep Sci-Fi Gradient
-  const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-  bgGrad.addColorStop(0, "#080014");
-  bgGrad.addColorStop(0.5, "#0f0026");
-  bgGrad.addColorStop(1, "#1d0047");
-  ctx.fillStyle = bgGrad;
-  ctx.fillRect(0, 0, w, h);
-
-  // Starfield
-  ctx.fillStyle = "#ffffff";
-  quantumGame.stars.forEach(s => {
-    ctx.fillRect(s.x, s.y, s.size, s.size);
-  });
-
-  // Synthwave Grid Floor
-  ctx.strokeStyle = "rgba(255, 0, 128, 0.35)";
-  ctx.lineWidth = 1.5;
-  const floorY = h - 40;
-
-  for (let x = -quantumGame.gridOffset; x < w; x += 40) {
-    ctx.beginPath();
-    ctx.moveTo(x, floorY);
-    ctx.lineTo(x - 20, h);
-    ctx.stroke();
-  }
-  ctx.beginPath();
-  ctx.moveTo(0, floorY);
-  ctx.lineTo(w, floorY);
-  ctx.stroke();
-}
-
-function renderCyberGates(ctx, canvasHeight) {
-  quantumGame.cyberGates.forEach(gate => {
-    // Laser Border Effect
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = "#00f0ff";
-    ctx.fillStyle = "#00f0ff";
-
-    // Top Gate Pillar
-    ctx.fillRect(gate.x, 0, gate.width, gate.gapY);
-    // Bottom Gate Pillar
-    ctx.fillRect(gate.x, gate.gapY + gate.gapH, gate.width, canvasHeight - (gate.gapY + gate.gapH));
-
-    // High Voltage Glowing Edges
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(gate.x - 2, gate.gapY - 6, gate.width + 4, 6);
-    ctx.fillRect(gate.x - 2, gate.gapY + gate.gapH, gate.width + 4, 6);
-
-    ctx.shadowBlur = 0;
-  });
-}
-
-function renderGems(ctx) {
-  quantumGame.gems.forEach(gem => {
-    ctx.save();
-    ctx.translate(gem.x, gem.y);
-
-    ctx.shadowBlur = 12;
-    if (gem.type === 'shield') {
-      ctx.shadowColor = '#00ffcc';
-      ctx.fillStyle = '#00ffcc';
-    } else if (gem.type === 'nitro') {
-      ctx.shadowColor = '#ffea00';
-      ctx.fillStyle = '#ffea00';
-    } else {
-      ctx.shadowColor = '#ff007f';
-      ctx.fillStyle = '#ff007f';
-    }
-
-    ctx.beginPath();
-    ctx.arc(0, 0, 10, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.restore();
-  });
-}
-
-function drawQuantumJet(ctx, x, y, tilt) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.rotate((tilt * Math.PI) / 180);
-
-  ctx.shadowBlur = 20;
-  ctx.shadowColor = "#ff007f";
-
-  // Engine Flame / Thruster
-  ctx.fillStyle = quantumGame.nitroActive ? "#ffea00" : "#ff007f";
-  ctx.beginPath();
-  ctx.moveTo(-25, 0);
-  ctx.lineTo(-45 - Math.random() * 10, -6);
-  ctx.lineTo(-45 - Math.random() * 10, 6);
-  ctx.closePath();
-  ctx.fill();
-
-  // Quantum Jet Chassis
-  const jetGrad = ctx.createLinearGradient(-20, -10, 25, 10);
-  jetGrad.addColorStop(0, "#2b0054");
-  jetGrad.addColorStop(0.5, "#00f0ff");
-  jetGrad.addColorStop(1, "#ffffff");
-
-  ctx.fillStyle = jetGrad;
-  ctx.beginPath();
-  ctx.moveTo(25, 0);
-  ctx.lineTo(-15, -12);
-  ctx.lineTo(-20, 0);
-  ctx.lineTo(-15, 12);
-  ctx.closePath();
-  ctx.fill();
-
-  // Shield Visual Field
-  if (quantumGame.shieldActive) {
-    ctx.strokeStyle = "rgba(0, 255, 204, 0.8)";
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(2, 0, 28, 0, Math.PI * 2);
-    ctx.stroke();
-  }
-
-  ctx.shadowBlur = 0;
-  ctx.restore();
-}
-
-function renderQuantumParticles(ctx) {
-  quantumGame.particles.forEach(pt => {
-    ctx.fillStyle = `rgba(255, 0, 128, ${pt.alpha})`;
-    ctx.beginPath();
-    ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
-    ctx.fill();
-  });
-}
-
-function renderQuantumHUD(ctx, canvasWidth) {
-  ctx.save();
-  const rightX = canvasWidth - 18;
-  const topY = 16;
-  const scoreText = `SCORE: ${quantumGame.score}`;
-
-  ctx.font = "900 22px 'Plus Jakarta Sans', sans-serif";
-  const pillW = 200;
-  const pillH = 42;
-  const pillX = rightX - pillW;
-
-  ctx.fillStyle = "rgba(15, 0, 38, 0.85)";
-  ctx.strokeStyle = "#ff007f";
-  ctx.lineWidth = 2;
-
-  ctx.beginPath();
-  if (ctx.roundRect) ctx.roundRect(pillX, topY, pillW, pillH, 12);
-  else ctx.rect(pillX, topY, pillW, pillH);
-  ctx.fill();
-  ctx.stroke();
-
-  ctx.fillStyle = "#00f0ff";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillText(scoreText, pillX + (pillW / 2), topY + (pillH / 2));
-
-  // Multiplier Indicator
-  if (quantumGame.scoreMultiplier > 1) {
-    ctx.fillStyle = "#ffea00";
-    ctx.font = "900 16px 'Plus Jakarta Sans', sans-serif";
-    ctx.fillText("2X MULTIPLIER", pillX + (pillW / 2), topY + pillH + 16);
-  }
-
-  ctx.restore();
-}
-
-function triggerQuantumCrash() {
-  quantumGame.active = false;
-  stopQuantumMusic();
-  if (quantumGame.loopId) cancelAnimationFrame(quantumGame.loopId);
-
-  quantumGame.shakeTime = 150;
-
-  for (let i = 0; i < 20; i++) {
-    quantumGame.particles.push({
-      x: quantumGame.x,
-      y: quantumGame.y,
-      vx: (Math.random() - 0.5) * 10,
-      vy: (Math.random() - 0.5) * 10,
-      radius: Math.random() * 5 + 2,
-      alpha: 1.0
-    });
-  }
-
-  renderQuantumCanvas();
-
-  setTimeout(() => {
-    handleQuantumCrash();
-  }, 200);
-}
-
-function handleQuantumCrash() {
-  appState.currentRunScore = quantumGame.score;
-  appState.monthlyScore += quantumGame.score;
-
-  if (quantumGame.score > quantumGame.bestScore) {
-    quantumGame.bestScore = quantumGame.score;
-  }
-
-  const runScoreEl = document.getElementById("currentRunScore");
-  const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
-
-  if (runScoreEl) runScoreEl.innerText = `${appState.currentRunScore} PTS`;
-  if (dailyTotalEl) dailyTotalEl.innerText = `Total: ${appState.monthlyScore} PTS (Best: ${quantumGame.bestScore} PTS)`;
-
-  updateLeaderboardWithUserScore();
-  document.getElementById("gameOverOverlay")?.classList.remove("hidden");
-}
-
-function updateLeaderboardWithUserScore() {
-  if (!appState.currentUser) return;
-
-  const scoreToAdd = appState.activeGameType === 'daily' ? appState.dailyScore : appState.monthlyScore;
-  const targetData = appState.leaderboardType === 'daily' ? lbDailyData : lbWeeklyData;
-
-  const existingIdx = targetData.findIndex(item => item.name === appState.currentUser.name);
-  if (existingIdx !== -1) {
-    targetData[existingIdx].score = scoreToAdd;
-  } else {
-    targetData.push({
-      rank: targetData.length + 1,
-      name: appState.currentUser.name,
-      score: scoreToAdd
-    });
-  }
-
-  targetData.sort((a, b) => b.score - a.score);
-  targetData.forEach((item, index) => item.rank = index + 1);
-
-  renderLeaderboard(appState.leaderboardType);
-}
-
-
-// ==========================================================================
-// LEADERBOARD & WALLET SYSTEM
-// ==========================================================================
-function switchLeaderboard(type) {
-  appState.leaderboardType = type;
-  const btnDaily = document.getElementById("btnDailyLb");
-  const btnWeekly = document.getElementById("btnWeeklyLb");
-  if (btnDaily) btnDaily.classList.toggle("active", type === 'daily');
-  if (btnWeekly) btnWeekly.classList.toggle("active", type === 'weekly');
-  renderLeaderboard(type);
-}
-
-function renderLeaderboard(type) {
-  const container = document.getElementById("lbList");
-  if (!container) return;
-  const data = type === 'daily' ? lbDailyData : lbWeeklyData;
-
-  container.innerHTML = data.map(item => `
-    <div class="lb-row">
-      <span class="lb-rank ${item.rank <= 3 ? 'top' + item.rank : ''}">#${item.rank}</span>
-      <span class="lb-name">${item.name}</span>
-      <span class="lb-score">${item.score.toLocaleString()} pts</span>
-    </div>
-  `).join("");
-
-  const rankCard = document.getElementById("userRankCard");
-  if (rankCard) {
-    let userRank = 'Unranked';
-    if (appState.currentUser) {
-      const found = data.find(i => i.name === appState.currentUser.name);
-      if (found) userRank = `#${found.rank} Rank`;
-    }
-
-    rankCard.innerHTML = `
-      <div>
-        <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 800;">YOUR CURRENT STANDING</div>
-        <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-primary);">${appState.currentUser ? appState.currentUser.name : 'Guest User'}</div>
-      </div>
-      <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-gold-dark);">
-        ${userRank}
-      </div>
+    title.innerText = "Community Guidelines";
+    body.innerHTML = `
+      <h4>1. Respect & Integrity</h4>
+      <p>Maintain healthy sportsmanship across tournaments and public updates.</p>
+      <h4>2. Zero Tolerance</h4>
+      <p>Hate speech, abusive behaviour, or cheating will result in immediate permanent bans.</p>
     `;
   }
+  modal.classList.remove('hidden');
 }
 
-function renderAlerts() {
-  const container = document.getElementById("alertsFeed");
-  if (!container) return;
-
-  container.innerHTML = alertsData.map(item => `
-    <div class="alert-card glass-card">
-      <div class="alert-time">${item.time}</div>
-      <div class="alert-title">${item.title}</div>
-      <div class="alert-desc">${item.desc}</div>
-    </div>
-  `).join("");
+function closeLegalModal() {
+  document.getElementById('legalModal')?.classList.add('hidden');
 }
 
+// --- Wallet & Profile Renderer ---
 function renderProfileWallet() {
-  const profileContainer = document.getElementById("profileDetailsContainer");
-  const upiDisplay = document.getElementById("walletUpiDisplay");
-  const txList = document.getElementById("txList");
+  const profileBox = document.getElementById('profileDetailsContainer');
+  const upiDisplay = document.getElementById('walletUpiDisplay');
+  const txList = document.getElementById('txList');
 
-  if (!appState.currentUser) {
-    if (profileContainer) {
-      profileContainer.innerHTML = `
-        <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: center;">
-          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Log in to access your Payout Wallet and Link UPI.</p>
-          <button class="glass-btn primary-btn" onclick="openAuthModal('login')">LOG IN NOW</button>
+  if (AppState.currentUser) {
+    if (profileBox) {
+      profileBox.innerHTML = `
+        <div class="glass-card" style="padding:16px; margin-bottom:16px; text-align:left;">
+          <h3 style="font-size:1rem; font-weight:800; color:var(--text-primary); margin-bottom:4px;">${AppState.currentUser.name}</h3>
+          <p style="font-size:0.8rem; color:var(--text-secondary);">${AppState.currentUser.email}</p>
         </div>
       `;
     }
-    return;
-  }
-
-  if (profileContainer) {
-    profileContainer.innerHTML = `
-      <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left;">
-        <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 800;">ACCOUNT HOLDER</div>
-        <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">${appState.currentUser.name}</div>
-        <div style="font-size: 0.8rem; color: var(--text-secondary);">${appState.currentUser.email}</div>
-      </div>
-    `;
-  }
-
-  if (upiDisplay) {
-    if (appState.currentUser.upi) {
-      upiDisplay.innerHTML = `<span style="color: var(--accent-green)">🟢 ${appState.currentUser.upi}</span>`;
-    } else {
-      upiDisplay.innerHTML = `
-        <button class="glass-btn action-btn" style="padding: 10px 16px; font-size: 0.82rem;" onclick="showModal('walletActivationModal')">
-          + LINK UPI ID
-        </button>
+    if (upiDisplay) {
+      if (AppState.currentUser.upi) {
+        upiDisplay.innerText = AppState.currentUser.upi;
+        upiDisplay.style.color = "var(--accent-green)";
+      } else {
+        upiDisplay.innerHTML = `<button class="glass-btn primary-btn" onclick="openWalletModal()" style="font-size:0.8rem; padding:8px 16px;">+ Link UPI ID</button>`;
+      }
+    }
+  } else {
+    if (profileBox) {
+      profileBox.innerHTML = `
+        <div class="glass-card" style="padding:16px; margin-bottom:16px; text-align:center;">
+          <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:10px;">Please log in to view wallet & link your UPI ID.</p>
+          <button class="glass-btn primary-btn" onclick="openAuthModal('login')">Log In Now</button>
+        </div>
       `;
     }
+    if (upiDisplay) upiDisplay.innerText = "Not Activated";
   }
 
   if (txList) {
@@ -1743,56 +381,407 @@ function renderProfileWallet() {
       <div class="tx-item">
         <div>
           <div class="tx-title">Daily Tournament Reward</div>
-          <div class="tx-date">Instant Transfer</div>
+          <div class="tx-date">Yesterday, 10:00 PM</div>
         </div>
-        <div class="tx-amount">+₹100</div>
+        <div class="tx-amount">+ ₹100.00</div>
       </div>
     `;
   }
 }
 
-function activateWallet(e) {
-  e.preventDefault();
-  const upiInput = document.getElementById("upiInput")?.value;
-  if (!upiInput || !upiInput.includes("@")) {
-    openPopup("Please enter a valid UPI ID (e.g. username@upi)");
+// --- Leaderboard & Alerts ---
+function switchLeaderboard(type) {
+  AppState.activeLbType = type;
+  const btnD = document.getElementById('btnDailyLb');
+  const btnW = document.getElementById('btnWeeklyLb');
+  if (type === 'daily') {
+    btnD?.classList.add('active');
+    btnW?.classList.remove('active');
+  } else {
+    btnW?.classList.add('active');
+    btnD?.classList.remove('active');
+  }
+  renderLeaderboard();
+}
+
+function renderLeaderboard() {
+  const container = document.getElementById('lbList');
+  const userRankBox = document.getElementById('userRankCard');
+  if (!container) return;
+
+  let html = '';
+  AppState.dummyLeaderboard.forEach(item => {
+    let rankClass = '';
+    if (item.rank === 1) rankClass = 'top1';
+    else if (item.rank === 2) rankClass = 'top2';
+    else if (item.rank === 3) rankClass = 'top3';
+
+    html += `
+      <div class="lb-row">
+        <span class="lb-rank ${rankClass}">#${item.rank}</span>
+        <span class="lb-name">${item.name}</span>
+        <span class="lb-score">${item.score} pts</span>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+
+  if (userRankBox) {
+    const currentScore = AppState.activeLbType === 'daily' ? AppState.userScores.dailyTotal : AppState.userScores.monthlyTotal;
+    userRankBox.innerHTML = `
+      <div style="text-align:left;">
+        <span style="font-size:0.72rem; color:var(--text-muted); font-weight:800;">YOUR CURRENT STANDING</span>
+        <div style="font-size:0.95rem; font-weight:800; color:var(--text-primary); margin-top:2px;">
+          ${AppState.currentUser ? AppState.currentUser.name : 'Guest User'}
+        </div>
+      </div>
+      <div style="text-align:right;">
+        <span style="font-size:0.72rem; color:var(--text-muted); font-weight:800;">COMBINED SCORE</span>
+        <div style="font-size:1.1rem; font-weight:900; color:var(--accent-cyan);">${currentScore} pts</div>
+      </div>
+    `;
+  }
+}
+
+function renderAlerts() {
+  const feed = document.getElementById('alertsFeed');
+  if (!feed) return;
+  feed.innerHTML = `
+    <div class="alert-card glass-card">
+      <div class="alert-time">5 MINS AGO</div>
+      <div class="alert-title">🚀 Daily Tournament is LIVE!</div>
+      <div class="alert-desc">Fly high in Heli Dash! Daily top 10 players will receive ₹100 rewards directly in their wallet.</div>
+    </div>
+    <div class="alert-card glass-card">
+      <div class="alert-time">2 HOURS AGO</div>
+      <div class="alert-title">👑 Monthly Grand Pool Active</div>
+      <div class="alert-desc">50% of monthly platform revenue will be shared among top 100 leaderboard rankers.</div>
+    </div>
+  `;
+}
+
+// --- Dynamic Launching Handler ---
+function handleGameLaunch(mode = 'daily') {
+  if (!AppState.currentUser) {
+    openAuthModal('login');
+    return;
+  }
+  
+  AppState.activeTournamentMode = mode;
+  
+  const headerTitle = document.querySelector('.game-header-title');
+  if (headerTitle) {
+    if (mode === 'monthly') {
+      headerTitle.innerText = "👑 Monthly Grand Championship - Heli Dash";
+    } else {
+      headerTitle.innerText = "🚁 Heli Dash - Daily Tournament";
+    }
+  }
+
+  const modal = document.getElementById('gameScreenModal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    document.body.classList.add('no-scroll');
+    
+    // Ensure geometry is settled before canvas setup
+    requestAnimationFrame(() => {
+      setupCanvas();
+      resetHeliGameState();
+    });
+  }
+}
+
+function closeGameScreen() {
+  stopGameLoop();
+  const modal = document.getElementById('gameScreenModal');
+  if (modal) {
+    modal.classList.add('hidden');
+    document.body.classList.remove('no-scroll');
+  }
+}
+
+/* ==========================================================================
+   ROBUST & ACCURATE CANVAS ENGINE: HELI DASH HD
+   ========================================================================== */
+
+let gameLoopId = null;
+let isGameRunning = false;
+let score = 0;
+
+// Game physics scaling constants
+const GAME_WIDTH = 360;
+const GAME_HEIGHT = 640;
+
+const heli = {
+  x: 50,
+  y: 300,
+  width: 38,
+  height: 24,
+  gravity: 0.38,
+  lift: -7.5,
+  velocity: 0
+};
+
+let obstacles = [];
+let obstacleTimer = 0;
+let obstacleFrequency = 110; // frames between obstacles
+
+function setupCanvas() {
+  canvas = document.getElementById('heliCanvas');
+  if (!canvas) return;
+  ctx = canvas.getContext('2d');
+
+  const container = canvas.parentElement;
+  const rect = container.getBoundingClientRect();
+
+  // Handle High DPI Screens cleanly
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+}
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('gameScreenModal') && !document.getElementById('gameScreenModal').classList.contains('hidden')) {
+    setupCanvas();
+  }
+});
+
+function setupEventListeners() {
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      if (document.getElementById('gameScreenModal') && !document.getElementById('gameScreenModal').classList.contains('hidden')) {
+        e.preventDefault();
+        triggerHeliJump();
+      }
+    }
+  });
+
+  const canvasStage = document.getElementById('heliCanvas');
+  if (canvasStage) {
+    canvasStage.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      triggerHeliJump();
+    }, { passive: false });
+
+    canvasStage.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      triggerHeliJump();
+    });
+  }
+}
+
+function triggerHeliJump() {
+  if (isGameRunning) {
+    heli.velocity = heli.lift;
+  }
+}
+
+function resetHeliGameState() {
+  stopGameLoop();
+  score = 0;
+  
+  const container = canvas ? canvas.parentElement : null;
+  const h = container ? container.getBoundingClientRect().height : GAME_HEIGHT;
+  
+  heli.x = 60;
+  heli.y = h / 2;
+  heli.velocity = 0;
+  obstacles = [];
+  obstacleTimer = 0;
+
+  document.getElementById('gameHudContainer').style.display = 'none';
+  document.getElementById('gameStartOverlay').classList.remove('hidden');
+  document.getElementById('gameOverOverlay').classList.add('hidden');
+  
+  // Render clean initial state frame
+  drawGameFrame();
+}
+
+function startHeliGame() {
+  resetHeliGameState();
+  document.getElementById('gameStartOverlay').classList.add('hidden');
+  document.getElementById('gameOverOverlay').classList.add('hidden');
+  document.getElementById('gameHudContainer').style.display = 'block';
+
+  document.getElementById('liveScoreText').innerText = "0";
+
+  isGameRunning = true;
+  lastTime = performance.now();
+  gameLoopId = requestAnimationFrame(gameLoop);
+}
+
+function stopGameLoop() {
+  isGameRunning = false;
+  if (gameLoopId) {
+    cancelAnimationFrame(gameLoopId);
+    gameLoopId = null;
+  }
+}
+
+let lastTime = 0;
+function gameLoop(time) {
+  if (!isGameRunning) return;
+
+  updateGameLogic();
+  drawGameFrame();
+
+  gameLoopId = requestAnimationFrame(gameLoop);
+}
+
+function updateGameLogic() {
+  const container = canvas.parentElement;
+  const stageWidth = container.getBoundingClientRect().width;
+  const stageHeight = container.getBoundingClientRect().height;
+
+  // Apply Physics
+  heli.velocity += heli.gravity;
+  heli.y += heli.velocity;
+
+  // Check Boundary Collisions (Top & Bottom)
+  if (heli.y + heli.height >= stageHeight || heli.y <= 0) {
+    triggerGameOver();
     return;
   }
 
-  if (appState.currentUser) {
-    appState.currentUser.upi = upiInput;
+  // Handle Obstacles Spawning
+  obstacleTimer++;
+  if (obstacleTimer % obstacleFrequency === 0) {
+    const gapHeight = 160; // Fair gap height for responsive devices
+    const minPipe = 60;
+    const maxPipe = stageHeight - gapHeight - minPipe;
+    const topPipeHeight = Math.floor(Math.random() * (maxPipe - minPipe + 1)) + minPipe;
+
+    obstacles.push({
+      x: stageWidth,
+      topHeight: topPipeHeight,
+      bottomY: topPipeHeight + gapHeight,
+      width: 52,
+      passed: false
+    });
   }
 
-  hideModal("walletActivationModal");
-  renderProfileWallet();
+  // Update Obstacles Movement
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    let obs = obstacles[i];
+    obs.x -= 2.6; // Smooth, precise speed
+
+    // Check Score Increment
+    if (!obs.passed && obs.x + obs.width < heli.x) {
+      obs.passed = true;
+      score += 10;
+      document.getElementById('liveScoreText').innerText = score;
+    }
+
+    // Check AABB Box Collision
+    if (
+      heli.x < obs.x + obs.width &&
+      heli.x + heli.width > obs.x &&
+      (heli.y < obs.topHeight || heli.y + heli.height > obs.bottomY)
+    ) {
+      triggerGameOver();
+      return;
+    }
+
+    // Remove Off-screen Obstacles
+    if (obs.x + obs.width < -10) {
+      obstacles.splice(i, 1);
+    }
+  }
 }
 
-// Legal Modals
-const legalTexts = {
-  privacy: {
-    title: "Privacy Policy",
-    body: "<h4>1. Data Security</h4><p>Win2Earn values user privacy. We store user credentials strictly for account authentication and tournament prize distribution.</p><h4>2. No Third-Party Sales</h4><p>Your mobile number and UPI details are kept encrypted and never shared with external agencies.</p>"
-  },
-  terms: {
-    title: "Terms & Conditions",
-    body: "<h4>1. Free Skill Platform</h4><p>Win2Earn is a 100% free gaming platform. Users cannot deposit real money to participate.</p><h4>2. Fair Play Policy</h4><p>Any use of bots, emulators, or score manipulation will lead to immediate account termination.</p>"
-  },
-  community: {
-    title: "Community Guidelines",
-    body: "<h4>1. Respectful Competition</h4><p>Maintain sportsmanship across all tournaments and support channels.</p><h4>2. Authentic Rank Standings</h4><p>Leaderboards update dynamically to guarantee genuine performance tracking.</p>"
-  }
-};
+function drawGameFrame() {
+  if (!ctx || !canvas) return;
 
-function openLegalModal(type) {
-  const content = legalTexts[type];
-  if (content) {
-    const titleEl = document.getElementById("legalModalTitle");
-    const bodyEl = document.getElementById("legalModalBody");
-    if (titleEl) titleEl.innerText = content.title;
-    if (bodyEl) bodyEl.innerHTML = content.body;
-    showModal("legalModal");
-  }
+  const container = canvas.parentElement;
+  const stageWidth = container.getBoundingClientRect().width;
+  const stageHeight = container.getBoundingClientRect().height;
+
+  // 1. Draw Vibrant Sky Background
+  ctx.fillStyle = '#2ec1cc';
+  ctx.fillRect(0, 0, stageWidth, stageHeight);
+
+  // Background Cloud Details
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
+  ctx.beginPath();
+  ctx.arc(80, 100, 30, 0, Math.PI * 2);
+  ctx.arc(110, 90, 40, 0, Math.PI * 2);
+  ctx.arc(140, 100, 30, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.beginPath();
+  ctx.arc(260, 220, 25, 0, Math.PI * 2);
+  ctx.arc(285, 210, 35, 0, Math.PI * 2);
+  ctx.arc(310, 220, 25, 0, Math.PI * 2);
+  ctx.fill();
+
+  // 2. Draw Metallic Pipe Obstacles
+  obstacles.forEach(obs => {
+    ctx.fillStyle = '#1e293b'; // Main Metallic Body
+    
+    // Top Pipe
+    ctx.fillRect(obs.x, 0, obs.width, obs.topHeight);
+    ctx.fillStyle = '#0f172a'; // Pipe Cap Highlight
+    ctx.fillRect(obs.x - 4, obs.topHeight - 18, obs.width + 8, 18);
+
+    // Bottom Pipe
+    ctx.fillStyle = '#1e293b';
+    ctx.fillRect(obs.x, obs.bottomY, obs.width, stageHeight - obs.bottomY);
+    ctx.fillStyle = '#0f172a';
+    ctx.fillRect(obs.x - 4, obs.bottomY, obs.width + 8, 18);
+  });
+
+  // 3. Draw Helicopter (Vector Style)
+  ctx.save();
+  ctx.translate(heli.x + heli.width / 2, heli.y + heli.height / 2);
+  
+  // Dynamic rotation based on velocity
+  let rotation = Math.min(Math.max(heli.velocity * 0.05, -0.4), 0.5);
+  ctx.rotate(rotation);
+
+  // Fuselage (Body)
+  ctx.fillStyle = '#0071e3';
+  ctx.beginPath();
+  ctx.roundRect(-heli.width / 2, -heli.height / 2, heli.width, heli.height, 8);
+  ctx.fill();
+
+  // Glass Window
+  ctx.fillStyle = '#bae6fd';
+  ctx.beginPath();
+  ctx.roundRect(4, -heli.height / 2 + 3, 11, 10, 3);
+  ctx.fill();
+
+  // Main Rotor Propeller Blade
+  ctx.fillStyle = '#334155';
+  ctx.fillRect(-heli.width / 2 - 4, -heli.height / 2 - 4, heli.width + 8, 3);
+  ctx.fillRect(-2, -heli.height / 2 - 2, 4, 3);
+
+  // Tail Rotor
+  ctx.fillRect(-heli.width / 2 - 8, -4, 8, 4);
+
+  ctx.restore();
 }
 
-function closeLegalModal() { hideModal("legalModal"); }
+function triggerGameOver() {
+  stopGameLoop();
+
+  // Update Scores State based on current Mode
+  if (AppState.activeTournamentMode === 'monthly') {
+    AppState.userScores.monthlyTotal += score;
+    if (score > AppState.userScores.monthlyHigh) AppState.userScores.monthlyHigh = score;
+  } else {
+    AppState.userScores.dailyTotal += score;
+    if (score > AppState.userScores.dailyHigh) AppState.userScores.dailyHigh = score;
+  }
+  saveScores();
+  renderLeaderboard();
+
+  // Display Scores in Modal Overlays
+  document.getElementById('currentRunScore').innerText = score;
+  const currentTotal = AppState.activeTournamentMode === 'monthly' ? AppState.userScores.monthlyTotal : AppState.userScores.dailyTotal;
+  document.getElementById('dailyTotalScoreDisplay').innerText = `${currentTotal} pts`;
+
+  document.getElementById('gameHudContainer').style.display = 'none';
+  document.getElementById('gameOverOverlay').classList.remove('hidden');
+}
 
