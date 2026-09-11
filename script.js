@@ -725,7 +725,6 @@ function updateHeliGamePhysics(dt) {
     return;
   }
 
-  // FIX: Spawn initial pipe ahead of the player to prevent instant crash
   if (heliGame.pipes.length === 0) {
     spawnPipe(canvas.width + 200);
   } else {
@@ -1076,7 +1075,6 @@ function handleHeliCrash() {
     heliGame.bestScore = heliGame.distanceMeters;
   }
 
-  // FIX: Daily vs Monthly UI Title & Display Separation
   const modalTitleEl = document.querySelector("#gameOverOverlay h2");
   if (modalTitleEl) modalTitleEl.innerText = "🚁 COPTER DASH CRASHED!";
 
@@ -1138,7 +1136,6 @@ function initQuantumGameListeners() {
   const canvas = document.getElementById("heliCanvas");
   if (!canvas) return;
 
-  // FIX: Support both Tap-to-move AND Drag for Quantum Rush on Mobile & PC
   const handleInteraction = (e) => {
     if (!quantumGame.active || appState.activeGameType !== 'monthly') return;
     const rect = canvas.getBoundingClientRect();
@@ -1178,7 +1175,6 @@ function resetQuantumGameUI() {
   quantumGame.scoreMultiplier = 1;
   quantumGame.shakeTime = 0;
 
-  // Generate Starfield Background
   for (let i = 0; i < 60; i++) {
     quantumGame.stars.push({
       x: Math.random() * canvas.width,
@@ -1246,15 +1242,12 @@ function quantumGameLoop(now) {
 function updateQuantumPhysics(dt) {
   const canvas = heliGame.canvas;
 
-  // Smooth Y Movement towards target touch/mouse position
   const dy = quantumGame.targetY - quantumGame.y;
   quantumGame.y += dy * 0.12;
   quantumGame.tilt = Math.max(-25, Math.min(25, dy * 0.8));
 
-  // Clamping within screen
   quantumGame.y = Math.max(30, Math.min(canvas.height - 30, quantumGame.y));
 
-  // Timers
   if (quantumGame.shieldTime > 0) {
     quantumGame.shieldTime -= dt;
     if (quantumGame.shieldTime <= 0) quantumGame.shieldActive = false;
@@ -1274,35 +1267,29 @@ function updateQuantumPhysics(dt) {
     if (quantumGame.multiplierTime <= 0) quantumGame.scoreMultiplier = 1;
   }
 
-  // Distance & Score progression
   quantumGame.distance += Math.round(quantumGame.speed * 0.5);
   quantumGame.score += Math.round(quantumGame.speed * 0.2 * quantumGame.scoreMultiplier);
 
-  // Speed scale with distance
   quantumGame.baseSpeed = Math.min(12.0, 6.0 + (quantumGame.distance / 2000));
 
-  // Scroll Grid & Starfield
   quantumGame.gridOffset = (quantumGame.gridOffset + quantumGame.speed) % 40;
   quantumGame.stars.forEach(s => {
     s.x -= s.speed * (quantumGame.speed / 4);
     if (s.x < 0) s.x = canvas.width;
   });
 
-  // FIX: Spawn initial gate ahead of player to prevent instant crash
   if (quantumGame.cyberGates.length === 0) {
     spawnCyberGate(canvas.width + 250, canvas.height);
   } else if (canvas.width - quantumGame.cyberGates[quantumGame.cyberGates.length - 1].x >= 280) {
     spawnCyberGate(canvas.width, canvas.height);
   }
 
-  // Gate Logic & Collisions
   const jetBox = { x: quantumGame.x, y: quantumGame.y - 10, w: quantumGame.width, h: quantumGame.height };
 
   for (let i = quantumGame.cyberGates.length - 1; i >= 0; i--) {
     const gate = quantumGame.cyberGates[i];
     gate.x -= quantumGame.speed;
 
-    // Moving gate effect
     if (gate.isMoving) {
       gate.gapY += Math.sin(Date.now() / 200) * 2;
     }
@@ -1326,12 +1313,10 @@ function updateQuantumPhysics(dt) {
     if (gate.x < -gate.width) quantumGame.cyberGates.splice(i, 1);
   }
 
-  // Spawn Power Gems
   if (Math.random() < 0.02) {
     spawnQuantumGem(canvas.width, canvas.height);
   }
 
-  // Gems Collection Logic
   for (let i = quantumGame.gems.length - 1; i >= 0; i--) {
     const gem = quantumGame.gems[i];
     gem.x -= quantumGame.speed;
@@ -1346,7 +1331,6 @@ function updateQuantumPhysics(dt) {
     }
   }
 
-  // Particles update
   for (let i = quantumGame.particles.length - 1; i >= 0; i--) {
     const pt = quantumGame.particles[i];
     pt.x += pt.vx;
@@ -1417,7 +1401,6 @@ function renderQuantumCanvas() {
 }
 
 function renderCyberpunkBackground(ctx, w, h) {
-  // Deep Sci-Fi Gradient
   const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
   bgGrad.addColorStop(0, "#080014");
   bgGrad.addColorStop(0.5, "#0f0026");
@@ -1425,13 +1408,11 @@ function renderCyberpunkBackground(ctx, w, h) {
   ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, w, h);
 
-  // Starfield
   ctx.fillStyle = "#ffffff";
   quantumGame.stars.forEach(s => {
     ctx.fillRect(s.x, s.y, s.size, s.size);
   });
 
-  // Synthwave Grid Floor
   ctx.strokeStyle = "rgba(255, 0, 128, 0.35)";
   ctx.lineWidth = 1.5;
   const floorY = h - 40;
@@ -1450,17 +1431,13 @@ function renderCyberpunkBackground(ctx, w, h) {
 
 function renderCyberGates(ctx, canvasHeight) {
   quantumGame.cyberGates.forEach(gate => {
-    // Laser Border Effect
     ctx.shadowBlur = 15;
     ctx.shadowColor = "#00f0ff";
     ctx.fillStyle = "#00f0ff";
 
-    // Top Gate Pillar
     ctx.fillRect(gate.x, 0, gate.width, gate.gapY);
-    // Bottom Gate Pillar
     ctx.fillRect(gate.x, gate.gapY + gate.gapH, gate.width, canvasHeight - (gate.gapY + gate.gapH));
 
-    // High Voltage Glowing Edges
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(gate.x - 2, gate.gapY - 6, gate.width + 4, 6);
     ctx.fillRect(gate.x - 2, gate.gapY + gate.gapH, gate.width + 4, 6);
@@ -1502,7 +1479,6 @@ function drawQuantumJet(ctx, x, y, tilt) {
   ctx.shadowBlur = 20;
   ctx.shadowColor = "#ff007f";
 
-  // Engine Flame / Thruster
   ctx.fillStyle = quantumGame.nitroActive ? "#ffea00" : "#ff007f";
   ctx.beginPath();
   ctx.moveTo(-25, 0);
@@ -1511,7 +1487,6 @@ function drawQuantumJet(ctx, x, y, tilt) {
   ctx.closePath();
   ctx.fill();
 
-  // Quantum Jet Chassis
   const jetGrad = ctx.createLinearGradient(-20, -10, 25, 10);
   jetGrad.addColorStop(0, "#2b0054");
   jetGrad.addColorStop(0.5, "#00f0ff");
@@ -1526,7 +1501,6 @@ function drawQuantumJet(ctx, x, y, tilt) {
   ctx.closePath();
   ctx.fill();
 
-  // Shield Visual Field
   if (quantumGame.shieldActive) {
     ctx.strokeStyle = "rgba(0, 255, 204, 0.8)";
     ctx.lineWidth = 3;
@@ -1574,7 +1548,6 @@ function renderQuantumHUD(ctx, canvasWidth) {
   ctx.textBaseline = "middle";
   ctx.fillText(scoreText, pillX + (pillW / 2), topY + (pillH / 2));
 
-  // Multiplier Indicator
   if (quantumGame.scoreMultiplier > 1) {
     ctx.fillStyle = "#ffea00";
     ctx.font = "900 16px 'Plus Jakarta Sans', sans-serif";
@@ -1617,7 +1590,6 @@ function handleQuantumCrash() {
     quantumGame.bestScore = quantumGame.score;
   }
 
-  // FIX: Daily vs Monthly UI Title & Display Separation
   const modalTitleEl = document.querySelector("#gameOverOverlay h2");
   if (modalTitleEl) modalTitleEl.innerText = "⚡ QUANTUM RUSH CRASHED!";
 
@@ -1636,7 +1608,6 @@ function updateLeaderboardWithUserScore() {
 
   const scoreToAdd = appState.activeGameType === 'daily' ? appState.dailyScore : appState.monthlyScore;
   
-  // FIX: Push scores into the respective active mode leaderboard
   const isDaily = appState.activeGameType === 'daily';
   const targetData = isDaily ? lbDailyData : lbWeeklyData;
 
@@ -1654,7 +1625,6 @@ function updateLeaderboardWithUserScore() {
   targetData.sort((a, b) => b.score - a.score);
   targetData.forEach((item, index) => item.rank = index + 1);
 
-  // Sync active view
   switchLeaderboard(isDaily ? 'daily' : 'weekly');
 }
 
