@@ -97,7 +97,7 @@ const lbWeeklyData = [
 const alertsData = [
   { title: "🔥 Daily Tournament Active", desc: "Top 10 daily players get ₹100 each directly in their UPI wallet!", time: "2 mins ago" },
   { title: "👑 Quantum Rush Monthly Live", desc: "Premium Sci-Fi Championship is LIVE! Win up to ₹1,00,000 GTD!", time: "1 hour ago" },
-  { title: "🚀 Fast Engine Loaded", desc: "Performance engine optimized for smooth high-speed gameplay.", time: "3 hours ago" }
+  { title: "🚀 Fast Engine Loaded", desc: "Performance engine optimized for smooth gameplay.", time: "3 hours ago" }
 ];
 
 // On Document Ready
@@ -303,7 +303,7 @@ function onUserLoggedIn() {
   const navAuth = document.getElementById("navAuthBtns");
   if (navAuth && appState.currentUser) {
     navAuth.innerHTML = `
-      <div class="user-pill-badge" style="background: rgba(245, 197, 24, 0.15); border: 1px solid var(--accent-gold); padding: 6px 14px; border-radius: 12px; color: var(--accent-gold-dark); font-size: 0.8rem; font-weight: 800;">
+      <div class="user-pill-badge" style="background: rgba(0, 113, 227, 0.1); border: 1px solid #0071e3; padding: 6px 14px; border-radius: 20px; color: #0071e3; font-size: 0.8rem; font-weight: 700;">
         👤 ${appState.currentUser.name}
       </div>
     `;
@@ -421,7 +421,7 @@ function startGameMusic() {
       const freq = bassNotes[noteIndex % bassNotes.length];
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.18);
 
       osc.connect(gain);
@@ -443,7 +443,6 @@ function stopGameMusic() {
   }
 }
 
-// Quantum Rush Synthwave Synth Music
 function startQuantumMusic() {
   initAudioContext();
   if (isMusicPlaying) return;
@@ -462,7 +461,7 @@ function startQuantumMusic() {
       const freq = synthArp[noteIndex % synthArp.length];
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-      gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
 
       osc.connect(gain);
@@ -491,10 +490,10 @@ function playWooshSound() {
     const gain = audioCtx.createGain();
     
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(320, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.1);
+    osc.frequency.setValueAtTime(300, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(110, audioCtx.currentTime + 0.1);
     
-    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
     
     osc.connect(gain);
@@ -502,6 +501,27 @@ function playWooshSound() {
     
     osc.start();
     osc.stop(audioCtx.currentTime + 0.1);
+  } catch(e) {}
+}
+
+function playBonusPopupSound() {
+  try {
+    initAudioContext();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880.00, audioCtx.currentTime + 0.12);
+
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.12);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.12);
   } catch(e) {}
 }
 
@@ -528,7 +548,7 @@ function playQuantumPickupSound() {
 
 
 // ==========================================================================
-// COPTER CASH - DAILY TOURNAMENT ENGINE
+// COPTER CASH - DAILY TOURNAMENT ENGINE (UPDATED)
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -537,40 +557,46 @@ const heliGame = {
   loopId: null,
   lastTime: 0,
   
-  x: 60,
+  // Bigger Helicopter Dimensions
+  x: 70,
   y: 200,
   targetY: 200,
-  width: 44,
-  height: 22,
-  hitboxW: 32,
-  hitboxH: 18,
-  gravity: 0.38,
+  width: 52,
+  height: 28,
+  hitboxW: 40,
+  hitboxH: 22,
+  
+  // Improved Physics
+  gravity: 0.34,
   velocity: 0,
-  jumpVelocity: -7.5,
-  maxFallSpeed: 9,
+  jumpVelocity: -6.5,
+  maxFallSpeed: 8.5,
   angle: 0,
   rotorFrame: 0,
   hoverTime: 0,
   
+  // Speed & Slower Gameplay Tuning
   pipes: [],
-  pipeWidth: 46,
-  pipeGap: 165,
-  basePipeSpeed: 4.0,
-  currentPipeSpeed: 4.0,
-  pipeSpacing: 220,
+  pipeWidth: 50,
+  pipeGap: 175,
+  basePipeSpeed: 2.8,       // Slower starting speed
+  currentPipeSpeed: 2.8,
+  pipeSpacing: 240,
   groundHeight: 85,
   groundOffset: 0,
   
   clouds: [
-    { x: 20, y: 40, speed: 0.8, scale: 0.9 },
-    { x: 160, y: 80, speed: 1.2, scale: 0.7 },
-    { x: 280, y: 30, speed: 0.6, scale: 1.1 }
+    { x: 20, y: 40, speed: 0.5, scale: 0.9 },
+    { x: 180, y: 80, speed: 0.8, scale: 0.7 },
+    { x: 320, y: 30, speed: 0.4, scale: 1.1 }
   ],
   
   distanceMeters: 0,
+  bonusPoints: 0,
   bestScore: 0,
   shakeTime: 0,
-  particles: []
+  particles: [],
+  popups: []
 };
 
 function initHeliGameListeners() {
@@ -619,7 +645,9 @@ function resetHeliGameUI() {
   heliGame.angle = 0;
   heliGame.pipes = [];
   heliGame.particles = [];
+  heliGame.popups = [];
   heliGame.distanceMeters = 0;
+  heliGame.bonusPoints = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
   heliGame.shakeTime = 0;
   heliGame.hoverTime = 0;
@@ -633,11 +661,11 @@ function drawHeliStaticPreview() {
   if (!ctx || !canvas) return;
 
   heliGame.hoverTime += 0.05;
-  const bobbing = Math.sin(heliGame.hoverTime * 3) * 3;
+  const bobbing = Math.sin(heliGame.hoverTime * 3) * 4;
 
   renderBackground(ctx, canvas.width, canvas.height);
   renderGround(ctx, canvas.width, canvas.height);
-  drawAttractiveHelicopter(ctx, heliGame.x, heliGame.y + bobbing, 0, Math.floor(Date.now() / 60) % 3);
+  drawAttractiveHelicopter(ctx, heliGame.x, heliGame.y + bobbing, 0, Math.floor(Date.now() / 50) % 3);
 }
 
 function startHeliGame() {
@@ -655,7 +683,9 @@ function startHeliGame() {
   heliGame.angle = 0;
   heliGame.pipes = [];
   heliGame.particles = [];
+  heliGame.popups = [];
   heliGame.distanceMeters = 0;
+  heliGame.bonusPoints = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
   heliGame.shakeTime = 0;
   heliGame.active = true;
@@ -683,6 +713,7 @@ function updateHeliGamePhysics(dt) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
 
+  // Helicopter Physics Tuning
   heliGame.velocity += heliGame.gravity;
   if (heliGame.velocity > heliGame.maxFallSpeed) {
     heliGame.velocity = heliGame.maxFallSpeed;
@@ -691,21 +722,22 @@ function updateHeliGamePhysics(dt) {
   heliGame.y += heliGame.velocity;
 
   if (heliGame.velocity < 0) {
-    heliGame.angle = Math.max(-20, heliGame.angle - 4);
+    heliGame.angle = Math.max(-18, heliGame.angle - 3.5);
   } else {
-    heliGame.angle = Math.min(28, heliGame.angle + 2.5);
+    heliGame.angle = Math.min(22, heliGame.angle + 2.0);
   }
 
-  heliGame.distanceMeters += Math.round(heliGame.currentPipeSpeed * 0.35);
-  heliGame.rotorFrame = Math.floor(Date.now() / 50) % 3;
+  heliGame.distanceMeters += 1;
+  heliGame.rotorFrame = Math.floor(Date.now() / 40) % 3;
 
-  const speedTier = Math.floor(heliGame.distanceMeters / 150);
-  heliGame.currentPipeSpeed = Math.min(7.5, heliGame.basePipeSpeed + (speedTier * 0.2));
+  // Speed increases every 2000 Meters
+  const speedTier = Math.floor(heliGame.distanceMeters / 2000);
+  heliGame.currentPipeSpeed = Math.min(6.5, heliGame.basePipeSpeed + (speedTier * 0.3));
 
   heliGame.groundOffset = (heliGame.groundOffset + heliGame.currentPipeSpeed) % 24;
   heliGame.clouds.forEach(cloud => {
     cloud.x -= cloud.speed;
-    if (cloud.x < -80) cloud.x = canvas.width + 40;
+    if (cloud.x < -100) cloud.x = canvas.width + 50;
   });
 
   if (heliGame.y <= 0) {
@@ -726,7 +758,7 @@ function updateHeliGamePhysics(dt) {
   }
 
   if (heliGame.pipes.length === 0) {
-    spawnPipe(canvas.width + 200);
+    spawnPipe(canvas.width + 100);
   } else {
     const lastPipe = heliGame.pipes[heliGame.pipes.length - 1];
     if (canvas.width - lastPipe.x >= heliGame.pipeSpacing) {
@@ -741,9 +773,23 @@ function updateHeliGamePhysics(dt) {
     const topPipeBox = { x: p.x, y: 0, w: heliGame.pipeWidth, h: p.topHeight };
     const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY };
 
+    // Check collision
     if (checkAABBCollision(heliHitbox, topPipeBox) || checkAABBCollision(heliHitbox, bottomPipeBox)) {
       triggerCollisionEffects();
       return;
+    }
+
+    // Near Pass / Close-Call Bonus Check (+100 meters/score popup)
+    if (!p.closeCallTriggered && (p.x + heliGame.pipeWidth < heliGame.x)) {
+      p.closeCallTriggered = true;
+      const topDist = Math.abs(heliHitbox.y - p.topHeight);
+      const bottomDist = Math.abs((heliHitbox.y + heliHitbox.h) - p.bottomY);
+
+      if (topDist < 30 || bottomDist < 30) {
+        heliGame.bonusPoints += 100;
+        playBonusPopupSound();
+        spawnPopupText(heliGame.x + 20, heliGame.y - 10, "+100");
+      }
     }
   }
 
@@ -751,12 +797,22 @@ function updateHeliGamePhysics(dt) {
     heliGame.pipes.shift();
   }
 
+  // Update Particles
   for (let i = heliGame.particles.length - 1; i >= 0; i--) {
     const pt = heliGame.particles[i];
     pt.x += pt.vx;
     pt.y += pt.vy;
-    pt.alpha -= 0.04;
+    pt.vy += 0.15; // Gravity on particles
+    pt.alpha -= 0.025;
     if (pt.alpha <= 0) heliGame.particles.splice(i, 1);
+  }
+
+  // Update Floating Popups
+  for (let i = heliGame.popups.length - 1; i >= 0; i--) {
+    const pop = heliGame.popups[i];
+    pop.y -= 1.2;
+    pop.alpha -= 0.02;
+    if (pop.alpha <= 0) heliGame.popups.splice(i, 1);
   }
 }
 
@@ -771,7 +827,16 @@ function spawnPipe(startX) {
     x: startX,
     topHeight: topHeight,
     bottomY: topHeight + heliGame.pipeGap,
-    passed: false
+    closeCallTriggered: false
+  });
+}
+
+function spawnPopupText(x, y, text) {
+  heliGame.popups.push({
+    x: x,
+    y: y,
+    text: text,
+    alpha: 1.0
   });
 }
 
@@ -790,16 +855,21 @@ function renderHeliGameCanvas() {
 
   if (heliGame.shakeTime > 0) {
     heliGame.shakeTime -= 16;
-    const dx = (Math.random() - 0.5) * 8;
-    const dy = (Math.random() - 0.5) * 8;
+    const dx = (Math.random() - 0.5) * 10;
+    const dy = (Math.random() - 0.5) * 10;
     ctx.translate(dx, dy);
   }
 
   renderBackground(ctx, canvas.width, canvas.height);
   renderPipes(ctx, canvas.height);
   renderGround(ctx, canvas.width, canvas.height);
-  drawAttractiveHelicopter(ctx, heliGame.x, heliGame.y, -heliGame.angle, heliGame.rotorFrame);
+  
+  if (heliGame.active) {
+    drawAttractiveHelicopter(ctx, heliGame.x, heliGame.y, -heliGame.angle, heliGame.rotorFrame);
+  }
+
   renderParticles(ctx);
+  renderPopups(ctx);
   renderSubwayStyleMeterUI(ctx, canvas.width);
 
   ctx.restore();
@@ -807,33 +877,34 @@ function renderHeliGameCanvas() {
 
 function renderBackground(ctx, w, h) {
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-  skyGrad.addColorStop(0, "#1A73E8");
-  skyGrad.addColorStop(0.6, "#2EC1CC");
-  skyGrad.addColorStop(1, "#80DEEA");
+  skyGrad.addColorStop(0, "#e8f2fc");
+  skyGrad.addColorStop(0.6, "#cbe3f9");
+  skyGrad.addColorStop(1, "#a8d4ff");
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 
-  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
   heliGame.clouds.forEach(c => {
     drawCloud(ctx, c.x, c.y, c.scale);
   });
 
   const groundY = h - heliGame.groundHeight;
 
-  ctx.fillStyle = "#A0E0E0";
-  const buildingHeights = [65, 45, 80, 55, 90, 50, 75];
+  // Modern Minimal Buildings Sky
+  ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
+  const buildingHeights = [70, 50, 90, 60, 100, 55, 80];
   let currentX = 0;
   let idx = 0;
   while (currentX < w) {
-    const bw = 32;
+    const bw = 38;
     const bh = buildingHeights[idx % buildingHeights.length];
-    ctx.fillRect(currentX, groundY - bh - 20, bw, bh + 20);
-    currentX += bw + 4;
+    ctx.fillRect(currentX, groundY - bh - 15, bw, bh + 15);
+    currentX += bw + 6;
     idx++;
   }
 
-  ctx.fillStyle = "#8FD68E";
-  ctx.fillRect(0, groundY - 20, w, 20);
+  ctx.fillStyle = "#81c784";
+  ctx.fillRect(0, groundY - 15, w, 15);
 }
 
 function drawCloud(ctx, x, y, scale) {
@@ -841,12 +912,12 @@ function drawCloud(ctx, x, y, scale) {
   ctx.translate(x, y);
   ctx.scale(scale, scale);
   ctx.beginPath();
-  ctx.arc(0, 0, 16, Math.PI * 0.5, Math.PI * 1.5);
-  ctx.arc(16, -12, 18, Math.PI * 1, Math.PI * 1.85);
-  ctx.arc(36, -6, 14, Math.PI * 1.37, Math.PI * 1.91);
-  ctx.arc(46, 0, 14, Math.PI * 1.5, Math.PI * 0.5);
-  ctx.moveTo(46, 16);
-  ctx.lineTo(0, 16);
+  ctx.arc(0, 0, 18, Math.PI * 0.5, Math.PI * 1.5);
+  ctx.arc(18, -14, 20, Math.PI * 1, Math.PI * 1.85);
+  ctx.arc(40, -8, 16, Math.PI * 1.37, Math.PI * 1.91);
+  ctx.arc(52, 0, 16, Math.PI * 1.5, Math.PI * 0.5);
+  ctx.moveTo(52, 18);
+  ctx.lineTo(0, 18);
   ctx.fill();
   ctx.restore();
 }
@@ -864,29 +935,28 @@ function drawThinMetallicPipe(ctx, x, y, width, height, isTop) {
   if (height <= 0) return;
 
   const bodyGrad = ctx.createLinearGradient(x, 0, x + width, 0);
-  bodyGrad.addColorStop(0, "#2E7D32");
-  bodyGrad.addColorStop(0.3, "#4CAF50");
-  bodyGrad.addColorStop(0.5, "#A5D6A7");
-  bodyGrad.addColorStop(0.8, "#4CAF50");
-  bodyGrad.addColorStop(1, "#1B5E20");
+  bodyGrad.addColorStop(0, "#34c759");
+  bodyGrad.addColorStop(0.4, "#30d158");
+  bodyGrad.addColorStop(0.7, "#a3f7b5");
+  bodyGrad.addColorStop(1, "#248a3d");
 
   ctx.fillStyle = bodyGrad;
   ctx.fillRect(x, y, width, height);
   
-  ctx.strokeStyle = "#0D3B11";
+  ctx.strokeStyle = "rgba(0,0,0,0.15)";
   ctx.lineWidth = 2;
   ctx.strokeRect(x, y, width, height);
 
-  const capH = 18;
+  const capH = 20;
   const overhang = 4;
   const capX = x - overhang;
   const capW = width + (overhang * 2);
   const capY = isTop ? y + height - capH : y;
 
   const capGrad = ctx.createLinearGradient(capX, 0, capX + capW, 0);
-  capGrad.addColorStop(0, "#388E3C");
-  capGrad.addColorStop(0.5, "#C8E6C9");
-  capGrad.addColorStop(1, "#1B5E20");
+  capGrad.addColorStop(0, "#30d158");
+  capGrad.addColorStop(0.5, "#d1fada");
+  capGrad.addColorStop(1, "#1c6b2e");
 
   ctx.fillStyle = capGrad;
   ctx.fillRect(capX, capY, capW, capH);
@@ -896,22 +966,22 @@ function drawThinMetallicPipe(ctx, x, y, width, height, isTop) {
 function renderGround(ctx, width, height) {
   const groundY = height - heliGame.groundHeight;
 
-  ctx.fillStyle = "#3CB043";
-  ctx.fillRect(0, groundY, width, 12);
+  ctx.fillStyle = "#34c759";
+  ctx.fillRect(0, groundY, width, 14);
   
-  ctx.fillStyle = "#2E8B37";
+  ctx.fillStyle = "#28a745";
   for (let gx = -heliGame.groundOffset; gx < width + 24; gx += 16) {
     ctx.beginPath();
-    ctx.arc(gx, groundY + 12, 6, 0, Math.PI);
+    ctx.arc(gx, groundY + 14, 6, 0, Math.PI);
     ctx.fill();
   }
 
-  const woodY = groundY + 12;
-  const woodH = heliGame.groundHeight - 12;
-  ctx.fillStyle = "#8B4513";
+  const woodY = groundY + 14;
+  const woodH = heliGame.groundHeight - 14;
+  ctx.fillStyle = "#8e6e53";
   ctx.fillRect(0, woodY, width, woodH);
 
-  ctx.strokeStyle = "#A0522D";
+  ctx.strokeStyle = "#725339";
   ctx.lineWidth = 2;
   for (let lx = -heliGame.groundOffset; lx < width + 40; lx += 32) {
     ctx.beginPath();
@@ -921,73 +991,80 @@ function renderGround(ctx, width, height) {
   }
 }
 
+// Bada and Attractive Helicopter Renderer
 function drawAttractiveHelicopter(ctx, x, y, angleDeg, rotorFrame) {
   ctx.save();
-  ctx.translate(x + 22, y + 11);
+  ctx.translate(x + 26, y + 14);
   ctx.rotate((angleDeg * Math.PI) / 180);
 
-  ctx.strokeStyle = "#1A1A1A";
-  ctx.lineWidth = 2;
+  // Skids (Landing Gear)
+  ctx.strokeStyle = "#1c1c1e";
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.moveTo(-10, 10); ctx.lineTo(-4, 6);
-  ctx.moveTo(8, 10); ctx.lineTo(12, 6);
-  ctx.moveTo(-16, 10); ctx.lineTo(18, 10);
+  ctx.moveTo(-12, 14); ctx.lineTo(-6, 8);
+  ctx.moveTo(10, 14); ctx.lineTo(14, 8);
+  ctx.moveTo(-18, 14); ctx.lineTo(22, 14);
   ctx.stroke();
 
-  const tailGrad = ctx.createLinearGradient(-26, -4, -10, 4);
-  tailGrad.addColorStop(0, "#FF8C00");
-  tailGrad.addColorStop(1, "#FFD700");
+  // Tail Rotor Pole & Fins
+  const tailGrad = ctx.createLinearGradient(-32, -4, -12, 4);
+  tailGrad.addColorStop(0, "#ff9500");
+  tailGrad.addColorStop(1, "#ffcc00");
   ctx.fillStyle = tailGrad;
-  ctx.fillRect(-26, -3, 16, 6);
+  ctx.fillRect(-32, -4, 20, 8);
 
-  ctx.fillStyle = "#D32F2F";
+  ctx.fillStyle = "#ff3b30";
   ctx.beginPath();
-  ctx.moveTo(-26, -3);
-  ctx.lineTo(-30, -9);
-  ctx.lineTo(-24, -3);
+  ctx.moveTo(-32, -4);
+  ctx.lineTo(-38, -12);
+  ctx.lineTo(-30, -4);
   ctx.fill();
 
-  const bodyGrad = ctx.createRadialGradient(4, -2, 2, 0, 0, 18);
-  bodyGrad.addColorStop(0, "#FFF176");
-  bodyGrad.addColorStop(0.5, "#FFC107");
-  bodyGrad.addColorStop(1, "#FF8F00");
+  // Main Helicopter Body Body
+  const bodyGrad = ctx.createRadialGradient(6, -2, 3, 0, 0, 22);
+  bodyGrad.addColorStop(0, "#ffe600");
+  bodyGrad.addColorStop(0.6, "#ff9500");
+  bodyGrad.addColorStop(1, "#e65100");
 
   ctx.fillStyle = bodyGrad;
   ctx.beginPath();
-  ctx.ellipse(2, 0, 18, 11, 0, 0, Math.PI * 2);
+  ctx.ellipse(3, 0, 22, 14, 0, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = "#5D4037";
+  ctx.strokeStyle = "#3a2500";
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  const glassGrad = ctx.createLinearGradient(6, -6, 16, 4);
-  glassGrad.addColorStop(0, "#80DEEA");
-  glassGrad.addColorStop(0.6, "#00ACC1");
-  glassGrad.addColorStop(1, "#006064");
+  // Glass Cockpit Window
+  const glassGrad = ctx.createLinearGradient(8, -8, 20, 6);
+  glassGrad.addColorStop(0, "#e0f7fa");
+  glassGrad.addColorStop(0.5, "#00e5ff");
+  glassGrad.addColorStop(1, "#00838f");
 
   ctx.fillStyle = glassGrad;
   ctx.beginPath();
-  ctx.arc(9, -1, 6, 0, Math.PI * 2);
+  ctx.arc(11, -1, 8, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = "#FFFFFF";
-  ctx.lineWidth = 1;
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 1.5;
   ctx.stroke();
 
-  ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
   ctx.beginPath();
-  ctx.arc(11, -3, 2, 0, Math.PI * 2);
+  ctx.arc(13, -3, 2.5, 0, Math.PI * 2);
   ctx.fill();
 
-  ctx.fillStyle = "#37474F";
-  ctx.fillRect(0, -14, 4, 5);
+  // Rotor Shaft
+  ctx.fillStyle = "#2c2c2e";
+  ctx.fillRect(0, -18, 5, 6);
 
-  ctx.fillStyle = "rgba(33, 33, 33, 0.8)";
+  // Double Blade Animation
+  ctx.fillStyle = "rgba(28, 28, 30, 0.85)";
   if (rotorFrame === 0) {
-    ctx.fillRect(-18, -15, 38, 3);
+    ctx.fillRect(-24, -19, 50, 3);
   } else if (rotorFrame === 1) {
-    ctx.fillRect(-12, -15, 26, 3);
+    ctx.fillRect(-16, -19, 34, 3);
   } else {
-    ctx.fillRect(-20, -15, 42, 2);
+    ctx.fillRect(-26, -19, 54, 2);
   }
 
   ctx.restore();
@@ -995,67 +1072,80 @@ function drawAttractiveHelicopter(ctx, x, y, angleDeg, rotorFrame) {
 
 function renderParticles(ctx) {
   heliGame.particles.forEach(pt => {
-    ctx.fillStyle = `rgba(255, 193, 7, ${pt.alpha})`;
+    ctx.fillStyle = pt.color || `rgba(255, 149, 0, ${pt.alpha})`;
     ctx.beginPath();
     ctx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
     ctx.fill();
   });
 }
 
+function renderPopups(ctx) {
+  heliGame.popups.forEach(pop => {
+    ctx.save();
+    ctx.font = "900 20px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
+    ctx.fillStyle = `rgba(52, 199, 89, ${pop.alpha})`;
+    ctx.shadowBlur = 6;
+    ctx.shadowColor = "rgba(0,0,0,0.2)";
+    ctx.fillText(pop.text, pop.x, pop.y);
+    ctx.restore();
+  });
+}
+
+// Display ONLY Meters in top right
 function renderSubwayStyleMeterUI(ctx, canvasWidth) {
   ctx.save();
   const rightX = canvasWidth - 18;
   const topY = 16;
   const meterText = `${heliGame.distanceMeters}m`;
 
-  ctx.font = "900 28px 'Plus Jakarta Sans', sans-serif";
+  ctx.font = "900 26px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
   const textMetrics = ctx.measureText(meterText);
   const pillW = Math.max(110, textMetrics.width + 36);
-  const pillH = 42;
+  const pillH = 44;
   const pillX = rightX - pillW;
 
-  const bgGrad = ctx.createLinearGradient(pillX, topY, pillX + pillW, topY + pillH);
-  bgGrad.addColorStop(0, "rgba(0, 0, 0, 0.75)");
-  bgGrad.addColorStop(1, "rgba(20, 20, 20, 0.85)");
-
-  ctx.fillStyle = bgGrad;
-  ctx.strokeStyle = "rgba(255, 215, 0, 0.6)";
+  ctx.fillStyle = "rgba(255, 255, 255, 0.92)";
+  ctx.strokeStyle = "rgba(0, 113, 227, 0.4)";
   ctx.lineWidth = 1.5;
 
   ctx.beginPath();
   if (ctx.roundRect) {
-    ctx.roundRect(pillX, topY, pillW, pillH, 20);
+    ctx.roundRect(pillX, topY, pillW, pillH, 22);
   } else {
     ctx.rect(pillX, topY, pillW, pillH);
   }
   ctx.fill();
   ctx.stroke();
 
-  ctx.font = "900 24px 'Plus Jakarta Sans', sans-serif";
+  ctx.font = "900 22px -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
 
-  ctx.fillStyle = "#FFD700";
+  ctx.fillStyle = "#0071e3";
   ctx.fillText(meterText, pillX + (pillW / 2), topY + (pillH / 2));
 
   ctx.restore();
 }
 
+// Particle Explosion Animation on Crash
 function triggerCollisionEffects() {
   heliGame.active = false;
   stopGameMusic();
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
 
-  heliGame.shakeTime = 120;
-
+  heliGame.shakeTime = 150;
   heliGame.particles = [];
-  for (let i = 0; i < 12; i++) {
+
+  const crashColors = ["#ff3b30", "#ff9500", "#ffcc00", "#00e5ff", "#2c2c2e", "#ffffff"];
+
+  for (let i = 0; i < 35; i++) {
     heliGame.particles.push({
-      x: heliGame.x + 22,
-      y: heliGame.y + 11,
-      vx: (Math.random() - 0.5) * 8,
-      vy: (Math.random() - 0.5) * 8,
-      radius: 2 + Math.random() * 4,
+      x: heliGame.x + 26,
+      y: heliGame.y + 14,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.6) * 12,
+      radius: 2 + Math.random() * 5,
+      color: crashColors[Math.floor(Math.random() * crashColors.length)],
       alpha: 1.0
     });
   }
@@ -1064,24 +1154,25 @@ function triggerCollisionEffects() {
 
   setTimeout(() => {
     handleHeliCrash();
-  }, 180);
+  }, 250);
 }
 
 function handleHeliCrash() {
-  appState.currentRunScore = heliGame.distanceMeters;
-  appState.dailyScore += heliGame.distanceMeters;
+  const finalDistanceScore = heliGame.distanceMeters + heliGame.bonusPoints;
+  appState.currentRunScore = finalDistanceScore;
+  appState.dailyScore += finalDistanceScore;
 
-  if (heliGame.distanceMeters > heliGame.bestScore) {
-    heliGame.bestScore = heliGame.distanceMeters;
+  if (finalDistanceScore > heliGame.bestScore) {
+    heliGame.bestScore = finalDistanceScore;
   }
 
   const modalTitleEl = document.querySelector("#gameOverOverlay h2");
-  if (modalTitleEl) modalTitleEl.innerText = "🚁 COPTER DASH CRASHED!";
+  if (modalTitleEl) modalTitleEl.innerText = "🚁 COPTER CRASHED!";
 
   const runScoreEl = document.getElementById("currentRunScore");
   const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
   
-  if (runScoreEl) runScoreEl.innerText = `${appState.currentRunScore}m`;
+  if (runScoreEl) runScoreEl.innerText = `${finalDistanceScore}m`;
   if (dailyTotalEl) dailyTotalEl.innerText = `Daily Total: ${appState.dailyScore}m (Best: ${heliGame.bestScore}m)`;
 
   updateLeaderboardWithUserScore();
@@ -1099,7 +1190,6 @@ const quantumGame = {
   loopId: null,
   lastTime: 0,
 
-  // Jet Properties
   x: 80,
   y: 200,
   targetY: 200,
@@ -1108,7 +1198,6 @@ const quantumGame = {
   speedY: 0.15,
   tilt: 0,
   
-  // Power-Up State
   shieldActive: false,
   shieldTime: 0,
   nitroActive: false,
@@ -1116,14 +1205,12 @@ const quantumGame = {
   scoreMultiplier: 1,
   multiplierTime: 0,
 
-  // Game Physics & Scoring
   distance: 0,
   score: 0,
   bestScore: 0,
   speed: 6.0,
   baseSpeed: 6.0,
   
-  // Dynamic Entities
   cyberGates: [],
   gems: [],
   particles: [],
@@ -1664,10 +1751,10 @@ function renderLeaderboard(type) {
 
     rankCard.innerHTML = `
       <div>
-        <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 800;">YOUR CURRENT STANDING (${type.toUpperCase()})</div>
-        <div style="font-size: 0.95rem; font-weight: 800; color: var(--text-primary);">${appState.currentUser ? appState.currentUser.name : 'Guest User'}</div>
+        <div style="font-size: 0.72rem; color: #8e8e93; font-weight: 800;">YOUR CURRENT STANDING (${type.toUpperCase()})</div>
+        <div style="font-size: 0.95rem; font-weight: 800; color: #1c1c1e;">${appState.currentUser ? appState.currentUser.name : 'Guest User'}</div>
       </div>
-      <div style="font-size: 1.1rem; font-weight: 800; color: var(--accent-gold-dark);">
+      <div style="font-size: 1.1rem; font-weight: 800; color: #0071e3;">
         ${userRank}
       </div>
     `;
@@ -1696,7 +1783,7 @@ function renderProfileWallet() {
     if (profileContainer) {
       profileContainer.innerHTML = `
         <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: center;">
-          <p style="font-size: 0.82rem; color: var(--text-secondary); margin-bottom: 10px;">Log in to access your Payout Wallet and Link UPI.</p>
+          <p style="font-size: 0.82rem; color: #6e6e73; margin-bottom: 10px;">Log in to access your Payout Wallet and Link UPI.</p>
           <button class="glass-btn primary-btn" onclick="openAuthModal('login')">LOG IN NOW</button>
         </div>
       `;
@@ -1707,16 +1794,16 @@ function renderProfileWallet() {
   if (profileContainer) {
     profileContainer.innerHTML = `
       <div class="glass-card" style="padding: 16px; margin-bottom: 16px; text-align: left;">
-        <div style="font-size: 0.72rem; color: var(--text-muted); font-weight: 800;">ACCOUNT HOLDER</div>
-        <div style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); margin-bottom: 4px;">${appState.currentUser.name}</div>
-        <div style="font-size: 0.8rem; color: var(--text-secondary);">${appState.currentUser.email}</div>
+        <div style="font-size: 0.72rem; color: #8e8e93; font-weight: 800;">ACCOUNT HOLDER</div>
+        <div style="font-size: 1.1rem; font-weight: 800; color: #1c1c1e; margin-bottom: 4px;">${appState.currentUser.name}</div>
+        <div style="font-size: 0.8rem; color: #6e6e73;">${appState.currentUser.email}</div>
       </div>
     `;
   }
 
   if (upiDisplay) {
     if (appState.currentUser.upi) {
-      upiDisplay.innerHTML = `<span style="color: var(--accent-green)">🟢 ${appState.currentUser.upi}</span>`;
+      upiDisplay.innerHTML = `<span style="color: #34c759">🟢 ${appState.currentUser.upi}</span>`;
     } else {
       upiDisplay.innerHTML = `
         <button class="glass-btn action-btn" style="padding: 10px 16px; font-size: 0.82rem;" onclick="showModal('walletActivationModal')">
