@@ -3,26 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Win2Earn - Premium Skill Gaming Platform</title>
+  <title>Win2Earn - Ultra Arcade & Skill Gaming Platform</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body class="no-scroll">
 
-  <!-- Splash Screen (8-9 Seconds Viewport Locked) -->
+  <!-- Live HD Canvas Particle Background (Runs globally in background) -->
+  <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
+
+  <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen gpu-accelerated">
     <div class="splash-content">
       <div class="splash-logo">
         <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
       </div>
-      <p class="splash-tagline">SKILL BASED GAMING</p>
+      <p class="splash-tagline">HIGH-OCTANE SKILL GAMING</p>
       <div class="splash-loader">
         <div class="splash-loader-bar"></div>
       </div>
     </div>
   </div>
 
-  <!-- Top Priority Error / Alert Popup for Forms -->
+  <!-- Priority Alert / Error Popup -->
   <div id="errorPopup" class="popup-overlay hidden high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠️</div>
@@ -42,7 +47,7 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal (Updated to Daily 10 Users) -->
+  <!-- Payout Info Modal -->
   <div id="payoutInfoModal" class="modal-overlay hidden">
     <div class="modal-card glass-card info-modal-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
@@ -53,13 +58,13 @@
       <div class="info-body">
         <p>This is the ultimate daily reward contest designed for active skill gamers!</p>
         <p><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
-        <p>Play daily, score maximum points, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
+        <p>Play daily, build huge combos, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
       </div>
       <button class="glass-btn primary-btn modal-dismiss-btn" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
     </div>
   </div>
 
-  <!-- Grand Monthly Championship "Coming Soon" Modal -->
+  <!-- Monthly Championship Modal -->
   <div id="comingSoonModal" class="modal-overlay hidden">
     <div class="modal-card glass-card info-modal-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
@@ -68,67 +73,97 @@
       <div class="info-body" style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 14px; padding: 15px; margin-bottom: 20px;">
         <p style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">🚀 COMING SOON!</p>
         <p style="font-size: 0.85rem; color: #e5e5ea; line-height: 1.5;">
-          Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway. Stay tuned!
+          Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
         </p>
       </div>
       <button class="glass-btn primary-btn modal-dismiss-btn" onclick="closeComingSoonModal()">CAN'T WAIT! 🔥</button>
     </div>
   </div>
 
-  <!-- FULL SCREEN GAME ARENA (COPTER CASH) -->
-  <div id="gameScreenModal" class="modal-overlay hidden full-game-view gpu-accelerated">
-    <div class="game-screen-header">
-      <button class="back-btn mini-exit-btn" onclick="closeGameScreen()">✕ Exit Arena</button>
-      <span class="game-header-title attractive-game-title">🚁 COPTER CASH</span>
-    </div>
+  <!-- ================================================================= -->
+  <!-- ULTRA HD FULLSCREEN GAME ARENA OVERLAY (TURBO COPTER CASH) -->
+  <!-- ================================================================= -->
+  <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
     
-    <div class="game-screen-body">
+    <!-- Top Game Engine HUD (Minimal & Floating) -->
+    <div class="game-engine-header">
+      <button class="exit-arena-btn" onclick="closeGameScreen()">✕ EXIT ARENA</button>
       
-      <!-- Live Dynamic Score Board -->
-      <div id="gameHudContainer" class="game-hud-overlay" style="position:absolute; top:14px; right:14px; z-index:15; pointer-events:none; display:none;">
-        <div class="hud-score-badge" style="background:rgba(0, 0, 0, 0.75); backdrop-filter:blur(10px); border:1px solid rgba(255,215,0,0.4); padding:6px 16px; border-radius:30px; display:flex; align-items:center; gap:8px;">
-          <span style="font-size:0.7rem; font-weight:800; color:#ffd700; letter-spacing:0.05em;">SCORE</span>
-          <span id="liveScoreText" style="font-size:1.3rem; font-weight:900; color:#ffffff; font-family:'Plus Jakarta Sans', sans-serif;">0</span>
+      <!-- Fever Mode Banner Overlay -->
+      <div id="hudFeverBanner" class="fever-banner-pill hidden">
+        ⚡ FEVER MODE 3X MULTIPLIER ⚡
+      </div>
+
+      <!-- Live Score & Combo Multiplier Card -->
+      <div class="hud-stats-group">
+        <div class="hud-stat-box score-box">
+          <span class="hud-label">SCORE</span>
+          <span id="liveScoreText" class="hud-value">0</span>
+        </div>
+        <div class="hud-stat-box combo-box">
+          <span id="hudComboMultiplier" class="hud-combo-val">1x</span>
         </div>
       </div>
+    </div>
 
-      <!-- Game Canvas -->
-      <div class="game-canvas-container">
-        <canvas id="heliCanvas"></canvas>
+    <!-- Screen Flash / Shake Feedback Effect Container -->
+    <div id="gameEffectOverlay" class="game-effects-layer"></div>
+
+    <!-- Main Game Canvas Engine (Fits Entire Screen Ultra-Smooth) -->
+    <div class="game-canvas-wrapper">
+      <canvas id="heliCanvas"></canvas>
+    </div>
+
+    <!-- Game Launch / Takeoff Overlay Screen -->
+    <div id="gameStartOverlay" class="game-modal-overlay">
+      <div class="game-launch-card glass-card gpu-accelerated">
+        <div class="launch-icon-glow">🛸</div>
+        <h1 class="game-neon-title">COPTER CASH</h1>
+        <div class="fever-tag-pill">🔥 HYPER FEVER & COMBO ACTIVE</div>
+        <p class="game-instructions">
+          Tap or Space to Thrust. Pass obstacles continuously to trigger <strong>FEVER MODE (3x Points)</strong> & build massive highscores!
+        </p>
+        <button class="launch-cta-btn" onclick="startHeliGame()">
+          <span class="btn-glow-layer"></span>
+          <span class="btn-text">TAKEOFF NOW 🚀</span>
+        </button>
       </div>
+    </div>
 
-      <!-- Start Overlay Screen -->
-      <div id="gameStartOverlay" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.75); backdrop-filter:blur(8px); color:#fff; text-align:center; padding:20px; z-index:20;">
-        <div style="font-size:4rem; margin-bottom:10px; filter:drop-shadow(0 0 15px rgba(255,215,0,0.6));">🚁</div>
-        <h1 class="attractive-copter-heading">COPTER CASH</h1>
-        <p style="font-size:0.85rem; color:#d1d1d6; margin-bottom:24px; max-width:280px; line-height:1.45;">Tap screen to navigate through obstacle gaps and build your grand daily score!</p>
-        <button class="glass-btn action-btn start-glow-btn" style="padding: 16px 40px; font-size:1.1rem; border-radius:18px;" onclick="startHeliGame()">TAKEOFF NOW 🚀</button>
-      </div>
-
-      <!-- Game Over / Crash Overlay -->
-      <div id="gameOverOverlay" class="hidden" style="position:absolute; top:0; left:0; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; background:rgba(0,0,0,0.88); backdrop-filter:blur(10px); color:#fff; text-align:center; padding:20px; z-index:20;">
-        <div style="font-size:3.5rem; margin-bottom:6px; filter:drop-shadow(0 0 10px #ff3b30);">💥</div>
-        <h2 style="font-size:1.7rem; font-weight:900; color:#ff3b30; margin-bottom:6px; letter-spacing:0.02em;">COPTER CASH CRASHED!</h2>
+    <!-- Game Over / Crash Screen -->
+    <div id="gameOverOverlay" class="game-modal-overlay hidden">
+      <div class="game-launch-card crash-card glass-card gpu-accelerated">
+        <div class="crash-icon-glow">💥</div>
+        <h2 class="crash-head-text">SYSTEM CRASHED!</h2>
         
-        <div style="background:rgba(255,255,255,0.06); padding:16px 24px; border-radius:20px; margin:14px 0; border:1px solid rgba(255,255,255,0.15); width:260px; box-shadow:0 8px 32px rgba(0,0,0,0.5);">
-          <div style="font-size:0.75rem; color:#a1a1aa; font-weight:700; letter-spacing:0.05em; margin-bottom:4px;">MATCH SCORE</div>
-          <div id="currentRunScore" style="font-size:2.5rem; font-weight:900; color:#ffffff;">0</div>
-          
-          <hr style="border:0; border-top:1px solid rgba(255,255,255,0.12); margin:10px 0;">
-          
-          <div style="font-size:0.72rem; color:#ffd700; font-weight:800; letter-spacing:0.05em;">DAILY TOTAL SCORE</div>
-          <div id="dailyTotalScoreDisplay" style="font-size:1.5rem; font-weight:900; color:#ffd700;">0</div>
+        <div class="score-breakdown-card">
+          <div class="score-row">
+            <span class="s-label">RUN SCORE</span>
+            <span id="currentRunScore" class="s-val gold-text">0</span>
+          </div>
+          <div class="score-row">
+            <span class="s-label">MAX COMBO</span>
+            <span id="maxComboDisplay" class="s-val cyan-text">1x</span>
+          </div>
+          <hr class="score-divider">
+          <div class="score-row total-row">
+            <span class="s-label">DAILY LEADERBOARD SCORE</span>
+            <span id="dailyTotalScoreDisplay" class="s-val">0</span>
+          </div>
         </div>
 
-        <!-- Revive & Double Score Option (1 time use per run) -->
-        <button id="reviveBtn" class="glass-btn action-btn revive-special-btn" style="padding: 14px 20px; margin-bottom:12px; width:260px; border-radius:14px; font-size:0.95rem; background:linear-gradient(135deg, #ff9500, #ff5e00);" onclick="handleReviveGame()">
+        <!-- Revive Button (1 Time Double Score / Continue) -->
+        <button id="reviveBtn" class="launch-cta-btn revive-btn" onclick="handleReviveGame()">
           🎬 REVIVE & DOUBLE SCORE
         </button>
 
-        <button class="glass-btn primary-btn" style="padding: 12px 24px; margin-bottom:10px; width:260px; border-radius:14px; font-size:0.9rem;" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
-        <button class="glass-btn secondary-btn" style="padding: 10px 24px; width:260px; background:rgba(255,255,255,0.12); color:#fff; border-radius:14px; font-size:0.85rem;" onclick="closeGameScreen()">EXIT TO ARENA</button>
+        <div class="crash-btn-group">
+          <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">RETRY RUN 🔄</button>
+          <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
+        </div>
       </div>
     </div>
+
   </div>
 
   <!-- Welcome Modal -->
@@ -157,16 +192,14 @@
     </div>
   </div>
 
-  <!-- Detailed Legal Modal -->
+  <!-- Legal Modal -->
   <div id="legalModal" class="modal-overlay hidden">
     <div class="modal-card glass-card legal-modal-card gpu-accelerated">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="legal-header">
         <h3 id="legalModalTitle">Legal Information</h3>
       </div>
-      <div class="legal-body" id="legalModalBody">
-        <!-- Injected via JavaScript with full policy content -->
-      </div>
+      <div class="legal-body" id="legalModalBody"></div>
     </div>
   </div>
 
@@ -188,7 +221,7 @@
     </div>
   </div>
 
-  <!-- Mandatory Wallet / UPI Modal Before Game Launch -->
+  <!-- Wallet / UPI Verification Modal -->
   <div id="walletActivationModal" class="modal-overlay hidden">
     <div class="modal-card glass-card wallet-popup-card gpu-accelerated">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
@@ -201,7 +234,7 @@
           Enter your official valid UPI ID (GPay / PhonePe / Paytm / BHIM) to start playing and receive direct cash rewards.
         </p>
         <div class="upi-warning-box">
-          ⚠️ <strong>Strict Policy:</strong> Fake UPI IDs will cause instant disqualification. UPI ID cannot be changed once saved. For future edits, contact Telegram Support.
+          ⚠️ <strong>Strict Policy:</strong> Fake UPI IDs will cause instant disqualification. UPI ID cannot be changed once saved.
         </div>
         <form onsubmit="activateWallet(event)">
           <input type="text" id="upiInput" class="glass-input" placeholder="e.g. 9876543210@paytm / name@upi" required style="margin-bottom: 12px;">
@@ -211,7 +244,7 @@
     </div>
   </div>
 
-  <!-- Strict Auth Modal -->
+  <!-- Auth Modal -->
   <div id="authModal" class="modal-overlay hidden">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
@@ -257,10 +290,10 @@
 
   <!-- Main Viewports Container -->
   <main class="main-content">
+    
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Locked Running Ticker -->
       <section class="ticker-wrapper glass-card pointer-locked">
         <div class="ticker-badge">LAST WEEK WINNERS</div>
         <div class="ticker-viewport">
@@ -268,7 +301,6 @@
         </div>
       </section>
 
-      <!-- Attractive 10 Lakh Mega Banner -->
       <section id="megaBannerCard" class="mega-banner-card glass-card mega-attractive-glow">
         <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
         <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
@@ -280,7 +312,6 @@
         </div>
       </section>
 
-      <!-- Main Daily Hero Banner -->
       <section class="tournament-hero-card glass-card">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
@@ -302,12 +333,11 @@
 
         <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
-        <button class="glass-btn hero-cta-btn" onclick="handleGameLaunch()">
+        <button class="glass-btn hero-cta-btn play-pulse-btn" onclick="handleGameLaunch()">
           PLAY NOW ➔
         </button>
       </section>
 
-      <!-- Information Trigger Card -->
       <section class="info-trigger-card glass-card compact-gap-card" onclick="openInfoModal()">
         <div class="info-trigger-content">
           <span class="trigger-icon">💡</span>
@@ -320,7 +350,7 @@
       </section>
     </div>
 
-    <!-- Games Tab (Locked for Unauthenticated Users) -->
+    <!-- Games Tab -->
     <div id="tab-games" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Live Tournaments</h2>
@@ -328,7 +358,6 @@
       </div>
 
       <div class="featured-games-wrapper">
-        <!-- 1. Daily Tournament Game Card -->
         <div class="featured-card glass-card">
           <div class="card-header-bar">
             <span>⭐ Daily Skill Tournament</span>
@@ -347,7 +376,6 @@
           </div>
         </div>
 
-        <!-- 2. Grand Monthly Tournament Game Card -->
         <div class="featured-card glass-card monthly-premium-card">
           <div class="card-header-bar premium-header-bar">
             <span>👑 Grand Monthly Tournament</span>
@@ -371,7 +399,7 @@
       </div>
     </div>
 
-    <!-- Leaderboard Tab (Real-Time Dynamic Data) -->
+    <!-- Leaderboard Tab -->
     <div id="tab-leaderboard" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Global Leaderboards</h2>
@@ -387,7 +415,7 @@
       <div class="user-rank-card glass-card" id="userRankCard"></div>
     </div>
 
-    <!-- Alerts Tab (Real User Notifications) -->
+    <!-- Alerts Tab -->
     <div id="tab-alerts" class="tab-content hidden">
       <div class="section-title-box">
         <h2>Activity & Alerts</h2>
@@ -396,7 +424,7 @@
       <div class="alerts-feed" id="alertsFeed"></div>
     </div>
 
-    <!-- Wallet Tab (User Specific Details & Payout History) -->
+    <!-- Wallet Tab -->
     <div id="tab-wallet" class="tab-content hidden">
       <div class="section-title-box">
         <h2>My Payout Wallet</h2>
@@ -419,7 +447,7 @@
     </div>
   </main>
 
-  <!-- Footer (Reduced Space & Full Legal Policy Links) -->
+  <!-- Footer -->
   <footer class="footer glass-card compact-footer">
     <div>
       <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
@@ -442,7 +470,7 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Fixed Navigation Bar -->
+  <!-- Bottom Navigation Bar -->
   <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
