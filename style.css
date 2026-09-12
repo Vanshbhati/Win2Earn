@@ -2,6 +2,8 @@
    WIN2EARN - ULTRA ARCADE & SKILL GAMING PLATFORM (HIGH PERFORMANCE ENGINE)
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap');
+
 *,
 *::before,
 *::after {
@@ -319,6 +321,11 @@ body.no-scroll {
   color: var(--text-muted);
   font-size: 1.6rem;
   cursor: pointer;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
 }
 
 /* --------------------------------------------------------------------------
@@ -642,6 +649,7 @@ body.no-scroll {
   padding: 10px 14px;
   background: var(--glass-card-bg);
   border: 1px solid var(--glass-border);
+  border-radius: 14px;
 }
 
 .ticker-badge {
@@ -747,7 +755,7 @@ body.no-scroll {
 .win-label span { color: var(--accent-gold); font-weight: 800; }
 
 .lb-type-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
-.lb-toggle-btn { flex: 1; padding: 10px; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass-card-bg); color: var(--text-secondary); font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+.lb-toggle-btn { flex: 1; padding: 10px; border-radius: 12px; border: 1px solid var(--glass-border); background: var(--glass-card-bg); color: var(--text-secondary); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; }
 .lb-toggle-btn.active { background: var(--accent-cyan); color: #0a0b10; border-color: var(--accent-cyan); font-weight: 800; box-shadow: var(--neon-glow-cyan); }
 
 .lb-list-container { padding: 10px; margin-bottom: 12px; }
@@ -765,15 +773,15 @@ body.no-scroll {
    -------------------------------------------------------------------------- */
 .compact-footer { margin: 16px auto 8px auto; padding: 18px; max-width: 440px; text-align: center; }
 .footer-tagline { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin: 4px 0 10px 0; }
-.legal-links { font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 10px; }
+.legal-links { font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 10px; display: flex; justify-content: center; gap: 12px; }
 .legal-links a { color: var(--accent-cyan); text-decoration: none; font-weight: 700; }
 .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 10px; }
 .footer-bottom p { font-size: 0.68rem; color: var(--text-muted); }
 
 .compact-bottom-nav { padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px)) 0 !important; }
 .bottom-nav { position: fixed !important; bottom: 0 !important; left: 0 !important; width: 100% !important; display: flex; justify-content: space-around; border-radius: 20px 20px 0 0; z-index: 10000 !important; }
-.nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 0.65rem; gap: 3px; }
-.nav-svg { width: 22px; height: 22px; }
+.nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 0.65rem; gap: 3px; cursor: pointer; transition: color 0.2s ease; }
+.nav-svg { width: 22px; height: 22px; fill: currentColor; }
 .nav-item.active { color: var(--accent-cyan); font-weight: 800; filter: drop-shadow(0 0 6px var(--accent-cyan)); }
 
 .floating-tg-btn-fixed {
@@ -790,15 +798,33 @@ body.no-scroll {
   box-shadow: 0 6px 20px rgba(0, 136, 204, 0.5);
   cursor: pointer;
   z-index: 9999 !important;
+  transition: transform 0.2s ease;
 }
 
 .floating-tg-btn-fixed:active { transform: scale(0.92); }
-.tg-floating-icon { width: 26px; height: 26px; color: #ffffff; }
+.tg-floating-icon { width: 26px; height: 26px; fill: #ffffff; }
 
+/* --------------------------------------------------------------------------
+   Global Utility Classes & Hidden Handlers
+   -------------------------------------------------------------------------- */
 .hidden {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
   pointer-events: none !important;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.w-100 {
+  width: 100%;
 }
 
