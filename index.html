@@ -7,18 +7,18 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body class="no-scroll">
 
-  <!-- Live HD Canvas Particle Background (Runs globally in background) -->
+  <!-- Live HD Canvas Background -->
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
   <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen gpu-accelerated">
     <div class="splash-content">
       <div class="splash-logo">
-        <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+        <span class="gold-text">WIN</span><span class="brand-dark-text">2</span><span class="gold-text">EARN</span>
       </div>
       <p class="splash-tagline">HIGH-OCTANE SKILL GAMING</p>
       <div class="splash-loader">
@@ -58,7 +58,7 @@
       <div class="info-body">
         <p>This is the ultimate daily reward contest designed for active skill gamers!</p>
         <p><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
-        <p>Play daily, build huge combos, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
+        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
       </div>
       <button class="glass-btn primary-btn modal-dismiss-btn" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
     </div>
@@ -69,10 +69,10 @@
     <div class="modal-card glass-card info-modal-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
       <div style="font-size: 3.5rem; margin-bottom: 10px;">👑</div>
-      <h2 style="font-size: 1.6rem; font-weight: 900; color: #ffd700; margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
-      <div class="info-body" style="background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); border-radius: 14px; padding: 15px; margin-bottom: 20px;">
-        <p style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 8px;">🚀 COMING SOON!</p>
-        <p style="font-size: 0.85rem; color: #e5e5ea; line-height: 1.5;">
+      <h2 style="font-size: 1.6rem; font-weight: 900; color: var(--accent-gold-dark); margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
+      <div class="info-body" style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08); border-radius: 14px; padding: 15px; margin-bottom: 20px;">
+        <p style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary); margin-bottom: 8px;">🚀 COMING SOON!</p>
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
           Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
         </p>
       </div>
@@ -81,35 +81,23 @@
   </div>
 
   <!-- ================================================================= -->
-  <!-- ULTRA HD FULLSCREEN GAME ARENA OVERLAY (TURBO COPTER CASH) -->
+  <!-- ULTRA HD FULLSCREEN GAME ARENA OVERLAY (COPTER CASH) -->
   <!-- ================================================================= -->
   <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
     
-    <!-- Top Game Engine HUD (Minimal & Floating) -->
+    <!-- Top Game Engine HUD (Clean Floating Bar - No Heavy Overlay Box) -->
     <div class="game-engine-header">
-      <button class="exit-arena-btn" onclick="closeGameScreen()">✕ EXIT ARENA</button>
-      
-      <!-- Fever Mode Banner Overlay -->
-      <div id="hudFeverBanner" class="fever-banner-pill hidden">
-        ⚡ FEVER MODE 3X MULTIPLIER ⚡
-      </div>
-
-      <!-- Live Score & Combo Multiplier Card -->
-      <div class="hud-stats-group">
-        <div class="hud-stat-box score-box">
-          <span class="hud-label">SCORE</span>
-          <span id="liveScoreText" class="hud-value">0</span>
-        </div>
-        <div class="hud-stat-box combo-box">
-          <span id="hudComboMultiplier" class="hud-combo-val">1x</span>
-        </div>
+      <button class="exit-arena-btn" onclick="closeGameScreen()">✕ EXIT</button>
+      <div class="live-score-pill">
+        <span class="score-label">SCORE</span>
+        <span id="liveScoreText" class="score-value">0</span>
       </div>
     </div>
 
     <!-- Screen Flash / Shake Feedback Effect Container -->
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
 
-    <!-- Main Game Canvas Engine (Fits Entire Screen Ultra-Smooth) -->
+    <!-- Main Game Canvas Engine -->
     <div class="game-canvas-wrapper">
       <canvas id="heliCanvas"></canvas>
     </div>
@@ -119,13 +107,11 @@
       <div class="game-launch-card glass-card gpu-accelerated">
         <div class="launch-icon-glow">🛸</div>
         <h1 class="game-neon-title">COPTER CASH</h1>
-        <div class="fever-tag-pill">🔥 HYPER FEVER & COMBO ACTIVE</div>
         <p class="game-instructions">
-          Tap or Space to Thrust. Pass obstacles continuously to trigger <strong>FEVER MODE (3x Points)</strong> & build massive highscores!
+          Tap anywhere or Press Spacebar to Fly. Smoothly dodge obstacles to reach highscores!
         </p>
         <button class="launch-cta-btn" onclick="startHeliGame()">
-          <span class="btn-glow-layer"></span>
-          <span class="btn-text">TAKEOFF NOW 🚀</span>
+          <span class="btn-text">START GAME 🚀</span>
         </button>
       </div>
     </div>
@@ -141,10 +127,6 @@
             <span class="s-label">RUN SCORE</span>
             <span id="currentRunScore" class="s-val gold-text">0</span>
           </div>
-          <div class="score-row">
-            <span class="s-label">MAX COMBO</span>
-            <span id="maxComboDisplay" class="s-val cyan-text">1x</span>
-          </div>
           <hr class="score-divider">
           <div class="score-row total-row">
             <span class="s-label">DAILY LEADERBOARD SCORE</span>
@@ -152,13 +134,8 @@
           </div>
         </div>
 
-        <!-- Revive Button (1 Time Double Score / Continue) -->
-        <button id="reviveBtn" class="launch-cta-btn revive-btn" onclick="handleReviveGame()">
-          🎬 REVIVE & DOUBLE SCORE
-        </button>
-
         <div class="crash-btn-group">
-          <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">RETRY RUN 🔄</button>
+          <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
           <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
         </div>
       </div>
@@ -280,7 +257,7 @@
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav">
     <div class="logo-text">
-      <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+      <span class="gold-text">WIN</span><span class="brand-dark-text">2</span><span class="gold-text">EARN</span>
     </div>
     <div class="auth-btns" id="navAuthBtns">
       <button class="glass-btn secondary-btn" onclick="openAuthModal('login')">Log In</button>
@@ -301,7 +278,7 @@
         </div>
       </section>
 
-      <section id="megaBannerCard" class="mega-banner-card glass-card mega-attractive-glow">
+      <section id="megaBannerCard" class="mega-banner-card glass-card">
         <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
         <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
         <p class="mega-desc">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
@@ -318,7 +295,7 @@
         </div>
 
         <h1 class="hero-logo-text">
-          <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+          <span class="gold-text">WIN</span><span class="brand-dark-text">2</span><span class="gold-text">EARN</span>
         </h1>
 
         <div class="total-prize-box premium-glass-prize">
@@ -450,7 +427,7 @@
   <!-- Footer -->
   <footer class="footer glass-card compact-footer">
     <div>
-      <span class="gold-text">WIN</span><span class="white-text">2</span><span class="gold-text">EARN</span>
+      <span class="gold-text">WIN</span><span class="brand-dark-text">2</span><span class="gold-text">EARN</span>
       <p class="footer-tagline">Skill based gaming platform</p>
     </div>
     
