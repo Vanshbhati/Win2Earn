@@ -1,139 +1,119 @@
-// ==========================================================================
-// GAME SOUND SYSTEM (Web Audio API Synthesizer)
-// ==========================================================================
+// Sound Synthesizer using Web Audio API (No MP3 files needed!)
 class SoundManager {
   constructor() {
-    this.ctx = null;
-    this.muted = false;
-    this.rainAudioCtx = null;
-    this.rainSource = null;
+    this.audioCtx = null;
+    this.bgMusicInterval = null;
   }
 
   init() {
-    if (!this.ctx) {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      this.ctx = new AudioContext();
-    }
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+    if (!this.audioCtx) {
+      const AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtxClass) {
+        this.audioCtx = new AudioCtxClass();
+      }
     }
   }
 
-  // 1. HELICOPTER JUMP SOUND (Flap / Lift sound)
+  // Play Click Sound
+  playClick() {
+    this.init();
+    if (!this.audioCtx) return;
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(600, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(200, this.audioCtx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.3, this.audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.05);
+    osc.connect(gain);
+    gain.connect(this.audioCtx.destination);
+    osc.start();
+    osc.stop(this.audioCtx.currentTime + 0.05);
+  }
+
+  // Play Jump Sound
   playJump() {
-    if (this.muted) return;
     this.init();
-    
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(150, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(320, this.ctx.currentTime + 0.1);
-
-    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
-
+    if (!this.audioCtx) return;
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(150, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(400, this.audioCtx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.12);
     osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
+    gain.connect(this.audioCtx.destination);
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.1);
+    osc.stop(this.audioCtx.currentTime + 0.12);
   }
 
-  // 2. PIPE PASSED / POINT SCORE SOUND (Chime)
-  playScore() {
-    if (this.muted) return;
+  // Play Coin Score Sound
+  playCoin() {
     this.init();
-
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
+    if (!this.audioCtx) return;
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(523.25, this.ctx.currentTime); // C5 note
-    osc.frequency.setValueAtTime(659.25, this.ctx.currentTime + 0.08); // E5 note
-
-    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
-
+    osc.frequency.setValueAtTime(987, this.audioCtx.currentTime);
+    osc.frequency.setValueAtTime(1318, this.audioCtx.currentTime + 0.08);
+    gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.25);
     osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
+    gain.connect(this.audioCtx.destination);
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.25);
+    osc.stop(this.audioCtx.currentTime + 0.25);
   }
 
-  // 3. CRASH / GAME OVER SOUND
+  // Play Crash Sound
   playCrash() {
-    if (this.muted) return;
     this.init();
-
-    // Noise Generator for Crash
-    const bufferSize = this.ctx.sampleRate * 0.3;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const output = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
-    }
-
-    const whiteNoise = this.ctx.createBufferSource();
-    whiteNoise.buffer = buffer;
-
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.4, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
-
-    whiteNoise.connect(gain);
-    gain.connect(this.ctx.destination);
-
-    whiteNoise.start();
-  }
-
-  // 4. ENVIRONMENT / THEME CHANGE SOUND (500 Score Milestone)
-  playThemeChange() {
-    if (this.muted) return;
-    this.init();
-
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(440, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(880, this.ctx.currentTime + 0.4);
-
-    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.4);
-
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
-    osc.start();
-    osc.stop(this.ctx.currentTime + 0.4);
-  }
-
-  // 5. RAIN START SOUND (Thunder/Rain chime)
-  playRainStart() {
-    if (this.muted) return;
-    this.init();
-
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
+    if (!this.audioCtx) return;
+    const osc = this.audioCtx.createOscillator();
+    const gain = this.audioCtx.createGain();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(120, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.5);
-
-    gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.5);
-
+    osc.frequency.setValueAtTime(120, this.audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(30, this.audioCtx.currentTime + 0.3);
+    gain.gain.setValueAtTime(0.4, this.audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, this.audioCtx.currentTime + 0.3);
     osc.connect(gain);
-    gain.connect(this.ctx.destination);
-
+    gain.connect(this.audioCtx.destination);
     osc.start();
-    osc.stop(this.ctx.currentTime + 0.5);
+    osc.stop(this.audioCtx.currentTime + 0.3);
+  }
+
+  // Background Synth Music Loop
+  startBgMusic() {
+    this.stopBgMusic();
+    this.init();
+    if (!this.audioCtx) return;
+    
+    let noteIndex = 0;
+    const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00]; // Retro Beat
+    
+    this.bgMusicInterval = setInterval(() => {
+      if (!this.audioCtx) return;
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.value = notes[noteIndex % notes.length];
+      gain.gain.setValueAtTime(0.05, this.audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.2);
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+      osc.start();
+      osc.stop(this.audioCtx.currentTime + 0.2);
+      noteIndex++;
+    }, 250);
+  }
+
+  stopBgMusic() {
+    if (this.bgMusicInterval) {
+      clearInterval(this.bgMusicInterval);
+      this.bgMusicInterval = null;
+    }
   }
 }
 
 // Global Sound Instance
-const gameSounds = new SoundManager();
-
+window.gameSounds = new SoundManager();
