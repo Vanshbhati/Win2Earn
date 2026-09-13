@@ -81,38 +81,19 @@
   </div>
 
   <!-- ================================================================= -->
-  <!-- FULLSCREEN GAME ARENA OVERLAY (COPTER CASH) -->
+  <!-- FULLSCREEN GAME ARENA OVERLAY (COPTER CASH) - CLEANED FOR CANVAS UI -->
   <!-- ================================================================= -->
   <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
     
-    <!-- Top Game Engine Control & Stat Bar Header -->
-    <header class="game-engine-header">
-      <div class="game-top-pill-container">
-        <button class="exit-arena-btn" onclick="closeGameScreen()">
-          <span>✕</span> Exit
-        </button>
-        <span class="fever-banner-pill">DAILY TOURNAMENT</span>
-        <div class="hud-stats-group">
-          <div class="hud-stat-box score-box">
-            <span class="hud-label">SCORE</span>
-            <span id="hudScoreText" class="hud-value">0</span>
-          </div>
-          <div id="hudComboContainer" class="hud-stat-box combo-box hidden">
-            <span id="hudComboText" class="hud-combo-val">1x</span>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Dynamic Screen Flash / Shake / Floating Near-Miss Feedback Layer -->
+    <!-- Screen Flash / Shake Feedback Layer -->
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
 
-    <!-- Main High-DPI Canvas Engine Wrapper -->
-    <div class="game-canvas-wrapper">
+    <!-- Main Game Canvas Engine (Pure Canvas HUD Rendering) -->
+    <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
       <canvas id="heliCanvas"></canvas>
     </div>
 
-    <!-- Game Launch / Start Overlay -->
+    <!-- Game Launch Overlay -->
     <div id="gameStartOverlay" class="game-modal-overlay">
       <div class="game-launch-card glass-card gpu-accelerated">
         <div class="launch-icon-glow">🛸</div>
@@ -146,9 +127,6 @@
         </div>
 
         <div class="crash-btn-group">
-          <button id="reviveBtn" class="launch-cta-btn revive-btn hidden" onclick="revivePlayer()">
-            💖 WATCH AD TO REVIVE
-          </button>
           <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
           <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
         </div>
@@ -204,7 +182,7 @@
       <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
         For support, login issues, tournament verification, or updating your verified UPI ID, connect with our official support representative on Telegram.
       </p>
-      <a href="https://t.me" target="_blank" rel="noopener noreferrer" class="glass-btn action-btn w-100" style="display: block; text-decoration: none;">Contact Team on Telegram</a>
+      <a href="https://t.me" target="_blank" class="glass-btn action-btn w-100" style="display: block; text-decoration: none;">Contact Team on Telegram</a>
     </div>
   </div>
 
@@ -491,3 +469,4 @@
 </body>
 </html>
 
+Is index.html ko edit karke poora code dedo
