@@ -179,7 +179,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// GAME ENGINE
+// GAME ENGINE WITH ENVIRONMENT CYCLE & SPEED SCALING
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -202,8 +202,9 @@ const heliGame = {
   pipes: [],
   pipeWidth: 50,
   pipeGap: 160,
-  pipeSpeed: 160,
-  pipeSpacing: 210,
+  basePipeSpeed: 160,
+  currentPipeSpeed: 160,
+  pipeSpacing: 215,
   groundHeight: 60,
   groundOffset: 0,
 
@@ -212,8 +213,10 @@ const heliGame = {
   bestScore: 0,
 
   bgScroll: 0,
-  bgCanvas: null,
-  bgCtx: null
+  
+  // Dynamic World Cycle Systems
+  timeCycle: 0, // 0 to 1 cycle progress
+  weatherParticles: []
 };
 
 function initHeliGameListeners() {
@@ -257,85 +260,17 @@ function triggerHeliJump() {
   heliGame.velocity = heliGame.jumpVelocity;
 }
 
-function prepareCachedBackground(w, h) {
-  heliGame.bgCanvas = document.createElement("canvas");
-  heliGame.bgCanvas.width = w;
-  heliGame.bgCanvas.height = h;
-  heliGame.bgCtx = heliGame.bgCanvas.getContext("2d");
-
-  const ctx = heliGame.bgCtx;
-
-  const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-  skyGrad.addColorStop(0, "#4ec0ca");
-  skyGrad.addColorStop(0.75, "#80e1d9");
-  skyGrad.addColorStop(1, "#b3f0db");
-  ctx.fillStyle = skyGrad;
-  ctx.fillRect(0, 0, w, h);
-}
-
-// SOFT VIBRANT BACKGROUND BUILDINGS (PERFECT VISIBILITY BALANCE)
-function drawBalancedBackgroundCity(ctx, w, h, bgScroll) {
-  const baseLineY = h - heliGame.groundHeight + 10;
-
-  const buildings = [
-    { x: 0, w: 48, h: 95, color: "rgba(255, 178, 115, 0.68)", dark: "rgba(230, 140, 75, 0.68)" },
-    { x: 52, w: 40, h: 125, color: "rgba(186, 148, 235, 0.68)", dark: "rgba(150, 110, 205, 0.68)" },
-    { x: 96, w: 54, h: 80, color: "rgba(125, 175, 240, 0.68)", dark: "rgba(90, 140, 210, 0.68)" },
-    { x: 154, w: 44, h: 140, color: "rgba(255, 138, 148, 0.68)", dark: "rgba(225, 100, 110, 0.68)" },
-    { x: 202, w: 50, h: 105, color: "rgba(110, 225, 165, 0.68)", dark: "rgba(75, 190, 130, 0.68)" },
-    { x: 256, w: 46, h: 118, color: "rgba(250, 218, 110, 0.68)", dark: "rgba(215, 180, 70, 0.68)" }
-  ];
-
-  const loopW = 310;
-  const offsetX = (bgScroll * 0.12) % loopW;
-
-  ctx.save();
-
-  for (let i = -1; i < Math.ceil(w / loopW) + 1; i++) {
-    const baseX = i * loopW - offsetX;
-    buildings.forEach(b => {
-      const bx = baseX + b.x;
-      const by = baseLineY - b.h;
-
-      // Building Main Frame
-      ctx.fillStyle = b.color;
-      ctx.fillRect(bx, by, b.w, b.h + 20);
-
-      // Side Shade Rim
-      ctx.fillStyle = b.dark;
-      ctx.fillRect(bx + b.w - 4, by, 4, b.h + 20);
-
-      // White Roof Trim
-      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-      ctx.fillRect(bx - 1, by, b.w + 2, 3);
-
-      // Windows
-      ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
-      for (let wY = 12; wY < b.h - 8; wY += 18) {
-        ctx.fillRect(bx + 6, by + wY, 7, 9);
-        if (b.w > 36) {
-          ctx.fillRect(bx + b.w - 13, by + wY, 7, 9);
-        }
-      }
+function initWeatherParticles(w, h) {
+  heliGame.weatherParticles = [];
+  for (let i = 0; i < 45; i++) {
+    heliGame.weatherParticles.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      length: Math.random() * 12 + 8,
+      speedY: Math.random() * 250 + 200,
+      speedX: Math.random() * -40 - 20
     });
   }
-
-  // Soft Background Clouds
-  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
-  const cloudOffset = (bgScroll * 0.08) % (w + 200);
-  drawCloud(ctx, (w * 0.25) - cloudOffset, h * 0.12, 30);
-  drawCloud(ctx, (w * 0.8) - cloudOffset, h * 0.2, 40);
-
-  ctx.restore();
-}
-
-function drawCloud(ctx, cx, cy, radius) {
-  let x = cx < -100 ? cx + ctx.canvas.width + 200 : cx;
-  ctx.beginPath();
-  ctx.arc(x, cy, radius, 0, Math.PI * 2);
-  ctx.arc(x + radius * 0.7, cy - radius * 0.3, radius * 0.75, 0, Math.PI * 2);
-  ctx.arc(x + radius * 1.4, cy, radius * 0.8, 0, Math.PI * 2);
-  ctx.fill();
 }
 
 function resetHeliGameUI() {
@@ -349,7 +284,7 @@ function resetHeliGameUI() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
-  prepareCachedBackground(canvas.width, canvas.height);
+  initWeatherParticles(canvas.width, canvas.height);
 
   heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
@@ -358,6 +293,8 @@ function resetHeliGameUI() {
   heliGame.rawScoreAcc = 0;
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
+  heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
+  heliGame.timeCycle = 0;
   
   renderCanvas();
 }
@@ -371,7 +308,7 @@ function startHeliGame() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
-  prepareCachedBackground(canvas.width, canvas.height);
+  initWeatherParticles(canvas.width, canvas.height);
 
   heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
@@ -380,6 +317,8 @@ function startHeliGame() {
   heliGame.rawScoreAcc = 0;
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
+  heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
+  heliGame.timeCycle = 0;
   heliGame.active = true;
   heliGame.lastTime = performance.now();
 
@@ -404,12 +343,19 @@ function updatePhysics(dt) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
 
+  // Progressive Speed Increase every 500 Score
+  const speedTier = Math.floor(heliGame.distanceMeters / 500);
+  heliGame.currentPipeSpeed = heliGame.basePipeSpeed + (speedTier * 16);
+
+  // Time Cycle Progression (Full Cycle every 45 seconds)
+  heliGame.timeCycle = (heliGame.timeCycle + dt / 45) % 1.0;
+
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
   heliGame.angle = Math.min(25, Math.max(-20, heliGame.velocity * 0.06));
   heliGame.rotorFrame += dt * 35;
-  heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 32;
-  heliGame.bgScroll += (heliGame.pipeSpeed * dt);
+  heliGame.groundOffset = (heliGame.groundOffset + (heliGame.currentPipeSpeed * dt)) % 30;
+  heliGame.bgScroll += (heliGame.currentPipeSpeed * dt);
 
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
@@ -442,7 +388,7 @@ function updatePhysics(dt) {
 
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
-    p.x -= heliGame.pipeSpeed * dt;
+    p.x -= heliGame.currentPipeSpeed * dt;
 
     const topPipeBox = { x: p.x, y: 0, w: heliGame.pipeWidth, h: p.topHeight };
     const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY + 10 };
@@ -455,6 +401,17 @@ function updatePhysics(dt) {
 
   if (heliGame.pipes.length > 0 && heliGame.pipes[0].x < -heliGame.pipeWidth - 10) {
     heliGame.pipes.shift();
+  }
+
+  // Weather Particles Update
+  for (let particle of heliGame.weatherParticles) {
+    particle.y += particle.speedY * dt;
+    particle.x += particle.speedX * dt;
+    if (particle.y > canvas.height) {
+      particle.y = -10;
+      particle.x = Math.random() * canvas.width;
+    }
+    if (particle.x < -10) particle.x = canvas.width + 10;
   }
 }
 
@@ -477,17 +434,50 @@ function checkAABBCollision(a, b) {
   return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 }
 
+// Interpolate colors for sky and world
+function lerpColor(color1, color2, factor) {
+  const c1 = color1.match(/\d+/g).map(Number);
+  const c2 = color2.match(/\d+/g).map(Number);
+  const r = Math.round(c1[0] + factor * (c2[0] - c1[0]));
+  const g = Math.round(c1[1] + factor * (c2[1] - c1[1]));
+  const b = Math.round(c1[2] + factor * (c2[2] - c1[2]));
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  // Sky Gradient
-  if (heliGame.bgCanvas) {
-    ctx.drawImage(heliGame.bgCanvas, 0, 0);
+  // Day (0.0 - 0.33) -> Sunset (0.33 - 0.66) -> Night (0.66 - 1.0) Cycle Calculation
+  let skyTop, skyBottom, nightFactor = 0, isSunset = false;
+  const cycle = heliGame.timeCycle;
+
+  if (cycle < 0.33) { // Day Mode
+    const f = cycle / 0.33;
+    skyTop = lerpColor("rgb(78, 192, 202)", "rgb(255, 126, 95)", f);
+    skyBottom = lerpColor("rgb(179, 240, 219)", "rgb(254, 180, 123)", f);
+  } else if (cycle < 0.66) { // Sunset -> Night Mode
+    const f = (cycle - 0.33) / 0.33;
+    isSunset = true;
+    nightFactor = f;
+    skyTop = lerpColor("rgb(255, 126, 95)", "rgb(15, 32, 67)", f);
+    skyBottom = lerpColor("rgb(254, 180, 123)", "rgb(44, 83, 100)", f);
+  } else { // Full Night -> Day Mode Transition
+    const f = (cycle - 0.66) / 0.34;
+    nightFactor = 1 - f;
+    skyTop = lerpColor("rgb(15, 32, 67)", "rgb(78, 192, 202)", f);
+    skyBottom = lerpColor("rgb(44, 83, 100)", "rgb(179, 240, 219)", f);
   }
 
-  // Soft & Balanced Background City
-  drawBalancedBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+  // Dynamic Sky Background
+  const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  skyGrad.addColorStop(0, skyTop);
+  skyGrad.addColorStop(1, skyBottom);
+  ctx.fillStyle = skyGrad;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // Soft Skyline Buildings (Adapts To Night Cycle)
+  drawBalancedBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, nightFactor);
 
   // Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
@@ -498,14 +488,122 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Cartoon Lush Grass Ground (Perfect Match)
-  drawCartoonGrassGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
+  // Modern Asphalt Road Ground (NEW IMPROVED BOTTOM)
+  drawModernRoadGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
   // Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
 
+  // Rain / Snow Weather Effects
+  if (nightFactor > 0.1 || isSunset) {
+    drawWeatherOverlay(ctx, canvas.width, canvas.height, nightFactor);
+  }
+
   // Header UI
   renderTopHeaderUI(ctx, canvas.width);
+}
+
+function drawBalancedBackgroundCity(ctx, w, h, bgScroll, nightFactor) {
+  const baseLineY = h - heliGame.groundHeight + 10;
+
+  const buildings = [
+    { x: 0, w: 48, h: 95, color: "rgba(255, 178, 115, 0.70)", dark: "rgba(230, 140, 75, 0.70)" },
+    { x: 52, w: 40, h: 125, color: "rgba(186, 148, 235, 0.70)", dark: "rgba(150, 110, 205, 0.70)" },
+    { x: 96, w: 54, h: 80, color: "rgba(125, 175, 240, 0.70)", dark: "rgba(90, 140, 210, 0.70)" },
+    { x: 154, w: 44, h: 140, color: "rgba(255, 138, 148, 0.70)", dark: "rgba(225, 100, 110, 0.70)" },
+    { x: 202, w: 50, h: 105, color: "rgba(110, 225, 165, 0.70)", dark: "rgba(75, 190, 130, 0.70)" },
+    { x: 256, w: 46, h: 118, color: "rgba(250, 218, 110, 0.70)", dark: "rgba(215, 180, 70, 0.70)" }
+  ];
+
+  const loopW = 310;
+  const offsetX = (bgScroll * 0.12) % loopW;
+
+  ctx.save();
+
+  for (let i = -1; i < Math.ceil(w / loopW) + 1; i++) {
+    const baseX = i * loopW - offsetX;
+    buildings.forEach(b => {
+      const bx = baseX + b.x;
+      const by = baseLineY - b.h;
+
+      // Frame
+      ctx.fillStyle = b.color;
+      ctx.fillRect(bx, by, b.w, b.h + 20);
+
+      // Side Shade
+      ctx.fillStyle = b.dark;
+      ctx.fillRect(bx + b.w - 4, by, 4, b.h + 20);
+
+      // Roof Trim
+      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+      ctx.fillRect(bx - 1, by, b.w + 2, 3);
+
+      // Windows (Glowing in Night Mode)
+      if (nightFactor > 0.3) {
+        ctx.fillStyle = `rgba(255, 235, 120, ${0.4 + nightFactor * 0.55})`;
+      } else {
+        ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+      }
+
+      for (let wY = 12; wY < b.h - 8; wY += 18) {
+        ctx.fillRect(bx + 6, by + wY, 7, 9);
+        if (b.w > 36) {
+          ctx.fillRect(bx + b.w - 13, by + wY, 7, 9);
+        }
+      }
+    });
+  }
+
+  ctx.restore();
+}
+
+function drawWeatherOverlay(ctx, w, h, nightFactor) {
+  ctx.save();
+  ctx.strokeStyle = `rgba(220, 240, 255, ${0.35 + nightFactor * 0.3})`;
+  ctx.lineWidth = 1.5;
+
+  for (let p of heliGame.weatherParticles) {
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    ctx.lineTo(p.x + p.speedX * 0.05, p.y + p.length);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+// NEW HIGH-CONTRAST MODERN ROAD GROUND
+function drawModernRoadGround(ctx, width, height, groundHeight, scrollOffset) {
+  const groundY = height - groundHeight;
+
+  ctx.save();
+
+  // Dark Concrete Base
+  ctx.fillStyle = "#2c3238";
+  ctx.fillRect(0, groundY, width, groundHeight);
+
+  // Top Glowing Green Curb / Edge Divider Line
+  ctx.fillStyle = "#73bf2e";
+  ctx.fillRect(0, groundY, width, 5);
+  ctx.fillStyle = "#9ce659";
+  ctx.fillRect(0, groundY, width, 2);
+
+  // Moving Center Yellow Safety Road Lines
+  ctx.fillStyle = "#f39c12";
+  const dashW = 20;
+  const gapW = 10;
+  const totalW = dashW + gapW;
+  const startX = -(scrollOffset % totalW);
+
+  for (let x = startX; x < width + totalW; x += totalW) {
+    ctx.fillRect(x, groundY + (groundHeight / 2) - 2, dashW, 4);
+  }
+
+  // Dark Outline Border
+  ctx.strokeStyle = "#1a1d20";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(0, groundY, width, groundHeight);
+
+  ctx.restore();
 }
 
 function drawCleanPipe(ctx, x, y, w, h, isTop) {
@@ -537,48 +635,6 @@ function drawCleanPipe(ctx, x, y, w, h, isTop) {
   ctx.fillStyle = "#498818";
   ctx.fillRect(capX + capW - 7, capY, 7, capH);
   ctx.strokeRect(capX, capY, capW, capH);
-}
-
-// MATCHING CARTOON GRASS & DIRT GROUND
-function drawCartoonGrassGround(ctx, width, height, groundHeight, scrollOffset) {
-  const groundY = height - groundHeight;
-  const topGrassH = 14;
-
-  ctx.save();
-
-  // Dirt Base Bottom
-  ctx.fillStyle = "#ded895";
-  ctx.fillRect(0, groundY + topGrassH, width, groundHeight - topGrassH);
-
-  // Darker Dirt Texture Line
-  ctx.fillStyle = "#ce8e41";
-  ctx.fillRect(0, groundY + topGrassH + 18, width, 6);
-
-  // Top Lush Green Grass Base
-  ctx.fillStyle = "#73bf2e";
-  ctx.fillRect(0, groundY, width, topGrassH);
-
-  // Top Light Grass Highlight Strip
-  ctx.fillStyle = "#9ce659";
-  ctx.fillRect(0, groundY, width, 3.5);
-
-  // Wavy Scalloped Grass Bush Edge
-  ctx.fillStyle = "#538d21";
-  const step = 16;
-  const startX = -(scrollOffset % step);
-  for (let x = startX; x < width + step; x += step) {
-    ctx.fillRect(x, groundY + topGrassH - 2, 8, 3.5);
-  }
-
-  // Top Border Line
-  ctx.strokeStyle = "#2e520e";
-  ctx.lineWidth = 2.5;
-  ctx.beginPath();
-  ctx.moveTo(0, groundY);
-  ctx.lineTo(width, groundY);
-  ctx.stroke();
-
-  ctx.restore();
 }
 
 function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
