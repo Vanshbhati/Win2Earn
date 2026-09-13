@@ -179,7 +179,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// ULTRA-SMOOTH HIGH-PERFORMANCE ENGINE WITH DELTA TIMING
+// GAME ENGINE
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -188,37 +188,30 @@ const heliGame = {
   loopId: null,
   lastTime: 0,
   
-  // Helicopter Dimensions
   x: 50,
   y: 200,
   width: 46,
   height: 28,
   
-  // Physics Parameters
-  gravity: 1200,      // Pixels/sec^2
+  gravity: 1200,
   velocity: 0,
-  jumpVelocity: -380, // Impulse velocity
+  jumpVelocity: -380,
   angle: 0,
   rotorFrame: 0,
   
-  // Pipes Parameters
   pipes: [],
   pipeWidth: 50,
   pipeGap: 160,
-  pipeSpeed: 160,     // Pixels/sec
+  pipeSpeed: 160,
   pipeSpacing: 210,
   groundHeight: 65,
   groundOffset: 0,
 
-  // Subway Surfers Floating Score accumulator
   rawScoreAcc: 0,
   distanceMeters: 0,
   bestScore: 0,
 
-  // Background Parallax Scroll Tracker
   bgScroll: 0,
-
-  // Hardware Caching
   bgCanvas: null,
   bgCtx: null
 };
@@ -239,7 +232,6 @@ function initHeliGameListeners() {
     if (clientX && clientY) {
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
-      // Exit button zone (top left)
       if (clickX >= 10 && clickX <= 90 && clickY >= 10 && clickY <= 48) {
         closeGameScreen();
         return;
@@ -273,47 +265,45 @@ function prepareCachedBackground(w, h) {
 
   const ctx = heliGame.bgCtx;
 
-  // Vibrant Blue Sky
+  // Sunset Sky Gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-  skyGrad.addColorStop(0, "#3bb0f5");
-  skyGrad.addColorStop(0.7, "#6bd6ff");
-  skyGrad.addColorStop(1, "#9ee6c9");
+  skyGrad.addColorStop(0, "#4a90e2");
+  skyGrad.addColorStop(0.5, "#91eae4");
+  skyGrad.addColorStop(1, "#86e3ce");
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 }
 
-// ATTRACTIVE CARTOON TREE SILHOUETTES BACKGROUND
-function drawForestTreesDynamic(ctx, w, h, bgScroll) {
-  const baseLineY = h - heliGame.groundHeight + 10;
+// CLEAN CITY SILHOUETTE BACKGROUND (No ugly tree spikes)
+function drawCityBackground(ctx, w, h, bgScroll) {
+  const baseLineY = h - heliGame.groundHeight;
 
-  // 1. Far Tree Layer (Darker Teal Pine Trees - Slow Scroll)
-  ctx.fillStyle = "#3da58a";
-  const startXFar = -(bgScroll * 0.12) % 60;
-  for (let x = startXFar - 60; x <= w + 60; x += 35) {
-    drawPineTree(ctx, x, baseLineY, 28, 70);
+  // Subtle Parallax City Skyline
+  ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
+  const buildings = [
+    { x: 0, w: 40, h: 60 },
+    { x: 50, w: 30, h: 90 },
+    { x: 90, w: 50, h: 50 },
+    { x: 150, w: 35, h: 110 },
+    { x: 195, w: 45, h: 70 },
+    { x: 250, w: 40, h: 85 }
+  ];
+
+  const loopW = 300;
+  const offsetX = (bgScroll * 0.15) % loopW;
+
+  for (let i = -1; i < Math.ceil(w / loopW) + 1; i++) {
+    const baseX = i * loopW - offsetX;
+    buildings.forEach(b => {
+      ctx.fillRect(baseX + b.x, baseLineY - b.h, b.w, b.h);
+    });
   }
 
-  // 2. Near Tree Layer (Brighter Green Pine Trees - Fast Scroll)
-  ctx.fillStyle = "#5bc0be";
-  const startXNear = -(bgScroll * 0.28) % 80;
-  for (let x = startXNear - 80; x <= w + 80; x += 45) {
-    drawPineTree(ctx, x, baseLineY, 36, 95);
-  }
-
-  // 3. Clouds
-  ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+  // Soft Clouds
+  ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
   const cloudOffset = (bgScroll * 0.08) % (w + 200);
   drawCloud(ctx, (w * 0.25) - cloudOffset, h * 0.12, 32);
   drawCloud(ctx, (w * 0.8) - cloudOffset, h * 0.2, 42);
-}
-
-function drawPineTree(ctx, x, bottomY, width, height) {
-  ctx.beginPath();
-  ctx.moveTo(x, bottomY - height);
-  ctx.lineTo(x + width / 2, bottomY);
-  ctx.lineTo(x - width / 2, bottomY);
-  ctx.closePath();
-  ctx.fill();
 }
 
 function drawCloud(ctx, cx, cy, radius) {
@@ -398,8 +388,8 @@ function updatePhysics(dt) {
   heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 140;
   heliGame.bgScroll += (heliGame.pipeSpeed * dt);
 
-  // SUBWAY SURFERS STYLE CONTINUOUS INCREMENTAL SCORE ACCUMULATION
-  heliGame.rawScoreAcc += dt * 12; // Increases rapidly per second
+  // Subway Surfers Running Score
+  heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
 
   if (heliGame.y <= 0) {
@@ -469,31 +459,30 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  // 1. Draw Sky Background
+  // Sky Gradient
   if (heliGame.bgCanvas) {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // 2. Draw Forest Trees Background
-  drawForestTreesDynamic(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+  // Clean City Background
+  drawCityBackground(ctx, canvas.width, canvas.height, heliGame.bgScroll);
 
-  // 3. Draw Pipes
+  // Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
     drawCleanPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
-    
     const bottomH = playableHeight - p.bottomY + 12;
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // 4. Draw Ground
+  // Ground
   drawHDWoodenGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  // 5. Draw Helicopter
+  // Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
 
-  // 6. Draw Top UI (Exit & Subway Surfers Running Score HUD)
+  // Header UI
   renderTopHeaderUI(ctx, canvas.width);
 }
 
@@ -528,16 +517,13 @@ function drawCleanPipe(ctx, x, y, w, h, isTop) {
   ctx.strokeRect(capX, capY, capW, capH);
 }
 
-// Ground Rendering
 function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
   const groundY = height - groundHeight;
   const bushHeight = 22;
   const woodY = groundY + bushHeight;
   const woodHeight = groundHeight - bushHeight;
 
-  // GREEN BUSHES / HEDGES
   ctx.save();
-  
   ctx.fillStyle = "#2d6a4f";
   ctx.beginPath();
   for (let x = -20; x < width + 40; x += 18) {
@@ -551,41 +537,15 @@ function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
     ctx.arc(x, woodY + 2, 14, 0, Math.PI * 2);
   }
   ctx.fill();
-
-  ctx.fillStyle = "#74c69d";
-  ctx.beginPath();
-  for (let x = -5; x < width + 30; x += 22) {
-    ctx.arc(x - 3, woodY - 3, 7, 0, Math.PI * 2);
-  }
-  ctx.fill();
-
   ctx.restore();
 
-  // WOODEN BOARDWALK
   ctx.save();
-
   const woodGrad = ctx.createLinearGradient(0, woodY, 0, height);
   woodGrad.addColorStop(0, "#e9c46a");
   woodGrad.addColorStop(0.3, "#d4a373");
   woodGrad.addColorStop(1, "#bc6c25");
   ctx.fillStyle = woodGrad;
   ctx.fillRect(0, woodY, width, woodHeight);
-
-  ctx.fillStyle = "#f4a261";
-  ctx.fillRect(0, woodY, width, 3);
-
-  ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
-  ctx.fillRect(0, height - 4, width, 4);
-
-  ctx.strokeStyle = "rgba(111, 62, 17, 0.25)";
-  ctx.lineWidth = 1.5;
-  
-  ctx.beginPath();
-  ctx.moveTo(0, woodY + 12);
-  ctx.lineTo(width, woodY + 12);
-  ctx.moveTo(0, woodY + 24);
-  ctx.lineTo(width, woodY + 24);
-  ctx.stroke();
 
   const plankWidth = 140;
   const startX = -(scrollOffset % plankWidth);
@@ -598,22 +558,11 @@ function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
     ctx.moveTo(px, woodY);
     ctx.lineTo(px, height);
     ctx.stroke();
-
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(px + 1.5, woodY);
-    ctx.lineTo(px + 1.5, height);
-    ctx.stroke();
-
-    ctx.strokeStyle = "rgba(74, 38, 7, 0.5)";
-    ctx.lineWidth = 2.5;
   }
 
   ctx.restore();
 }
 
-// MODERN 2D VECTOR HELICOPTER GRAPHICS
 function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.save();
   ctx.translate(x + 23, y + 14);
@@ -624,21 +573,6 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.strokeStyle = "#1a252f";
   ctx.lineWidth = 2;
   ctx.strokeRect(-22, -3, 16, 6);
-
-  ctx.fillStyle = "#f39c12";
-  ctx.beginPath();
-  ctx.moveTo(-22, -3);
-  ctx.lineTo(-27, -10);
-  ctx.lineTo(-20, -3);
-  ctx.fill();
-  
-  ctx.strokeStyle = "rgba(255, 255, 255, 0.8)";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  const tailRotorOffset = Math.sin(frame * 2) * 6;
-  ctx.moveTo(-25, -7 - tailRotorOffset);
-  ctx.lineTo(-25, -7 + tailRotorOffset);
-  ctx.stroke();
 
   ctx.fillStyle = "#e74c3c";
   ctx.beginPath();
@@ -657,12 +591,6 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.strokeStyle = "#1a252f";
   ctx.lineWidth = 1.5;
   ctx.stroke();
-  
-  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-  ctx.fillRect(9, -4, 4, 3);
-
-  ctx.fillStyle = "#2c3e50";
-  ctx.fillRect(-1, -13, 4, 4);
 
   ctx.strokeStyle = "#2c3e50";
   ctx.lineWidth = 3;
@@ -672,29 +600,13 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.lineTo(1 + blurWidth, -13);
   ctx.stroke();
 
-  ctx.strokeStyle = "#2c3e50";
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  ctx.moveTo(-5, 11);
-  ctx.lineTo(-5, 15);
-  ctx.moveTo(7, 11);
-  ctx.lineTo(7, 15);
-  ctx.moveTo(-12, 15);
-  ctx.lineTo(15, 15);
-  ctx.stroke();
-
   ctx.restore();
 }
 
-// TOP UI: EXIT & SCORE HUD (SUBWAY SURFERS STYLE CONSTANT METERS INCREMENT)
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
-  const exitX = 12;
-  const exitY = 12;
-  const exitW = 75;
-  const exitH = 32;
-
+  const exitX = 12, exitY = 12, exitW = 75, exitH = 32;
   ctx.fillStyle = "#ffffff";
   drawRoundedRect(ctx, exitX, exitY, exitW, exitH, 8, true);
   ctx.strokeStyle = "#000000";
@@ -708,10 +620,8 @@ function renderTopHeaderUI(ctx, w) {
   ctx.fillText("EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
 
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
-  const scoreW = 95;
-  const scoreH = 32;
-  const scoreX = w - scoreW - 12;
-  const scoreY = 12;
+  const scoreW = 95, scoreH = 32;
+  const scoreX = w - scoreW - 12, scoreY = 12;
 
   ctx.fillStyle = "#3b82f6";
   drawRoundedRect(ctx, scoreX, scoreY, scoreW, scoreH, 8, true);
