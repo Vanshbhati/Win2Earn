@@ -353,6 +353,7 @@ function heliGameLoop(timestamp) {
 
 function updatePhysics(dt) {
   const canvas = heliGame.canvas;
+  // Dynamic playable ground level start position
   const playableHeight = canvas.height - heliGame.groundHeight;
 
   heliGame.velocity += heliGame.gravity * dt;
@@ -391,8 +392,9 @@ function updatePhysics(dt) {
     const p = heliGame.pipes[i];
     p.x -= heliGame.pipeSpeed * dt;
 
+    // Pipes seamlessly connect directly to the ground bushes baseline
     const topPipeBox = { x: p.x, y: 0, w: heliGame.pipeWidth, h: p.topHeight };
-    const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY };
+    const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY + 10 };
 
     if (checkAABBCollision(heliBox, topPipeBox) || checkAABBCollision(heliBox, bottomPipeBox)) {
       handleCrash();
@@ -405,7 +407,7 @@ function updatePhysics(dt) {
     }
   }
 
-  if (heliGame.pipes.length > 0 && heliGame.pipes[0].x < -heliGame.pipeWidth) {
+  if (heliGame.pipes.length > 0 && heliGame.pipes[0].x < -heliGame.pipeWidth - 10) {
     heliGame.pipes.shift();
   }
 }
@@ -438,11 +440,14 @@ function renderCanvas() {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // 2. Draw Pipes
+  // 2. Draw Pipes (Connected seamlessly to ground surface)
+  const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
     drawCleanPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
-    const bottomH = (canvas.height - heliGame.groundHeight) - p.bottomY;
+    
+    // Extends pipe height down to overlap top of ground bushes slightly (No floating gap!)
+    const bottomH = playableHeight - p.bottomY + 12;
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
@@ -647,7 +652,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.restore();
 }
 
-// CANVAS UI: EXIT & SCORE HUD
+// FIXED CANVAS UI: EXIT & SCORE HUD (No Distortions / Sharp rendering)
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
@@ -689,6 +694,7 @@ function renderTopHeaderUI(ctx, w) {
   ctx.restore();
 }
 
+// BUGFIXED: Accurate Arc Rounded Rectangle Path Engine
 function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -696,7 +702,7 @@ function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
   ctx.lineTo(x + width, y + height - radius);
   ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y);
+  ctx.lineTo(x + radius, y + height);
   ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
   ctx.lineTo(x, y + radius);
   ctx.quadraticCurveTo(x, y, x + radius, y);
@@ -794,3 +800,4 @@ function renderProfileWallet() {
     `;
   }
 }
+
