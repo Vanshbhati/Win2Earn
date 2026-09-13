@@ -178,11 +178,6 @@ function handleGameLaunch() {
     return;
   }
   showModal("gameScreenModal");
-  
-  // Clean HUD: Completely remove Fever/Multiplier element from HTML if present
-  const feverBadge = document.querySelector(".fever-badge") || document.getElementById("feverBadge");
-  if (feverBadge) feverBadge.remove();
-
   resetHeliGameUI();
 }
 
@@ -197,7 +192,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// HIGH-PERFORMANCE ULTRA-SMOOTH HELICOPTER GAME ENGINE
+// HIGH-GRAPHICS ULTRA-SMOOTH PREMIUM GAME ENGINE
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -206,28 +201,36 @@ const heliGame = {
   loopId: null,
   lastTime: 0,
   
-  // Compact Helicopter Dimensions (34x22)
-  x: 60,
-  y: 200,
-  width: 34,
-  height: 22,
+  // 110px 3D Toy Chopper Specs
+  x: 70,
+  y: 220,
+  width: 110,
+  height: 60,
   
-  // Smooth Responsiveness Physics
-  gravity: 0.32,
+  // Smooth Physics & Animations
+  gravity: 0.36,
   velocity: 0,
-  jumpVelocity: -5.8,
+  jumpVelocity: -6.2,
   angle: 0,
+  bobTimer: 0,
   rotorFrame: 0,
   
-  // Thin Pipes & Balanced Spacing
+  // 3D Pipes & World Layout
   pipes: [],
-  pipeWidth: 44,
-  pipeGap: 155,
-  pipeSpeed: 2.2,
-  pipeSpacing: 200,
-  groundHeight: 65,
+  pipeWidth: 64,
+  pipeGap: 175,
+  pipeSpeed: 2.6,
+  pipeSpacing: 220,
+  groundHeight: 75,
   groundOffset: 0,
   
+  // Cloud Engine
+  clouds: [
+    { x: 40, y: 70, speed: 0.3, scale: 1.1, opacity: 0.7 },
+    { x: 220, y: 130, speed: 0.5, scale: 0.85, opacity: 0.6 },
+    { x: 420, y: 90, speed: 0.4, scale: 1.3, opacity: 0.8 }
+  ],
+
   distanceMeters: 0,
   bestScore: 0
 };
@@ -239,7 +242,19 @@ function initHeliGameListeners() {
   heliGame.ctx = canvas.getContext("2d");
 
   const handleJump = (e) => {
-    e.preventDefault();
+    // Prevent default touch drag
+    if (e.type === 'touchstart') e.preventDefault();
+    
+    // Check click on exit button hit box in top left
+    if (e.clientX && e.clientY) {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      if (clickX >= 15 && clickX <= 110 && clickY >= 15 && clickY <= 55) {
+        closeGameScreen();
+        return;
+      }
+    }
     triggerHeliJump();
   };
 
@@ -271,23 +286,29 @@ function resetHeliGameUI() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
-  heliGame.y = (canvas.height - heliGame.groundHeight) / 2;
+  heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 30;
   heliGame.velocity = 0;
   heliGame.angle = 0;
   heliGame.pipes = [];
   heliGame.distanceMeters = 0;
+  heliGame.bobTimer = 0;
   
-  drawClassicStaticPreview();
+  drawPremiumStaticPreview();
 }
 
-function drawClassicStaticPreview() {
+function drawPremiumStaticPreview() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
   if (!ctx || !canvas) return;
 
-  renderClassicBackground(ctx, canvas.width, canvas.height);
-  renderClassicGround(ctx, canvas.width, canvas.height);
-  drawHelicopter(ctx, heliGame.x, heliGame.y, 0);
+  heliGame.bobTimer += 0.05;
+  const hoverY = heliGame.y + Math.sin(heliGame.bobTimer) * 6;
+
+  renderPremiumBackground(ctx, canvas.width, canvas.height);
+  renderCitySkyline(ctx, canvas.width, canvas.height);
+  renderPremiumGround(ctx, canvas.width, canvas.height);
+  draw3DToyChopper(ctx, heliGame.x, hoverY, 0);
+  renderTopPillsUI(ctx, canvas.width);
 }
 
 function startHeliGame() {
@@ -299,7 +320,7 @@ function startHeliGame() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
-  heliGame.y = (canvas.height - heliGame.groundHeight) / 2;
+  heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 30;
   heliGame.velocity = 0;
   heliGame.angle = 0;
   heliGame.pipes = [];
@@ -311,7 +332,6 @@ function startHeliGame() {
   heliGameLoop(performance.now());
 }
 
-// Fixed Delta Time Loop for Zero-Lag Performance
 function heliGameLoop(timestamp) {
   if (!heliGame.active) return;
 
@@ -331,22 +351,36 @@ function updatePhysics(dt) {
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
 
-  heliGame.angle = Math.min(25, Math.max(-18, heliGame.velocity * 3.5));
-  heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 16;
-  heliGame.rotorFrame += 1;
+  // Smooth dynamic tilt rotation
+  heliGame.angle = Math.min(28, Math.max(-20, heliGame.velocity * 3.8));
+  heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 30;
+  heliGame.rotorFrame += 1 * dt;
+
+  // Cloud Animation
+  heliGame.clouds.forEach(cloud => {
+    cloud.x -= cloud.speed * dt;
+    if (cloud.x < -120) cloud.x = canvas.width + 80;
+  });
 
   if (heliGame.y <= 0) {
     heliGame.y = 0;
     heliGame.velocity = 0;
   }
 
-  const heliBox = { x: heliGame.x + 3, y: heliGame.y + 3, w: heliGame.width - 6, h: heliGame.height - 6 };
+  // Exact Hitbox padding for 110px Chopper
+  const heliBox = { 
+    x: heliGame.x + 15, 
+    y: heliGame.y + 12, 
+    w: heliGame.width - 30, 
+    h: heliGame.height - 20 
+  };
 
-  if (heliGame.y + heliGame.height >= playableHeight) {
+  if (heliGame.y + heliGame.height - 10 >= playableHeight) {
     handleCrash();
     return;
   }
 
+  // Pipe Spawner
   if (heliGame.pipes.length === 0) {
     spawnPipe(canvas.width + 40);
   } else {
@@ -382,7 +416,7 @@ function updatePhysics(dt) {
 function spawnPipe(startX) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
-  const minH = 50;
+  const minH = 60;
   const maxH = playableHeight - heliGame.pipeGap - minH;
   const topHeight = Math.floor(Math.random() * (maxH - minH + 1)) + minH;
 
@@ -402,165 +436,364 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  renderClassicBackground(ctx, canvas.width, canvas.height);
-  renderPipes(ctx, canvas.height);
-  renderClassicGround(ctx, canvas.width, canvas.height);
+  renderPremiumBackground(ctx, canvas.width, canvas.height);
+  renderCitySkyline(ctx, canvas.width, canvas.height);
+  render3DPipes(ctx, canvas.height);
+  renderPremiumGround(ctx, canvas.width, canvas.height);
   
   if (heliGame.active) {
-    drawHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle);
+    draw3DToyChopper(ctx, heliGame.x, heliGame.y, heliGame.angle);
   }
 
-  const scoreText = document.getElementById("liveScoreText");
-  if (scoreText) scoreText.innerText = `${heliGame.distanceMeters}`;
+  renderTopPillsUI(ctx, canvas.width);
 }
 
-// Background Rendering
-function renderClassicBackground(ctx, w, h) {
-  ctx.fillStyle = "#4EC0CA";
+// 1. GRADIENT BACKGROUND WITH SOFT BLURRED CLOUDS (#2ED3E0 -> #7EE8FA)
+function renderPremiumBackground(ctx, w, h) {
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
+  bgGrad.addColorStop(0, "#2ED3E0");
+  bgGrad.addColorStop(1, "#7EE8FA");
+  ctx.fillStyle = bgGrad;
   ctx.fillRect(0, 0, w, h);
 
-  const groundY = h - heliGame.groundHeight;
+  // Soft Blurred Cloud Rendering
+  ctx.save();
+  heliGame.clouds.forEach(cloud => {
+    ctx.globalAlpha = cloud.opacity;
+    ctx.fillStyle = "#FFFFFF";
+    const cx = cloud.x;
+    const cy = cloud.y;
+    const s = cloud.scale;
 
-  ctx.fillStyle = "#A3E4D7";
-  ctx.fillRect(0, groundY - 75, w, 40);
-
-  ctx.fillStyle = "#85C1E9";
-  for (let bx = 0; bx < w; bx += 30) {
-    ctx.fillRect(bx + 2, groundY - 70, 12, 35);
-    ctx.fillRect(bx + 16, groundY - 55, 10, 20);
-  }
-
-  ctx.fillStyle = "#52BE80";
-  ctx.fillRect(0, groundY - 30, w, 30);
+    ctx.beginPath();
+    ctx.arc(cx, cy, 22 * s, 0, Math.PI * 2);
+    ctx.arc(cx + 20 * s, cy - 10 * s, 26 * s, 0, Math.PI * 2);
+    ctx.arc(cx + 45 * s, cy, 20 * s, 0, Math.PI * 2);
+    ctx.arc(cx + 25 * s, cy + 10 * s, 18 * s, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.restore();
 }
 
-// Pipes Rendering
-function renderPipes(ctx, canvasHeight) {
+// 2. DETAILED LIGHT BLUE CITY SILHOUETTE (#A2D2FF)
+function renderCitySkyline(ctx, w, h) {
+  const groundY = h - heliGame.groundHeight;
+  ctx.save();
+  ctx.fillStyle = "#A2D2FF";
+
+  const buildingWidths = [45, 30, 55, 40, 60, 35, 50];
+  const buildingHeights = [110, 80, 140, 95, 125, 75, 130];
+  let currentX = 0;
+  let i = 0;
+
+  while (currentX < w + 60) {
+    const bw = buildingWidths[i % buildingWidths.length];
+    const bh = buildingHeights[i % buildingHeights.length];
+    const by = groundY - bh;
+
+    ctx.fillRect(currentX, by, bw, bh);
+
+    // Architectural Roof Accents
+    if (i % 2 === 0) {
+      ctx.fillRect(currentX + bw / 2 - 3, by - 14, 6, 14); // Antenna
+    } else if (i % 3 === 0) {
+      ctx.fillRect(currentX + 6, by - 8, bw - 12, 8); // Roof Top Step
+    }
+
+    // Windows Detail
+    ctx.fillStyle = "#BDE0FE";
+    for (let wx = currentX + 6; wx < currentX + bw - 8; wx += 10) {
+      for (let wy = by + 12; wy < groundY - 15; wy += 18) {
+        ctx.fillRect(wx, wy, 5, 8);
+      }
+    }
+    ctx.fillStyle = "#A2D2FF";
+
+    currentX += bw + 8;
+    i++;
+  }
+  ctx.restore();
+}
+
+// 3. GLOSSY 3D PIPES (#4CAF50 + White Highlights & Inner Caps)
+function render3DPipes(ctx, canvasHeight) {
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
-    drawPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
+    drawSingle3DPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
     const bottomH = (canvasHeight - heliGame.groundHeight) - p.bottomY;
-    drawPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
+    drawSingle3DPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 }
 
-function drawPipe(ctx, x, y, w, h, isTop) {
+function drawSingle3DPipe(ctx, x, y, w, h, isTop) {
   if (h <= 0) return;
 
-  ctx.fillStyle = "#73BF2E";
+  ctx.save();
+  
+  // Base Green Gradient Fill
+  const pipeGrad = ctx.createLinearGradient(x, 0, x + w, 0);
+  pipeGrad.addColorStop(0, "#388E3C");
+  pipeGrad.addColorStop(0.3, "#4CAF50");
+  pipeGrad.addColorStop(0.7, "#66BB6A");
+  pipeGrad.addColorStop(1, "#2E7D32");
+
+  ctx.fillStyle = pipeGrad;
   ctx.fillRect(x, y, w, h);
 
-  ctx.fillStyle = "#9CE659";
-  ctx.fillRect(x + 3, y, 5, h);
+  // White Highlight Left Stripe (10px)
+  ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+  ctx.fillRect(x + 5, y, 10, h);
 
-  ctx.fillStyle = "#55A021";
-  ctx.fillRect(x + w - 6, y, 6, h);
-
+  // Black Stroke 3px
   ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.strokeRect(x, y, w, h);
 
-  const capH = 18;
-  const overhang = 3;
+  // 3D Cap Rim (Height 24px)
+  const capH = 24;
+  const overhang = 5;
   const capX = x - overhang;
   const capW = w + (overhang * 2);
   const capY = isTop ? y + h - capH : y;
 
-  ctx.fillStyle = "#73BF2E";
+  const capGrad = ctx.createLinearGradient(capX, 0, capX + capW, 0);
+  capGrad.addColorStop(0, "#388E3C");
+  capGrad.addColorStop(0.35, "#4CAF50");
+  capGrad.addColorStop(0.75, "#81C784");
+  capGrad.addColorStop(1, "#1B5E20");
+
+  ctx.fillStyle = capGrad;
   ctx.fillRect(capX, capY, capW, capH);
-  ctx.fillStyle = "#9CE659";
-  ctx.fillRect(capX + 3, capY, 5, capH);
-  ctx.fillStyle = "#55A021";
-  ctx.fillRect(capX + capW - 6, capY, 6, capH);
+
+  // Cap Gloss Inner Shine & Highlights
+  ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
+  ctx.fillRect(capX + 6, capY + 3, 11, capH - 6);
+
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 3;
   ctx.strokeRect(capX, capY, capW, capH);
+
+  ctx.restore();
 }
 
-// Ground Rendering
-function renderClassicGround(ctx, w, h) {
+// 4. PREMIUM GROUND LAYER (#4ADE80 Grass + Wood Plank Beige #F5E6C8)
+function renderPremiumGround(ctx, w, h) {
   const groundY = h - heliGame.groundHeight;
 
-  ctx.fillStyle = "#73BF2E";
-  ctx.fillRect(0, groundY, w, 12);
-  ctx.fillStyle = "#55A021";
-  ctx.fillRect(0, groundY + 12, w, 4);
+  ctx.save();
+  
+  // Dirt / Wood Plank Base (#F5E6C8)
+  ctx.fillStyle = "#F5E6C8";
+  ctx.fillRect(0, groundY, w, heliGame.groundHeight);
 
-  ctx.fillStyle = "#DED895";
-  ctx.fillRect(0, groundY + 16, w, heliGame.groundHeight - 16);
+  // Horizontal Wood Grain Stripes
+  ctx.fillStyle = "#E6D3A7";
+  ctx.fillRect(0, groundY + 38, w, 4);
+  ctx.fillRect(0, groundY + 58, w, 4);
 
-  ctx.fillStyle = "#C8B26B";
-  for (let gx = -heliGame.groundOffset; gx < w + 20; gx += 16) {
+  // Vertical Plank Joints
+  ctx.fillStyle = "#D4C094";
+  for (let px = -heliGame.groundOffset; px < w + 50; px += 70) {
+    ctx.fillRect(px, groundY + 32, 3, 43);
+  }
+
+  // Top Grass Texture Layer (#4ADE80 - 32px High)
+  ctx.fillStyle = "#4ADE80";
+  ctx.fillRect(0, groundY, w, 32);
+
+  // Grass Edge Dark Outline & Dots
+  ctx.fillStyle = "#22C55E";
+  ctx.fillRect(0, groundY + 28, w, 4);
+
+  // Leaf Accents / Dots
+  ctx.fillStyle = "#86EFAC";
+  for (let lx = -heliGame.groundOffset; lx < w + 30; lx += 18) {
     ctx.beginPath();
-    ctx.moveTo(gx, groundY + 18);
-    ctx.lineTo(gx - 6, groundY + heliGame.groundHeight);
-    ctx.lineTo(gx - 2, groundY + heliGame.groundHeight);
-    ctx.lineTo(gx + 4, groundY + 18);
+    ctx.arc(lx, groundY + 12, 3, 0, Math.PI * 2);
+    ctx.arc(lx + 6, groundY + 18, 2.5, 0, Math.PI * 2);
     ctx.fill();
   }
 
+  // Top Ground Boundary Stroke
   ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 3;
   ctx.beginPath();
   ctx.moveTo(0, groundY);
   ctx.lineTo(w, groundY);
   ctx.stroke();
+
+  ctx.restore();
 }
 
-// REAL HELICOPTER GRAPHICS (Sleek 2D Helicopter)
-function drawHelicopter(ctx, x, y, angleDeg) {
+// 5. 3D TOY CHOPPER (Size 110px, Glossy #FFC93C Body, Motion Blur Disc)
+function draw3DToyChopper(ctx, x, y, angleDeg) {
   ctx.save();
-  ctx.translate(x + 17, y + 11);
+  ctx.translate(x + 55, y + 30);
   ctx.rotate((angleDeg * Math.PI) / 180);
 
-  // Main Helicopter Body
-  ctx.fillStyle = "#E74C3C";
+  // A. Spinning Rotor Motion Blur Disc (#FFFFFF 30% Opacity)
+  ctx.save();
+  ctx.fillStyle = "rgba(255, 255, 255, 0.30)";
   ctx.beginPath();
-  ctx.ellipse(2, 2, 14, 9, 0, 0, Math.PI * 2);
+  ctx.ellipse(5, -28, 52, 7, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "rgba(255, 255, 255, 0.50)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.restore();
+
+  // Rotor Blades Solid Line Flash
+  const bladePhase = Math.sin(heliGame.rotorFrame * 0.9);
+  ctx.fillStyle = "#2C3E50";
+  ctx.fillRect(-45 * bladePhase, -29, 90 * bladePhase, 3);
+
+  // Shaft Connection
+  ctx.fillStyle = "#34495E";
+  ctx.fillRect(3, -24, 5, 8);
+
+  // B. Tail Boom & Tail Fin
+  ctx.fillStyle = "#E67E22";
+  ctx.beginPath();
+  ctx.moveTo(-20, 0);
+  ctx.lineTo(-50, -6);
+  ctx.lineTo(-52, -18);
+  ctx.lineTo(-40, -4);
+  ctx.closePath();
   ctx.fill();
   ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 2.5;
   ctx.stroke();
 
-  // Glass Cockpit Window
-  ctx.fillStyle = "#3498DB";
+  // Tail Rotor Blur Disc
+  ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
   ctx.beginPath();
-  ctx.arc(9, 0, 5, -Math.PI / 2, Math.PI / 2);
+  ctx.arc(-51, -12, 11, 0, Math.PI * 2);
   ctx.fill();
-  ctx.stroke();
 
-  // Tail Boom
-  ctx.fillStyle = "#C0392B";
-  ctx.fillRect(-16, -1, 12, 4);
-  ctx.strokeRect(-16, -1, 12, 4);
+  // C. Main Toy Chopper Body (#FFC93C 3D Sphere Look)
+  const bodyGrad = ctx.createRadialGradient(-5, -6, 4, 0, 0, 32);
+  bodyGrad.addColorStop(0, "#FFE082");
+  bodyGrad.addColorStop(0.5, "#FFC93C");
+  bodyGrad.addColorStop(1, "#F39C12");
 
-  // Tail Rotor
-  ctx.fillStyle = "#000000";
-  const tailRotorAngle = (heliGame.rotorFrame * 0.5) % Math.PI;
+  ctx.fillStyle = bodyGrad;
   ctx.beginPath();
-  ctx.arc(-16, 1, 4, tailRotorAngle, tailRotorAngle + Math.PI);
+  ctx.ellipse(2, 2, 34, 22, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 3;
   ctx.stroke();
 
-  // Top Main Rotor Shaft & Blade
-  ctx.fillStyle = "#000000";
-  ctx.fillRect(0, -9, 2, 3);
-  
-  // Rotating Main Rotor Blade Animation
-  const bladeWidth = (heliGame.rotorFrame % 4 < 2) ? 28 : 8;
-  ctx.fillStyle = "#2C3E50";
-  ctx.fillRect(-bladeWidth / 2, -10, bladeWidth, 2);
+  // Body Gloss Reflection Highlight
+  ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+  ctx.beginPath();
+  ctx.ellipse(-6, -10, 18, 6, -0.2, 0, Math.PI * 2);
+  ctx.fill();
 
-  // Landing Skids
+  // D. Blue Glossy Windows (#6EC6FF)
+  const windowGrad = ctx.createLinearGradient(10, -14, 32, 10);
+  windowGrad.addColorStop(0, "#E0F7FA");
+  windowGrad.addColorStop(0.4, "#6EC6FF");
+  windowGrad.addColorStop(1, "#0288D1");
+
+  ctx.fillStyle = windowGrad;
+  ctx.beginPath();
+  ctx.arc(14, -2, 14, -Math.PI * 0.55, Math.PI * 0.45);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  // Window Reflection Specular Glare
+  ctx.fillStyle = "#FFFFFF";
+  ctx.beginPath();
+  ctx.ellipse(18, -6, 4, 2, -Math.PI / 4, 0, Math.PI * 2);
+  ctx.fill();
+
+  // E. Landing Skids
   ctx.strokeStyle = "#2C3E50";
-  ctx.lineWidth = 1.5;
+  ctx.lineWidth = 3;
   ctx.beginPath();
-  ctx.moveTo(-6, 11);
-  ctx.lineTo(10, 11);
-  ctx.moveTo(-2, 8);
-  ctx.lineTo(-2, 11);
-  ctx.moveTo(6, 8);
-  ctx.lineTo(6, 11);
+  // Vertical Struts
+  ctx.moveTo(-10, 22);
+  ctx.lineTo(-10, 28);
+  ctx.moveTo(14, 22);
+  ctx.lineTo(14, 28);
+  // Skid Bar
+  ctx.moveTo(-24, 28);
+  ctx.lineTo(28, 28);
   ctx.stroke();
 
   ctx.restore();
+}
+
+// 6. TOP UI PILLS (Separated Exit & Padded Score)
+function renderTopPillsUI(ctx, w) {
+  ctx.save();
+
+  // A. Left EXIT Pill
+  const exitX = 16;
+  const exitY = 16;
+  const exitW = 92;
+  const exitH = 38;
+
+  // Shadow 0 4px 12px rgba(0,0,0,0.15)
+  ctx.shadowColor = "rgba(0, 0, 0, 0.15)";
+  ctx.shadowBlur = 12;
+  ctx.shadowOffsetY = 4;
+
+  ctx.fillStyle = "#FFFFFF";
+  roundRect(ctx, exitX, exitY, exitW, exitH, 12, true, false);
+
+  ctx.shadowColor = "transparent"; // Reset Shadow
+
+  ctx.fillStyle = "#000000";
+  ctx.font = "900 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText("✕  EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
+
+  // B. Right SCORE Pill (Blue #3B82F6)
+  const scoreStr = String(heliGame.distanceMeters).padStart(4, '0');
+  const scoreW = 110;
+  const scoreH = 38;
+  const scoreX = w - scoreW - 16;
+  const scoreY = 16;
+
+  ctx.shadowColor = "rgba(0, 0, 0, 0.15)";
+  ctx.shadowBlur = 12;
+  ctx.shadowOffsetY = 4;
+
+  ctx.fillStyle = "#3B82F6";
+  roundRect(ctx, scoreX, scoreY, scoreW, scoreH, 12, true, false);
+
+  ctx.shadowColor = "transparent";
+
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = "900 16px monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
+
+  ctx.restore();
+}
+
+// Helper Rounded Rect
+function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+  ctx.beginPath();
+  ctx.moveTo(x + radius, y);
+  ctx.lineTo(x + width - radius, y);
+  ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+  ctx.lineTo(x + width, y + height - radius);
+  ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+  ctx.lineTo(x + radius, y + height);
+  ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+  ctx.lineTo(x, y + radius);
+  ctx.quadraticCurveTo(x, y, x + radius, y);
+  ctx.closePath();
+  if (fill) ctx.fill();
+  if (stroke) ctx.stroke();
 }
 
 function handleCrash() {
