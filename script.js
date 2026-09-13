@@ -204,7 +204,7 @@ const heliGame = {
   pipeGap: 160,
   pipeSpeed: 160,
   pipeSpacing: 210,
-  groundHeight: 65,
+  groundHeight: 60,
   groundOffset: 0,
 
   rawScoreAcc: 0,
@@ -273,17 +273,17 @@ function prepareCachedBackground(w, h) {
   ctx.fillRect(0, 0, w, h);
 }
 
-// FADED SOFT BACKGROUND BUILDINGS
-function drawFadedBackgroundCity(ctx, w, h, bgScroll) {
+// SOFT VIBRANT BACKGROUND BUILDINGS (PERFECT VISIBILITY BALANCE)
+function drawBalancedBackgroundCity(ctx, w, h, bgScroll) {
   const baseLineY = h - heliGame.groundHeight + 10;
 
   const buildings = [
-    { x: 0, w: 48, h: 90, color: "rgba(255, 180, 120, 0.35)", type: "helipad" },
-    { x: 52, w: 40, h: 120, color: "rgba(180, 150, 230, 0.35)", type: "spire" },
-    { x: 96, w: 54, h: 75, color: "rgba(140, 180, 240, 0.35)", type: "standard" },
-    { x: 154, w: 44, h: 135, color: "rgba(255, 140, 150, 0.35)", type: "beacon" },
-    { x: 202, w: 50, h: 100, color: "rgba(130, 220, 170, 0.35)", type: "helipad" },
-    { x: 256, w: 46, h: 115, color: "rgba(240, 220, 130, 0.35)", type: "spire" }
+    { x: 0, w: 48, h: 95, color: "rgba(255, 178, 115, 0.68)", dark: "rgba(230, 140, 75, 0.68)" },
+    { x: 52, w: 40, h: 125, color: "rgba(186, 148, 235, 0.68)", dark: "rgba(150, 110, 205, 0.68)" },
+    { x: 96, w: 54, h: 80, color: "rgba(125, 175, 240, 0.68)", dark: "rgba(90, 140, 210, 0.68)" },
+    { x: 154, w: 44, h: 140, color: "rgba(255, 138, 148, 0.68)", dark: "rgba(225, 100, 110, 0.68)" },
+    { x: 202, w: 50, h: 105, color: "rgba(110, 225, 165, 0.68)", dark: "rgba(75, 190, 130, 0.68)" },
+    { x: 256, w: 46, h: 118, color: "rgba(250, 218, 110, 0.68)", dark: "rgba(215, 180, 70, 0.68)" }
   ];
 
   const loopW = 310;
@@ -297,16 +297,20 @@ function drawFadedBackgroundCity(ctx, w, h, bgScroll) {
       const bx = baseX + b.x;
       const by = baseLineY - b.h;
 
-      // Soft Faded Main Body
+      // Building Main Frame
       ctx.fillStyle = b.color;
       ctx.fillRect(bx, by, b.w, b.h + 20);
 
-      // Faded Roof Trimming
-      ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-      ctx.fillRect(bx, by, b.w, 3);
+      // Side Shade Rim
+      ctx.fillStyle = b.dark;
+      ctx.fillRect(bx + b.w - 4, by, 4, b.h + 20);
 
-      // Faded Windows
-      ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+      // White Roof Trim
+      ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+      ctx.fillRect(bx - 1, by, b.w + 2, 3);
+
+      // Windows
+      ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
       for (let wY = 12; wY < b.h - 8; wY += 18) {
         ctx.fillRect(bx + 6, by + wY, 7, 9);
         if (b.w > 36) {
@@ -316,8 +320,8 @@ function drawFadedBackgroundCity(ctx, w, h, bgScroll) {
     });
   }
 
-  // Soft Clouds in Background
-  ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+  // Soft Background Clouds
+  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
   const cloudOffset = (bgScroll * 0.08) % (w + 200);
   drawCloud(ctx, (w * 0.25) - cloudOffset, h * 0.12, 30);
   drawCloud(ctx, (w * 0.8) - cloudOffset, h * 0.2, 40);
@@ -482,8 +486,8 @@ function renderCanvas() {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // Faded Background City Skyline
-  drawFadedBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+  // Soft & Balanced Background City
+  drawBalancedBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll);
 
   // Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
@@ -494,8 +498,8 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Stylish Metallic / Cyber Energy Platform Ground
-  drawCyberPlatformGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
+  // Cartoon Lush Grass Ground (Perfect Match)
+  drawCartoonGrassGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
   // Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
@@ -535,35 +539,39 @@ function drawCleanPipe(ctx, x, y, w, h, isTop) {
   ctx.strokeRect(capX, capY, capW, capH);
 }
 
-// MODERN STYLIZED GROUND PLATFORM (NEW ATTRACTIVE LOOK)
-function drawCyberPlatformGround(ctx, width, height, groundHeight, scrollOffset) {
+// MATCHING CARTOON GRASS & DIRT GROUND
+function drawCartoonGrassGround(ctx, width, height, groundHeight, scrollOffset) {
   const groundY = height - groundHeight;
+  const topGrassH = 14;
+
   ctx.save();
 
-  // Base Dark Metallic Background
-  ctx.fillStyle = "#2d3436";
-  ctx.fillRect(0, groundY, width, groundHeight);
+  // Dirt Base Bottom
+  ctx.fillStyle = "#ded895";
+  ctx.fillRect(0, groundY + topGrassH, width, groundHeight - topGrassH);
 
-  // Glowing Top Energy Border
-  ctx.fillStyle = "#00cec9";
-  ctx.fillRect(0, groundY, width, 5);
+  // Darker Dirt Texture Line
+  ctx.fillStyle = "#ce8e41";
+  ctx.fillRect(0, groundY + topGrassH + 18, width, 6);
 
-  // Inner Strip Texture Lines
-  ctx.fillStyle = "#636e72";
-  const step = 24;
+  // Top Lush Green Grass Base
+  ctx.fillStyle = "#73bf2e";
+  ctx.fillRect(0, groundY, width, topGrassH);
+
+  // Top Light Grass Highlight Strip
+  ctx.fillStyle = "#9ce659";
+  ctx.fillRect(0, groundY, width, 3.5);
+
+  // Wavy Scalloped Grass Bush Edge
+  ctx.fillStyle = "#538d21";
+  const step = 16;
   const startX = -(scrollOffset % step);
-
   for (let x = startX; x < width + step; x += step) {
-    ctx.beginPath();
-    ctx.moveTo(x, groundY + 5);
-    ctx.lineTo(x - 12, height);
-    ctx.lineTo(x - 4, height);
-    ctx.lineTo(x + 8, groundY + 5);
-    ctx.fill();
+    ctx.fillRect(x, groundY + topGrassH - 2, 8, 3.5);
   }
 
-  // Top Dark Border Outline
-  ctx.strokeStyle = "#000000";
+  // Top Border Line
+  ctx.strokeStyle = "#2e520e";
   ctx.lineWidth = 2.5;
   ctx.beginPath();
   ctx.moveTo(0, groundY);
