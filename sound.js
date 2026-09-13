@@ -6,6 +6,7 @@ class SoundManager {
     this.audioCtx = null;
     this.currentEnv = null;
     this.ambientNodes = [];
+    this.activeIntervals = [];
     this.isMuted = false;
     this.masterGain = null;
   }
@@ -19,20 +20,30 @@ class SoundManager {
     this.masterGain.connect(this.audioCtx.destination);
   }
 
+  // Purely stop all ambient sounds & clear running intervals/loops
   stopBgMusic() {
+    // Clear all scheduled intervals (bird chirps, owl hoots, thunder, etc.)
+    this.activeIntervals.forEach(intervalId => clearInterval(intervalId));
+    this.activeIntervals = [];
+
+    // Stop and disconnect active audio nodes
     this.ambientNodes.forEach(node => {
       try {
         if (node.stop) node.stop();
         if (node.disconnect) node.disconnect();
-      } catch (e) {}
+      } catch (e) {
+        // Safe catch for already stopped nodes
+      }
     });
     this.ambientNodes = [];
     this.currentEnv = null;
   }
 
+  // Switches audio environment dynamically based on game cycle
   setEnvironment(envType) {
     if (this.currentEnv === envType) return;
     this.init();
+    
     if (this.audioCtx.state === 'suspended') {
       this.audioCtx.resume();
     }
@@ -56,17 +67,19 @@ class SoundManager {
     }
   }
 
-  // 1. Morning Ambient (Birds chirping + Gentle wind)
+  // 1. MORNING AMBIENT (Birds Chirping + Gentle Wind)
   startMorningAmbient() {
     const birdInterval = setInterval(() => {
       if (this.currentEnv !== 'morning') {
         clearInterval(birdInterval);
         return;
       }
-      if (Math.random() < 0.6) this.playBirdChirp();
-    }, 1800);
+      if (Math.random() < 0.65) this.playBirdChirp();
+    }, 1600);
 
-    const windNoise = this.createNoiseNode(0.02, 400);
+    this.activeIntervals.push(birdInterval);
+
+    const windNoise = this.createNoiseNode(0.025, 400);
     if (windNoise) this.ambientNodes.push(windNoise);
   }
 
@@ -91,7 +104,7 @@ class SoundManager {
     osc.stop(this.audioCtx.currentTime + 0.15);
   }
 
-  // 2. Sunset Ambient (Crickets humming + Evening Breeze)
+  // 2. SUNSET AMBIENT (Crickets Chirping + Evening Breeze)
   startSunsetAmbient() {
     const cricketOsc = this.audioCtx.createOscillator();
     const cricketGain = this.audioCtx.createGain();
@@ -100,9 +113,9 @@ class SoundManager {
     cricketOsc.frequency.value = 4500;
     cricketGain.gain.value = 0.015;
 
-    // Pulse cricket sounds
+    // Pulse cricket sound using LFO
     const lfo = this.audioCtx.createOscillator();
-    lfo.frequency.value = 8; // Hz modulation
+    lfo.frequency.value = 8;
     const lfoGain = this.audioCtx.createGain();
     lfoGain.gain.value = 0.015;
 
@@ -114,11 +127,14 @@ class SoundManager {
     cricketOsc.start();
 
     this.ambientNodes.push(lfo, cricketOsc);
+
+    const windNoise = this.createNoiseNode(0.02, 300);
+    if (windNoise) this.ambientNodes.push(windNoise);
   }
 
-  // 3. Night Ambient (Deep Wind + Owl hoot)
+  // 3. NIGHT AMBIENT (Deep Night Breeze + Owl Hoot)
   startNightAmbient() {
-    const windNoise = this.createNoiseNode(0.04, 250);
+    const windNoise = this.createNoiseNode(0.04, 220);
     if (windNoise) this.ambientNodes.push(windNoise);
 
     const owlInterval = setInterval(() => {
@@ -126,8 +142,10 @@ class SoundManager {
         clearInterval(owlInterval);
         return;
       }
-      if (Math.random() < 0.3) this.playOwlHoot();
-    }, 4000);
+      if (Math.random() < 0.4) this.playOwlHoot();
+    }, 4500);
+
+    this.activeIntervals.push(owlInterval);
   }
 
   playOwlHoot() {
@@ -137,10 +155,10 @@ class SoundManager {
 
     osc.type = 'sine';
     osc.frequency.setValueAtTime(320, this.audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(280, this.audioCtx.currentTime + 0.4);
+    osc.frequency.exponentialRampToValueAtTime(270, this.audioCtx.currentTime + 0.4);
 
     gain.gain.setValueAtTime(0.001, this.audioCtx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.08, this.audioCtx.currentTime + 0.15);
+    gain.gain.linearRampToValueAtTime(0.07, this.audioCtx.currentTime + 0.15);
     gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.4);
 
     osc.connect(gain);
@@ -150,9 +168,9 @@ class SoundManager {
     osc.stop(this.audioCtx.currentTime + 0.4);
   }
 
-  // 4. Rain Ambient (Filtered White Noise Rain + Thunder chance)
+  // 4. RAIN AMBIENT (Constant Rain Sound + Random Thunder Claps)
   startRainAmbient() {
-    const rainNoise = this.createNoiseNode(0.08, 1200); // Higher cutoff frequency for rain
+    const rainNoise = this.createNoiseNode(0.09, 1300);
     if (rainNoise) this.ambientNodes.push(rainNoise);
 
     const thunderInterval = setInterval(() => {
@@ -160,15 +178,19 @@ class SoundManager {
         clearInterval(thunderInterval);
         return;
       }
-      if (Math.random() < 0.2) this.playThunder();
-    }, 6000);
+      if (Math.random() < 0.35) this.playThunder();
+    }, 5000);
+
+    this.activeIntervals.push(thunderInterval);
   }
 
   playThunder() {
     if (!this.audioCtx) return;
-    const noiseBuffer = this.audioCtx.createBuffer(1, this.audioCtx.sampleRate * 2, this.audioCtx.sampleRate);
+    const bufferSize = this.audioCtx.sampleRate * 2;
+    const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
     const output = noiseBuffer.getChannelData(0);
-    for (let i = 0; i < noiseBuffer.length; i++) {
+    
+    for (let i = 0; i < bufferSize; i++) {
       output[i] = Math.random() * 2 - 1;
     }
 
@@ -177,10 +199,10 @@ class SoundManager {
 
     const filter = this.audioCtx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.value = 150;
+    filter.frequency.value = 160;
 
     const gain = this.audioCtx.createGain();
-    gain.gain.setValueAtTime(0.3, this.audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 1.8);
 
     whiteNoise.connect(filter);
@@ -190,7 +212,7 @@ class SoundManager {
     whiteNoise.start();
   }
 
-  // Utility to create ambient Noise Filter
+  // Helper function to synthesize ambient noise
   createNoiseNode(vol, cutoffFreq) {
     if (!this.audioCtx) return null;
     const bufferSize = 2 * this.audioCtx.sampleRate;
@@ -220,11 +242,12 @@ class SoundManager {
     return whiteNoise;
   }
 
-  // FX Sounds
+  // SOUND FX: Score Point Ring
   playScore() {
     if (!this.audioCtx) return;
     const osc = this.audioCtx.createOscillator();
     const gain = this.audioCtx.createGain();
+
     osc.type = 'sine';
     osc.frequency.setValueAtTime(587.33, this.audioCtx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(880, this.audioCtx.currentTime + 0.1);
@@ -234,14 +257,17 @@ class SoundManager {
 
     osc.connect(gain);
     gain.connect(this.masterGain);
+
     osc.start();
     osc.stop(this.audioCtx.currentTime + 0.1);
   }
 
+  // SOUND FX: Crash Sound
   playCrash() {
     if (!this.audioCtx) return;
     const osc = this.audioCtx.createOscillator();
     const gain = this.audioCtx.createGain();
+
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(150, this.audioCtx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(40, this.audioCtx.currentTime + 0.3);
@@ -251,6 +277,7 @@ class SoundManager {
 
     osc.connect(gain);
     gain.connect(this.masterGain);
+
     osc.start();
     osc.stop(this.audioCtx.currentTime + 0.3);
   }
