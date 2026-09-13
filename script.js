@@ -213,10 +213,24 @@ const heliGame = {
   distanceMeters: 0,
   bestScore: 0,
 
+  // Background Parallax Scroll Tracker
+  bgScroll: 0,
+
   // Hardware Caching
   bgCanvas: null,
   bgCtx: null
 };
+
+// Procedural City Building Data for Dynamic Rendering
+const cityBuildingsData = [
+  { xRatio: 0.02, width: 55, height: 160, style: 1 },
+  { xRatio: 0.15, width: 75, height: 210, style: 2 },
+  { xRatio: 0.32, width: 45, height: 130, style: 1 },
+  { xRatio: 0.45, width: 85, height: 250, style: 3 },
+  { xRatio: 0.65, width: 60, height: 180, style: 2 },
+  { xRatio: 0.80, width: 70, height: 220, style: 1 },
+  { xRatio: 0.92, width: 50, height: 140, style: 3 }
+];
 
 function initHeliGameListeners() {
   const canvas = document.getElementById("heliCanvas");
@@ -269,28 +283,56 @@ function prepareCachedBackground(w, h) {
   const ctx = heliGame.bgCtx;
   const groundY = h - heliGame.groundHeight;
 
-  // Sky Gradient
+  // Modern Atmospheric Sky Gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, groundY);
-  skyGrad.addColorStop(0, "#4a90e2");
-  skyGrad.addColorStop(1, "#50e3c2");
+  skyGrad.addColorStop(0, "#2b5876");
+  skyGrad.addColorStop(0.6, "#4e4376");
+  skyGrad.addColorStop(1, "#355c7d");
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
+}
 
-  // Background Distant Mountains
-  ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
-  ctx.beginPath();
-  for (let mx = 0; mx < w + 100; mx += 80) {
-    ctx.lineTo(mx, groundY - 60 - (mx % 3 === 0 ? 30 : 10));
-    ctx.lineTo(mx + 40, groundY);
+function drawCitySkylineDynamic(ctx, w, h, bgScroll) {
+  const groundY = h - heliGame.groundHeight;
+  
+  // Far Background Silhouette Layer
+  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+  for (let bx = 0; bx < w + 100; bx += 40) {
+    const farHeight = 80 + Math.sin(bx * 0.02) * 40;
+    let currX = (bx - bgScroll * 0.15) % (w + 80);
+    if (currX < -50) currX += w + 80;
+    ctx.fillRect(currX, groundY - farHeight, 35, farHeight);
   }
-  ctx.fill();
 
-  // Distant City Skyline
-  ctx.fillStyle = "rgba(44, 62, 80, 0.15)";
-  for (let bx = 0; bx < w + 50; bx += 32) {
-    const bHeight = 40 + (bx % 5) * 12;
-    ctx.fillRect(bx, groundY - bHeight, 26, bHeight);
-  }
+  // Main Dynamic Cyber/Modern Skyline Layer
+  cityBuildingsData.forEach((bld, i) => {
+    let rawX = (bld.xRatio * w) - (bgScroll * 0.35);
+    let totalWidth = w + 120;
+    let currX = ((rawX % totalWidth) + totalWidth) % totalWidth - 60;
+
+    // Building Gradient Fill
+    let grad = ctx.createLinearGradient(0, groundY - bld.height, 0, groundY);
+    grad.addColorStop(0, "#1f2937");
+    grad.addColorStop(0.5, "#111827");
+    grad.addColorStop(1, "#0f172a");
+    
+    ctx.fillStyle = grad;
+    ctx.fillRect(currX, groundY - bld.height, bld.width, bld.height);
+
+    // Building Roof Borders / Neon Accent Line
+    ctx.fillStyle = i % 2 === 0 ? "rgba(56, 189, 248, 0.7)" : "rgba(244, 63, 94, 0.7)";
+    ctx.fillRect(currX, groundY - bld.height, bld.width, 3);
+
+    // Attractive Glowing Yellow & Blue Windows
+    for (let wx = currX + 6; wx < currX + bld.width - 8; wx += 10) {
+      for (let wy = groundY - bld.height + 14; wy < groundY - 12; wy += 16) {
+        if ((wx + wy + i * 7) % 3 === 0) {
+          ctx.fillStyle = (wx + wy) % 5 === 0 ? "rgba(56, 189, 248, 0.85)" : "rgba(253, 224, 71, 0.85)";
+          ctx.fillRect(wx, wy, 5, 8);
+        }
+      }
+    }
+  });
 }
 
 function resetHeliGameUI() {
@@ -311,6 +353,7 @@ function resetHeliGameUI() {
   heliGame.angle = 0;
   heliGame.pipes = [];
   heliGame.distanceMeters = 0;
+  heliGame.bgScroll = 0;
   
   renderCanvas();
 }
@@ -331,6 +374,7 @@ function startHeliGame() {
   heliGame.angle = 0;
   heliGame.pipes = [];
   heliGame.distanceMeters = 0;
+  heliGame.bgScroll = 0;
   heliGame.active = true;
   heliGame.lastTime = performance.now();
 
@@ -353,7 +397,6 @@ function heliGameLoop(timestamp) {
 
 function updatePhysics(dt) {
   const canvas = heliGame.canvas;
-  // Dynamic playable ground level start position
   const playableHeight = canvas.height - heliGame.groundHeight;
 
   heliGame.velocity += heliGame.gravity * dt;
@@ -361,6 +404,7 @@ function updatePhysics(dt) {
   heliGame.angle = Math.min(25, Math.max(-20, heliGame.velocity * 0.06));
   heliGame.rotorFrame += dt * 30;
   heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 140;
+  heliGame.bgScroll += (heliGame.pipeSpeed * dt);
 
   if (heliGame.y <= 0) {
     heliGame.y = 0;
@@ -392,7 +436,6 @@ function updatePhysics(dt) {
     const p = heliGame.pipes[i];
     p.x -= heliGame.pipeSpeed * dt;
 
-    // Pipes seamlessly connect directly to the ground bushes baseline
     const topPipeBox = { x: p.x, y: 0, w: heliGame.pipeWidth, h: p.topHeight };
     const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY + 10 };
 
@@ -435,29 +478,31 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  // 1. Draw Cached Background
+  // 1. Draw Cached Background Sky
   if (heliGame.bgCanvas) {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // 2. Draw Pipes (Connected seamlessly to ground surface)
+  // 2. Draw Dynamic City Skyline (Parallax Scroll)
+  drawCitySkylineDynamic(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+
+  // 3. Draw Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
     drawCleanPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
     
-    // Extends pipe height down to overlap top of ground bushes slightly (No floating gap!)
     const bottomH = playableHeight - p.bottomY + 12;
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // 3. Draw HD Wooden Ground & Bushes (Reference Match)
-  drawHDWoodenGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
+  // 4. Draw Wooden Boardwalk Base with Dynamic Random Grass Blades
+  drawHDWoodenGroundWithDynamicGrass(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset, heliGame.bgScroll);
 
-  // 4. Draw Helicopter
+  // 5. Draw Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
 
-  // 5. Draw Top UI (Exit & Score)
+  // 6. Draw Top UI (Exit & Score)
   renderTopHeaderUI(ctx, canvas.width);
 }
 
@@ -493,37 +538,51 @@ function drawCleanPipe(ctx, x, y, w, h, isTop) {
 }
 
 // ==========================================================================
-// HD WOODEN GROUND WITH BUSHES (REFERENCE DESIGN MATCH)
+// HD WOODEN GROUND WITH DYNAMIC UNEVEN GRASS BLADES
 // ==========================================================================
-function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
+function drawHDWoodenGroundWithDynamicGrass(ctx, width, height, groundHeight, scrollOffset, bgScroll) {
   const groundY = height - groundHeight;
-  const bushHeight = 22;
-  const woodY = groundY + bushHeight;
-  const woodHeight = groundHeight - bushHeight;
+  const grassLayerHeight = 22;
+  const woodY = groundY + grassLayerHeight;
+  const woodHeight = groundHeight - grassLayerHeight;
 
-  // --- A. GREEN BUSHES / HEDGES (TOP LAYER) ---
+  // --- A. DYNAMIC UNEVEN GRASS BLADES (VARIED HEIGHTS & DENSITY) ---
   ctx.save();
   
-  ctx.fillStyle = "#2d6a4f";
-  ctx.beginPath();
-  for (let x = -20; x < width + 40; x += 18) {
-    ctx.arc(x, woodY - 2, 12, 0, Math.PI * 2);
-  }
-  ctx.fill();
+  // Base dark grass backdrop
+  ctx.fillStyle = "#1e5128";
+  ctx.fillRect(0, groundY + 6, width, 16);
 
-  ctx.fillStyle = "#52b788";
-  ctx.beginPath();
-  for (let x = -10; x < width + 30; x += 22) {
-    ctx.arc(x, woodY + 2, 14, 0, Math.PI * 2);
-  }
-  ctx.fill();
+  // Dynamic Individual Grass Blades Loop
+  const bladeSpacing = 6;
+  const totalBlades = Math.ceil(width / bladeSpacing) + 6;
 
-  ctx.fillStyle = "#74c69d";
-  ctx.beginPath();
-  for (let x = -5; x < width + 30; x += 22) {
-    ctx.arc(x - 3, woodY - 3, 7, 0, Math.PI * 2);
+  for (let i = -2; i < totalBlades; i++) {
+    const worldX = i * bladeSpacing;
+    const renderX = worldX - (scrollOffset % bladeSpacing);
+
+    // Dynamic Height calculation using overlapping Sine/Cos waves
+    const seed = worldX + (Math.floor((bgScroll + worldX) / width) * 1000);
+    const wave1 = Math.sin((bgScroll + worldX) * 0.04) * 7;
+    const wave2 = Math.cos(worldX * 0.15) * 5;
+    const bladeHeight = Math.max(8, Math.min(26, 16 + wave1 + wave2)); 
+    const bladeWidth = 4 + (Math.abs(seed) % 3);
+
+    // Alternating bright/dark green shades
+    if (i % 3 === 0) {
+      ctx.fillStyle = "#4e9f3d";
+    } else if (i % 3 === 1) {
+      ctx.fillStyle = "#d8f3dc";
+    } else {
+      ctx.fillStyle = "#2e7d32";
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(renderX, woodY + 2);
+    ctx.lineTo(renderX + (bladeWidth / 2), woodY - bladeHeight);
+    ctx.lineTo(renderX + bladeWidth, woodY + 2);
+    ctx.fill();
   }
-  ctx.fill();
 
   ctx.restore();
 
@@ -652,7 +711,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.restore();
 }
 
-// FIXED CANVAS UI: EXIT & SCORE HUD (No Distortions / Sharp rendering)
+// FIXED CANVAS UI: EXIT & SCORE HUD
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
@@ -694,7 +753,6 @@ function renderTopHeaderUI(ctx, w) {
   ctx.restore();
 }
 
-// BUGFIXED: Accurate Arc Rounded Rectangle Path Engine
 function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
