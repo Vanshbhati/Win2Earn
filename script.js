@@ -179,7 +179,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// ULTRA-SMOOTH HIGH-PERFORMANCE ENGINE WITH DELTA TIMING
+// ULTRA-SMOOTH HIGH-PERFORMANCE ENGINE WITH HIGH-DPI DPI FIX & DELTA TIMING
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -187,6 +187,11 @@ const heliGame = {
   active: false,
   loopId: null,
   lastTime: 0,
+  dpr: 1,
+  
+  // Logical Viewport Dimensions
+  width: 0,
+  height: 0,
   
   // Helicopter Dimensions
   x: 50,
@@ -253,6 +258,36 @@ function initHeliGameListeners() {
       triggerHeliJump();
     }
   });
+
+  window.addEventListener("resize", () => {
+    if (heliGame.active || (document.getElementById("gameScreenModal") && !document.getElementById("gameScreenModal").classList.contains("hidden"))) {
+      setupCanvasResolution();
+    }
+  });
+}
+
+function setupCanvasResolution() {
+  const canvas = heliGame.canvas;
+  if (!canvas) return;
+
+  const container = canvas.parentElement;
+  const w = container ? container.clientWidth : window.innerWidth;
+  const h = container ? container.clientHeight : window.innerHeight;
+  const dpr = window.devicePixelRatio || 1;
+
+  heliGame.width = w;
+  heliGame.height = h;
+  heliGame.dpr = dpr;
+
+  // Actual physical pixel resolution
+  canvas.width = Math.floor(w * dpr);
+  canvas.height = Math.floor(h * dpr);
+
+  // CSS Display resolution
+  canvas.style.width = `${w}px`;
+  canvas.style.height = `${h}px`;
+
+  prepareCachedBackground(w, h);
 }
 
 function triggerHeliJump() {
@@ -262,11 +297,13 @@ function triggerHeliJump() {
 
 function prepareCachedBackground(w, h) {
   heliGame.bgCanvas = document.createElement("canvas");
-  heliGame.bgCanvas.width = w;
-  heliGame.bgCanvas.height = h;
+  heliGame.bgCanvas.width = Math.floor(w * heliGame.dpr);
+  heliGame.bgCanvas.height = Math.floor(h * heliGame.dpr);
   heliGame.bgCtx = heliGame.bgCanvas.getContext("2d");
 
   const ctx = heliGame.bgCtx;
+  ctx.scale(heliGame.dpr, heliGame.dpr);
+
   const groundY = h - heliGame.groundHeight;
 
   // Sky Gradient
@@ -297,16 +334,9 @@ function resetHeliGameUI() {
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
   
-  const canvas = heliGame.canvas;
-  if (!canvas) return;
-  
-  const container = canvas.parentElement;
-  canvas.width = container ? container.clientWidth : window.innerWidth;
-  canvas.height = container ? container.clientHeight : window.innerHeight;
+  setupCanvasResolution();
 
-  prepareCachedBackground(canvas.width, canvas.height);
-
-  heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
+  heliGame.y = (heliGame.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
   heliGame.angle = 0;
   heliGame.pipes = [];
@@ -319,14 +349,9 @@ function startHeliGame() {
   document.getElementById("gameStartOverlay")?.classList.add("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
 
-  const canvas = heliGame.canvas;
-  const container = canvas.parentElement;
-  canvas.width = container ? container.clientWidth : window.innerWidth;
-  canvas.height = container ? container.clientHeight : window.innerHeight;
+  setupCanvasResolution();
 
-  prepareCachedBackground(canvas.width, canvas.height);
-
-  heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
+  heliGame.y = (heliGame.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
   heliGame.angle = 0;
   heliGame.pipes = [];
@@ -352,8 +377,7 @@ function heliGameLoop(timestamp) {
 }
 
 function updatePhysics(dt) {
-  const canvas = heliGame.canvas;
-  const playableHeight = canvas.height - heliGame.groundHeight;
+  const playableHeight = heliGame.height - heliGame.groundHeight;
 
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
@@ -379,11 +403,11 @@ function updatePhysics(dt) {
   }
 
   if (heliGame.pipes.length === 0) {
-    spawnPipe(canvas.width + 20);
+    spawnPipe(heliGame.width + 20);
   } else {
     const lastPipe = heliGame.pipes[heliGame.pipes.length - 1];
-    if (canvas.width - lastPipe.x >= heliGame.pipeSpacing) {
-      spawnPipe(canvas.width);
+    if (heliGame.width - lastPipe.x >= heliGame.pipeSpacing) {
+      spawnPipe(heliGame.width);
     }
   }
 
@@ -411,8 +435,7 @@ function updatePhysics(dt) {
 }
 
 function spawnPipe(startX) {
-  const canvas = heliGame.canvas;
-  const playableHeight = canvas.height - heliGame.groundHeight;
+  const playableHeight = heliGame.height - heliGame.groundHeight;
   const minH = 40;
   const maxH = playableHeight - heliGame.pipeGap - minH;
   const topHeight = Math.floor(Math.random() * (maxH - minH + 1)) + minH;
@@ -431,29 +454,36 @@ function checkAABBCollision(a, b) {
 
 function renderCanvas() {
   const ctx = heliGame.ctx;
-  const canvas = heliGame.canvas;
+  const w = heliGame.width;
+  const h = heliGame.height;
+  const dpr = heliGame.dpr;
+
+  ctx.save();
+  ctx.scale(dpr, dpr);
 
   // 1. Draw Cached Background
   if (heliGame.bgCanvas) {
-    ctx.drawImage(heliGame.bgCanvas, 0, 0);
+    ctx.drawImage(heliGame.bgCanvas, 0, 0, w, h);
   }
 
   // 2. Draw Pipes
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
     drawCleanPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
-    const bottomH = (canvas.height - heliGame.groundHeight) - p.bottomY;
+    const bottomH = (h - heliGame.groundHeight) - p.bottomY;
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
   // 3. Draw HD Wooden Ground & Bushes (Reference Match)
-  drawHDWoodenGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
+  drawHDWoodenGround(ctx, w, h, heliGame.groundHeight, heliGame.groundOffset);
 
   // 4. Draw Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
 
   // 5. Draw Top UI (Exit & Score)
-  renderTopHeaderUI(ctx, canvas.width);
+  renderTopHeaderUI(ctx, w);
+
+  ctx.restore();
 }
 
 function drawCleanPipe(ctx, x, y, w, h, isTop) {
@@ -647,7 +677,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.restore();
 }
 
-// CANVAS UI: EXIT & SCORE HUD
+// CANVAS UI: EXIT & SCORE HUD (CLEANED & CRISP BOUNDS)
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
@@ -689,6 +719,7 @@ function renderTopHeaderUI(ctx, w) {
   ctx.restore();
 }
 
+// PROPER GEOMETRIC ROUNDED RECTANGLE TO ELIMINATE STRETCH BLUR
 function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -696,7 +727,7 @@ function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
   ctx.lineTo(x + width, y + height - radius);
   ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-  ctx.lineTo(x + radius, y);
+  ctx.lineTo(x + radius, y + height);
   ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
   ctx.lineTo(x, y + radius);
   ctx.quadraticCurveTo(x, y, x + radius, y);
