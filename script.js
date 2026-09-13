@@ -32,6 +32,11 @@ const alertsData = [
 ];
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize Sound System Audio Context
+  if (window.gameSounds) {
+    window.gameSounds.init();
+  }
+
   initSplashScreen();
   initTicker();
   renderLeaderboard('daily');
@@ -80,6 +85,8 @@ function initTicker() {
 
 function handleNavClick(e, tabName) {
   if (e) e.preventDefault();
+  if (window.gameSounds) window.gameSounds.playClick();
+
   document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
   document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
 
@@ -90,8 +97,15 @@ function handleNavClick(e, tabName) {
   if (tabName === 'wallet') renderProfileWallet();
 }
 
-function showModal(modalId) { document.getElementById(modalId)?.classList.remove("hidden"); }
-function hideModal(modalId) { document.getElementById(modalId)?.classList.add("hidden"); }
+function showModal(modalId) { 
+  if (window.gameSounds) window.gameSounds.playClick();
+  document.getElementById(modalId)?.classList.remove("hidden"); 
+}
+
+function hideModal(modalId) { 
+  if (window.gameSounds) window.gameSounds.playClick();
+  document.getElementById(modalId)?.classList.add("hidden"); 
+}
 
 function openInfoModal() { showModal("infoModal"); }
 function closeInfoModal() { hideModal("infoModal"); }
@@ -114,6 +128,7 @@ function openPopup(msg) {
 function closePopup() { hideModal("errorPopup"); }
 
 function switchTab(type) {
+  if (window.gameSounds) window.gameSounds.playClick();
   const loginForm = document.getElementById("loginForm");
   const signupForm = document.getElementById("signupForm");
   if (type === 'login') {
@@ -126,6 +141,7 @@ function switchTab(type) {
 }
 
 function sendOtp() {
+  if (window.gameSounds) window.gameSounds.playClick();
   const mobile = document.getElementById("signupMobile")?.value;
   if (!mobile || mobile.length < 10) {
     openPopup("Please enter a valid 10-digit mobile number.");
@@ -140,6 +156,7 @@ function sendOtp() {
 
 function handleLogin(e) {
   e.preventDefault();
+  if (window.gameSounds) window.gameSounds.playClick();
   const email = document.getElementById("loginEmail")?.value || "user@example.com";
   appState.currentUser = { name: email.split("@")[0].toUpperCase(), email, upi: null };
   closeAuthModal();
@@ -148,6 +165,7 @@ function handleLogin(e) {
 
 function handleSignup(e) {
   e.preventDefault();
+  if (window.gameSounds) window.gameSounds.playClick();
   const name = document.getElementById("signupName")?.value || "Player";
   const email = document.getElementById("signupEmail")?.value || "";
   appState.currentUser = { name, email, upi: null };
@@ -169,6 +187,10 @@ function handleGameLaunch() {
 }
 
 function closeGameScreen() {
+  if (window.gameSounds) {
+    window.gameSounds.playClick();
+    window.gameSounds.stopBgMusic();
+  }
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   heliGame.active = false;
   hideModal("gameScreenModal");
@@ -216,7 +238,7 @@ const heliGame = {
   
   // Rain System
   rainParticles: [],
-  rainTimer: 0, // Rain remaining time in seconds
+  rainTimer: 0,
   lastRainMilestone: -1
 };
 
@@ -259,6 +281,9 @@ function initHeliGameListeners() {
 function triggerHeliJump() {
   if (!heliGame.active) return;
   heliGame.velocity = heliGame.jumpVelocity;
+  if (window.gameSounds) {
+    window.gameSounds.playJump();
+  }
 }
 
 function initRainParticles(w, h) {
@@ -302,6 +327,11 @@ function resetHeliGameUI() {
 }
 
 function startHeliGame() {
+  if (window.gameSounds) {
+    window.gameSounds.playClick();
+    window.gameSounds.startBgMusic();
+  }
+
   document.getElementById("gameStartOverlay")?.classList.add("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
 
@@ -346,8 +376,15 @@ function updatePhysics(dt) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
 
+  const previousScore = heliGame.distanceMeters;
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
+
+  // Play coin sound every 50 points
+  if (heliGame.distanceMeters > 0 && 
+      Math.floor(heliGame.distanceMeters / 50) > Math.floor(previousScore / 50)) {
+    if (window.gameSounds) window.gameSounds.playCoin();
+  }
 
   // Progressive Speed Scaling
   const speedTier = Math.floor(heliGame.distanceMeters / 500);
@@ -357,7 +394,7 @@ function updatePhysics(dt) {
   const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
   if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
     heliGame.lastRainMilestone = currentRainMilestone;
-    heliGame.rainTimer = 18; // Rain active duration
+    heliGame.rainTimer = 18;
   }
 
   if (heliGame.rainTimer > 0) {
@@ -450,7 +487,6 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  // Environment Switch Every 500 Score (0: Day, 1: Sunset, 2: Night)
   const scorePhase = Math.floor(heliGame.distanceMeters / 500) % 3;
   let skyTop, skyBottom, isNight = false;
 
@@ -485,10 +521,10 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Cartoon Style Platform Base (NEW MATCHING THEME)
+  // Cartoon Style Platform Base
   drawCartoonThemeGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  // Helicopter (Includes Headlight on Night Mode)
+  // Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, isNight);
 
   // Timed Rain Overlay
@@ -548,7 +584,6 @@ function drawRainOverlay(ctx) {
   ctx.restore();
 }
 
-// CARTOON THEME MATCHING GROUND PLATFORM
 function drawCartoonThemeGround(ctx, width, height, groundHeight, scrollOffset) {
   const groundY = height - groundHeight;
 
@@ -620,7 +655,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
   ctx.translate(x + 22, y + 14);
   ctx.rotate((angleDeg * Math.PI) / 180);
 
-  // NIGHT MODE HEADLIGHT CONE BEAM
+  // Night Mode Headlight
   if (isNight) {
     const beamGrad = ctx.createLinearGradient(12, 0, 180, 0);
     beamGrad.addColorStop(0, "rgba(255, 240, 150, 0.8)");
@@ -765,6 +800,12 @@ function handleCrash() {
   heliGame.active = false;
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
 
+  // Play Crash Sound and stop Background Music
+  if (window.gameSounds) {
+    window.gameSounds.stopBgMusic();
+    window.gameSounds.playCrash();
+  }
+
   appState.currentRunScore = heliGame.distanceMeters;
   appState.dailyScore += heliGame.distanceMeters;
 
@@ -797,6 +838,7 @@ function updateLeaderboardWithUserScore() {
 }
 
 function switchLeaderboard(type) {
+  if (window.gameSounds) window.gameSounds.playClick();
   appState.leaderboardType = type;
   document.getElementById("btnDailyLb")?.classList.toggle("active", type === 'daily');
   document.getElementById("btnWeeklyLb")?.classList.toggle("active", type === 'weekly');
@@ -818,7 +860,7 @@ function renderLeaderboard(type) {
 }
 
 function renderAlerts() {
-  const container = document.getElementById("alertsFeedFeed");
+  const container = document.getElementById("alertsFeed");
   if (!container) return;
   container.innerHTML = alertsData.map(item => `
     <div class="alert-card glass-card">
