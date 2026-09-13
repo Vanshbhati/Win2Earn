@@ -81,33 +81,15 @@
   </div>
 
   <!-- ================================================================= -->
-  <!-- FULLSCREEN GAME ARENA OVERLAY (COPTER CASH) -->
+  <!-- FULLSCREEN GAME ARENA OVERLAY (COPTER CASH) - CLEANED FOR CANVAS UI -->
   <!-- ================================================================= -->
   <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
     
-    <!-- Top Game Engine HUD Bar -->
-    <div class="game-engine-header">
-      <div class="game-top-pill-container">
-        <button class="exit-arena-btn" onclick="closeGameScreen()">✕ EXIT</button>
-        
-        <div class="fever-banner-pill">
-          FEVER ⚡ 2X
-        </div>
-
-        <div class="hud-stats-group">
-          <div class="hud-stat-box score-box">
-            <span class="hud-label">SCORE</span>
-            <span id="liveScoreText" class="hud-value">0</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Screen Flash / Shake Feedback Layer -->
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
 
-    <!-- Main Game Canvas Engine -->
-    <div class="game-canvas-wrapper">
+    <!-- Main Game Canvas Engine (Pure Canvas HUD Rendering) -->
+    <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
       <canvas id="heliCanvas"></canvas>
     </div>
 
@@ -486,3 +468,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
