@@ -202,7 +202,6 @@ function closeGameScreen() {
   unlockMobileAudio();
   if (window.gameSounds) {
     window.gameSounds.stopBgMusic();
-    window.gameSounds.stopRainSound();
   }
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   heliGame.active = false;
@@ -214,7 +213,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH ENVIRONMENT CYCLE, HEADLIGHTS & TIMED RAIN & AUDIO
+// GAME ENGINE WITH ENVIRONMENT CYCLE & AUDIO
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -248,15 +247,9 @@ const heliGame = {
   bestScore: 0,
 
   bgScroll: 0,
-  
-  // Rain System
-  rainParticles: [],
-  rainTimer: 0,
-  lastRainMilestone: -1,
 
   // Environment & Audio Tracker
-  lastEnvType: null,
-  isRainPlaying: false
+  lastEnvType: null
 };
 
 function initHeliGameListeners() {
@@ -300,20 +293,6 @@ function triggerHeliJump() {
   if (!heliGame.active) return;
   unlockMobileAudio();
   heliGame.velocity = heliGame.jumpVelocity;
-  // Note: Tap sound removed as requested
-}
-
-function initRainParticles(w, h) {
-  heliGame.rainParticles = [];
-  for (let i = 0; i < 60; i++) {
-    heliGame.rainParticles.push({
-      x: Math.random() * (w + 100) - 50,
-      y: Math.random() * h,
-      length: Math.random() * 14 + 10,
-      speedY: Math.random() * 300 + 400,
-      speedX: -80
-    });
-  }
 }
 
 function resetHeliGameUI() {
@@ -327,8 +306,6 @@ function resetHeliGameUI() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
-  initRainParticles(canvas.width, canvas.height);
-
   heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
   heliGame.angle = 0;
@@ -337,10 +314,7 @@ function resetHeliGameUI() {
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
-  heliGame.rainTimer = 0;
-  heliGame.lastRainMilestone = -1;
   heliGame.lastEnvType = null;
-  heliGame.isRainPlaying = false;
   
   renderCanvas();
 }
@@ -356,8 +330,6 @@ function startHeliGame() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
-  initRainParticles(canvas.width, canvas.height);
-
   heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
   heliGame.angle = 0;
@@ -366,14 +338,11 @@ function startHeliGame() {
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
-  heliGame.rainTimer = 0;
-  heliGame.lastRainMilestone = -1;
   heliGame.lastEnvType = null;
-  heliGame.isRainPlaying = false;
   heliGame.active = true;
   heliGame.lastTime = performance.now();
 
-  // Set Morning Audio Environment at start
+  // Start with Morning sound environment
   if (window.gameSounds) {
     window.gameSounds.setEnvironment('morning');
     heliGame.lastEnvType = 'morning';
@@ -420,26 +389,6 @@ function updatePhysics(dt) {
   const speedTier = Math.floor(heliGame.distanceMeters / 500);
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + (speedTier * 14);
 
-  // Timed Rain Management & Rain Audio
-  const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
-  if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
-    heliGame.lastRainMilestone = currentRainMilestone;
-    heliGame.rainTimer = 18;
-  }
-
-  if (heliGame.rainTimer > 0) {
-    heliGame.rainTimer = Math.max(0, heliGame.rainTimer - dt);
-    if (!heliGame.isRainPlaying) {
-      heliGame.isRainPlaying = true;
-      if (window.gameSounds) window.gameSounds.startRainSound();
-    }
-  } else {
-    if (heliGame.isRainPlaying) {
-      heliGame.isRainPlaying = false;
-      if (window.gameSounds) window.gameSounds.stopRainSound();
-    }
-  }
-
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
   heliGame.angle = Math.min(25, Math.max(-20, heliGame.velocity * 0.06));
@@ -477,7 +426,7 @@ function updatePhysics(dt) {
     const p = heliGame.pipes[i];
     p.x -= heliGame.currentPipeSpeed * dt;
 
-    // Check Pipe Cross Sound
+    // Trigger Pipe Cross Sound
     if (!p.passed && p.x + heliGame.pipeWidth < heliGame.x) {
       p.passed = true;
       if (window.gameSounds) window.gameSounds.playScore();
@@ -494,18 +443,6 @@ function updatePhysics(dt) {
 
   if (heliGame.pipes.length > 0 && heliGame.pipes[0].x < -heliGame.pipeWidth - 10) {
     heliGame.pipes.shift();
-  }
-
-  // Rain Particles Update
-  if (heliGame.rainTimer > 0) {
-    for (let p of heliGame.rainParticles) {
-      p.y += p.speedY * dt;
-      p.x += p.speedX * dt;
-      if (p.y > canvas.height) {
-        p.y = -15;
-        p.x = Math.random() * (canvas.width + 100) - 50;
-      }
-    }
   }
 }
 
@@ -572,11 +509,6 @@ function renderCanvas() {
   // Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, isNight);
 
-  // Timed Rain Overlay
-  if (heliGame.rainTimer > 0) {
-    drawRainOverlay(ctx);
-  }
-
   // Header UI
   renderTopHeaderUI(ctx, canvas.width);
 }
@@ -611,20 +543,6 @@ function drawBackgroundCity(ctx, w, h, bgScroll, isNight) {
         if (b.w > 36) ctx.fillRect(bx + b.w - 12, by + wY, 6, 8);
       }
     });
-  }
-  ctx.restore();
-}
-
-function drawRainOverlay(ctx) {
-  ctx.save();
-  ctx.strokeStyle = "rgba(180, 225, 255, 0.65)";
-  ctx.lineWidth = 1.8;
-
-  for (let p of heliGame.rainParticles) {
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    ctx.lineTo(p.x + p.speedX * 0.04, p.y + p.length);
-    ctx.stroke();
   }
   ctx.restore();
 }
@@ -848,7 +766,6 @@ function handleCrash() {
   unlockMobileAudio();
   if (window.gameSounds) {
     window.gameSounds.stopBgMusic();
-    window.gameSounds.stopRainSound();
     window.gameSounds.playCrash();
   }
 
