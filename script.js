@@ -190,7 +190,7 @@ const heliGame = {
   
   x: 50,
   y: 200,
-  width: 46,
+  width: 48,
   height: 28,
   
   gravity: 1200,
@@ -265,28 +265,27 @@ function prepareCachedBackground(w, h) {
 
   const ctx = heliGame.bgCtx;
 
-  // Sunset Sky Gradient
+  // Sky Blue Gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-  skyGrad.addColorStop(0, "#4a90e2");
-  skyGrad.addColorStop(0.5, "#91eae4");
-  skyGrad.addColorStop(1, "#86e3ce");
+  skyGrad.addColorStop(0, "#4ec0ca");
+  skyGrad.addColorStop(0.7, "#70dad9");
+  skyGrad.addColorStop(1, "#9ee6c9");
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 }
 
-// CLEAN CITY SILHOUETTE BACKGROUND (No ugly tree spikes)
-function drawCityBackground(ctx, w, h, bgScroll) {
-  const baseLineY = h - heliGame.groundHeight;
+// ATTRACTIVE CARTOON CITY SILHOUETTE (GROUND SE TOUCH HOTI HUI BUILDINGS)
+function drawCartoonCityBackground(ctx, w, h, bgScroll) {
+  // Ground Ke Top Margin se bilkul milate hue (0 Gap)
+  const baseLineY = h - heliGame.groundHeight + 15;
 
-  // Subtle Parallax City Skyline
-  ctx.fillStyle = "rgba(255, 255, 255, 0.35)";
   const buildings = [
-    { x: 0, w: 40, h: 60 },
-    { x: 50, w: 30, h: 90 },
-    { x: 90, w: 50, h: 50 },
-    { x: 150, w: 35, h: 110 },
-    { x: 195, w: 45, h: 70 },
-    { x: 250, w: 40, h: 85 }
+    { x: 0, w: 45, h: 80, color: "#87d3c7", windows: 3 },
+    { x: 50, w: 35, h: 115, color: "#6cbdb0", windows: 4 },
+    { x: 90, w: 55, h: 65, color: "#79c9bc", windows: 2 },
+    { x: 150, w: 40, h: 130, color: "#5bb0a3", windows: 5 },
+    { x: 195, w: 50, h: 90, color: "#7ed8cc", windows: 3 },
+    { x: 250, w: 42, h: 105, color: "#64b8ab", windows: 4 }
   ];
 
   const loopW = 300;
@@ -295,12 +294,30 @@ function drawCityBackground(ctx, w, h, bgScroll) {
   for (let i = -1; i < Math.ceil(w / loopW) + 1; i++) {
     const baseX = i * loopW - offsetX;
     buildings.forEach(b => {
-      ctx.fillRect(baseX + b.x, baseLineY - b.h, b.w, b.h);
+      const bx = baseX + b.x;
+      const by = baseLineY - b.h;
+
+      // Building Body
+      ctx.fillStyle = b.color;
+      ctx.fillRect(bx, by, b.w, b.h + 20); // Extra height to ensure zero gap underneath
+
+      // Roof Antenna/Details
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(bx + b.w / 2 - 1, by - 8, 2, 8);
+
+      // Cartoon Cute Windows
+      ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+      for (let wY = 12; wY < b.h - 10; wY += 20) {
+        ctx.fillRect(bx + 8, by + wY, 7, 10);
+        if (b.w > 35) {
+          ctx.fillRect(bx + b.w - 15, by + wY, 7, 10);
+        }
+      }
     });
   }
 
-  // Soft Clouds
-  ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
+  // Soft Flappy Bird Style Clouds
+  ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
   const cloudOffset = (bgScroll * 0.08) % (w + 200);
   drawCloud(ctx, (w * 0.25) - cloudOffset, h * 0.12, 32);
   drawCloud(ctx, (w * 0.8) - cloudOffset, h * 0.2, 42);
@@ -384,11 +401,11 @@ function updatePhysics(dt) {
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
   heliGame.angle = Math.min(25, Math.max(-20, heliGame.velocity * 0.06));
-  heliGame.rotorFrame += dt * 30;
+  heliGame.rotorFrame += dt * 35;
   heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 140;
   heliGame.bgScroll += (heliGame.pipeSpeed * dt);
 
-  // Subway Surfers Running Score
+  // Continuous Running Score
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
 
@@ -464,8 +481,8 @@ function renderCanvas() {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // Clean City Background
-  drawCityBackground(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+  // Cartoon Buildings (Flush with ground)
+  drawCartoonCityBackground(ctx, canvas.width, canvas.height, heliGame.bgScroll);
 
   // Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
@@ -479,7 +496,7 @@ function renderCanvas() {
   // Ground
   drawHDWoodenGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  // Helicopter
+  // Helicopter with Tail and Rotor restored
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
 
   // Header UI
@@ -563,34 +580,65 @@ function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
   ctx.restore();
 }
 
+// 2D VECTOR HELICOPTER WITH PROPER TAIL & ROTOR ATTACHMENT
 function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.save();
-  ctx.translate(x + 23, y + 14);
+  ctx.translate(x + 22, y + 14);
   ctx.rotate((angleDeg * Math.PI) / 180);
 
+  // 1. TAIL BOOM (Peeche ki lamba part)
   ctx.fillStyle = "#e74c3c";
-  ctx.fillRect(-22, -3, 16, 6);
+  ctx.fillRect(-20, -3, 15, 6);
   ctx.strokeStyle = "#1a252f";
   ctx.lineWidth = 2;
-  ctx.strokeRect(-22, -3, 16, 6);
+  ctx.strokeRect(-20, -3, 15, 6);
 
+  // 2. TAIL FIN (Peeche ka triangle stabilizer)
+  ctx.fillStyle = "#f39c12";
+  ctx.beginPath();
+  ctx.moveTo(-18, -3);
+  ctx.lineTo(-24, -10);
+  ctx.lineTo(-14, -3);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  // 3. TAIL ROTOR (Spinning Rear Rotor)
+  ctx.strokeStyle = "#2c3e50";
+  ctx.lineWidth = 2.5;
+  const tailRotorSpin = Math.sin(frame * 2.5) * 7;
+  ctx.beginPath();
+  ctx.moveTo(-23, -6 - tailRotorSpin);
+  ctx.lineTo(-23, -6 + tailRotorSpin);
+  ctx.stroke();
+
+  // 4. MAIN HELICOPTER CABIN / BODY
   ctx.fillStyle = "#e74c3c";
   ctx.beginPath();
-  ctx.ellipse(3, 1, 15, 11, 0, 0, Math.PI * 2);
+  ctx.ellipse(2, 1, 14, 11, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.strokeStyle = "#1a252f";
   ctx.lineWidth = 2;
   ctx.stroke();
 
+  // 5. FRONT WINDSHIELD
   ctx.fillStyle = "#3498db";
   ctx.beginPath();
-  ctx.arc(8, -1, 7, -Math.PI / 2, Math.PI / 3);
-  ctx.lineTo(8, 6);
+  ctx.arc(6, -1, 7, -Math.PI / 2, Math.PI / 3);
+  ctx.lineTo(6, 6);
   ctx.closePath();
   ctx.fill();
   ctx.strokeStyle = "#1a252f";
   ctx.lineWidth = 1.5;
   ctx.stroke();
+
+  // Glass shine reflection
+  ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
+  ctx.fillRect(7, -4, 3, 3);
+
+  // 6. TOP MAIN ROTOR MOUNT & BLADE
+  ctx.fillStyle = "#2c3e50";
+  ctx.fillRect(-1, -13, 4, 4);
 
   ctx.strokeStyle = "#2c3e50";
   ctx.lineWidth = 3;
@@ -598,6 +646,18 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.beginPath();
   ctx.moveTo(1 - blurWidth, -13);
   ctx.lineTo(1 + blurWidth, -13);
+  ctx.stroke();
+
+  // 7. LANDING SKIDS (Neche ke legs)
+  ctx.strokeStyle = "#2c3e50";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(-6, 11);
+  ctx.lineTo(-6, 15);
+  ctx.moveTo(6, 11);
+  ctx.lineTo(6, 15);
+  ctx.moveTo(-12, 15);
+  ctx.lineTo(14, 15);
   ctx.stroke();
 
   ctx.restore();
