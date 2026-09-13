@@ -265,27 +265,27 @@ function prepareCachedBackground(w, h) {
 
   const ctx = heliGame.bgCtx;
 
-  // Sky Blue Gradient
+  // Sky Gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
   skyGrad.addColorStop(0, "#4ec0ca");
-  skyGrad.addColorStop(0.7, "#70dad9");
-  skyGrad.addColorStop(1, "#9ee6c9");
+  skyGrad.addColorStop(0.75, "#80e1d9");
+  skyGrad.addColorStop(1, "#b3f0db");
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 }
 
-// ATTRACTIVE CARTOON CITY SILHOUETTE (GROUND SE TOUCH HOTI HUI BUILDINGS)
-function drawCartoonCityBackground(ctx, w, h, bgScroll) {
-  // Ground Ke Top Margin se bilkul milate hue (0 Gap)
-  const baseLineY = h - heliGame.groundHeight + 15;
+// COLORFUL CARTOON CITY SKYLINE
+function drawColorfulCityBackground(ctx, w, h, bgScroll) {
+  const baseLineY = h - heliGame.groundHeight + 10;
 
+  // Vibrant Palette
   const buildings = [
-    { x: 0, w: 45, h: 80, color: "#87d3c7", windows: 3 },
-    { x: 50, w: 35, h: 115, color: "#6cbdb0", windows: 4 },
-    { x: 90, w: 55, h: 65, color: "#79c9bc", windows: 2 },
-    { x: 150, w: 40, h: 130, color: "#5bb0a3", windows: 5 },
-    { x: 195, w: 50, h: 90, color: "#7ed8cc", windows: 3 },
-    { x: 250, w: 42, h: 105, color: "#64b8ab", windows: 4 }
+    { x: 0, w: 46, h: 95, color: "#ff9f43", dark: "#e67e22" },
+    { x: 50, w: 38, h: 130, color: "#a55eea", dark: "#8854d0" },
+    { x: 92, w: 52, h: 75, color: "#4b7bec", dark: "#3867d6" },
+    { x: 148, w: 42, h: 145, color: "#fc5c65", dark: "#eb3b5a" },
+    { x: 194, w: 48, h: 105, color: "#26de81", dark: "#20bf6b" },
+    { x: 246, w: 44, h: 120, color: "#fed330", dark: "#f7b731" }
   ];
 
   const loopW = 300;
@@ -297,27 +297,34 @@ function drawCartoonCityBackground(ctx, w, h, bgScroll) {
       const bx = baseX + b.x;
       const by = baseLineY - b.h;
 
-      // Building Body
+      // Building Main Body
       ctx.fillStyle = b.color;
-      ctx.fillRect(bx, by, b.w, b.h + 20); // Extra height to ensure zero gap underneath
+      ctx.fillRect(bx, by, b.w, b.h + 20);
 
-      // Roof Antenna/Details
+      // Side Shadow Edge for Depth
+      ctx.fillStyle = b.dark;
+      ctx.fillRect(bx + b.w - 5, by, 5, b.h + 20);
+
+      // Roof Edge Line
       ctx.fillStyle = "#ffffff";
+      ctx.fillRect(bx, by, b.w, 4);
+
+      // Roof Antenna
       ctx.fillRect(bx + b.w / 2 - 1, by - 8, 2, 8);
 
-      // Cartoon Cute Windows
-      ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
-      for (let wY = 12; wY < b.h - 10; wY += 20) {
-        ctx.fillRect(bx + 8, by + wY, 7, 10);
-        if (b.w > 35) {
-          ctx.fillRect(bx + b.w - 15, by + wY, 7, 10);
+      // Cute Glowing Windows
+      ctx.fillStyle = "#fffbd0";
+      for (let wY = 14; wY < b.h - 10; wY += 22) {
+        ctx.fillRect(bx + 7, by + wY, 8, 11);
+        if (b.w > 36) {
+          ctx.fillRect(bx + b.w - 17, by + wY, 8, 11);
         }
       }
     });
   }
 
-  // Soft Flappy Bird Style Clouds
-  ctx.fillStyle = "rgba(255, 255, 255, 0.75)";
+  // Soft Flappy Clouds
+  ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
   const cloudOffset = (bgScroll * 0.08) % (w + 200);
   drawCloud(ctx, (w * 0.25) - cloudOffset, h * 0.12, 32);
   drawCloud(ctx, (w * 0.8) - cloudOffset, h * 0.2, 42);
@@ -405,7 +412,7 @@ function updatePhysics(dt) {
   heliGame.groundOffset = (heliGame.groundOffset + (heliGame.pipeSpeed * dt)) % 140;
   heliGame.bgScroll += (heliGame.pipeSpeed * dt);
 
-  // Continuous Running Score
+  // Score Accumulation
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
 
@@ -481,8 +488,8 @@ function renderCanvas() {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // Cartoon Buildings (Flush with ground)
-  drawCartoonCityBackground(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+  // Colorful Skyline
+  drawColorfulCityBackground(ctx, canvas.width, canvas.height, heliGame.bgScroll);
 
   // Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
@@ -493,10 +500,10 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Ground
-  drawHDWoodenGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
+  // Clean Grass Ground
+  drawCleanGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  // Helicopter with Tail and Rotor restored
+  // Helicopter
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame);
 
   // Header UI
@@ -534,66 +541,63 @@ function drawCleanPipe(ctx, x, y, w, h, isTop) {
   ctx.strokeRect(capX, capY, capW, capH);
 }
 
-function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
+// CLEAN FLAPPY BIRD STYLE GROUND & GRASS STRIP
+function drawCleanGround(ctx, width, height, groundHeight, scrollOffset) {
   const groundY = height - groundHeight;
-  const bushHeight = 22;
-  const woodY = groundY + bushHeight;
-  const woodHeight = groundHeight - bushHeight;
+  const grassHeight = 16;
+  const dirtY = groundY + grassHeight;
+  const dirtHeight = groundHeight - grassHeight;
 
   ctx.save();
-  ctx.fillStyle = "#2d6a4f";
-  ctx.beginPath();
-  for (let x = -20; x < width + 40; x += 18) {
-    ctx.arc(x, woodY - 2, 12, 0, Math.PI * 2);
-  }
-  ctx.fill();
 
-  ctx.fillStyle = "#52b788";
-  ctx.beginPath();
-  for (let x = -10; x < width + 30; x += 22) {
-    ctx.arc(x, woodY + 2, 14, 0, Math.PI * 2);
-  }
-  ctx.fill();
-  ctx.restore();
-
-  ctx.save();
-  const woodGrad = ctx.createLinearGradient(0, woodY, 0, height);
-  woodGrad.addColorStop(0, "#e9c46a");
-  woodGrad.addColorStop(0.3, "#d4a373");
-  woodGrad.addColorStop(1, "#bc6c25");
+  // 1. Dirt Base Layer
+  const woodGrad = ctx.createLinearGradient(0, dirtY, 0, height);
+  woodGrad.addColorStop(0, "#dcb36c");
+  woodGrad.addColorStop(1, "#b8860b");
   ctx.fillStyle = woodGrad;
-  ctx.fillRect(0, woodY, width, woodHeight);
+  ctx.fillRect(0, dirtY, width, dirtHeight);
 
+  // Wooden Plank Divider Lines
   const plankWidth = 140;
   const startX = -(scrollOffset % plankWidth);
-
-  ctx.strokeStyle = "rgba(74, 38, 7, 0.5)";
-  ctx.lineWidth = 2.5;
+  ctx.strokeStyle = "rgba(100, 60, 10, 0.4)";
+  ctx.lineWidth = 2;
 
   for (let px = startX; px < width + plankWidth; px += plankWidth) {
     ctx.beginPath();
-    ctx.moveTo(px, woodY);
+    ctx.moveTo(px, dirtY);
     ctx.lineTo(px, height);
     ctx.stroke();
   }
 
+  // 2. Clean Flat Grass Top Strip
+  ctx.fillStyle = "#73bf2e";
+  ctx.fillRect(0, groundY, width, grassHeight);
+
+  // Dark Green Top Border
+  ctx.fillStyle = "#376214";
+  ctx.fillRect(0, groundY, width, 3);
+
+  // Light Green Highlight Strip
+  ctx.fillStyle = "#9ce659";
+  ctx.fillRect(0, groundY + 3, width, 3);
+
   ctx.restore();
 }
 
-// 2D VECTOR HELICOPTER WITH PROPER TAIL & ROTOR ATTACHMENT
 function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.save();
   ctx.translate(x + 22, y + 14);
   ctx.rotate((angleDeg * Math.PI) / 180);
 
-  // 1. TAIL BOOM (Peeche ki lamba part)
+  // Tail Boom
   ctx.fillStyle = "#e74c3c";
   ctx.fillRect(-20, -3, 15, 6);
   ctx.strokeStyle = "#1a252f";
   ctx.lineWidth = 2;
   ctx.strokeRect(-20, -3, 15, 6);
 
-  // 2. TAIL FIN (Peeche ka triangle stabilizer)
+  // Tail Fin
   ctx.fillStyle = "#f39c12";
   ctx.beginPath();
   ctx.moveTo(-18, -3);
@@ -603,7 +607,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.fill();
   ctx.stroke();
 
-  // 3. TAIL ROTOR (Spinning Rear Rotor)
+  // Tail Rotor
   ctx.strokeStyle = "#2c3e50";
   ctx.lineWidth = 2.5;
   const tailRotorSpin = Math.sin(frame * 2.5) * 7;
@@ -612,7 +616,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.lineTo(-23, -6 + tailRotorSpin);
   ctx.stroke();
 
-  // 4. MAIN HELICOPTER CABIN / BODY
+  // Cabin Body
   ctx.fillStyle = "#e74c3c";
   ctx.beginPath();
   ctx.ellipse(2, 1, 14, 11, 0, 0, Math.PI * 2);
@@ -621,7 +625,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  // 5. FRONT WINDSHIELD
+  // Windshield
   ctx.fillStyle = "#3498db";
   ctx.beginPath();
   ctx.arc(6, -1, 7, -Math.PI / 2, Math.PI / 3);
@@ -632,11 +636,10 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.lineWidth = 1.5;
   ctx.stroke();
 
-  // Glass shine reflection
   ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
   ctx.fillRect(7, -4, 3, 3);
 
-  // 6. TOP MAIN ROTOR MOUNT & BLADE
+  // Rotor Mount & Blade
   ctx.fillStyle = "#2c3e50";
   ctx.fillRect(-1, -13, 4, 4);
 
@@ -648,7 +651,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame) {
   ctx.lineTo(1 + blurWidth, -13);
   ctx.stroke();
 
-  // 7. LANDING SKIDS (Neche ke legs)
+  // Landing Skids
   ctx.strokeStyle = "#2c3e50";
   ctx.lineWidth = 2;
   ctx.beginPath();
