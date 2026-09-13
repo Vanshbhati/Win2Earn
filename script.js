@@ -43,6 +43,10 @@ function unlockMobileAudio() {
   }
 }
 
+// Global Touch/Click Unlocker for Mobile Audio
+document.addEventListener("touchstart", unlockMobileAudio, { passive: true });
+document.addEventListener("click", unlockMobileAudio, { passive: true });
+
 document.addEventListener("DOMContentLoaded", () => {
   initSplashScreen();
   initTicker();
@@ -93,7 +97,6 @@ function initTicker() {
 function handleNavClick(e, tabName) {
   unlockMobileAudio();
   if (e) e.preventDefault();
-  if (window.gameSounds) window.gameSounds.playClick();
 
   document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
   document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
@@ -107,13 +110,11 @@ function handleNavClick(e, tabName) {
 
 function showModal(modalId) { 
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   document.getElementById(modalId)?.classList.remove("hidden"); 
 }
 
 function hideModal(modalId) { 
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   document.getElementById(modalId)?.classList.add("hidden"); 
 }
 
@@ -139,7 +140,6 @@ function closePopup() { hideModal("errorPopup"); }
 
 function switchTab(type) {
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   const loginForm = document.getElementById("loginForm");
   const signupForm = document.getElementById("signupForm");
   if (type === 'login') {
@@ -153,7 +153,6 @@ function switchTab(type) {
 
 function sendOtp() {
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   const mobile = document.getElementById("signupMobile")?.value;
   if (!mobile || mobile.length < 10) {
     openPopup("Please enter a valid 10-digit mobile number.");
@@ -169,7 +168,6 @@ function sendOtp() {
 function handleLogin(e) {
   e.preventDefault();
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   const email = document.getElementById("loginEmail")?.value || "user@example.com";
   appState.currentUser = { name: email.split("@")[0].toUpperCase(), email, upi: null };
   closeAuthModal();
@@ -179,7 +177,6 @@ function handleLogin(e) {
 function handleSignup(e) {
   e.preventDefault();
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   const name = document.getElementById("signupName")?.value || "Player";
   const email = document.getElementById("signupEmail")?.value || "";
   appState.currentUser = { name, email, upi: null };
@@ -204,8 +201,8 @@ function handleGameLaunch() {
 function closeGameScreen() {
   unlockMobileAudio();
   if (window.gameSounds) {
-    window.gameSounds.playClick();
     window.gameSounds.stopBgMusic();
+    window.gameSounds.stopRainSound();
   }
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   heliGame.active = false;
@@ -217,7 +214,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH ENVIRONMENT CYCLE, HEADLIGHTS & TIMED RAIN
+// GAME ENGINE WITH ENVIRONMENT CYCLE, HEADLIGHTS & TIMED RAIN & AUDIO
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -255,7 +252,11 @@ const heliGame = {
   // Rain System
   rainParticles: [],
   rainTimer: 0,
-  lastRainMilestone: -1
+  lastRainMilestone: -1,
+
+  // Environment & Audio Tracker
+  lastEnvType: null,
+  isRainPlaying: false
 };
 
 function initHeliGameListeners() {
@@ -299,9 +300,7 @@ function triggerHeliJump() {
   if (!heliGame.active) return;
   unlockMobileAudio();
   heliGame.velocity = heliGame.jumpVelocity;
-  if (window.gameSounds) {
-    window.gameSounds.playJump();
-  }
+  // Note: Tap sound removed as requested
 }
 
 function initRainParticles(w, h) {
@@ -340,16 +339,14 @@ function resetHeliGameUI() {
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
   heliGame.rainTimer = 0;
   heliGame.lastRainMilestone = -1;
+  heliGame.lastEnvType = null;
+  heliGame.isRainPlaying = false;
   
   renderCanvas();
 }
 
 function startHeliGame() {
   unlockMobileAudio();
-  if (window.gameSounds) {
-    window.gameSounds.playClick();
-    window.gameSounds.startBgMusic();
-  }
 
   document.getElementById("gameStartOverlay")?.classList.add("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
@@ -371,8 +368,16 @@ function startHeliGame() {
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
   heliGame.rainTimer = 0;
   heliGame.lastRainMilestone = -1;
+  heliGame.lastEnvType = null;
+  heliGame.isRainPlaying = false;
   heliGame.active = true;
   heliGame.lastTime = performance.now();
+
+  // Set Morning Audio Environment at start
+  if (window.gameSounds) {
+    window.gameSounds.setEnvironment('morning');
+    heliGame.lastEnvType = 'morning';
+  }
 
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   heliGameLoop(performance.now());
@@ -395,21 +400,27 @@ function updatePhysics(dt) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
 
-  const previousScore = heliGame.distanceMeters;
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
 
-  // Play coin sound every 50 points
-  if (heliGame.distanceMeters > 0 && 
-      Math.floor(heliGame.distanceMeters / 50) > Math.floor(previousScore / 50)) {
-    if (window.gameSounds) window.gameSounds.playCoin();
+  // Dynamic Environment Sound Cycle (Morning -> Sunset -> Night)
+  const scorePhase = Math.floor(heliGame.distanceMeters / 500) % 3;
+  let currentEnv = 'morning';
+  if (scorePhase === 1) currentEnv = 'sunset';
+  else if (scorePhase === 2) currentEnv = 'night';
+
+  if (currentEnv !== heliGame.lastEnvType) {
+    heliGame.lastEnvType = currentEnv;
+    if (window.gameSounds) {
+      window.gameSounds.setEnvironment(currentEnv);
+    }
   }
 
   // Progressive Speed Scaling
   const speedTier = Math.floor(heliGame.distanceMeters / 500);
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + (speedTier * 14);
 
-  // Trigger Rain for 18 Seconds Every 750 Score
+  // Timed Rain Management & Rain Audio
   const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
   if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
     heliGame.lastRainMilestone = currentRainMilestone;
@@ -418,6 +429,15 @@ function updatePhysics(dt) {
 
   if (heliGame.rainTimer > 0) {
     heliGame.rainTimer = Math.max(0, heliGame.rainTimer - dt);
+    if (!heliGame.isRainPlaying) {
+      heliGame.isRainPlaying = true;
+      if (window.gameSounds) window.gameSounds.startRainSound();
+    }
+  } else {
+    if (heliGame.isRainPlaying) {
+      heliGame.isRainPlaying = false;
+      if (window.gameSounds) window.gameSounds.stopRainSound();
+    }
   }
 
   heliGame.velocity += heliGame.gravity * dt;
@@ -456,6 +476,12 @@ function updatePhysics(dt) {
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
     p.x -= heliGame.currentPipeSpeed * dt;
+
+    // Check Pipe Cross Sound
+    if (!p.passed && p.x + heliGame.pipeWidth < heliGame.x) {
+      p.passed = true;
+      if (window.gameSounds) window.gameSounds.playScore();
+    }
 
     const topPipeBox = { x: p.x, y: 0, w: heliGame.pipeWidth, h: p.topHeight };
     const bottomPipeBox = { x: p.x, y: p.bottomY, w: heliGame.pipeWidth, h: playableHeight - p.bottomY + 10 };
@@ -822,6 +848,7 @@ function handleCrash() {
   unlockMobileAudio();
   if (window.gameSounds) {
     window.gameSounds.stopBgMusic();
+    window.gameSounds.stopRainSound();
     window.gameSounds.playCrash();
   }
 
@@ -858,7 +885,6 @@ function updateLeaderboardWithUserScore() {
 
 function switchLeaderboard(type) {
   unlockMobileAudio();
-  if (window.gameSounds) window.gameSounds.playClick();
   appState.leaderboardType = type;
   document.getElementById("btnDailyLb")?.classList.toggle("active", type === 'daily');
   document.getElementById("btnWeeklyLb")?.classList.toggle("active", type === 'weekly');
