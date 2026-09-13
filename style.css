@@ -329,7 +329,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   FULLSCREEN GAME ARENA & CRISP CANVAS RENDERING (HIGH DPI FIXED)
+   FULLSCREEN GAME ARENA (HD VIBRANT & ANIMATED THEME)
    -------------------------------------------------------------------------- */
 .fullscreen-game-arena {
   position: fixed;
@@ -354,12 +354,12 @@ body.no-scroll {
   padding: 0 16px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; /* Centered top bar container */
   z-index: 20;
   pointer-events: none;
 }
 
-/* Top Bar: Single Unified White Pill Container */
+/* Top Bar: Single Unified White Pill Container with Shadow & Inner Gloss */
 .game-top-pill-container {
   pointer-events: auto;
   display: flex;
@@ -494,15 +494,11 @@ body.no-scroll {
   align-items: center;
 }
 
-/* ANTI-BLUR CRISP RENDERING FOR HIGH-DPI CANVAS */
 #heliCanvas {
   width: 100%;
   height: 100%;
   display: block;
   touch-action: manipulation;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
-  image-rendering: pixelated;
 }
 
 .game-modal-overlay {
@@ -713,6 +709,12 @@ body.no-scroll {
 .ticker-item { display: inline-block; font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; margin-right: 24px; }
 .ticker-item span { color: var(--accent-gold); font-weight: 800; }
 
+.ticker-speed-normal { animation: tickerSlide 22s linear infinite; }
+@keyframes tickerSlide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .mega-banner-card { padding: 22px 18px; text-align: center; margin-bottom: 14px; }
 .mega-attractive-glow {
   border: 1px solid rgba(0, 113, 227, 0.15);
@@ -868,3 +870,4 @@ body.no-scroll {
   width: 100%;
 }
 
+Is style.css ko edit karke poora code dedo
