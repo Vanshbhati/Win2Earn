@@ -131,6 +131,12 @@ body.no-scroll {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   box-shadow: var(--glass-shadow);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
 }
 
 .glass-nav {
@@ -270,7 +276,7 @@ body.no-scroll {
   font-size: 0.9rem;
   outline: none;
   width: 100%;
-  transition: border-color 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .glass-input:focus {
@@ -322,6 +328,7 @@ body.no-scroll {
   font-size: 1.6rem;
   cursor: pointer;
   line-height: 1;
+  transition: color 0.2s ease;
 }
 
 .close-btn:hover {
@@ -354,12 +361,11 @@ body.no-scroll {
   padding: 0 16px;
   display: flex;
   align-items: center;
-  justify-content: center; /* Centered top bar container */
+  justify-content: center;
   z-index: 20;
   pointer-events: none;
 }
 
-/* Top Bar: Single Unified White Pill Container with Shadow & Inner Gloss */
 .game-top-pill-container {
   pointer-events: auto;
   display: flex;
@@ -387,7 +393,7 @@ body.no-scroll {
   display: flex;
   align-items: center;
   gap: 4px;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, background-color 0.2s ease;
 }
 
 .exit-arena-btn:active { transform: scale(0.92); }
@@ -453,7 +459,6 @@ body.no-scroll {
   color: #ffffff;
 }
 
-/* Dynamic Near-Miss Floating Text Animation */
 @keyframes nearMissPop {
   0% { opacity: 0; transform: translate(-50%, 0) scale(0.6); }
   30% { opacity: 1; transform: translate(-50%, -20px) scale(1.2); }
@@ -575,11 +580,11 @@ body.no-scroll {
   cursor: pointer;
   box-shadow: 0 8px 25px rgba(0, 113, 227, 0.3);
   overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .launch-cta-btn:active { transform: scale(0.96); }
 
-/* Crash Card Styling */
 .crash-card {
   border-color: rgba(255, 59, 48, 0.2);
   box-shadow: 0 20px 50px rgba(255, 59, 48, 0.12);
@@ -663,6 +668,11 @@ body.no-scroll {
   font-size: 0.85rem;
   font-weight: 800;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.secondary-glass-btn:active {
+  transform: scale(0.96);
 }
 
 /* --------------------------------------------------------------------------
@@ -816,7 +826,8 @@ body.no-scroll {
 .compact-footer { margin: 16px auto 8px auto; padding: 18px; max-width: 440px; text-align: center; }
 .footer-tagline { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin: 4px 0 10px 0; }
 .legal-links { font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 10px; display: flex; justify-content: center; gap: 12px; }
-.legal-links a { color: var(--accent-cyan); text-decoration: none; font-weight: 700; }
+.legal-links a { color: var(--accent-cyan); text-decoration: none; font-weight: 700; transition: color 0.2s ease; }
+.legal-links a:hover { color: var(--accent-cyan-dark); }
 .footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 10px; }
 .footer-bottom p { font-size: 0.68rem; color: var(--text-muted); }
 
@@ -840,7 +851,11 @@ body.no-scroll {
   box-shadow: 0 6px 20px rgba(0, 136, 204, 0.3);
   cursor: pointer;
   z-index: 9999 !important;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.floating-tg-btn-fixed:hover {
+  box-shadow: 0 8px 25px rgba(0, 136, 204, 0.4);
 }
 
 .floating-tg-btn-fixed:active { transform: scale(0.92); }
@@ -869,3 +884,4 @@ body.no-scroll {
 .w-100 {
   width: 100%;
 }
+
