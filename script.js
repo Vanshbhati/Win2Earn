@@ -179,7 +179,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// ULTRA HIGH-PERFORMANCE 60FPS HELICOPTER ENGINE
+// ULTRA-OPTIMIZED ZERO-LAG GAME ENGINE WITH OFF-SCREEN CACHING
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -188,29 +188,33 @@ const heliGame = {
   loopId: null,
   lastTime: 0,
   
-  // Sleek Helicopter Sizing
+  // Compact Helicopter Bounds
   x: 55,
   y: 200,
-  width: 44,
-  height: 24,
+  width: 42,
+  height: 26,
   
-  // Responsive Flight Physics
-  gravity: 0.38,
+  // Physics Settings
+  gravity: 0.36,
   velocity: 0,
-  jumpVelocity: -6.4,
+  jumpVelocity: -6.2,
   angle: 0,
   
-  // Slim Pipes
+  // Pipe Settings
   pipes: [],
-  pipeWidth: 44,      // Patle pipes
+  pipeWidth: 44,
   pipeGap: 155,
-  pipeSpeed: 2.3,
-  pipeSpacing: 200,
+  pipeSpeed: 2.2,
+  pipeSpacing: 190,
   groundHeight: 65,
   groundOffset: 0,
 
   distanceMeters: 0,
-  bestScore: 0
+  bestScore: 0,
+
+  // Offscreen Caches for Ultra Performance
+  bgCanvas: null,
+  bgCtx: null
 };
 
 function initHeliGameListeners() {
@@ -229,7 +233,7 @@ function initHeliGameListeners() {
     if (clientX && clientY) {
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
-      // Exit Pill Hitbox Check
+      // Top-Left EXIT Button Area
       if (clickX >= 10 && clickX <= 90 && clickY >= 10 && clickY <= 48) {
         closeGameScreen();
         return;
@@ -255,6 +259,40 @@ function triggerHeliJump() {
   heliGame.velocity = heliGame.jumpVelocity;
 }
 
+function prepareCachedBackground(w, h) {
+  heliGame.bgCanvas = document.createElement("canvas");
+  heliGame.bgCanvas.width = w;
+  heliGame.bgCanvas.height = h;
+  heliGame.bgCtx = heliGame.bgCanvas.getContext("2d");
+
+  const ctx = heliGame.bgCtx;
+  const groundY = h - heliGame.groundHeight;
+
+  // Sky
+  ctx.fillStyle = "#4EC0CA";
+  ctx.fillRect(0, 0, w, h);
+
+  // Soft Clouds
+  ctx.fillStyle = "#FFFFFF";
+  for (let cx = -10; cx < w + 50; cx += 70) {
+    ctx.beginPath();
+    ctx.arc(cx, groundY - 95, 26, 0, Math.PI * 2);
+    ctx.arc(cx + 20, groundY - 105, 32, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // City Skyline
+  ctx.fillStyle = "#A2D2FF";
+  for (let bx = 0; bx < w + 50; bx += 38) {
+    ctx.fillRect(bx, groundY - 90, 32, 55);
+    ctx.fillRect(bx + 10, groundY - 105, 12, 15);
+  }
+
+  // Bushes
+  ctx.fillStyle = "#52BE80";
+  ctx.fillRect(0, groundY - 35, w, 35);
+}
+
 function resetHeliGameUI() {
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
@@ -265,6 +303,8 @@ function resetHeliGameUI() {
   const container = canvas.parentElement;
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
+
+  prepareCachedBackground(canvas.width, canvas.height);
 
   heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
@@ -284,6 +324,8 @@ function startHeliGame() {
   canvas.width = container ? container.clientWidth : window.innerWidth;
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
+  prepareCachedBackground(canvas.width, canvas.height);
+
   heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
   heliGame.velocity = 0;
   heliGame.angle = 0;
@@ -299,7 +341,7 @@ function startHeliGame() {
 function heliGameLoop(timestamp) {
   if (!heliGame.active) return;
 
-  const dt = Math.min((timestamp - heliGame.lastTime) / 16.66, 1.8);
+  const dt = Math.min((timestamp - heliGame.lastTime) / 16.66, 1.5);
   heliGame.lastTime = timestamp;
 
   updatePhysics(dt);
@@ -323,10 +365,10 @@ function updatePhysics(dt) {
   }
 
   const heliBox = { 
-    x: heliGame.x + 3, 
-    y: heliGame.y + 3, 
-    w: heliGame.width - 6, 
-    h: heliGame.height - 6 
+    x: heliGame.x + 4, 
+    y: heliGame.y + 4, 
+    w: heliGame.width - 8, 
+    h: heliGame.height - 8 
   };
 
   if (heliGame.y + heliGame.height >= playableHeight) {
@@ -389,24 +431,12 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  // Optimized Background Rendering
-  ctx.fillStyle = "#4EC0CA";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  const groundY = canvas.height - heliGame.groundHeight;
-
-  // City Skyline
-  ctx.fillStyle = "#A2D2FF";
-  for (let bx = 0; bx < canvas.width + 40; bx += 40) {
-    ctx.fillRect(bx, groundY - 95, 34, 60);
-    ctx.fillRect(bx + 12, groundY - 110, 10, 15);
+  // 1. Draw Cached Pre-rendered Sky/City (Fastest GPU Rendering)
+  if (heliGame.bgCanvas) {
+    ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // Bushes
-  ctx.fillStyle = "#52BE80";
-  ctx.fillRect(0, groundY - 35, canvas.width, 35);
-
-  // Slim Pipes
+  // 2. Draw Pipes
   for (let i = 0; i < heliGame.pipes.length; i++) {
     const p = heliGame.pipes[i];
     drawSlimPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
@@ -414,7 +444,8 @@ function renderCanvas() {
     drawSlimPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Striped Ground
+  // 3. Draw Ground
+  const groundY = canvas.height - heliGame.groundHeight;
   ctx.fillStyle = "#DED895";
   ctx.fillRect(0, groundY, canvas.width, heliGame.groundHeight);
   ctx.fillStyle = "#C8B26B";
@@ -435,14 +466,13 @@ function renderCanvas() {
   ctx.lineTo(canvas.width, groundY);
   ctx.stroke();
 
-  // Draw Detailed Helicopter
-  drawDetailedHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle);
+  // 4. Draw Clean Retro Helicopter
+  drawCleanHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle);
 
-  // Render Clean Header Pills
+  // 5. Draw Pure Canvas UI: EXIT (Left) and SCORE (Right)
   renderTopHeaderUI(ctx, canvas.width);
 }
 
-// SLIM PIPE DRAWING ENGINE
 function drawSlimPipe(ctx, x, y, w, h, isTop) {
   if (h <= 0) return;
 
@@ -474,65 +504,58 @@ function drawSlimPipe(ctx, x, y, w, h, isTop) {
   ctx.strokeRect(capX, capY, capW, capH);
 }
 
-// HIGH QUALITY 2D HELICOPTER GRAPHICS
-function drawDetailedHelicopter(ctx, x, y, angleDeg) {
+// RETRO SMOOTH 2D HELICOPTER
+function drawCleanHelicopter(ctx, x, y, angleDeg) {
   ctx.save();
-  ctx.translate(x + 22, y + 12);
+  ctx.translate(x + 21, y + 13);
   ctx.rotate((angleDeg * Math.PI) / 180);
 
-  // Tail Boom & Fin
+  // Tail
   ctx.fillStyle = "#E74C3C";
-  ctx.fillRect(-20, -2, 12, 4);
-  ctx.strokeRect(-20, -2, 12, 4);
-  
-  ctx.beginPath();
-  ctx.moveTo(-20, -2);
-  ctx.lineTo(-24, -8);
-  ctx.lineTo(-18, -2);
-  ctx.fill();
-  ctx.stroke();
+  ctx.fillRect(-18, -2, 10, 4);
+  ctx.strokeStyle = "#000000";
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(-18, -2, 10, 4);
 
   // Main Body
   ctx.fillStyle = "#F1C40F";
   ctx.beginPath();
-  ctx.ellipse(0, 1, 14, 9, 0, 0, Math.PI * 2);
+  ctx.arc(0, 1, 11, 0, Math.PI * 2);
   ctx.fill();
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = 2;
   ctx.stroke();
 
-  // Glass Cockpit
+  // Cockpit
   ctx.fillStyle = "#3498DB";
   ctx.beginPath();
-  ctx.arc(5, -1, 6, -Math.PI / 2, Math.PI / 2);
+  ctx.arc(4, -1, 5, -Math.PI / 2, Math.PI / 2);
   ctx.fill();
   ctx.stroke();
 
-  // Top Rotor Mast & Blade
+  // Rotor Bar
   ctx.fillStyle = "#000000";
-  ctx.fillRect(-1, -11, 3, 3);
-  ctx.fillRect(-16, -12, 32, 2);
+  ctx.fillRect(-1, -11, 2, 3);
+  ctx.fillRect(-14, -12, 28, 2);
 
-  // Landing Skids
-  ctx.strokeStyle = "#34495E";
-  ctx.lineWidth = 2;
+  // Skids
+  ctx.strokeStyle = "#2C3E50";
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.moveTo(-8, 11);
-  ctx.lineTo(10, 11);
-  ctx.moveTo(-3, 8);
-  ctx.lineTo(-3, 11);
-  ctx.moveTo(5, 8);
-  ctx.lineTo(5, 11);
+  ctx.moveTo(-7, 11);
+  ctx.lineTo(9, 11);
+  ctx.moveTo(-2, 8);
+  ctx.lineTo(-2, 11);
+  ctx.moveTo(4, 8);
+  ctx.lineTo(4, 11);
   ctx.stroke();
 
   ctx.restore();
 }
 
-// HEADER UI (ONLY EXIT & SCORE)
+// STRICT CANVAS TOP UI (ONLY EXIT & SCORE)
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
-  // EXIT Button
+  // EXIT Pill Button (Left)
   const exitX = 12;
   const exitY = 12;
   const exitW = 75;
@@ -550,7 +573,7 @@ function renderTopHeaderUI(ctx, w) {
   ctx.textBaseline = "middle";
   ctx.fillText("EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
 
-  // SCORE Display
+  // SCORE Display (Right)
   const scoreStr = String(heliGame.distanceMeters).padStart(4, '0');
   const scoreW = 85;
   const scoreH = 32;
