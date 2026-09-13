@@ -31,12 +31,19 @@ const alertsData = [
   { title: "🔥 Daily Tournament Active", desc: "Top 10 daily players get rewards!", time: "2 mins ago" }
 ];
 
-document.addEventListener("DOMContentLoaded", () => {
-  // Initialize Sound System Audio Context
+// Master Function for Unlocking Web Audio Context on Mobile Browsers
+function unlockMobileAudio() {
   if (window.gameSounds) {
-    window.gameSounds.init();
+    if (!window.gameSounds.audioCtx) {
+      window.gameSounds.init();
+    }
+    if (window.gameSounds.audioCtx && window.gameSounds.audioCtx.state === 'suspended') {
+      window.gameSounds.audioCtx.resume();
+    }
   }
+}
 
+document.addEventListener("DOMContentLoaded", () => {
   initSplashScreen();
   initTicker();
   renderLeaderboard('daily');
@@ -84,6 +91,7 @@ function initTicker() {
 }
 
 function handleNavClick(e, tabName) {
+  unlockMobileAudio();
   if (e) e.preventDefault();
   if (window.gameSounds) window.gameSounds.playClick();
 
@@ -98,11 +106,13 @@ function handleNavClick(e, tabName) {
 }
 
 function showModal(modalId) { 
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   document.getElementById(modalId)?.classList.remove("hidden"); 
 }
 
 function hideModal(modalId) { 
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   document.getElementById(modalId)?.classList.add("hidden"); 
 }
@@ -128,6 +138,7 @@ function openPopup(msg) {
 function closePopup() { hideModal("errorPopup"); }
 
 function switchTab(type) {
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   const loginForm = document.getElementById("loginForm");
   const signupForm = document.getElementById("signupForm");
@@ -141,6 +152,7 @@ function switchTab(type) {
 }
 
 function sendOtp() {
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   const mobile = document.getElementById("signupMobile")?.value;
   if (!mobile || mobile.length < 10) {
@@ -156,6 +168,7 @@ function sendOtp() {
 
 function handleLogin(e) {
   e.preventDefault();
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   const email = document.getElementById("loginEmail")?.value || "user@example.com";
   appState.currentUser = { name: email.split("@")[0].toUpperCase(), email, upi: null };
@@ -165,6 +178,7 @@ function handleLogin(e) {
 
 function handleSignup(e) {
   e.preventDefault();
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   const name = document.getElementById("signupName")?.value || "Player";
   const email = document.getElementById("signupEmail")?.value || "";
@@ -178,6 +192,7 @@ function onUserLoggedIn() {
 }
 
 function handleGameLaunch() {
+  unlockMobileAudio();
   if (!appState.currentUser) {
     openAuthModal('login');
     return;
@@ -187,6 +202,7 @@ function handleGameLaunch() {
 }
 
 function closeGameScreen() {
+  unlockMobileAudio();
   if (window.gameSounds) {
     window.gameSounds.playClick();
     window.gameSounds.stopBgMusic();
@@ -250,6 +266,7 @@ function initHeliGameListeners() {
 
   const handlePointer = (e) => {
     if (e.type === 'touchstart') e.preventDefault();
+    unlockMobileAudio();
     
     const rect = canvas.getBoundingClientRect();
     const clientX = e.clientX || (e.touches && e.touches[0].clientX);
@@ -280,6 +297,7 @@ function initHeliGameListeners() {
 
 function triggerHeliJump() {
   if (!heliGame.active) return;
+  unlockMobileAudio();
   heliGame.velocity = heliGame.jumpVelocity;
   if (window.gameSounds) {
     window.gameSounds.playJump();
@@ -327,6 +345,7 @@ function resetHeliGameUI() {
 }
 
 function startHeliGame() {
+  unlockMobileAudio();
   if (window.gameSounds) {
     window.gameSounds.playClick();
     window.gameSounds.startBgMusic();
@@ -800,7 +819,7 @@ function handleCrash() {
   heliGame.active = false;
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
 
-  // Play Crash Sound and stop Background Music
+  unlockMobileAudio();
   if (window.gameSounds) {
     window.gameSounds.stopBgMusic();
     window.gameSounds.playCrash();
@@ -838,6 +857,7 @@ function updateLeaderboardWithUserScore() {
 }
 
 function switchLeaderboard(type) {
+  unlockMobileAudio();
   if (window.gameSounds) window.gameSounds.playClick();
   appState.leaderboardType = type;
   document.getElementById("btnDailyLb")?.classList.toggle("active", type === 'daily');
