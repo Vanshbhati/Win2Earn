@@ -221,17 +221,6 @@ const heliGame = {
   bgCtx: null
 };
 
-// Procedural City Building Data
-const cityBuildingsData = [
-  { xRatio: 0.02, width: 55, height: 140 },
-  { xRatio: 0.16, width: 70, height: 190 },
-  { xRatio: 0.32, width: 50, height: 110 },
-  { xRatio: 0.46, width: 80, height: 210 },
-  { xRatio: 0.64, width: 60, height: 150 },
-  { xRatio: 0.78, width: 75, height: 180 },
-  { xRatio: 0.94, width: 55, height: 130 }
-];
-
 function initHeliGameListeners() {
   const canvas = document.getElementById("heliCanvas");
   if (!canvas) return;
@@ -282,58 +271,63 @@ function prepareCachedBackground(w, h) {
 
   const ctx = heliGame.bgCtx;
 
-  // Sky Gradient
+  // Classic Clean Sky Gradient
   const skyGrad = ctx.createLinearGradient(0, 0, 0, h);
-  skyGrad.addColorStop(0, "#4a90e2");
-  skyGrad.addColorStop(0.7, "#50e3c2");
-  skyGrad.addColorStop(1, "#38ef7d");
+  skyGrad.addColorStop(0, "#4ec0ca");
+  skyGrad.addColorStop(0.75, "#70dad3");
+  skyGrad.addColorStop(1, "#9ee6c9");
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, w, h);
 }
 
-// FIXED: Gap-free & Dynamic City Skyline
-function drawCitySkylineDynamic(ctx, w, h, bgScroll) {
-  // Baseline directly touches ground level + 10px overlap so NO GAP is visible
+// CLASSIC MOUNTAIN & HILLS NATURAL PARALLAX BACKGROUND
+function drawNatureHillsDynamic(ctx, w, h, bgScroll) {
   const baseLineY = h - heliGame.groundHeight + 10;
-  
-  // Far Silhouette Layer
-  ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
-  for (let bx = 0; bx < w + 100; bx += 55) {
-    const farHeight = 70 + (bx % 3 === 0 ? 30 : 10);
-    let currX = (bx - bgScroll * 0.15) % (w + 80);
-    if (currX < -50) currX += w + 80;
-    ctx.fillRect(currX, baseLineY - farHeight, 40, farHeight);
+
+  // 1. Soft Distant Mountain Layer (Slow Parallax)
+  ctx.fillStyle = "rgba(102, 194, 165, 0.45)";
+  ctx.beginPath();
+  const startXFar = -(bgScroll * 0.15) % 180;
+  ctx.moveTo(startXFar - 50, baseLineY);
+  for (let x = startXFar - 50; x <= w + 100; x += 120) {
+    ctx.quadraticCurveTo(x + 60, baseLineY - 100, x + 120, baseLineY);
   }
+  ctx.lineTo(w + 100, baseLineY);
+  ctx.closePath();
+  ctx.fill();
 
-  // Foreground Dynamic City Buildings Layer
-  cityBuildingsData.forEach((bld, i) => {
-    let rawX = (bld.xRatio * w) - (bgScroll * 0.35);
-    let totalWidth = w + 140;
-    let currX = ((rawX % totalWidth) + totalWidth) % totalWidth - 70;
+  // 2. Foreground Rolling Green Hills (Faster Parallax)
+  ctx.fillStyle = "#8cd790";
+  ctx.beginPath();
+  const startXNear = -(bgScroll * 0.35) % 220;
+  ctx.moveTo(startXNear - 50, baseLineY);
+  for (let x = startXNear - 50; x <= w + 100; x += 150) {
+    ctx.quadraticCurveTo(x + 75, baseLineY - 65, x + 150, baseLineY);
+  }
+  ctx.lineTo(w + 100, baseLineY);
+  ctx.closePath();
+  ctx.fill();
 
-    // Building Shadow / Gradient
-    let grad = ctx.createLinearGradient(0, baseLineY - bld.height, 0, baseLineY);
-    grad.addColorStop(0, "rgba(28, 70, 78, 0.85)");
-    grad.addColorStop(1, "rgba(15, 45, 52, 0.95)");
-    
-    ctx.fillStyle = grad;
-    // Draw height extended down to baseLineY to eliminate gap
-    ctx.fillRect(currX, baseLineY - bld.height, bld.width, bld.height);
+  // Highlight line on front hills
+  ctx.strokeStyle = "#a7e9af";
+  ctx.lineWidth = 3;
+  ctx.stroke();
 
-    // Stylish Roof Edge Line
-    ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
-    ctx.fillRect(currX, baseLineY - bld.height, bld.width, 2);
+  // 3. Subtle Clouds
+  ctx.fillStyle = "rgba(255, 255, 255, 0.45)";
+  const cloudOffset = (bgScroll * 0.08) % (w + 200);
+  drawCloud(ctx, (w * 0.2) - cloudOffset, h * 0.15, 30);
+  drawCloud(ctx, (w * 0.75) - cloudOffset, h * 0.22, 40);
+  drawCloud(ctx, (w * 1.3) - cloudOffset, h * 0.12, 35);
+}
 
-    // Glowing Yellow/Cyan Windows
-    for (let wx = currX + 6; wx < currX + bld.width - 8; wx += 10) {
-      for (let wy = baseLineY - bld.height + 12; wy < baseLineY - 25; wy += 15) {
-        if ((wx + wy + i) % 2 === 0) {
-          ctx.fillStyle = (wx + wy) % 4 === 0 ? "rgba(255, 255, 255, 0.8)" : "rgba(241, 196, 15, 0.75)";
-          ctx.fillRect(wx, wy, 5, 7);
-        }
-      }
-    }
-  });
+function drawCloud(ctx, cx, cy, radius) {
+  let x = cx < -100 ? cx + ctx.canvas.width + 200 : cx;
+  ctx.beginPath();
+  ctx.arc(x, cy, radius, 0, Math.PI * 2);
+  ctx.arc(x + radius * 0.7, cy - radius * 0.3, radius * 0.75, 0, Math.PI * 2);
+  ctx.arc(x + radius * 1.4, cy, radius * 0.8, 0, Math.PI * 2);
+  ctx.fill();
 }
 
 function resetHeliGameUI() {
@@ -479,13 +473,13 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  // 1. Draw Cached Sky
+  // 1. Draw Sky Background
   if (heliGame.bgCanvas) {
     ctx.drawImage(heliGame.bgCanvas, 0, 0);
   }
 
-  // 2. Draw Dynamic Parallax City Skyline
-  drawCitySkylineDynamic(ctx, canvas.width, canvas.height, heliGame.bgScroll);
+  // 2. Draw Nature Hills Background
+  drawNatureHillsDynamic(ctx, canvas.width, canvas.height, heliGame.bgScroll);
 
   // 3. Draw Pipes
   const playableHeight = canvas.height - heliGame.groundHeight;
@@ -497,7 +491,7 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // 4. Draw Ground with Bushes Overlap
+  // 4. Draw Ground
   drawHDWoodenGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
   // 5. Draw Helicopter
@@ -538,14 +532,14 @@ function drawCleanPipe(ctx, x, y, w, h, isTop) {
   ctx.strokeRect(capX, capY, capW, capH);
 }
 
-// Ground & Bush Rendering
+// Ground Rendering
 function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
   const groundY = height - groundHeight;
   const bushHeight = 22;
   const woodY = groundY + bushHeight;
   const woodHeight = groundHeight - bushHeight;
 
-  // --- GREEN BUSHES / HEDGES (OVERLAPS BUILDINGS Seamlessly) ---
+  // GREEN BUSHES / HEDGES
   ctx.save();
   
   ctx.fillStyle = "#2d6a4f";
@@ -571,7 +565,7 @@ function drawHDWoodenGround(ctx, width, height, groundHeight, scrollOffset) {
 
   ctx.restore();
 
-  // --- HD WOODEN BOARDWALK ---
+  // WOODEN BOARDWALK
   ctx.save();
 
   const woodGrad = ctx.createLinearGradient(0, woodY, 0, height);
