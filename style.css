@@ -352,6 +352,91 @@ body.no-scroll {
   overflow: hidden;
 }
 
+/* --- Modern Arcade Top HUD Layout & Styles --- */
+.game-top-hud {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.hud-left-controls, .hud-right-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.hud-right-stats {
+  align-items: flex-end;
+}
+
+.arcade-btn {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 2px solid #1e293b;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #1e293b;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.arcade-btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #1e293b;
+}
+
+.btn-exit {
+  background-color: #ef4444;
+  color: #ffffff;
+  border-color: #991b1b;
+  box-shadow: 0 3px 0 #991b1b;
+}
+
+.btn-pause {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #1e40af;
+  box-shadow: 0 3px 0 #1e40af;
+}
+
+.arcade-score-box {
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #2563eb;
+  color: #1d4ed8;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  font-weight: 900;
+  padding: 6px 14px;
+  border-radius: 10px;
+  box-shadow: 0 3px 0 #2563eb;
+  letter-spacing: 1px;
+}
+
+.arcade-bonus-box {
+  background: #10b981;
+  border: 2px solid #047857;
+  color: #ffffff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 6px 12px;
+  border-radius: 10px;
+  box-shadow: 0 3px 0 #047857;
+}
+/* --- End Modern Arcade Top HUD --- */
+
 .game-engine-header {
   position: absolute;
   top: 0;
