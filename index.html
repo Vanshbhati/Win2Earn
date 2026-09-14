@@ -84,15 +84,15 @@
   <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
 
-    <!-- Fixed Modern Arcade Top HUD (Replaced old mismatched buttons) -->
-    <div class="game-top-hud">
-      <div class="hud-left-controls">
-        <button class="arcade-btn btn-exit" onclick="closeGameScreen()">✕ EXIT</button>
-        <button class="arcade-btn btn-pause" onclick="togglePauseGame()">⏸ PAUSE</button>
+    <!-- Restored Original Top HUD with Theme-matching Clean Styling -->
+    <div class="game-top-hud" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; position: absolute; top: 0; left: 0; width: 100%; z-index: 20; box-sizing: border-box;">
+      <div class="hud-left-controls" style="display: flex; gap: 8px;">
+        <button class="arcade-btn btn-exit" onclick="closeGameScreen()" style="background: rgba(16, 185, 129, 0.2); border: 1px solid #10b981; color: #10b981; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; backdrop-filter: blur(4px);">✕ EXIT</button>
+        <button class="arcade-btn btn-pause" onclick="togglePauseGame()" style="background: rgba(14, 165, 233, 0.2); border: 1px solid #0ea5e9; color: #0ea5e9; padding: 6px 12px; border-radius: 8px; font-weight: 700; font-size: 0.8rem; cursor: pointer; backdrop-filter: blur(4px);">⏸ PAUSE</button>
       </div>
-      <div class="hud-right-stats">
-        <div class="arcade-score-box" id="liveScoreDisplay">00000</div>
-        <div class="arcade-bonus-box" id="liveBonusDisplay">⭐ BONUS: +0</div>
+      <div class="hud-right-stats" style="display: flex; gap: 8px; align-items: center;">
+        <div class="arcade-score-box" id="liveScoreDisplay" style="background: rgba(14, 165, 233, 0.15); border: 1px solid #0ea5e9; color: #ffffff; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; backdrop-filter: blur(4px);">00000</div>
+        <div class="arcade-bonus-box" id="liveBonusDisplay" style="background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 0.85rem; backdrop-filter: blur(4px);">⭐ BONUS: +0</div>
       </div>
     </div>
 
