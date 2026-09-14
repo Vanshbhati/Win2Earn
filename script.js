@@ -269,13 +269,18 @@ function setupPauseModalHTML() {
   const pauseDiv = document.createElement("div");
   pauseDiv.id = "gamePauseOverlay";
   pauseDiv.className = "game-overlay hidden";
+  pauseDiv.style.cursor = "pointer";
   pauseDiv.innerHTML = `
     <div class="glass-card" style="text-align:center; padding:24px; max-width:280px; width:90%; background:rgba(255,255,255,0.95); border-radius:16px;">
       <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:8px;">GAME PAUSED</h2>
-      <p style="font-size:0.85rem; color:#6e6e73; margin-bottom:20px;">Take a breather!</p>
-      <button class="glass-btn primary-btn" style="width:100%; padding:12px; font-weight:900;" onclick="resumeGameWithCountdown()">RESUME</button>
+      <p style="font-size:0.85rem; color:#6e6e73; margin-bottom:20px;">Tap anywhere to resume!</p>
+      <button class="glass-btn primary-btn" style="width:100%; padding:12px; font-weight:900;">RESUME</button>
     </div>
   `;
+  // Clicking anywhere on the pause overlay will resume the game seamlessly
+  pauseDiv.addEventListener("click", () => {
+    resumeGameWithCountdown();
+  });
   modalContainer.appendChild(pauseDiv);
 
   const countDiv = document.createElement("div");
@@ -776,14 +781,19 @@ function updatePhysics(dt) {
 function spawnPipe(startX) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
+  
+  // Fully randomized dynamic gap for each pipe obstacle (between 140 and 175)
+  const currentGap = Math.floor(Math.random() * 36) + 140;
+  
   const minH = 40;
-  const maxH = playableHeight - heliGame.pipeGap - minH;
+  const maxH = playableHeight - currentGap - minH;
   const topHeight = Math.floor(Math.random() * (maxH - minH + 1)) + minH;
 
   heliGame.pipes.push({
     x: startX,
     topHeight: topHeight,
-    bottomY: topHeight + heliGame.pipeGap,
+    bottomY: topHeight + currentGap,
+    gapSize: currentGap,
     passed: false
   });
 }
@@ -1280,3 +1290,4 @@ function renderProfileWallet() {
     `;
   }
 }
+
