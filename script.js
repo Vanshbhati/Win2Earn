@@ -39,6 +39,7 @@ const gameSounds = {
   chopperNode: null,
   chopperGain: null,
   chopperFilter: null,
+  chopperLfo: null,
   rainNode: null,
   rainGain: null,
 
@@ -54,7 +55,7 @@ const gameSounds = {
     }
   },
 
-  // Continuous looping helicopter blade sound from start to crash
+  // Continuous looping helicopter blade sound from start to crash (with LFO chop effect)
   startChopper() {
     this.init();
     if (!this.audioCtx) return;
@@ -74,10 +75,20 @@ const gameSounds = {
 
       this.chopperFilter = this.audioCtx.createBiquadFilter();
       this.chopperFilter.type = 'lowpass';
-      this.chopperFilter.frequency.setValueAtTime(320, this.audioCtx.currentTime);
+      this.chopperFilter.frequency.setValueAtTime(450, this.audioCtx.currentTime);
 
       this.chopperGain = this.audioCtx.createGain();
-      this.chopperGain.gain.setValueAtTime(0.18, this.audioCtx.currentTime);
+      this.chopperGain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
+
+      // LFO to create realistic helicopter chop-chop blade sound
+      this.chopperLfo = this.audioCtx.createOscillator();
+      this.chopperLfo.frequency.setValueAtTime(15, this.audioCtx.currentTime);
+      const lfoGain = this.audioCtx.createGain();
+      lfoGain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
+
+      this.chopperLfo.connect(lfoGain);
+      lfoGain.connect(this.chopperGain.gain);
+      this.chopperLfo.start();
 
       this.chopperNode.connect(this.chopperFilter);
       this.chopperFilter.connect(this.chopperGain);
@@ -90,6 +101,10 @@ const gameSounds = {
   },
 
   stopChopper() {
+    if (this.chopperLfo) {
+      try { this.chopperLfo.stop(); this.chopperLfo.disconnect(); } catch (e) {}
+      this.chopperLfo = null;
+    }
     if (this.chopperNode) {
       try {
         this.chopperNode.stop();
@@ -118,13 +133,13 @@ const gameSounds = {
 
       const rainFilter = this.audioCtx.createBiquadFilter();
       rainFilter.type = 'bandpass';
-      rainFilter.frequency.setValueAtTime(1000, this.audioCtx.currentTime);
+      rainFilter.frequency.setValueAtTime(1200, this.audioCtx.currentTime);
       rainFilter.Q.setValueAtTime(1.0, this.audioCtx.currentTime);
 
       this.rainGain = this.audioCtx.createGain();
       this.rainGain.gain.setValueAtTime(0.01, this.audioCtx.currentTime);
-      this.rainGain.gain.linearRampToValueAtTime(0.22, this.audioCtx.currentTime + 1.5);
-      this.rainGain.gain.setValueAtTime(0.22, this.audioCtx.currentTime + 13.5);
+      this.rainGain.gain.linearRampToValueAtTime(0.25, this.audioCtx.currentTime + 1.5);
+      this.rainGain.gain.setValueAtTime(0.25, this.audioCtx.currentTime + 13.5);
       this.rainGain.gain.linearRampToValueAtTime(0.0, this.audioCtx.currentTime + 15.0);
 
       this.rainNode.connect(rainFilter);
@@ -153,6 +168,7 @@ const gameSounds = {
     this.init();
     if (!this.audioCtx) return;
     this.stopChopper();
+    this.stopRain();
 
     try {
       const osc = this.audioCtx.createOscillator();
