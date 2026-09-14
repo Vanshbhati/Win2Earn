@@ -532,7 +532,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH BALANCED PIPES, STRICT NEAR-MISS BONUS (+100) & SPEED
+// GAME ENGINE WITH BALANCED PIPES, STRICT NEAR-MISS BONUS (+50) & SPEED
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -597,12 +597,12 @@ function initHeliGameListeners() {
       const clickY = clientY - rect.top;
       
       // Exit button check
-      if (clickX >= 12 && clickX <= 87 && clickY >= 12 && clickY <= 44) {
+      if (clickX >= 12 && clickX <= 92 && clickY >= 12 && clickY <= 44) {
         closeGameScreen();
         return;
       }
       // Pause button check
-      if (clickX >= 12 && clickX <= 87 && clickY >= 48 && clickY <= 78) {
+      if (clickX >= 12 && clickX <= 92 && clickY >= 48 && clickY <= 80) {
         pauseGame();
         return;
       }
@@ -809,21 +809,21 @@ function updatePhysics(dt) {
       return;
     }
 
-    // Strict Near-Miss Bonus (+100 points) only when chopper passes very close to top or bottom pipe edge
+    // Strict Near-Miss Bonus (+50 points) only when chopper passes extremely close to pipe edges
     if (!p.bonusAwarded && heliGame.x > p.x + heliGame.pipeWidth) {
       p.bonusAwarded = true;
       
       const distToTopEdge = Math.abs(heliGame.y - p.topHeight);
       const distToBottomEdge = Math.abs((heliGame.y + heliGame.height) - p.bottomY);
-      const strictThreshold = 22; // Very close margin (out ho sakta tha)
+      const strictThreshold = 18; // Super tight margin (out ho sakta tha)
 
       if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
-        heliGame.bonusScore += 100;
+        heliGame.bonusScore += 50;
         gameSounds.playBonus();
 
-        // Spawn floating attractive +100 text near the pipe
+        // Spawn floating attractive +50 text near the pipe
         heliGame.floatingTexts.push({
-          text: "+100",
+          text: "+50",
           x: p.x + heliGame.pipeWidth / 2,
           y: distToTopEdge <= strictThreshold ? p.topHeight + 15 : p.bottomY - 15,
           alpha: 1.0,
@@ -965,15 +965,15 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Render floating attractive +100 bonus texts
+  // Render floating attractive +50 bonus texts
   if (heliGame.floatingTexts && heliGame.floatingTexts.length > 0) {
     ctx.save();
-    ctx.font = "900 15px sans-serif";
+    ctx.font = "900 16px sans-serif";
     ctx.textAlign = "center";
     for (let ft of heliGame.floatingTexts) {
       ctx.fillStyle = `rgba(250, 204, 21, ${ft.alpha})`;
       ctx.strokeStyle = `rgba(15, 23, 42, ${ft.alpha})`;
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 3.5;
       ctx.strokeText(ft.text, ft.x, ft.y);
       ctx.fillText(ft.text, ft.x, ft.y);
     }
@@ -1224,42 +1224,60 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
-  // Exit Button
-  const exitX = 12, exitY = 12, exitW = 75, exitH = 30;
-  ctx.fillStyle = "#ffffff";
-  drawRoundedRect(ctx, exitX, exitY, exitW, exitH, 8, true);
-  ctx.strokeStyle = "#000000";
+  // --- ULTRA ATTRACTIVE EXIT BUTTON (Top Left) ---
+  const exitX = 12, exitY = 12, exitW = 80, exitH = 32;
+  const exitGrad = ctx.createLinearGradient(exitX, exitY, exitX, exitY + exitH);
+  exitGrad.addColorStop(0, "#ef4444");
+  exitGrad.addColorStop(1, "#b91c1c");
+
+  ctx.fillStyle = exitGrad;
+  drawRoundedRect(ctx, exitX, exitY, exitW, exitH, 10, true);
+  ctx.strokeStyle = "#fca5a5";
   ctx.lineWidth = 2;
   ctx.stroke();
 
-  ctx.fillStyle = "#000000";
-  ctx.font = "900 11px sans-serif";
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "900 12px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText("EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = 4;
+  ctx.fillText("✕ EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
+  ctx.shadowBlur = 0; // reset shadow
 
-  // Pause Button
-  const pauseX = 12, pauseY = 47, pauseW = 75, pauseH = 26;
-  ctx.fillStyle = "#1e293b";
-  drawRoundedRect(ctx, pauseX, pauseY, pauseW, pauseH, 8, true);
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 1.5;
+  // --- ULTRA ATTRACTIVE PAUSE BUTTON (Below Exit) ---
+  const pauseX = 12, pauseY = 48, pauseW = 80, exitH_pause = 32;
+  const pauseGrad = ctx.createLinearGradient(pauseX, pauseY, pauseX, pauseY + exitH_pause);
+  pauseGrad.addColorStop(0, "#475569");
+  pauseGrad.addColorStop(1, "#1e293b");
+
+  ctx.fillStyle = pauseGrad;
+  drawRoundedRect(ctx, pauseX, pauseY, pauseW, exitH_pause, 10, true);
+  ctx.strokeStyle = "#94a3b8";
+  ctx.lineWidth = 2;
   ctx.stroke();
 
   ctx.fillStyle = "#ffffff";
-  ctx.fillRect(pauseX + 31, pauseY + 7, 4, 12);
-  ctx.fillRect(pauseX + 40, pauseY + 7, 4, 12);
+  ctx.font = "900 11px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = 4;
+  ctx.fillText("⏸ PAUSE", pauseX + pauseW / 2, pauseY + exitH_pause / 2 + 1);
+  ctx.shadowBlur = 0;
 
-  // Score Box (Top Right)
+  // --- GLOWING SCORE BOX (Top Right) ---
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
-  const scoreW = 105, scoreH = 30;
-  const scoreX = w - scoreW - 12, scoreY = 11;
+  const scoreW = 115, scoreH = 32;
+  const scoreX = w - scoreW - 12, scoreY = 12;
 
-  let scoreBoxBg = "#2563eb";
+  let scoreBoxGradTop = "#3b82f6";
+  let scoreBoxGradBottom = "#1d4ed8";
   let scaleOffset = 1;
 
   if (heliGame.scoreBlinkTimer > 0) {
-    scoreBoxBg = "#d97706";
+    scoreBoxGradTop = "#f59e0b";
+    scoreBoxGradBottom = "#b45309";
     scaleOffset = 1.04 + Math.sin(heliGame.scoreBlinkTimer * 30) * 0.04;
   }
 
@@ -1270,9 +1288,13 @@ function renderTopHeaderUI(ctx, w) {
     ctx.translate(-(scoreX + scoreW / 2), -(scoreY + scoreH / 2));
   }
 
-  ctx.fillStyle = scoreBoxBg;
-  drawRoundedRect(ctx, scoreX, scoreY, scoreW, scoreH, 8, true);
-  ctx.strokeStyle = heliGame.scoreBlinkTimer > 0 ? "#fef08a" : "#000000";
+  const scoreGrad = ctx.createLinearGradient(scoreX, scoreY, scoreX, scoreY + scoreH);
+  scoreGrad.addColorStop(0, scoreBoxGradTop);
+  scoreGrad.addColorStop(1, scoreBoxGradBottom);
+
+  ctx.fillStyle = scoreGrad;
+  drawRoundedRect(ctx, scoreX, scoreY, scoreW, scoreH, 10, true);
+  ctx.strokeStyle = heliGame.scoreBlinkTimer > 0 ? "#fef08a" : "#93c5fd";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -1280,21 +1302,23 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 15px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.6)";
+  ctx.shadowBlur = 6;
   ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
   ctx.restore();
 
-  // Highly Attractive Bonus Box UI (Just Below Score Box)
+  // --- HIGHLY ATTRACTIVE BONUS BUTTON/BOX (Just Below Score Box) ---
   const bonusStr = `⭐ BONUS: +${heliGame.bonusScore}`;
-  const bonusW = 115, bonusH = 26;
-  const bonusX = w - bonusW - 12, bonusY = 46;
+  const bonusW = 125, bonusH = 30;
+  const bonusX = w - bonusW - 12, bonusY = 50;
 
   const bonusGrad = ctx.createLinearGradient(bonusX, bonusY, bonusX + bonusW, bonusY + bonusH);
-  bonusGrad.addColorStop(0, "#059669");
-  bonusGrad.addColorStop(1, "#10b981");
+  bonusGrad.addColorStop(0, "#10b981");
+  bonusGrad.addColorStop(1, "#047857");
 
   ctx.fillStyle = bonusGrad;
-  drawRoundedRect(ctx, bonusX, bonusY, bonusW, bonusH, 8, true);
-  ctx.strokeStyle = "#fef08a";
+  drawRoundedRect(ctx, bonusX, bonusY, bonusW, bonusH, 10, true);
+  ctx.strokeStyle = "#a7f3d0";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -1302,6 +1326,8 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 11px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.6)";
+  ctx.shadowBlur = 6;
   ctx.fillText(bonusStr, bonusX + bonusW / 2, bonusY + bonusH / 2 + 1);
 
   ctx.restore();
