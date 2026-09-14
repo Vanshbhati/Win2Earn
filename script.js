@@ -1446,4 +1446,3 @@ function renderProfileWallet() {
     `;
   }
 }
-
