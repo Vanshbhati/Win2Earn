@@ -32,7 +32,7 @@ const alertsData = [
 ];
 
 // ==========================================================================
-// PURE SYNTHESIZED SOUND SYSTEM (CHOPPER LOOP, CRASH & RAIN ONLY)
+// PREMIUM SYNTHESIZED SOUND SYSTEM (4 EXACT SOUNDS: CHOPPER, MILESTONE, RAIN, CRASH)
 // ==========================================================================
 const gameSounds = {
   audioCtx: null,
@@ -55,7 +55,7 @@ const gameSounds = {
     }
   },
 
-  // Continuous looping helicopter blade sound from start to crash (with LFO chop effect)
+  // 1. Loud & Premium Helicopter Blade Continuous Sound Loop
   startChopper() {
     this.init();
     if (!this.audioCtx) return;
@@ -75,16 +75,16 @@ const gameSounds = {
 
       this.chopperFilter = this.audioCtx.createBiquadFilter();
       this.chopperFilter.type = 'lowpass';
-      this.chopperFilter.frequency.setValueAtTime(450, this.audioCtx.currentTime);
+      this.chopperFilter.frequency.setValueAtTime(550, this.audioCtx.currentTime); // Louder & deeper cutoff
 
       this.chopperGain = this.audioCtx.createGain();
-      this.chopperGain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
+      this.chopperGain.gain.setValueAtTime(0.38, this.audioCtx.currentTime); // Louder master level
 
-      // LFO to create realistic helicopter chop-chop blade sound
+      // Heavy chopper chop-chop blade LFO
       this.chopperLfo = this.audioCtx.createOscillator();
-      this.chopperLfo.frequency.setValueAtTime(15, this.audioCtx.currentTime);
+      this.chopperLfo.frequency.setValueAtTime(16, this.audioCtx.currentTime);
       const lfoGain = this.audioCtx.createGain();
-      lfoGain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
+      lfoGain.gain.setValueAtTime(0.3, this.audioCtx.currentTime);
 
       this.chopperLfo.connect(lfoGain);
       lfoGain.connect(this.chopperGain.gain);
@@ -114,7 +114,33 @@ const gameSounds = {
     }
   },
 
-  // 15-second rain sound effect
+  // 2. Har 100 Score pe Badhiya Milestone Chime Sound
+  playMilestone() {
+    this.init();
+    if (!this.audioCtx) return;
+
+    try {
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(659.25, this.audioCtx.currentTime); // E5 note
+      osc.frequency.exponentialRampToValueAtTime(987.77, this.audioCtx.currentTime + 0.15); // B5 note
+
+      gain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.25);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start();
+      osc.stop(this.audioCtx.currentTime + 0.25);
+    } catch (e) {
+      console.error("Milestone audio error:", e);
+    }
+  },
+
+  // 3. Premium Barish (Rain) Sound Effect
   playRain() {
     this.init();
     if (!this.audioCtx) return;
@@ -133,13 +159,13 @@ const gameSounds = {
 
       const rainFilter = this.audioCtx.createBiquadFilter();
       rainFilter.type = 'bandpass';
-      rainFilter.frequency.setValueAtTime(1200, this.audioCtx.currentTime);
-      rainFilter.Q.setValueAtTime(1.0, this.audioCtx.currentTime);
+      rainFilter.frequency.setValueAtTime(1400, this.audioCtx.currentTime);
+      rainFilter.Q.setValueAtTime(1.2, this.audioCtx.currentTime);
 
       this.rainGain = this.audioCtx.createGain();
       this.rainGain.gain.setValueAtTime(0.01, this.audioCtx.currentTime);
-      this.rainGain.gain.linearRampToValueAtTime(0.25, this.audioCtx.currentTime + 1.5);
-      this.rainGain.gain.setValueAtTime(0.25, this.audioCtx.currentTime + 13.5);
+      this.rainGain.gain.linearRampToValueAtTime(0.32, this.audioCtx.currentTime + 1.5); // Premium rich sound
+      this.rainGain.gain.setValueAtTime(0.32, this.audioCtx.currentTime + 13.5);
       this.rainGain.gain.linearRampToValueAtTime(0.0, this.audioCtx.currentTime + 15.0);
 
       this.rainNode.connect(rainFilter);
@@ -163,7 +189,7 @@ const gameSounds = {
     }
   },
 
-  // Heavy crash sound effect
+  // 4. Realistic Heavy Crash Sound Effect
   playCrash() {
     this.init();
     if (!this.audioCtx) return;
@@ -171,27 +197,48 @@ const gameSounds = {
     this.stopRain();
 
     try {
+      // Noise burst for realistic metallic crunch
+      const bufferSize = this.audioCtx.sampleRate * 0.6;
+      const buffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1);
+      }
+
+      const noise = this.audioCtx.createBufferSource();
+      noise.buffer = buffer;
+
+      const noiseFilter = this.audioCtx.createBiquadFilter();
+      noiseFilter.type = 'lowpass';
+      noiseFilter.frequency.setValueAtTime(800, this.audioCtx.currentTime);
+      noiseFilter.frequency.exponentialRampToValueAtTime(80, this.audioCtx.currentTime + 0.6);
+
+      const noiseGain = this.audioCtx.createGain();
+      noiseGain.gain.setValueAtTime(0.5, this.audioCtx.currentTime);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.6);
+
+      noise.connect(noiseFilter);
+      noiseFilter.connect(noiseGain);
+      noiseGain.connect(this.audioCtx.destination);
+
+      // Low frequency sub-bass rumble for crash impact
       const osc = this.audioCtx.createOscillator();
       const gain = this.audioCtx.createGain();
-      const filter = this.audioCtx.createBiquadFilter();
 
       osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(120, this.audioCtx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(20, this.audioCtx.currentTime + 0.5);
-
-      filter.type = 'lowpass';
-      filter.frequency.setValueAtTime(400, this.audioCtx.currentTime);
-      filter.frequency.linearRampToValueAtTime(80, this.audioCtx.currentTime + 0.5);
+      osc.frequency.setValueAtTime(100, this.audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(15, this.audioCtx.currentTime + 0.6);
 
       gain.gain.setValueAtTime(0.4, this.audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.5);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.6);
 
-      osc.connect(filter);
-      filter.connect(gain);
+      osc.connect(gain);
       gain.connect(this.audioCtx.destination);
 
+      noise.start();
       osc.start();
-      osc.stop(this.audioCtx.currentTime + 0.5);
+      noise.stop(this.audioCtx.currentTime + 0.6);
+      osc.stop(this.audioCtx.currentTime + 0.6);
     } catch (e) {
       console.error("Crash audio error:", e);
     }
@@ -372,7 +419,7 @@ function handleUniversalStart() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH RAIN & CHOPPER LOGIC
+// GAME ENGINE WITH ENVIRONMENT CYCLE & MILESTONE SYSTEM
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -406,7 +453,9 @@ const heliGame = {
   bestScore: 0,
   bgScroll: 0,
 
-  // Rain Tracking State
+  // Milestones & Environments State
+  lastMilestoneScore: 0,
+  scoreBlinkTimer: 0,
   isRaining: false,
   rainTimer: 0,
   lastRainMilestone: 0,
@@ -475,6 +524,8 @@ function resetHeliGameUI() {
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
+  heliGame.lastMilestoneScore = 0;
+  heliGame.scoreBlinkTimer = 0;
   heliGame.isRaining = false;
   heliGame.rainTimer = 0;
   heliGame.lastRainMilestone = 0;
@@ -502,6 +553,8 @@ function startHeliGame() {
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
+  heliGame.lastMilestoneScore = 0;
+  heliGame.scoreBlinkTimer = 0;
   heliGame.isRaining = false;
   heliGame.rainTimer = 0;
   heliGame.lastRainMilestone = 0;
@@ -509,7 +562,7 @@ function startHeliGame() {
   heliGame.active = true;
   heliGame.lastTime = performance.now();
 
-  // Start continuous looping helicopter sound instantly
+  // Start continuous loud helicopter sound
   gameSounds.startChopper();
 
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
@@ -536,12 +589,23 @@ function updatePhysics(dt) {
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
 
-  // Rain milestone trigger (Every 750 score points for 15 seconds with rain audio)
+  // Har 100 Score pe Milestone Chime & Blink Trigger
+  if (heliGame.distanceMeters > 0 && heliGame.distanceMeters % 100 === 0 && heliGame.distanceMeters !== heliGame.lastMilestoneScore) {
+    heliGame.lastMilestoneScore = heliGame.distanceMeters;
+    heliGame.scoreBlinkTimer = 0.5; // Blink duration 0.5s
+    gameSounds.playMilestone();
+  }
+
+  if (heliGame.scoreBlinkTimer > 0) {
+    heliGame.scoreBlinkTimer -= dt;
+  }
+
+  // Rain milestone trigger (Every 750 score points for 15 seconds)
   const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
   if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
     heliGame.lastRainMilestone = currentRainMilestone;
     heliGame.isRaining = true;
-    heliGame.rainTimer = 15.0; // 15 seconds duration
+    heliGame.rainTimer = 15.0;
     gameSounds.playRain();
   }
 
@@ -652,8 +716,26 @@ function renderCanvas() {
   const ctx = heliGame.ctx;
   const canvas = heliGame.canvas;
 
-  let skyTop = heliGame.isRaining ? "#2c3e50" : "#4ec0ca";
-  let skyBottom = heliGame.isRaining ? "#34495e" : "#b3f0db";
+  // Environment & Sky Cycle based on Score:
+  // 0 - 500: Morning (Blue/Cyan)
+  // 500 - 1000: Sunset (Warm Orange/Purple)
+  // 1000+: Night (Dark Indigo/Night Blue)
+  let skyTop, skyBottom, buildingTint;
+  const score = heliGame.distanceMeters;
+
+  if (score >= 1000) {
+    skyTop = "#0f172a";
+    skyBottom = "#1e1b4b";
+    buildingTint = heliGame.isRaining ? "#090d16" : "#2e1065";
+  } else if (score >= 500) {
+    skyTop = "#c2410c"; // Sunset Warm Orange
+    skyBottom = "#7c2d12"; // Sunset Deep Purple/Red
+    buildingTint = heliGame.isRaining ? "#2c1510" : "rgba(124, 45, 18, 0.85)";
+  } else {
+    skyTop = heliGame.isRaining ? "#2c3e50" : "#4ec0ca";
+    skyBottom = heliGame.isRaining ? "#34495e" : "#b3f0db";
+    buildingTint = heliGame.isRaining ? "#1a252f" : "rgba(255, 178, 115, 0.70)";
+  }
 
   const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
   skyGrad.addColorStop(0, skyTop);
@@ -661,7 +743,7 @@ function renderCanvas() {
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, heliGame.isRaining);
+  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, buildingTint, score >= 500);
 
   const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
@@ -689,14 +771,14 @@ function renderCanvas() {
   renderTopHeaderUI(ctx, canvas.width);
 }
 
-function drawBackgroundCity(ctx, w, h, bgScroll, isRaining) {
+function drawBackgroundCity(ctx, w, h, bgScroll, tintColor, isSunsetOrNight) {
   const baseLineY = h - heliGame.groundHeight + 10;
   const buildings = [
-    { x: 0, w: 48, h: 95, color: isRaining ? "#1a252f" : "rgba(255, 178, 115, 0.70)" },
-    { x: 52, w: 40, h: 125, color: isRaining ? "#11181f" : "rgba(186, 148, 235, 0.70)" },
-    { x: 96, w: 54, h: 80, color: isRaining ? "#1a252f" : "rgba(125, 175, 240, 0.70)" },
-    { x: 154, w: 44, h: 140, color: isRaining ? "#11181f" : "rgba(255, 138, 148, 0.70)" },
-    { x: 202, w: 50, h: 105, color: isRaining ? "#1a252f" : "rgba(110, 225, 165, 0.70)" }
+    { x: 0, w: 48, h: 95, color: tintColor },
+    { x: 52, w: 40, h: 125, color: tintColor },
+    { x: 96, w: 54, h: 80, color: tintColor },
+    { x: 154, w: 44, h: 140, color: tintColor },
+    { x: 202, w: 50, h: 105, color: tintColor }
   ];
 
   const loopW = 260;
@@ -712,7 +794,7 @@ function drawBackgroundCity(ctx, w, h, bgScroll, isRaining) {
       ctx.fillStyle = b.color;
       ctx.fillRect(bx, by, b.w, b.h + 20);
 
-      ctx.fillStyle = isRaining ? "#f1c40f" : "rgba(255, 255, 255, 0.75)";
+      ctx.fillStyle = isSunsetOrNight ? "#fde047" : "rgba(255, 255, 255, 0.75)";
       for (let wY = 12; wY < b.h - 8; wY += 18) {
         ctx.fillRect(bx + 6, by + wY, 6, 8);
         if (b.w > 36) ctx.fillRect(bx + b.w - 12, by + wY, 6, 8);
@@ -877,7 +959,13 @@ function renderTopHeaderUI(ctx, w) {
   const scoreW = 95, scoreH = 32;
   const scoreX = w - scoreW - 12, scoreY = 12;
 
-  ctx.fillStyle = "#3b82f6";
+  // Har 100 score pe blink effect (Color toggle between blue & bright yellow/white)
+  let scoreBoxBg = "#3b82f6";
+  if (heliGame.scoreBlinkTimer > 0) {
+    scoreBoxBg = Math.floor(heliGame.scoreBlinkTimer * 20) % 2 === 0 ? "#facc15" : "#ef4444";
+  }
+
+  ctx.fillStyle = scoreBoxBg;
   drawRoundedRect(ctx, scoreX, scoreY, scoreW, scoreH, 8, true);
   ctx.strokeStyle = "#000000";
   ctx.lineWidth = 2;
