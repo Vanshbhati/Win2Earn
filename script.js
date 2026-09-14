@@ -532,7 +532,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH BALANCED PIPES, BONUS & SPEED SCALING
+// GAME ENGINE WITH BALANCED PIPES, STRICT NEAR-MISS BONUS (+100) & SPEED
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -573,7 +573,8 @@ const heliGame = {
   rainTimer: 0,
   lastRainMilestone: 0,
   raindrops: [],
-  stars: []
+  stars: [],
+  floatingTexts: []
 };
 
 function initHeliGameListeners() {
@@ -657,6 +658,7 @@ function resetHeliGameUI() {
   heliGame.rainTimer = 0;
   heliGame.lastRainMilestone = 0;
   heliGame.raindrops = [];
+  heliGame.floatingTexts = [];
   
   heliGame.stars = [];
   for (let i = 0; i < 40; i++) {
@@ -702,6 +704,7 @@ function startHeliGame() {
   heliGame.rainTimer = 0;
   heliGame.lastRainMilestone = 0;
   heliGame.raindrops = [];
+  heliGame.floatingTexts = [];
   heliGame.active = true;
   heliGame.lastTime = performance.now();
 
@@ -756,7 +759,7 @@ function updatePhysics(dt) {
     }
   }
 
-  // Speed doubles every 1000 score (e.g. at 1000 score speed multiplier increases by 1x)
+  // Speed doubles every 1000 score
   const speedMultiplier = 1 + Math.floor(heliGame.distanceMeters / 1000);
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed * speedMultiplier;
 
@@ -806,11 +809,37 @@ function updatePhysics(dt) {
       return;
     }
 
-    // Check near miss bonus (+200 points per pipe if passed closely)
+    // Strict Near-Miss Bonus (+100 points) only when chopper passes very close to top or bottom pipe edge
     if (!p.bonusAwarded && heliGame.x > p.x + heliGame.pipeWidth) {
       p.bonusAwarded = true;
-      heliGame.bonusScore += 200;
-      gameSounds.playBonus();
+      
+      const distToTopEdge = Math.abs(heliGame.y - p.topHeight);
+      const distToBottomEdge = Math.abs((heliGame.y + heliGame.height) - p.bottomY);
+      const strictThreshold = 22; // Very close margin (out ho sakta tha)
+
+      if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
+        heliGame.bonusScore += 100;
+        gameSounds.playBonus();
+
+        // Spawn floating attractive +100 text near the pipe
+        heliGame.floatingTexts.push({
+          text: "+100",
+          x: p.x + heliGame.pipeWidth / 2,
+          y: distToTopEdge <= strictThreshold ? p.topHeight + 15 : p.bottomY - 15,
+          alpha: 1.0,
+          vy: -40
+        });
+      }
+    }
+  }
+
+  // Update floating text animations
+  for (let f = heliGame.floatingTexts.length - 1; f >= 0; f--) {
+    let ft = heliGame.floatingTexts[f];
+    ft.y += ft.vy * dt;
+    ft.alpha -= dt * 1.2;
+    if (ft.alpha <= 0) {
+      heliGame.floatingTexts.splice(f, 1);
     }
   }
 
@@ -844,7 +873,6 @@ function spawnPipe(startX) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
   
-  // Balanced gap and pipe heights
   const currentGap = 165;
   const minH = 40;
   const maxH = playableHeight - currentGap - minH;
@@ -935,6 +963,21 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, 0, heliGame.pipeWidth, p.topHeight, true);
     const bottomH = playableHeight - p.bottomY + 12;
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
+  }
+
+  // Render floating attractive +100 bonus texts
+  if (heliGame.floatingTexts && heliGame.floatingTexts.length > 0) {
+    ctx.save();
+    ctx.font = "900 15px sans-serif";
+    ctx.textAlign = "center";
+    for (let ft of heliGame.floatingTexts) {
+      ctx.fillStyle = `rgba(250, 204, 21, ${ft.alpha})`;
+      ctx.strokeStyle = `rgba(15, 23, 42, ${ft.alpha})`;
+      ctx.lineWidth = 3;
+      ctx.strokeText(ft.text, ft.x, ft.y);
+      ctx.fillText(ft.text, ft.x, ft.y);
+    }
+    ctx.restore();
   }
 
   drawCartoonThemeGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
@@ -1240,15 +1283,19 @@ function renderTopHeaderUI(ctx, w) {
   ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
   ctx.restore();
 
-  // Bonus Box (Just Below Score Box)
-  const bonusStr = `BONUS: +${heliGame.bonusScore}`;
-  const bonusW = 105, bonusH = 24;
-  const bonusX = w - bonusW - 12, bonusY = 45;
+  // Highly Attractive Bonus Box UI (Just Below Score Box)
+  const bonusStr = `⭐ BONUS: +${heliGame.bonusScore}`;
+  const bonusW = 115, bonusH = 26;
+  const bonusX = w - bonusW - 12, bonusY = 46;
 
-  ctx.fillStyle = "#059669";
-  drawRoundedRect(ctx, bonusX, bonusY, bonusW, bonusH, 6, true);
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 1.5;
+  const bonusGrad = ctx.createLinearGradient(bonusX, bonusY, bonusX + bonusW, bonusY + bonusH);
+  bonusGrad.addColorStop(0, "#059669");
+  bonusGrad.addColorStop(1, "#10b981");
+
+  ctx.fillStyle = bonusGrad;
+  drawRoundedRect(ctx, bonusX, bonusY, bonusW, bonusH, 8, true);
+  ctx.strokeStyle = "#fef08a";
+  ctx.lineWidth = 2;
   ctx.stroke();
 
   ctx.fillStyle = "#ffffff";
@@ -1284,7 +1331,6 @@ function handleCrash() {
   gameSounds.stopRain();
   gameSounds.playCrash();
 
-  // Total final score including accumulated bonus score upon crashing
   const finalRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
 
   appState.currentRunScore = finalRunTotal;
