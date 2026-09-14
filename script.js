@@ -32,7 +32,7 @@ const alertsData = [
 ];
 
 // ==========================================================================
-// PREMIUM SYNTHESIZED SOUND SYSTEM (4 EXACT SOUNDS: CHOPPER, MILESTONE, RAIN, CRASH)
+// PREMIUM SYNTHESIZED SOUND SYSTEM
 // ==========================================================================
 const gameSounds = {
   audioCtx: null,
@@ -264,32 +264,39 @@ function setupMonthlyButtons() {
 
 function setupPauseModalHTML() {
   const modalContainer = document.getElementById("gameScreenModal");
-  if (!modalContainer || document.getElementById("gamePauseOverlay")) return;
+  if (!modalContainer) return;
 
-  const pauseDiv = document.createElement("div");
-  pauseDiv.id = "gamePauseOverlay";
-  pauseDiv.className = "game-overlay hidden";
-  pauseDiv.style.cursor = "pointer";
-  pauseDiv.innerHTML = `
-    <div class="glass-card" style="text-align:center; padding:24px; max-width:280px; width:90%; background:rgba(255,255,255,0.95); border-radius:16px;">
-      <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:8px;">GAME PAUSED</h2>
-      <p style="font-size:0.85rem; color:#6e6e73; margin-bottom:20px;">Tap anywhere to resume!</p>
-      <button class="glass-btn primary-btn" style="width:100%; padding:12px; font-weight:900;">RESUME</button>
-    </div>
-  `;
-  // Clicking anywhere on the pause overlay will resume the game seamlessly
-  pauseDiv.addEventListener("click", () => {
-    resumeGameWithCountdown();
-  });
-  modalContainer.appendChild(pauseDiv);
+  // Check if pause overlay already exists, if not create it securely
+  if (!document.getElementById("gamePauseOverlay")) {
+    const pauseDiv = document.createElement("div");
+    pauseDiv.id = "gamePauseOverlay";
+    pauseDiv.className = "game-overlay hidden";
+    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:50; cursor:pointer;";
+    pauseDiv.innerHTML = `
+      <div class="glass-card" style="text-align:center; padding:24px; max-width:280px; width:90%; background:rgba(255,255,255,0.95); border-radius:16px;">
+        <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:8px;">GAME PAUSED</h2>
+        <p style="font-size:0.85rem; color:#6e6e73; margin-bottom:20px;">Tap anywhere or click Resume to continue!</p>
+        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:12px; font-weight:900; background:#2563eb; color:#fff; border:none; border-radius:8px;">RESUME</button>
+      </div>
+    `;
+    
+    pauseDiv.addEventListener("click", (e) => {
+      e.stopPropagation();
+      resumeGameWithCountdown();
+    });
+    modalContainer.appendChild(pauseDiv);
+  }
 
-  const countDiv = document.createElement("div");
-  countDiv.id = "gameCountdownOverlay";
-  countDiv.className = "game-overlay hidden";
-  countDiv.innerHTML = `
-    <div style="font-size:5rem; font-weight:900; color:#ffffff; text-shadow:0 4px 20px rgba(0,0,0,0.6);" id="countdownNumber">3</div>
-  `;
-  modalContainer.appendChild(countDiv);
+  if (!document.getElementById("gameCountdownOverlay")) {
+    const countDiv = document.createElement("div");
+    countDiv.id = "gameCountdownOverlay";
+    countDiv.className = "game-overlay hidden";
+    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:50;";
+    countDiv.innerHTML = `
+      <div style="font-size:5rem; font-weight:900; color:#ffffff; text-shadow:0 4px 20px rgba(0,0,0,0.6);" id="countdownNumber">3</div>
+    `;
+    modalContainer.appendChild(countDiv);
+  }
 }
 
 function initSplashScreen() {
@@ -424,6 +431,7 @@ function handleGameLaunch() {
     return;
   }
   showModal("gameScreenModal");
+  setupPauseModalHTML();
   resetHeliGameUI();
 }
 
@@ -448,14 +456,27 @@ function pauseGame() {
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   gameSounds.stopChopper();
   gameSounds.stopRain();
-  document.getElementById("gamePauseOverlay")?.classList.remove("hidden");
+  
+  const pauseOverlay = document.getElementById("gamePauseOverlay");
+  if (pauseOverlay) {
+    pauseOverlay.classList.remove("hidden");
+    pauseOverlay.style.display = "flex";
+  }
 }
 
 function resumeGameWithCountdown() {
-  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
+  const pauseOverlay = document.getElementById("gamePauseOverlay");
+  if (pauseOverlay) {
+    pauseOverlay.classList.add("hidden");
+    pauseOverlay.style.display = "none";
+  }
+
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const countNumber = document.getElementById("countdownNumber");
-  countOverlay?.classList.remove("hidden");
+  if (countOverlay) {
+    countOverlay.classList.remove("hidden");
+    countOverlay.style.display = "flex";
+  }
 
   let count = 3;
   if (countNumber) countNumber.innerText = count;
@@ -466,7 +487,10 @@ function resumeGameWithCountdown() {
       if (countNumber) countNumber.innerText = count;
     } else {
       clearInterval(countInterval);
-      countOverlay?.classList.add("hidden");
+      if (countOverlay) {
+        countOverlay.classList.add("hidden");
+        countOverlay.style.display = "none";
+      }
       startHeliGameResumed();
     }
   }, 1000);
@@ -484,7 +508,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH STYLISH PREMIUM NIGHT ENVIRONMENT & GLOWING STARS
+// GAME ENGINE WITH FULLY RANDOMIZED PIPES
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -535,6 +559,7 @@ function initHeliGameListeners() {
   heliGame.ctx = canvas.getContext("2d", { alpha: false });
 
   const handlePointer = (e) => {
+    if (!heliGame.active) return;
     if (e.type === 'touchstart') e.preventDefault();
     unlockMobileAudio();
     
@@ -546,10 +571,12 @@ function initHeliGameListeners() {
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
       
+      // Exit button check
       if (clickX >= 12 && clickX <= 87 && clickY >= 12 && clickY <= 44) {
         closeGameScreen();
         return;
       }
+      // Pause button check
       if (clickX >= 12 && clickX <= 87 && clickY >= 48 && clickY <= 78) {
         pauseGame();
         return;
@@ -578,8 +605,9 @@ function triggerHeliJump() {
 
 function resetHeliGameUI() {
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
+  const pauseOverlay = document.getElementById("gamePauseOverlay");
+  if (pauseOverlay) { pauseOverlay.classList.add("hidden"); pauseOverlay.style.display = "none"; }
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
-  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
   
   const canvas = heliGame.canvas;
@@ -605,7 +633,6 @@ function resetHeliGameUI() {
   heliGame.lastRainMilestone = 0;
   heliGame.raindrops = [];
   
-  // Initialize Twinkling Night Stars
   heliGame.stars = [];
   for (let i = 0; i < 40; i++) {
     heliGame.stars.push({
@@ -625,7 +652,8 @@ function startHeliGame() {
 
   document.getElementById("gameStartOverlay")?.classList.add("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
-  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
+  const pauseOverlay = document.getElementById("gamePauseOverlay");
+  if (pauseOverlay) { pauseOverlay.classList.add("hidden"); pauseOverlay.style.display = "none"; }
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
 
   const canvas = heliGame.canvas;
@@ -782,10 +810,9 @@ function spawnPipe(startX) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
   
-  // Fully randomized dynamic gap for each pipe obstacle (between 140 and 175)
-  const currentGap = Math.floor(Math.random() * 36) + 140;
-  
-  const minH = 40;
+  // Fully randomized dynamic gap and height so patterns are never identical
+  const currentGap = Math.floor(Math.random() * 45) + 135; // Gap between 135 and 180
+  const minH = 30;
   const maxH = playableHeight - currentGap - minH;
   const topHeight = Math.floor(Math.random() * (maxH - minH + 1)) + minH;
 
