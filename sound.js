@@ -14,6 +14,7 @@ class SoundManager {
     this.chopperNode = null;
     this.chopperGain = null;
     this.chopperFilter = null;
+    this.chopperLfo = null;
     
     // Rain-specific continuous audio nodes
     this.rainNode = null;
@@ -76,14 +77,11 @@ class SoundManager {
       case 'night':
         this.startNightAmbient();
         break;
-      case 'rain':
-        this.startRainAmbient();
-        break;
     }
   }
 
   // ==========================================================================
-  // HELICOPTER CONTINUOUS LOOP (Chopper Engine Sound)
+  // HELICOPTER CONTINUOUS LOOP (Loud Chopper Engine Sound with Blade LFO)
   // ==========================================================================
   startChopper() {
     this.ensureContextActive();
@@ -104,10 +102,20 @@ class SoundManager {
 
       this.chopperFilter = this.audioCtx.createBiquadFilter();
       this.chopperFilter.type = 'lowpass';
-      this.chopperFilter.frequency.setValueAtTime(320, this.audioCtx.currentTime);
+      this.chopperFilter.frequency.setValueAtTime(450, this.audioCtx.currentTime);
 
       this.chopperGain = this.audioCtx.createGain();
-      this.chopperGain.gain.setValueAtTime(0.18, this.audioCtx.currentTime);
+      this.chopperGain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
+
+      // LFO to create realistic helicopter chop-chop blade sound
+      this.chopperLfo = this.audioCtx.createOscillator();
+      this.chopperLfo.frequency.setValueAtTime(15, this.audioCtx.currentTime);
+      const lfoGain = this.audioCtx.createGain();
+      lfoGain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
+
+      this.chopperLfo.connect(lfoGain);
+      lfoGain.connect(this.chopperGain.gain);
+      this.chopperLfo.start();
 
       this.chopperNode.connect(this.chopperFilter);
       this.chopperFilter.connect(this.chopperGain);
@@ -124,17 +132,18 @@ class SoundManager {
   }
 
   stopChopper() {
+    if (this.chopperLfo) {
+      try { this.chopperLfo.stop(); this.chopperLfo.disconnect(); } catch (e) {}
+      this.chopperLfo = null;
+    }
     if (this.chopperNode) {
-      try {
-        this.chopperNode.stop();
-        this.chopperNode.disconnect();
-      } catch (e) {}
+      try { this.chopperNode.stop(); this.chopperNode.disconnect(); } catch (e) {}
       this.chopperNode = null;
     }
   }
 
   // ==========================================================================
-  // RAIN EFFECT (Milestone triggered 15-second ambient rain sound)
+  // RAIN EFFECT (15-second ambient rain sound, independent of environment)
   // ==========================================================================
   playRain() {
     this.ensureContextActive();
@@ -154,13 +163,13 @@ class SoundManager {
 
       const rainFilter = this.audioCtx.createBiquadFilter();
       rainFilter.type = 'bandpass';
-      rainFilter.frequency.setValueAtTime(1000, this.audioCtx.currentTime);
+      rainFilter.frequency.setValueAtTime(1200, this.audioCtx.currentTime);
       rainFilter.Q.setValueAtTime(1.0, this.audioCtx.currentTime);
 
       this.rainGain = this.audioCtx.createGain();
       this.rainGain.gain.setValueAtTime(0.01, this.audioCtx.currentTime);
-      this.rainGain.gain.linearRampToValueAtTime(0.22, this.audioCtx.currentTime + 1.5);
-      this.rainGain.gain.setValueAtTime(0.22, this.audioCtx.currentTime + 13.5);
+      this.rainGain.gain.linearRampToValueAtTime(0.25, this.audioCtx.currentTime + 1.5);
+      this.rainGain.gain.setValueAtTime(0.25, this.audioCtx.currentTime + 13.5);
       this.rainGain.gain.linearRampToValueAtTime(0.0, this.audioCtx.currentTime + 15.0);
 
       this.rainNode.connect(rainFilter);
@@ -180,10 +189,7 @@ class SoundManager {
 
   stopRain() {
     if (this.rainNode) {
-      try {
-        this.rainNode.stop();
-        this.rainNode.disconnect();
-      } catch (e) {}
+      try { this.rainNode.stop(); this.rainNode.disconnect(); } catch (e) {}
       this.rainNode = null;
     }
   }
@@ -287,49 +293,6 @@ class SoundManager {
 
     osc.start();
     osc.stop(this.audioCtx.currentTime + 0.4);
-  }
-
-  startRainAmbient() {
-    const rainNoise = this.createNoiseNode(0.09, 1300);
-    if (rainNoise) this.ambientNodes.push(rainNoise);
-
-    const thunderInterval = setInterval(() => {
-      if (this.currentEnv !== 'rain') {
-        clearInterval(thunderInterval);
-        return;
-      }
-      if (Math.random() < 0.35) this.playThunder();
-    }, 5000);
-
-    this.activeIntervals.push(thunderInterval);
-  }
-
-  playThunder() {
-    if (!this.audioCtx) return;
-    const bufferSize = this.audioCtx.sampleRate * 2;
-    const noiseBuffer = this.audioCtx.createBuffer(1, bufferSize, this.audioCtx.sampleRate);
-    const output = noiseBuffer.getChannelData(0);
-    
-    for (let i = 0; i < bufferSize; i++) {
-      output[i] = Math.random() * 2 - 1;
-    }
-
-    const whiteNoise = this.audioCtx.createBufferSource();
-    whiteNoise.buffer = noiseBuffer;
-
-    const filter = this.audioCtx.createBiquadFilter();
-    filter.type = 'lowpass';
-    filter.frequency.value = 160;
-
-    const gain = this.audioCtx.createGain();
-    gain.gain.setValueAtTime(0.25, this.audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 1.8);
-
-    whiteNoise.connect(filter);
-    filter.connect(gain);
-    if (this.masterGain) gain.connect(this.masterGain);
-
-    whiteNoise.start();
   }
 
   createNoiseNode(vol, cutoffFreq) {
