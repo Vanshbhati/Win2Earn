@@ -475,7 +475,7 @@ function startHeliGameResumed() {
   heliGame.active = true;
   heliGame.lastTime = performance.now();
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
-  heliGameLoop(performance.now());
+  heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
 // ==========================================================================
@@ -649,7 +649,7 @@ function startHeliGame() {
   gameSounds.startChopper();
 
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
-  heliGameLoop(performance.now());
+  heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
 function heliGameLoop(timestamp) {
@@ -800,7 +800,6 @@ function renderCanvas() {
   let skyTop, skyMid, skyBottom, showSun = false, showStars = false;
 
   if (score >= 1000) {
-    // Beautiful, Premium Midnight Blue & Purple Cinematic Night Theme (Not Pitch Black)
     skyTop = "#1e1b4b";
     skyMid = "#312e81";
     skyBottom = "#4338ca";
@@ -823,7 +822,6 @@ function renderCanvas() {
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw Twinkling Stars in Night Mode
   if (showStars && heliGame.stars) {
     ctx.save();
     for (let star of heliGame.stars) {
@@ -1141,19 +1139,15 @@ function renderTopHeaderUI(ctx, w) {
   const scoreX = w - scoreW - 12, scoreY = 11;
 
   let scoreBoxBg = "#2563eb";
-  let glowColor = "transparent";
   let scaleOffset = 1;
 
   if (heliGame.scoreBlinkTimer > 0) {
     scoreBoxBg = "#d97706";
-    glowColor = "rgba(251, 191, 36, 0.8)";
     scaleOffset = 1.04 + Math.sin(heliGame.scoreBlinkTimer * 30) * 0.04;
   }
 
   ctx.save();
   if (heliGame.scoreBlinkTimer > 0) {
-    ctx.shadowColor = glowColor;
-    ctx.shadowBlur = 14;
     ctx.translate(scoreX + scoreW / 2, scoreY + scoreH / 2);
     ctx.scale(scaleOffset, scaleOffset);
     ctx.translate(-(scoreX + scoreW / 2), -(scoreY + scoreH / 2));
@@ -1286,4 +1280,3 @@ function renderProfileWallet() {
     `;
   }
 }
-
