@@ -137,6 +137,30 @@ const gameSounds = {
     }
   },
 
+  playBonus() {
+    this.init();
+    if (!this.audioCtx) return;
+    try {
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(523.25, this.audioCtx.currentTime);
+      osc.frequency.setValueAtTime(659.25, this.audioCtx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(783.99, this.audioCtx.currentTime + 0.16);
+      
+      gain.gain.setValueAtTime(0.2, this.audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.3);
+
+      osc.connect(gain);
+      gain.connect(this.audioCtx.destination);
+
+      osc.start();
+      osc.stop(this.audioCtx.currentTime + 0.3);
+    } catch (e) {
+      console.error("Bonus audio error:", e);
+    }
+  },
+
   playRain() {
     this.init();
     if (!this.audioCtx) return;
@@ -266,17 +290,17 @@ function setupPauseModalHTML() {
   const modalContainer = document.getElementById("gameScreenModal");
   if (!modalContainer) return;
 
-  // Check if pause overlay already exists, if not create it securely
   if (!document.getElementById("gamePauseOverlay")) {
     const pauseDiv = document.createElement("div");
     pauseDiv.id = "gamePauseOverlay";
     pauseDiv.className = "game-overlay hidden";
-    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:flex; align-items:center; justify-content:center; z-index:50; cursor:pointer;";
+    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); display:flex; align-items:center; justify-content:center; z-index:50; cursor:pointer;";
     pauseDiv.innerHTML = `
-      <div class="glass-card" style="text-align:center; padding:24px; max-width:280px; width:90%; background:rgba(255,255,255,0.95); border-radius:16px;">
-        <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:8px;">GAME PAUSED</h2>
-        <p style="font-size:0.85rem; color:#6e6e73; margin-bottom:20px;">Tap anywhere or click Resume to continue!</p>
-        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:12px; font-weight:900; background:#2563eb; color:#fff; border:none; border-radius:8px;">RESUME</button>
+      <div class="glass-card" style="text-align:center; padding:32px 24px; max-width:320px; width:90%; background:rgba(255, 255, 255, 0.95); border: 2px solid rgba(255,255,255,0.8); border-radius:24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: scale(1); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+        <div style="font-size: 3rem; margin-bottom: 8px;">⏸️</div>
+        <h2 style="font-size:1.6rem; font-weight:900; color:#0f172a; margin-bottom:6px; letter-spacing:0.5px;">GAME PAUSED</h2>
+        <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; font-weight:500;">Take a breather! Tap below to resume your session.</p>
+        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #2563eb, #1d4ed8); color:#fff; border:none; border-radius:12px; font-size:1rem; box-shadow:0 8px 16px rgba(37,99,235,0.3);">RESUME GAME</button>
       </div>
     `;
     
@@ -291,9 +315,9 @@ function setupPauseModalHTML() {
     const countDiv = document.createElement("div");
     countDiv.id = "gameCountdownOverlay";
     countDiv.className = "game-overlay hidden";
-    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.4); display:flex; align-items:center; justify-content:center; z-index:50;";
+    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display:flex; align-items:center; justify-content:center; z-index:50;";
     countDiv.innerHTML = `
-      <div style="font-size:5rem; font-weight:900; color:#ffffff; text-shadow:0 4px 20px rgba(0,0,0,0.6);" id="countdownNumber">3</div>
+      <div style="font-size:6rem; font-weight:900; color:#facc15; text-shadow:0 4px 30px rgba(250,204,21,0.5); animation: pulseCount 0.9s infinite;" id="countdownNumber">3</div>
     `;
     modalContainer.appendChild(countDiv);
   }
@@ -508,7 +532,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH FULLY RANDOMIZED PIPES
+// GAME ENGINE WITH BALANCED PIPES, BONUS & SPEED SCALING
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -530,15 +554,15 @@ const heliGame = {
   
   pipes: [],
   pipeWidth: 50,
-  pipeGap: 160,
   basePipeSpeed: 160,
   currentPipeSpeed: 160,
-  pipeSpacing: 215,
+  pipeSpacing: 230,
   groundHeight: 60,
   groundOffset: 0,
 
   rawScoreAcc: 0,
   distanceMeters: 0,
+  bonusScore: 0,
   bestScore: 0,
   bgScroll: 0,
   cloudScroll: 0,
@@ -623,6 +647,7 @@ function resetHeliGameUI() {
   heliGame.pipes = [];
   heliGame.rawScoreAcc = 0;
   heliGame.distanceMeters = 0;
+  heliGame.bonusScore = 0;
   heliGame.bgScroll = 0;
   heliGame.cloudScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
@@ -667,6 +692,7 @@ function startHeliGame() {
   heliGame.pipes = [];
   heliGame.rawScoreAcc = 0;
   heliGame.distanceMeters = 0;
+  heliGame.bonusScore = 0;
   heliGame.bgScroll = 0;
   heliGame.cloudScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
@@ -730,8 +756,9 @@ function updatePhysics(dt) {
     }
   }
 
-  const speedTier = Math.floor(heliGame.distanceMeters / 500);
-  heliGame.currentPipeSpeed = heliGame.basePipeSpeed + (speedTier * 14);
+  // Speed doubles every 1000 score (e.g. at 1000 score speed multiplier increases by 1x)
+  const speedMultiplier = 1 + Math.floor(heliGame.distanceMeters / 1000);
+  heliGame.currentPipeSpeed = heliGame.basePipeSpeed * speedMultiplier;
 
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
@@ -778,6 +805,13 @@ function updatePhysics(dt) {
       handleCrash();
       return;
     }
+
+    // Check near miss bonus (+200 points per pipe if passed closely)
+    if (!p.bonusAwarded && heliGame.x > p.x + heliGame.pipeWidth) {
+      p.bonusAwarded = true;
+      heliGame.bonusScore += 200;
+      gameSounds.playBonus();
+    }
   }
 
   if (heliGame.pipes.length > 0 && heliGame.pipes[0].x < -heliGame.pipeWidth - 10) {
@@ -810,9 +844,9 @@ function spawnPipe(startX) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
   
-  // Fully randomized dynamic gap and height so patterns are never identical
-  const currentGap = Math.floor(Math.random() * 45) + 135; // Gap between 135 and 180
-  const minH = 30;
+  // Balanced gap and pipe heights
+  const currentGap = 165;
+  const minH = 40;
   const maxH = playableHeight - currentGap - minH;
   const topHeight = Math.floor(Math.random() * (maxH - minH + 1)) + minH;
 
@@ -821,7 +855,7 @@ function spawnPipe(startX) {
     topHeight: topHeight,
     bottomY: topHeight + currentGap,
     gapSize: currentGap,
-    passed: false
+    bonusAwarded: false
   });
 }
 
@@ -1147,6 +1181,7 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
+  // Exit Button
   const exitX = 12, exitY = 12, exitW = 75, exitH = 30;
   ctx.fillStyle = "#ffffff";
   drawRoundedRect(ctx, exitX, exitY, exitW, exitH, 8, true);
@@ -1160,6 +1195,7 @@ function renderTopHeaderUI(ctx, w) {
   ctx.textBaseline = "middle";
   ctx.fillText("EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
 
+  // Pause Button
   const pauseX = 12, pauseY = 47, pauseW = 75, pauseH = 26;
   ctx.fillStyle = "#1e293b";
   drawRoundedRect(ctx, pauseX, pauseY, pauseW, pauseH, 8, true);
@@ -1171,8 +1207,9 @@ function renderTopHeaderUI(ctx, w) {
   ctx.fillRect(pauseX + 31, pauseY + 7, 4, 12);
   ctx.fillRect(pauseX + 40, pauseY + 7, 4, 12);
 
+  // Score Box (Top Right)
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
-  const scoreW = 105, scoreH = 34;
+  const scoreW = 105, scoreH = 30;
   const scoreX = w - scoreW - 12, scoreY = 11;
 
   let scoreBoxBg = "#2563eb";
@@ -1197,12 +1234,29 @@ function renderTopHeaderUI(ctx, w) {
   ctx.stroke();
 
   ctx.fillStyle = "#ffffff";
-  ctx.font = "900 16px monospace";
+  ctx.font = "900 15px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
-
   ctx.restore();
+
+  // Bonus Box (Just Below Score Box)
+  const bonusStr = `BONUS: +${heliGame.bonusScore}`;
+  const bonusW = 105, bonusH = 24;
+  const bonusX = w - bonusW - 12, bonusY = 45;
+
+  ctx.fillStyle = "#059669";
+  drawRoundedRect(ctx, bonusX, bonusY, bonusW, bonusH, 6, true);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "900 11px monospace";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(bonusStr, bonusX + bonusW / 2, bonusY + bonusH / 2 + 1);
+
   ctx.restore();
 }
 
@@ -1230,17 +1284,20 @@ function handleCrash() {
   gameSounds.stopRain();
   gameSounds.playCrash();
 
-  appState.currentRunScore = heliGame.distanceMeters;
-  appState.dailyScore += heliGame.distanceMeters;
+  // Total final score including accumulated bonus score upon crashing
+  const finalRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
 
-  if (heliGame.distanceMeters > heliGame.bestScore) {
-    heliGame.bestScore = heliGame.distanceMeters;
+  appState.currentRunScore = finalRunTotal;
+  appState.dailyScore += finalRunTotal;
+
+  if (finalRunTotal > heliGame.bestScore) {
+    heliGame.bestScore = finalRunTotal;
   }
 
   const runScoreEl = document.getElementById("currentRunScore");
   const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
   
-  if (runScoreEl) runScoreEl.innerText = `${heliGame.distanceMeters}`;
+  if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} (Distance: ${heliGame.distanceMeters} + Bonus: ${heliGame.bonusScore})`;
   if (dailyTotalEl) dailyTotalEl.innerText = `Total Score: ${appState.dailyScore} (Best: ${heliGame.bestScore})`;
 
   updateLeaderboardWithUserScore();
