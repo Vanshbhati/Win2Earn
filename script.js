@@ -55,7 +55,6 @@ const gameSounds = {
     }
   },
 
-  // 1. Loud & Premium Helicopter Blade Continuous Sound Loop
   startChopper() {
     this.init();
     if (!this.audioCtx) return;
@@ -113,7 +112,6 @@ const gameSounds = {
     }
   },
 
-  // 2. Har 100 Score pe Badhiya Milestone Chime Sound
   playMilestone() {
     this.init();
     if (!this.audioCtx) return;
@@ -139,7 +137,6 @@ const gameSounds = {
     }
   },
 
-  // 3. Premium Barish (Rain) Sound Effect
   playRain() {
     this.init();
     if (!this.audioCtx) return;
@@ -188,7 +185,6 @@ const gameSounds = {
     }
   },
 
-  // 4. Realistic Heavy Crash Sound Effect
   playCrash() {
     this.init();
     if (!this.audioCtx) return;
@@ -256,6 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
   renderAlerts();
   initHeliGameListeners();
   setupMonthlyButtons();
+  setupPauseModalHTML();
 });
 
 function setupMonthlyButtons() {
@@ -263,6 +260,32 @@ function setupMonthlyButtons() {
   monthlyCards.forEach(btn => {
     btn.setAttribute('onclick', 'handleGameLaunch()');
   });
+}
+
+function setupPauseModalHTML() {
+  const modalContainer = document.getElementById("gameScreenModal");
+  if (!modalContainer || document.getElementById("gamePauseOverlay")) return;
+
+  const pauseDiv = document.createElement("div");
+  pauseDiv.id = "gamePauseOverlay";
+  pauseDiv.className = "game-overlay hidden";
+  pauseDiv.innerHTML = `
+    <div class="glass-card" style="text-align:center; padding:24px; max-width:280px; width:90%; background:rgba(255,255,255,0.95); border-radius:16px;">
+      <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:8px;">GAME PAUSED</h2>
+      <p style="font-size:0.85rem; color:#6e6e73; margin-bottom:20px;">Take a breather!</p>
+      <button class="glass-btn primary-btn" style="width:100%; padding:12px; font-weight:900;" onclick="resumeGameWithCountdown()">RESUME</button>
+    </div>
+  `;
+  modalContainer.appendChild(pauseDiv);
+
+  // Add Countdown Display Overlay element
+  const countDiv = document.createElement("div");
+  countDiv.id = "gameCountdownOverlay";
+  countDiv.className = "game-overlay hidden";
+  countDiv.innerHTML = `
+    <div style="font-size:5rem; font-weight:900; color:#ffffff; text-shadow:0 4px 20px rgba(0,0,0,0.6);" id="countdownNumber">3</div>
+  `;
+  modalContainer.appendChild(countDiv);
 }
 
 function initSplashScreen() {
@@ -304,6 +327,7 @@ function handleNavClick(e, tabName) {
   document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
 
   const selectedTab = document.getElementById(`tab-${tabName}`);
+  if (selectedTab) selectedTab.classList.add("hidden"); // fixed visibility toggle
   if (selectedTab) selectedTab.classList.remove("hidden");
   appState.activeTab = tabName;
 
@@ -406,6 +430,8 @@ function closeGameScreen() {
   gameSounds.stopRain();
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   heliGame.active = false;
+  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
+  document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
   hideModal("gameScreenModal");
 }
 
@@ -413,8 +439,50 @@ function handleUniversalStart() {
   startHeliGame();
 }
 
+// Pause & Resume Control Functions
+function pauseGame() {
+  if (!heliGame.active) return;
+  heliGame.active = false;
+  if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
+  gameSounds.stopChopper();
+  gameSounds.stopRain();
+  document.getElementById("gamePauseOverlay")?.classList.remove("hidden");
+}
+
+function resumeGameWithCountdown() {
+  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
+  const countOverlay = document.getElementById("gameCountdownOverlay");
+  const countNumber = document.getElementById("countdownNumber");
+  countOverlay?.classList.remove("hidden");
+
+  let count = 3;
+  if (countNumber) countNumber.innerText = count;
+
+  const countInterval = setInterval(() => {
+    count--;
+    if (count > 0) {
+      if (countNumber) countNumber.innerText = count;
+    } else {
+      clearInterval(countInterval);
+      countOverlay?.classList.add("hidden");
+      startHeliGameResumed();
+    }
+  }, 1000);
+}
+
+function startHeliGameResumed() {
+  unlockMobileAudio();
+  gameSounds.startChopper();
+  if (heliGame.isRaining) gameSounds.playRain();
+
+  heliGame.active = true;
+  heliGame.lastTime = performance.now();
+  if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
+  heliGameLoop(performance.now());
+}
+
 // ==========================================================================
-// GAME ENGINE WITH PREMIUM SUNSET, NIGHT HEADLIGHT & BLINK MILESTONES
+// GAME ENGINE WITH LIGHT SUNSET, COLORFUL WALL BUILDINGS & MOVING CLOUDS
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -447,6 +515,7 @@ const heliGame = {
   distanceMeters: 0,
   bestScore: 0,
   bgScroll: 0,
+  cloudScroll: 0,
 
   lastMilestoneScore: 0,
   scoreBlinkTimer: 0,
@@ -473,8 +542,15 @@ function initHeliGameListeners() {
     if (clientX && clientY) {
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
-      if (clickX >= 10 && clickX <= 90 && clickY >= 10 && clickY <= 48) {
+      
+      // Check Exit Button Click (Top Left)
+      if (clickX >= 12 && clickX <= 87 && clickY >= 12 && clickY <= 44) {
         closeGameScreen();
+        return;
+      }
+      // Check Pause Button Click (Below Exit Button: Y 48 to 76)
+      if (clickX >= 12 && clickX <= 87 && clickY >= 48 && clickY <= 78) {
+        pauseGame();
         return;
       }
     }
@@ -502,6 +578,8 @@ function triggerHeliJump() {
 function resetHeliGameUI() {
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
+  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
+  document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
   
   const canvas = heliGame.canvas;
   if (!canvas) return;
@@ -517,6 +595,7 @@ function resetHeliGameUI() {
   heliGame.rawScoreAcc = 0;
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
+  heliGame.cloudScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
   heliGame.lastMilestoneScore = 0;
   heliGame.scoreBlinkTimer = 0;
@@ -533,6 +612,8 @@ function startHeliGame() {
 
   document.getElementById("gameStartOverlay")?.classList.add("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
+  document.getElementById("gamePauseOverlay")?.classList.add("hidden");
+  document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
 
   const canvas = heliGame.canvas;
   const container = canvas.parentElement;
@@ -546,6 +627,7 @@ function startHeliGame() {
   heliGame.rawScoreAcc = 0;
   heliGame.distanceMeters = 0;
   heliGame.bgScroll = 0;
+  heliGame.cloudScroll = 0;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed;
   heliGame.lastMilestoneScore = 0;
   heliGame.scoreBlinkTimer = 0;
@@ -584,7 +666,7 @@ function updatePhysics(dt) {
 
   if (heliGame.distanceMeters > 0 && heliGame.distanceMeters % 100 === 0 && heliGame.distanceMeters !== heliGame.lastMilestoneScore) {
     heliGame.lastMilestoneScore = heliGame.distanceMeters;
-    heliGame.scoreBlinkTimer = 0.6; // Premium blink & pulse duration
+    heliGame.scoreBlinkTimer = 0.6;
     gameSounds.playMilestone();
   }
 
@@ -616,6 +698,7 @@ function updatePhysics(dt) {
   heliGame.rotorFrame += dt * 35;
   heliGame.groundOffset = (heliGame.groundOffset + (heliGame.currentPipeSpeed * dt)) % 30;
   heliGame.bgScroll += (heliGame.currentPipeSpeed * dt);
+  heliGame.cloudScroll += (heliGame.currentPipeSpeed * dt * 0.4);
 
   if (heliGame.y <= 0) {
     heliGame.y = 0;
@@ -706,28 +789,22 @@ function renderCanvas() {
   const canvas = heliGame.canvas;
   const score = heliGame.distanceMeters;
 
-  // Premium Environment & Sky Cycle Styling
-  let skyTop, skyMid, skyBottom, buildingTint, showSun = false;
+  let skyTop, skyMid, skyBottom, showSun = false;
 
   if (score >= 1000) {
-    // Night: Deep cinematic dark sky with midnight blue
     skyTop = "#030712";
     skyMid = "#0f172a";
     skyBottom = "#1e1b4b";
-    buildingTint = heliGame.isRaining ? "#020408" : "#0d1117";
   } else if (score >= 500) {
-    // Premium Sunset: Rich cinematic gradient (deep magenta -> warm orange -> golden hour)
-    skyTop = "#4a044e";
-    skyMid = "#c2410c";
-    skyBottom = "#f59e0b";
-    buildingTint = heliGame.isRaining ? "#1c0c16" : "#291208";
+    // Brighter, Vibrant Light Sunset Theme (Soft Pink/Warm Peach/Golden Sunset)
+    skyTop = "#fed7aa";
+    skyMid = "#f472b6";
+    skyBottom = "#fb923c";
     showSun = true;
   } else {
-    // Morning: Vibrant sky
-    skyTop = heliGame.isRaining ? "#2c3e50" : "#0ea5e9";
-    skyMid = heliGame.isRaining ? "#34495e" : "#38bdf8";
-    skyBottom = heliGame.isRaining ? "#475569" : "#bae6fd";
-    buildingTint = heliGame.isRaining ? "#1a252f" : "rgba(255, 178, 115, 0.70)";
+    skyTop = heliGame.isRaining ? "#2c3e50" : "#38bdf8";
+    skyMid = heliGame.isRaining ? "#34495e" : "#7dd3fc";
+    skyBottom = heliGame.isRaining ? "#475569" : "#e0f2fe";
   }
 
   const skyGrad = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -737,23 +814,28 @@ function renderCanvas() {
   ctx.fillStyle = skyGrad;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Draw Glowing Sunset Sun Disc if in Sunset Mode
+  // Draw Sun for Sunset
   if (showSun) {
     ctx.save();
     const sunX = canvas.width * 0.75;
-    const sunY = canvas.height * 0.4;
-    const sunGrad = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 70);
-    sunGrad.addColorStop(0, "rgba(254, 240, 138, 0.95)");
-    sunGrad.addColorStop(0.5, "rgba(251, 191, 36, 0.6)");
-    sunGrad.addColorStop(1, "rgba(245, 158, 11, 0)");
+    const sunY = canvas.height * 0.35;
+    const sunGrad = ctx.createRadialGradient(sunX, sunY, 10, sunX, sunY, 80);
+    sunGrad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+    sunGrad.addColorStop(0.5, "rgba(254, 240, 138, 0.7)");
+    sunGrad.addColorStop(1, "rgba(251, 146, 60, 0)");
     ctx.fillStyle = sunGrad;
     ctx.beginPath();
-    ctx.arc(sunX, sunY, 70, 0, Math.PI * 2);
+    ctx.arc(sunX, sunY, 80, 0, Math.PI * 2);
     ctx.fill();
     ctx.restore();
   }
 
-  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, buildingTint, score >= 500);
+  // Draw Moving Clouds for Starting Normal Environment (< 500 score)
+  if (score < 500) {
+    drawMovingClouds(ctx, canvas.width, canvas.height, heliGame.cloudScroll);
+  }
+
+  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, score >= 500, score >= 1000);
 
   const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
@@ -765,7 +847,6 @@ function renderCanvas() {
 
   drawCartoonThemeGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  // Draw Helicopter with Night Headlight if score >= 1000
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, score >= 1000);
 
   if (heliGame.isRaining && heliGame.raindrops.length > 0) {
@@ -782,14 +863,43 @@ function renderCanvas() {
   renderTopHeaderUI(ctx, canvas.width);
 }
 
-function drawBackgroundCity(ctx, w, h, bgScroll, tintColor, isSunsetOrNight) {
+function drawMovingClouds(ctx, w, h, cloudScroll) {
+  ctx.save();
+  ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+  const loopW = 400;
+  const offsetX = (cloudScroll * 0.3) % loopW;
+
+  const clouds = [
+    { x: 50, y: 60, w: 70, h: 24 },
+    { x: 220, y: 110, w: 90, h: 30 },
+    { x: 340, y: 50, w: 60, h: 20 }
+  ];
+
+  for (let i = -1; i < Math.ceil(w / loopW) + 1; i++) {
+    const baseX = i * loopW - offsetX;
+    clouds.forEach(c => {
+      const cx = baseX + c.x;
+      const cy = c.y;
+      ctx.beginPath();
+      ctx.arc(cx, cy, c.h, 0, Math.PI * 2);
+      ctx.arc(cx + c.w * 0.4, cy - c.h * 0.3, c.h * 0.8, 0, Math.PI * 2);
+      ctx.arc(cx + c.w, cy, c.h * 0.9, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+  ctx.restore();
+}
+
+function drawBackgroundCity(ctx, w, h, bgScroll, isSunset, isNight) {
   const baseLineY = h - heliGame.groundHeight + 10;
+  
+  // Attractive Multi-Colored Walls for Buildings in Normal/Sunset Environment
   const buildings = [
-    { x: 0, w: 48, h: 95, color: tintColor },
-    { x: 52, w: 40, h: 125, color: tintColor },
-    { x: 96, w: 54, h: 80, color: tintColor },
-    { x: 154, w: 44, h: 140, color: tintColor },
-    { x: 202, w: 50, h: 105, color: tintColor }
+    { x: 0, w: 48, h: 95, wallColor: isNight ? "#0d1117" : (isSunset ? "#c2410c" : "#3b82f6") },
+    { x: 52, w: 40, h: 125, wallColor: isNight ? "#0d1117" : (isSunset ? "#db2777" : "#8b5cf6") },
+    { x: 96, w: 54, h: 80, wallColor: isNight ? "#0d1117" : (isSunset ? "#ea580c" : "#10b981") },
+    { x: 154, w: 44, h: 140, wallColor: isNight ? "#0d1117" : (isSunset ? "#9333ea" : "#f59e0b") },
+    { x: 202, w: 50, h: 105, wallColor: isNight ? "#0d1117" : (isSunset ? "#be185d" : "#06b6d4") }
   ];
 
   const loopW = 260;
@@ -802,10 +912,11 @@ function drawBackgroundCity(ctx, w, h, bgScroll, tintColor, isSunsetOrNight) {
       const bx = baseX + b.x;
       const by = baseLineY - b.h;
 
-      ctx.fillStyle = b.color;
+      ctx.fillStyle = b.wallColor;
       ctx.fillRect(bx, by, b.w, b.h + 20);
 
-      ctx.fillStyle = isSunsetOrNight ? "#fde047" : "rgba(255, 255, 255, 0.75)";
+      // Building Window Grid
+      ctx.fillStyle = isNight ? "#fde047" : "rgba(255, 255, 255, 0.85)";
       for (let wY = 12; wY < b.h - 8; wY += 18) {
         ctx.fillRect(bx + 6, by + wY, 6, 8);
         if (b.w > 36) ctx.fillRect(bx + b.w - 12, by + wY, 6, 8);
@@ -878,7 +989,6 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
   ctx.save();
   ctx.translate(x + 22, y + 14);
 
-  // Draw Night Headlight Beam First (Behind Chopper) if Night Mode Active
   if (isNight) {
     ctx.save();
     ctx.rotate((angleDeg * Math.PI) / 180);
@@ -943,7 +1053,6 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
   ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
   ctx.fillRect(7, -4, 3, 3);
 
-  // Night Headlight Bulb on Chopper Nose
   if (isNight) {
     ctx.fillStyle = "#fef08a";
     ctx.beginPath();
@@ -982,7 +1091,8 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
-  const exitX = 12, exitY = 12, exitW = 75, exitH = 32;
+  // Exit Button (Top Left)
+  const exitX = 12, exitY = 12, exitW = 75, exitH = 30;
   ctx.fillStyle = "#ffffff";
   drawRoundedRect(ctx, exitX, exitY, exitW, exitH, 8, true);
   ctx.strokeStyle = "#000000";
@@ -990,22 +1100,35 @@ function renderTopHeaderUI(ctx, w) {
   ctx.stroke();
 
   ctx.fillStyle = "#000000";
-  ctx.font = "900 12px sans-serif";
+  ctx.font = "900 11px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.fillText("EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
 
+  // Pause Symbol Button (Just Below Exit Button)
+  const pauseX = 12, pauseY = 47, pauseW = 75, pauseH = 26;
+  ctx.fillStyle = "#1e293b";
+  drawRoundedRect(ctx, pauseX, pauseY, pauseW, pauseH, 8, true);
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+
+  // Draw Pause Icon bars inside
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(pauseX + 31, pauseY + 7, 4, 12);
+  ctx.fillRect(pauseX + 40, pauseY + 7, 4, 12);
+
+  // Score Display (Top Right)
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
   const scoreW = 105, scoreH = 34;
   const scoreX = w - scoreW - 12, scoreY = 11;
 
-  // Premium Pulsing & Glowing Gold Milestone Score Blink Effect
   let scoreBoxBg = "#2563eb";
   let glowColor = "transparent";
   let scaleOffset = 1;
 
   if (heliGame.scoreBlinkTimer > 0) {
-    scoreBoxBg = "#d97706"; // Rich Premium Amber/Gold
+    scoreBoxBg = "#d97706";
     glowColor = "rgba(251, 191, 36, 0.8)";
     scaleOffset = 1.04 + Math.sin(heliGame.scoreBlinkTimer * 30) * 0.04;
   }
@@ -1146,3 +1269,4 @@ function renderProfileWallet() {
     `;
   }
 }
+
