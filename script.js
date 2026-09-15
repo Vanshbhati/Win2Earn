@@ -759,7 +759,7 @@ function updatePhysics(dt) {
     }
   }
 
-  // --- Speed Logic: Base speed 170, ab har 1000 distance par speed sirf 15 badhegi ---
+  // --- Speed Logic: Base speed 170, har 1000 distance par speed sirf 15 badhegi ---
   const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 15;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + speedIncrement;
 
@@ -955,7 +955,7 @@ function renderCanvas() {
   }
 
   if (!(cycleScore >= 500 && cycleScore < 1000) && !(cycleScore >= 1000 && cycleScore < 1500)) {
-    drawMovingClouds(ctx, canvas.width, canvas.height, heliGame.cloudScroll);
+    drawMovingClouds(ctx, canvas.width, canvas.height, heliGame.cloudScroll, heliGame.isRaining);
   }
 
   drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, (cycleScore >= 500 && cycleScore < 1000), (cycleScore >= 1000 && cycleScore < 1500));
@@ -1000,9 +1000,10 @@ function renderCanvas() {
   renderTopHeaderUI(ctx, canvas.width);
 }
 
-function drawMovingClouds(ctx, w, h, cloudScroll) {
+function drawMovingClouds(ctx, w, h, cloudScroll, isRaining) {
   ctx.save();
-  ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+  // Barish ke waqt clouds dark stormy gray honge taaki natural lagein
+  ctx.fillStyle = isRaining ? "rgba(71, 85, 105, 0.85)" : "rgba(255, 255, 255, 0.65)";
   const loopW = 400;
   const offsetX = (cloudScroll * 0.3) % loopW;
 
