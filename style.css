@@ -523,12 +523,12 @@ body.no-scroll {
 }
 
 /* ==========================================================================
-   ULTRA-ATTRACTIVE REDESIGNED GAME LAUNCH CARD (MATCHED SKY & SUNNY THEME)
+   ULTRA-ATTRACTIVE REDESIGNED LIGHT-THEME GAME LAUNCH CARD
    ========================================================================== */
 .game-launch-card {
   width: 100%;
   max-width: 360px;
-  padding: 32px 24px;
+  padding: 28px 22px;
   text-align: center;
   background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
   border: 2px solid rgba(0, 113, 227, 0.35);
@@ -559,9 +559,9 @@ body.no-scroll {
 }
 
 .launch-icon-glow {
-  width: 76px;
-  height: 76px;
-  margin: 0 auto 16px auto;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 12px auto;
   background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(186,230,253,0.85) 100%);
   border: 2px solid rgba(0, 113, 227, 0.35);
   border-radius: 50%;
@@ -569,7 +569,7 @@ body.no-scroll {
   justify-content: center;
   align-items: center;
   box-shadow: 0 8px 25px rgba(0, 113, 227, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.95);
-  font-size: 2.2rem;
+  font-size: 2rem;
   animation: floatCopter 3s ease-in-out infinite;
 }
 
@@ -580,13 +580,13 @@ body.no-scroll {
 
 .game-neon-title {
   font-family: 'Orbitron', -apple-system, sans-serif;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 900;
   background: linear-gradient(135deg, #0071e3 0%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 0.03em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   text-shadow: 0 2px 10px rgba(0, 113, 227, 0.15);
 }
 
@@ -597,40 +597,85 @@ body.no-scroll {
   background: rgba(52, 199, 89, 0.15);
   border: 1px solid rgba(52, 199, 89, 0.4);
   color: #15803d;
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   font-weight: 800;
-  padding: 6px 16px;
+  padding: 5px 14px;
   border-radius: 20px;
-  margin-bottom: 18px;
+  margin-bottom: 12px;
   letter-spacing: 0.02em;
   box-shadow: 0 4px 15px rgba(52, 199, 89, 0.15);
 }
 
 .game-instructions {
-  font-size: 0.86rem;
+  font-size: 0.82rem;
   color: #475569;
-  line-height: 1.6;
-  margin-bottom: 26px;
+  line-height: 1.5;
+  margin-bottom: 14px;
   padding: 0 4px;
   font-weight: 500;
+}
+
+/* Pro Tips Styling in English */
+.launch-tips-box {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(0, 113, 227, 0.15);
+  border-radius: 14px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  text-align: left;
+  backdrop-filter: blur(10px);
+}
+
+.tips-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #0071e3;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tips-list li {
+  font-size: 0.74rem;
+  color: #334155;
+  font-weight: 600;
+  position: relative;
+  padding-left: 12px;
+  line-height: 1.35;
+}
+
+.tips-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #0071e3;
+  font-weight: 900;
 }
 
 .launch-cta-btn {
   position: relative;
   width: 100%;
-  padding: 16px;
+  padding: 15px;
   border-radius: 16px;
   border: none;
   background: linear-gradient(135deg, #34c759 0%, #28a745 100%);
   color: #ffffff;
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-weight: 900;
-  font-size: 1.05rem;
+  font-size: 1rem;
   letter-spacing: 0.03em;
   cursor: pointer;
   box-shadow: 0 10px 30px rgba(52, 199, 89, 0.35),
               inset 0 2px 0 rgba(255, 255, 255, 0.4);
-  overflow: hidden;
   transition: all 0.2s ease;
 }
 
@@ -645,7 +690,7 @@ body.no-scroll {
 }
 
 /* ==========================================================================
-   ULTRA-ATTRACTIVE REDESIGNED CRASH CARD (MATCHED SKY & SUNNY THEME)
+   ULTRA-ATTRACTIVE REDESIGNED CRASH CARD (MATCHED LIGHT THEME)
    ========================================================================== */
 .crash-card {
   width: 100%;
