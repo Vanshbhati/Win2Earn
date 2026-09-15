@@ -294,21 +294,22 @@ function setupPauseModalHTML() {
     const pauseDiv = document.createElement("div");
     pauseDiv.id = "gamePauseOverlay";
     pauseDiv.className = "game-overlay hidden";
-    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); display:flex; align-items:center; justify-content:center; z-index:50; cursor:pointer;";
+    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); display:flex; align-items:center; justify-content:center; z-index:50;";
     pauseDiv.innerHTML = `
-      <div class="glass-card" style="text-align:center; padding:32px 24px; max-width:320px; width:90%; background:rgba(255, 255, 255, 0.95); border: 2px solid rgba(255,255,255,0.8); border-radius:24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: scale(1); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+      <div class="glass-card" style="text-align:center; padding:32px 24px; max-width:320px; width:90%; background:rgba(255, 255, 255, 0.95); border: 2px solid rgba(255,255,255,0.8); border-radius:24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
         <div style="font-size: 3rem; margin-bottom: 8px;">⏸️</div>
         <h2 style="font-size:1.6rem; font-weight:900; color:#0f172a; margin-bottom:6px; letter-spacing:0.5px;">GAME PAUSED</h2>
         <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; font-weight:500;">Take a breather! Tap below to resume your session.</p>
-        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #2563eb, #1d4ed8); color:#fff; border:none; border-radius:12px; font-size:1rem; box-shadow:0 8px 16px rgba(37,99,235,0.3);">RESUME GAME</button>
+        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #2563eb, #1d4ed8); color:#fff; border:none; border-radius:12px; font-size:1rem; box-shadow:0 8px 16px rgba(37,99,235,0.3); cursor:pointer;">RESUME GAME</button>
       </div>
     `;
     
-    pauseDiv.addEventListener("click", (e) => {
+    modalContainer.appendChild(pauseDiv);
+    
+    document.getElementById("resumeBtnInternal").addEventListener("click", (e) => {
       e.stopPropagation();
       resumeGameWithCountdown();
     });
-    modalContainer.appendChild(pauseDiv);
   }
 
   if (!document.getElementById("gameCountdownOverlay")) {
@@ -317,9 +318,40 @@ function setupPauseModalHTML() {
     countDiv.className = "game-overlay hidden";
     countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display:flex; align-items:center; justify-content:center; z-index:50;";
     countDiv.innerHTML = `
-      <div style="font-size:6rem; font-weight:900; color:#facc15; text-shadow:0 4px 30px rgba(250,204,21,0.5); animation: pulseCount 0.9s infinite;" id="countdownNumber">3</div>
+      <div style="font-size:6rem; font-weight:900; color:#facc15; text-shadow:0 4px 30px rgba(250,204,21,0.5);" id="countdownNumber">3</div>
     `;
     modalContainer.appendChild(countDiv);
+  }
+
+  // Enhanced Confirmation Popup for Exit/Quit if not present
+  if (!document.getElementById("confirmExitOverlay")) {
+    const confirmDiv = document.createElement("div");
+    confirmDiv.id = "confirmExitOverlay";
+    confirmDiv.className = "game-overlay hidden";
+    confirmDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.8); backdrop-filter: blur(8px); display:flex; align-items:center; justify-content:center; z-index:60;";
+    confirmDiv.innerHTML = `
+      <div class="glass-card" style="text-align:center; padding:32px 24px; max-width:320px; width:90%; background:rgba(255, 255, 255, 0.95); border: 2px solid rgba(255,255,255,0.8); border-radius:24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+        <div style="font-size: 3rem; margin-bottom: 8px;">⚠️</div>
+        <h2 style="font-size:1.5rem; font-weight:900; color:#0f172a; margin-bottom:6px;">QUIT GAME?</h2>
+        <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; font-weight:500;">Your current game progress will be lost!</p>
+        <div style="display:flex; gap:12px;">
+          <button id="cancelExitBtn" class="glass-btn" style="flex:1; padding:12px; font-weight:800; background:#e2e8f0; color:#1e293b; border:none; border-radius:12px; cursor:pointer;">STAY</button>
+          <button id="confirmExitBtn" class="glass-btn" style="flex:1; padding:12px; font-weight:800; background:#ef4444; color:#fff; border:none; border-radius:12px; cursor:pointer;">QUIT</button>
+        </div>
+      </div>
+    `;
+    modalContainer.appendChild(confirmDiv);
+
+    document.getElementById("cancelExitBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.getElementById("confirmExitOverlay").classList.add("hidden");
+    });
+
+    document.getElementById("confirmExitBtn").addEventListener("click", (e) => {
+      e.stopPropagation();
+      document.getElementById("confirmExitOverlay").classList.add("hidden");
+      closeGameScreen();
+    });
   }
 }
 
@@ -467,6 +499,7 @@ function closeGameScreen() {
   heliGame.active = false;
   document.getElementById("gamePauseOverlay")?.classList.add("hidden");
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
+  document.getElementById("confirmExitOverlay")?.classList.add("hidden");
   hideModal("gameScreenModal");
 }
 
@@ -484,7 +517,16 @@ function pauseGame() {
   const pauseOverlay = document.getElementById("gamePauseOverlay");
   if (pauseOverlay) {
     pauseOverlay.classList.remove("hidden");
-    pauseOverlay.style.display = "flex";
+  }
+}
+
+function promptExitGame() {
+  if (heliGame.active) {
+    pauseGame();
+  }
+  const confirmOverlay = document.getElementById("confirmExitOverlay");
+  if (confirmOverlay) {
+    confirmOverlay.classList.remove("hidden");
   }
 }
 
@@ -492,14 +534,12 @@ function resumeGameWithCountdown() {
   const pauseOverlay = document.getElementById("gamePauseOverlay");
   if (pauseOverlay) {
     pauseOverlay.classList.add("hidden");
-    pauseOverlay.style.display = "none";
   }
 
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const countNumber = document.getElementById("countdownNumber");
   if (countOverlay) {
     countOverlay.classList.remove("hidden");
-    countOverlay.style.display = "flex";
   }
 
   let count = 3;
@@ -513,7 +553,6 @@ function resumeGameWithCountdown() {
       clearInterval(countInterval);
       if (countOverlay) {
         countOverlay.classList.add("hidden");
-        countOverlay.style.display = "none";
       }
       startHeliGameResumed();
     }
@@ -598,7 +637,7 @@ function initHeliGameListeners() {
       
       // Exit button check
       if (clickX >= 12 && clickX <= 92 && clickY >= 12 && clickY <= 44) {
-        closeGameScreen();
+        promptExitGame();
         return;
       }
       // Pause button check
@@ -631,9 +670,10 @@ function triggerHeliJump() {
 function resetHeliGameUI() {
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
   const pauseOverlay = document.getElementById("gamePauseOverlay");
-  if (pauseOverlay) { pauseOverlay.classList.add("hidden"); pauseOverlay.style.display = "none"; }
+  if (pauseOverlay) { pauseOverlay.classList.add("hidden"); }
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
+  document.getElementById("confirmExitOverlay")?.classList.add("hidden");
   
   const canvas = heliGame.canvas;
   if (!canvas) return;
@@ -680,8 +720,9 @@ function startHeliGame() {
   document.getElementById("gameStartOverlay")?.classList.add("hidden");
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
   const pauseOverlay = document.getElementById("gamePauseOverlay");
-  if (pauseOverlay) { pauseOverlay.classList.add("hidden"); pauseOverlay.style.display = "none"; }
+  if (pauseOverlay) { pauseOverlay.classList.add("hidden"); }
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
+  document.getElementById("confirmExitOverlay")?.classList.add("hidden");
 
   const canvas = heliGame.canvas;
   const container = canvas.parentElement;
@@ -759,7 +800,6 @@ function updatePhysics(dt) {
     }
   }
 
-  // --- Speed Logic: Base speed 170, har 1000 distance par speed sirf 15 badhegi ---
   const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 15;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + speedIncrement;
 
@@ -893,25 +933,21 @@ function renderCanvas() {
   const canvas = heliGame.canvas;
   const score = heliGame.distanceMeters;
 
-  // --- Environment Sequence & Timing (1500-unit loop repeated) ---
   const cycleScore = score % 1500;
   
   let skyTop, skyMid, skyBottom, showSun = false, showStars = false;
 
   if (cycleScore >= 1000 && cycleScore < 1500) {
-    // Night: 1000 – 1500
     skyTop = "#1e1b4b";
     skyMid = "#312e81";
     skyBottom = "#4338ca";
     showStars = true;
   } else if (cycleScore >= 500 && cycleScore < 1000) {
-    // Sunset: 500 – 1000
     skyTop = "#fed7aa";
     skyMid = "#f472b6";
     skyBottom = "#fb923c";
     showSun = true;
   } else {
-    // Normal Day: 0 – 500 (and 1500-2000 loop continuation)
     skyTop = heliGame.isRaining ? "#2c3e50" : "#38bdf8";
     skyMid = heliGame.isRaining ? "#34495e" : "#7dd3fc";
     skyBottom = heliGame.isRaining ? "#475569" : "#e0f2fe";
@@ -1002,7 +1038,6 @@ function renderCanvas() {
 
 function drawMovingClouds(ctx, w, h, cloudScroll, isRaining) {
   ctx.save();
-  // Barish ke waqt clouds dark stormy gray honge taaki natural lagein
   ctx.fillStyle = isRaining ? "rgba(71, 85, 105, 0.85)" : "rgba(255, 255, 255, 0.65)";
   const loopW = 400;
   const offsetX = (cloudScroll * 0.3) % loopW;
