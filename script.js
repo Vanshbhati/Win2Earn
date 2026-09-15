@@ -296,11 +296,11 @@ function setupPauseModalHTML() {
     pauseDiv.className = "game-overlay hidden";
     pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.75); backdrop-filter: blur(8px); display:flex; align-items:center; justify-content:center; z-index:50; cursor:pointer;";
     pauseDiv.innerHTML = `
-      <div class="glass-card" style="text-align:center; padding:32px 24px; max-width:320px; width:90%; background:rgba(255, 255, 255, 0.95); border: 2px solid rgba(255,255,255,0.8); border-radius:24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4);">
+      <div class="glass-card" style="text-align:center; padding:32px 24px; max-width:320px; width:90%; background:rgba(255, 255, 255, 0.95); border: 2px solid rgba(255,255,255,0.8); border-radius:24px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); transform: scale(1); animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
         <div style="font-size: 3rem; margin-bottom: 8px;">⏸️</div>
-        <h2 style="font-size:1.6rem; font-weight:900; color:#0f172a; margin-bottom:6px;">GAME PAUSED</h2>
+        <h2 style="font-size:1.6rem; font-weight:900; color:#0f172a; margin-bottom:6px; letter-spacing:0.5px;">GAME PAUSED</h2>
         <p style="font-size:0.9rem; color:#64748b; margin-bottom:24px; font-weight:500;">Take a breather! Tap below to resume your session.</p>
-        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #2563eb, #1d4ed8); color:#fff; border:none; border-radius:12px; font-size:1rem;">RESUME GAME</button>
+        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #2563eb, #1d4ed8); color:#fff; border:none; border-radius:12px; font-size:1rem; box-shadow:0 8px 16px rgba(37,99,235,0.3);">RESUME GAME</button>
       </div>
     `;
     
@@ -317,7 +317,7 @@ function setupPauseModalHTML() {
     countDiv.className = "game-overlay hidden";
     countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); display:flex; align-items:center; justify-content:center; z-index:50;";
     countDiv.innerHTML = `
-      <div style="font-size:6rem; font-weight:900; color:#facc15; text-shadow:0 4px 30px rgba(250,204,21,0.5);" id="countdownNumber">3</div>
+      <div style="font-size:6rem; font-weight:900; color:#facc15; text-shadow:0 4px 30px rgba(250,204,21,0.5); animation: pulseCount 0.9s infinite;" id="countdownNumber">3</div>
     `;
     modalContainer.appendChild(countDiv);
   }
@@ -354,6 +354,20 @@ function initTicker() {
   tickerAnimationId = requestAnimationFrame(step);
 }
 
+function handleNavClick(e, tabName) {
+  unlockMobileAudio();
+  if (e) e.preventDefault();
+
+  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.add("hidden"));
+  document.querySelectorAll(".nav-item").forEach(item => item.classList.remove("active"));
+
+  const selectedTab = document.getElementById(`tab-${tabName}`);
+  if (selectedTab) selectedTab.classList.remove("hidden");
+  appState.activeTab = tabName;
+
+  if (tabName === 'wallet') renderProfileWallet();
+}
+
 function showModal(modalId) { 
   unlockMobileAudio();
   document.getElementById(modalId)?.classList.remove("hidden"); 
@@ -362,6 +376,87 @@ function showModal(modalId) {
 function hideModal(modalId) { 
   unlockMobileAudio();
   document.getElementById(modalId)?.classList.add("hidden"); 
+}
+
+function openInfoModal() { showModal("infoModal"); }
+function closeInfoModal() { hideModal("infoModal"); }
+function openPayoutInfoModal() { showModal("payoutInfoModal"); }
+function closePayoutInfoModal() { hideModal("payoutInfoModal"); }
+function openTelegramModal() { showModal("telegramModal"); }
+function closeTelegramModal() { hideModal("telegramModal"); }
+
+function openAuthModal(tab) {
+  switchTab(tab);
+  showModal("authModal");
+}
+function closeAuthModal() { hideModal("authModal"); }
+
+function openPopup(msg) {
+  const msgElement = document.getElementById("popupMessage");
+  if (msgElement) msgElement.innerText = msg;
+  showModal("errorPopup");
+}
+function closePopup() { hideModal("errorPopup"); }
+
+function switchTab(type) {
+  unlockMobileAudio();
+  const loginForm = document.getElementById("loginForm");
+  const signupForm = document.getElementById("signupForm");
+  if (type === 'login') {
+    loginForm?.classList.remove("hidden");
+    signupForm?.classList.add("hidden");
+  } else {
+    loginForm?.classList.add("hidden");
+    signupForm?.classList.remove("hidden");
+  }
+}
+
+function sendOtp() {
+  unlockMobileAudio();
+  const mobile = document.getElementById("signupMobile")?.value;
+  if (!mobile || mobile.length < 10) {
+    openPopup("Please enter a valid 10-digit mobile number.");
+    return;
+  }
+  const generated = Math.floor(1000 + Math.random() * 9000);
+  appState.generatedOtp = generated.toString();
+  const otpMsgElement = document.getElementById("otpPopupMessage");
+  if (otpMsgElement) otpMsgElement.innerText = `OTP: ${generated}`;
+  showModal("otpDisplayModal");
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  unlockMobileAudio();
+  const email = document.getElementById("loginEmail")?.value || "user@example.com";
+  appState.currentUser = { name: email.split("@")[0].toUpperCase(), email, upi: null };
+  closeAuthModal();
+  onUserLoggedIn();
+}
+
+function handleSignup(e) {
+  e.preventDefault();
+  unlockMobileAudio();
+  const name = document.getElementById("signupName")?.value || "Player";
+  const email = document.getElementById("signupEmail")?.value || "";
+  appState.currentUser = { name, email, upi: null };
+  closeAuthModal();
+  onUserLoggedIn();
+}
+
+function onUserLoggedIn() {
+  document.getElementById("megaBannerCard")?.classList.add("hidden");
+}
+
+function handleGameLaunch() {
+  unlockMobileAudio();
+  if (!appState.currentUser) {
+    openAuthModal('login');
+    return;
+  }
+  showModal("gameScreenModal");
+  setupPauseModalHTML();
+  resetHeliGameUI();
 }
 
 function closeGameScreen() {
@@ -373,6 +468,10 @@ function closeGameScreen() {
   document.getElementById("gamePauseOverlay")?.classList.add("hidden");
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
   hideModal("gameScreenModal");
+}
+
+function handleUniversalStart() {
+  startHeliGame();
 }
 
 function pauseGame() {
@@ -433,7 +532,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE (CUSTOM ENVIRONMENT, BASE SPEED 170, SPEED +40 EVERY 1000, RAIN @ 750 FOR 15s)
+// GAME ENGINE WITH BALANCED PIPES, STRICT NEAR-MISS BONUS (+50) & SPEED
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -455,8 +554,8 @@ const heliGame = {
   
   pipes: [],
   pipeWidth: 50,
-  basePipeSpeed: 170, // Base speed set to 170
-  currentPipeSpeed: 170,
+  basePipeSpeed: 160,
+  currentPipeSpeed: 160,
   pipeSpacing: 230,
   groundHeight: 60,
   groundOffset: 0,
@@ -497,10 +596,12 @@ function initHeliGameListeners() {
       const clickX = clientX - rect.left;
       const clickY = clientY - rect.top;
       
+      // Exit button check
       if (clickX >= 12 && clickX <= 92 && clickY >= 12 && clickY <= 44) {
         closeGameScreen();
         return;
       }
+      // Pause button check
       if (clickX >= 12 && clickX <= 92 && clickY >= 48 && clickY <= 80) {
         pauseGame();
         return;
@@ -643,12 +744,11 @@ function updatePhysics(dt) {
     heliGame.scoreBlinkTimer -= dt;
   }
 
-  // --- Rain Logic: Every 750 score, trigger rain for 15 seconds ---
   const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
   if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
     heliGame.lastRainMilestone = currentRainMilestone;
     heliGame.isRaining = true;
-    heliGame.rainTimer = 15.0; // Exactly 15 seconds
+    heliGame.rainTimer = 15.0;
     gameSounds.playRain();
   }
 
@@ -659,8 +759,8 @@ function updatePhysics(dt) {
     }
   }
 
-  // --- Speed Logic: Increases by 40 every 1000 score ---
-  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 40;
+  // --- FIXED: Gradual speed increase every 1000 score instead of doubling ---
+  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 20;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + speedIncrement;
 
   heliGame.velocity += heliGame.gravity * dt;
@@ -709,17 +809,19 @@ function updatePhysics(dt) {
       return;
     }
 
+    // Strict Near-Miss Bonus (+50 points) only when chopper passes extremely close to pipe edges
     if (!p.bonusAwarded && heliGame.x > p.x + heliGame.pipeWidth) {
       p.bonusAwarded = true;
       
       const distToTopEdge = Math.abs(heliGame.y - p.topHeight);
       const distToBottomEdge = Math.abs((heliGame.y + heliGame.height) - p.bottomY);
-      const strictThreshold = 18;
+      const strictThreshold = 18; // Super tight margin
 
       if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
         heliGame.bonusScore += 50;
         gameSounds.playBonus();
 
+        // Spawn floating attractive +50 text near the pipe
         heliGame.floatingTexts.push({
           text: "+50",
           x: p.x + heliGame.pipeWidth / 2,
@@ -731,6 +833,7 @@ function updatePhysics(dt) {
     }
   }
 
+  // Update floating text animations
   for (let f = heliGame.floatingTexts.length - 1; f >= 0; f--) {
     let ft = heliGame.floatingTexts[f];
     ft.y += ft.vy * dt;
@@ -795,22 +898,17 @@ function renderCanvas() {
 
   let skyTop, skyMid, skyBottom, showSun = false, showStars = false;
 
-  // --- Environment Schedule Calculation (Mod 1500 sequence) ---
-  const modScore = score % 1500;
-  if (modScore >= 1000) {
-    // 1000 to 1500 -> Night
+  if (score >= 1000) {
     skyTop = "#1e1b4b";
     skyMid = "#312e81";
     skyBottom = "#4338ca";
     showStars = true;
-  } else if (modScore >= 500) {
-    // 500 to 1000 -> Sunset
+  } else if (score >= 500) {
     skyTop = "#fed7aa";
     skyMid = "#f472b6";
     skyBottom = "#fb923c";
     showSun = true;
   } else {
-    // 0 to 500 -> Normal Day
     skyTop = heliGame.isRaining ? "#2c3e50" : "#38bdf8";
     skyMid = heliGame.isRaining ? "#34495e" : "#7dd3fc";
     skyBottom = heliGame.isRaining ? "#475569" : "#e0f2fe";
@@ -853,11 +951,11 @@ function renderCanvas() {
     ctx.restore();
   }
 
-  if (modScore < 500) {
+  if (score < 500) {
     drawMovingClouds(ctx, canvas.width, canvas.height, heliGame.cloudScroll);
   }
 
-  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, modScore >= 500 && modScore < 1000, modScore >= 1000);
+  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, score >= 500, score >= 1000);
 
   const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
@@ -883,7 +981,7 @@ function renderCanvas() {
 
   drawCartoonThemeGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, modScore >= 1000);
+  drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, score >= 1000);
 
   if (heliGame.isRaining && heliGame.raindrops.length > 0) {
     ctx.strokeStyle = "rgba(174, 219, 238, 0.6)";
@@ -1140,7 +1238,10 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 12px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = 4;
   ctx.fillText("✕ EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
+  ctx.shadowBlur = 0;
 
   const pauseX = 12, pauseY = 48, pauseW = 80, exitH_pause = 32;
   const pauseGrad = ctx.createLinearGradient(pauseX, pauseY, pauseX, pauseY + exitH_pause);
@@ -1157,7 +1258,10 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 11px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.5)";
+  ctx.shadowBlur = 4;
   ctx.fillText("⏸ PAUSE", pauseX + pauseW / 2, pauseY + exitH_pause / 2 + 1);
+  ctx.shadowBlur = 0;
 
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
   const scoreW = 115, scoreH = 32;
@@ -1194,6 +1298,8 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 15px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.6)";
+  ctx.shadowBlur = 6;
   ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
   ctx.restore();
 
@@ -1215,6 +1321,8 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 11px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.6)";
+  ctx.shadowBlur = 6;
   ctx.fillText(bonusStr, bonusX + bonusW / 2, bonusY + bonusH / 2 + 1);
 
   ctx.restore();
@@ -1277,6 +1385,14 @@ function updateLeaderboardWithUserScore() {
   renderLeaderboard('daily');
 }
 
+function switchLeaderboard(type) {
+  unlockMobileAudio();
+  appState.leaderboardType = type;
+  document.getElementById("btnDailyLb")?.classList.toggle("active", type === 'daily');
+  document.getElementById("btnWeeklyLb")?.classList.toggle("active", type === 'weekly');
+  renderLeaderboard(type);
+}
+
 function renderLeaderboard(type) {
   const container = document.getElementById("lbList");
   if (!container) return;
@@ -1303,3 +1419,25 @@ function renderAlerts() {
   `).join("");
 }
 
+function renderProfileWallet() {
+  const profileContainer = document.getElementById("profileDetailsContainer");
+  if (!appState.currentUser) {
+    if (profileContainer) {
+      profileContainer.innerHTML = `
+        <div class="glass-card" style="padding: 16px; text-align: center;">
+          <p style="font-size: 0.82rem; color: #6e6e73; margin-bottom: 10px;">Log in to access your Wallet.</p>
+          <button class="glass-btn primary-btn" onclick="openAuthModal('login')">LOG IN NOW</button>
+        </div>
+      `;
+    }
+    return;
+  }
+  if (profileContainer) {
+    profileContainer.innerHTML = `
+      <div class="glass-card" style="padding: 16px; text-align: left;">
+        <div style="font-size: 0.72rem; color: #8e8e93; font-weight: 800;">ACCOUNT HOLDER</div>
+        <div style="font-size: 1.1rem; font-weight: 800; color: #1c1c1e;">${appState.currentUser.name}</div>
+      </div>
+    `;
+  }
+}
