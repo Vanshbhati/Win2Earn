@@ -512,7 +512,7 @@ body.no-scroll {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(10, 15, 30, 0.75);
+  background: rgba(10, 25, 45, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
@@ -523,19 +523,19 @@ body.no-scroll {
 }
 
 /* ==========================================================================
-   ULTRA-ATTRACTIVE REDESIGNED GAME LAUNCH CARD (ARCADE THEME)
+   ULTRA-ATTRACTIVE REDESIGNED GAME LAUNCH CARD (MATCHED SKY & SUNNY THEME)
    ========================================================================== */
 .game-launch-card {
   width: 100%;
   max-width: 360px;
   padding: 32px 24px;
   text-align: center;
-  background: radial-gradient(circle at top, #1a233a 0%, #0d121f 100%);
-  border: 2px solid rgba(0, 113, 227, 0.4);
+  background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+  border: 2px solid rgba(0, 113, 227, 0.35);
   border-radius: 30px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 
-              0 0 40px rgba(0, 113, 227, 0.3),
-              inset 0 1px 1px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px rgba(0, 113, 227, 0.18), 
+              0 0 35px rgba(255, 255, 255, 0.9),
+              inset 0 1px 2px rgba(255, 255, 255, 0.95);
   position: relative;
   overflow: hidden;
   animation: modalPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -549,7 +549,7 @@ body.no-scroll {
   transform: translateX(-50%);
   width: 60%;
   height: 4px;
-  background: linear-gradient(90deg, transparent, #0071e3, #d4a017, transparent);
+  background: linear-gradient(90deg, transparent, #0071e3, #34c759, transparent);
   border-radius: 0 0 4px 4px;
 }
 
@@ -562,13 +562,13 @@ body.no-scroll {
   width: 76px;
   height: 76px;
   margin: 0 auto 16px auto;
-  background: radial-gradient(circle, rgba(0,113,227,0.3) 0%, rgba(0,113,227,0.6) 100%);
-  border: 2px solid rgba(0, 113, 227, 0.6);
+  background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(186,230,253,0.85) 100%);
+  border: 2px solid rgba(0, 113, 227, 0.35);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 30px rgba(0, 113, 227, 0.5), inset 0 0 12px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 25px rgba(0, 113, 227, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.95);
   font-size: 2.2rem;
   animation: floatCopter 3s ease-in-out infinite;
 }
@@ -582,36 +582,37 @@ body.no-scroll {
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-size: 1.8rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%);
+  background: linear-gradient(135deg, #0071e3 0%, #0284c7 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 0.03em;
   margin-bottom: 8px;
-  text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+  text-shadow: 0 2px 10px rgba(0, 113, 227, 0.15);
 }
 
 .fever-tag-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: linear-gradient(90deg, rgba(212, 160, 23, 0.2), rgba(255, 59, 48, 0.2));
-  border: 1px solid rgba(212, 160, 23, 0.6);
-  color: #fbbf24;
+  background: rgba(52, 199, 89, 0.15);
+  border: 1px solid rgba(52, 199, 89, 0.4);
+  color: #15803d;
   font-size: 0.72rem;
   font-weight: 800;
   padding: 6px 16px;
   border-radius: 20px;
   margin-bottom: 18px;
   letter-spacing: 0.02em;
-  box-shadow: 0 4px 15px rgba(212, 160, 23, 0.25);
+  box-shadow: 0 4px 15px rgba(52, 199, 89, 0.15);
 }
 
 .game-instructions {
   font-size: 0.86rem;
-  color: #94a3b8;
+  color: #475569;
   line-height: 1.6;
   margin-bottom: 26px;
   padding: 0 4px;
+  font-weight: 500;
 }
 
 .launch-cta-btn {
@@ -620,14 +621,14 @@ body.no-scroll {
   padding: 16px;
   border-radius: 16px;
   border: none;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #34c759 0%, #28a745 100%);
   color: #ffffff;
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-weight: 900;
   font-size: 1.05rem;
   letter-spacing: 0.03em;
   cursor: pointer;
-  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4),
+  box-shadow: 0 10px 30px rgba(52, 199, 89, 0.35),
               inset 0 2px 0 rgba(255, 255, 255, 0.4);
   overflow: hidden;
   transition: all 0.2s ease;
@@ -635,7 +636,7 @@ body.no-scroll {
 
 .launch-cta-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 14px 35px rgba(16, 185, 129, 0.6),
+  box-shadow: 0 14px 35px rgba(52, 199, 89, 0.5),
               inset 0 2px 0 rgba(255, 255, 255, 0.5);
 }
 
@@ -644,19 +645,19 @@ body.no-scroll {
 }
 
 /* ==========================================================================
-   ULTRA-ATTRACTIVE REDESIGNED CRASH CARD (GAMING HUD STYLE)
+   ULTRA-ATTRACTIVE REDESIGNED CRASH CARD (MATCHED SKY & SUNNY THEME)
    ========================================================================== */
 .crash-card {
   width: 100%;
   max-width: 360px;
   padding: 28px 22px;
   text-align: center;
-  background: radial-gradient(circle at top, #1f141c 0%, #0f0a12 100%);
-  border: 2px solid rgba(255, 59, 48, 0.4);
+  background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+  border: 2px solid rgba(255, 59, 48, 0.35);
   border-radius: 30px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 
-              0 0 40px rgba(255, 59, 48, 0.25),
-              inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  box-shadow: 0 25px 50px rgba(255, 59, 48, 0.18), 
+              0 0 35px rgba(255, 255, 255, 0.9),
+              inset 0 1px 2px rgba(255, 255, 255, 0.95);
   position: relative;
   overflow: hidden;
   animation: modalPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -678,41 +679,42 @@ body.no-scroll {
   width: 70px;
   height: 70px;
   margin: 0 auto 12px auto;
-  background: radial-gradient(circle, rgba(255,59,48,0.25) 0%, rgba(255,59,48,0.5) 100%);
-  border: 2px solid rgba(255, 59, 48, 0.5);
+  background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(254,205,211,0.85) 100%);
+  border: 2px solid rgba(255, 59, 48, 0.4);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 25px rgba(255, 59, 48, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 25px rgba(255, 59, 48, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.95);
   font-size: 2.2rem;
   animation: crashPulse 1.5s ease-in-out infinite;
 }
 
 @keyframes crashPulse {
-  0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 59, 48, 0.4); }
-  50% { transform: scale(1.06); box-shadow: 0 0 35px rgba(255, 59, 48, 0.7); }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); }
 }
 
 .crash-head-text {
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-size: 1.6rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #ff453a 0%, #ff9f0a 100%);
+  background: linear-gradient(135deg, #dc2626 0%, #ea580c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: 0.03em;
   margin-bottom: 14px;
-  text-shadow: 0 2px 10px rgba(255, 69, 58, 0.3);
+  text-shadow: 0 2px 10px rgba(220, 38, 38, 0.15);
 }
 
 .score-breakdown-card {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 59, 48, 0.15);
   border-radius: 18px;
   padding: 16px;
   margin-bottom: 16px;
   backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
 }
 
 .score-row {
@@ -724,7 +726,7 @@ body.no-scroll {
 
 .s-label {
   font-size: 0.72rem;
-  color: #94a3b8;
+  color: #64748b;
   font-weight: 800;
   letter-spacing: 0.02em;
 }
@@ -733,26 +735,25 @@ body.no-scroll {
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-size: 1.15rem;
   font-weight: 900;
-  color: #ffffff;
+  color: #1e293b;
 }
 
 .score-divider {
   border: 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
   margin: 10px 0;
 }
 
 .total-row .s-val {
-  background: linear-gradient(135deg, #fbbf24 0%, #d4a017 100%);
+  background: linear-gradient(135deg, #b45309 0%, #d97706 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 1.35rem;
-  text-shadow: 0 2px 10px rgba(212, 160, 23, 0.3);
 }
 
 .revive-btn {
   background: linear-gradient(135deg, #ff9500, #ff3b30);
-  box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(255, 149, 0, 0.3);
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-weight: 900;
   letter-spacing: 0.02em;
@@ -776,14 +777,15 @@ body.no-scroll {
 .secondary-glass-btn {
   width: 100%;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: #1e293b;
   border-radius: 14px;
   font-size: 0.85rem;
   font-weight: 800;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .secondary-glass-btn:active {
