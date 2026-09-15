@@ -304,48 +304,59 @@ function setupGameOverModalLightAppleTheme() {
     modalContainer.appendChild(overOverlay);
   }
 
-  // Pure Apple Light Theme Styling with required buttons order & design hierarchy
+  // Pure Apple Light Theme Styling with clean sequential layout & Rank on top-right
   overOverlay.className = "game-overlay hidden";
-  overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.85); backdrop-filter: blur(16px); display:flex; align-items:center; justify-content:center; z-index:55; animation: fadeInOverlay 0.3s ease; padding: 16px; overflow-y: auto;";
+  overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.88); backdrop-filter: blur(16px); display:flex; align-items:center; justify-content:center; z-index:55; animation: fadeInOverlay 0.3s ease; padding: 16px; overflow-y: auto;";
   overOverlay.innerHTML = `
-    <div style="text-align:center; padding:28px 20px; max-width:350px; width:100%; background:#ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius:28px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin: auto;">
+    <div style="text-align:center; padding:24px 20px; max-width:350px; width:100%; background:#ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius:28px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin: auto; position: relative;">
       
-      <!-- Modern Apple Badge Icon replacing the old cheap circle -->
-      <div style="width: 58px; height: 58px; background: linear-gradient(135deg, #FF3B30, #FF9500); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px auto; box-shadow: 0 10px 20px rgba(255,59,48,0.25);">
-        <span style="font-size: 1.7rem;">💥</span>
+      <!-- User Rank Badge positioned strictly at Top Right -->
+      <div style="position: absolute; top: 18px; right: 20px; background: #eef2ff; border: 1px solid #c7d2fe; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
+        <span style="font-size: 0.68rem; font-weight: 800; color: #4f46e5;">RANK</span>
+        <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #4338ca;">#--</span>
       </div>
 
-      <h2 style="font-size:1.5rem; font-weight:900; color:#1c1c1e; margin-bottom:16px; letter-spacing:-0.5px;">HELI CRASHED!</h2>
+      <!-- Modern Apple Badge Icon -->
+      <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #FF3B30, #FF9500); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; box-shadow: 0 8px 16px rgba(255,59,48,0.25);">
+        <span style="font-size: 1.5rem;">💥</span>
+      </div>
 
-      <!-- Score Breakdown & Total Card -->
-      <div style="background:#f9f9fb; border: 1px solid #e5e5ea; border-radius:18px; padding:14px; margin-bottom:18px; text-align:left;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #e5e5ea; padding-bottom:8px;">
-          <span style="font-size:0.75rem; font-weight:800; color:#8e8e93; letter-spacing:0.5px;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.85rem; font-weight:800; color:#1c1c1e;">0 (Dist: 0 + Bonus: 0)</span>
+      <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:14px; letter-spacing:-0.5px;">HELI CRASHED!</h2>
+
+      <!-- Clean Sequential Score Breakdown Card -->
+      <div style="background:#f9f9fb; border: 1px solid #e5e5ea; border-radius:18px; padding:14px; margin-bottom:16px; text-align:left; display: flex; flex-direction: column; gap: 10px;">
+        
+        <!-- Current Run Row -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:8px;">
+          <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">CURRENT RUN</span>
+          <span id="currentRunScore" style="font-size:0.82rem; font-weight:800; color:#1c1c1e; text-align: right;">0 (Dist: 0 + Bonus: 0)</span>
         </div>
+
+        <!-- Daily Total Score Row -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:8px;">
+          <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">DAILY TOTAL</span>
+          <span id="dailyTotalScoreDisplay" style="font-size:0.9rem; font-weight:900; color:#34C759;">0</span>
+        </div>
+
+        <!-- Best Score Row -->
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <div>
-            <div style="font-size:0.72rem; font-weight:800; color:#8e8e93;">DAILY LEADERBOARD</div>
-            <div id="userRankBadge" style="font-size:0.75rem; font-weight:800; color:#007AFF; margin-top:2px;">Rank: --</div>
-          </div>
-          <div style="text-align:right;">
-            <div style="font-size:0.72rem; font-weight:800; color:#8e8e93;">TOTAL SCORE</div>
-            <div id="dailyTotalScoreDisplay" style="font-size:0.95rem; font-weight:900; color:#34C759;">0</div>
-          </div>
+          <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">PERSONAL BEST</span>
+          <span id="personalBestDisplay" style="font-size:0.85rem; font-weight:900; color:#007AFF;">0</span>
         </div>
+
       </div>
 
       <!-- Action Buttons Hierarchy -->
       <div style="display:flex; flex-direction:column; gap:10px;">
-        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:13px; font-weight:800; background:linear-gradient(135deg, #34C759, #30B0C7); color:#fff; border:none; border-radius:14px; font-size:0.95rem; box-shadow:0 8px 20px rgba(52,199,89,0.3); cursor:pointer; transition: transform 0.2s;">
+        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:13px; font-weight:900; background:linear-gradient(135deg, #34C759, #30B0C7); color:#fff; border:none; border-radius:14px; font-size:0.92rem; box-shadow:0 8px 20px rgba(52,199,89,0.3); cursor:pointer; transition: transform 0.2s;">
           ⚡ REVIVE & DOUBLE SCORE
         </button>
 
-        <button onclick="startHeliGame()" style="width:100%; padding:13px; font-weight:800; background:#007AFF; color:#fff; border:none; border-radius:14px; font-size:0.95rem; box-shadow:0 8px 20px rgba(0,122,255,0.3); cursor:pointer; transition: transform 0.2s;">
+        <button onclick="startHeliGame()" style="width:100%; padding:13px; font-weight:800; background:#007AFF; color:#fff; border:none; border-radius:14px; font-size:0.92rem; box-shadow:0 8px 20px rgba(0,122,255,0.3); cursor:pointer; transition: transform 0.2s;">
           PLAY AGAIN 🔄
         </button>
 
-        <button onclick="closeGameScreen()" style="width:100%; padding:12px; font-weight:700; background:#f2f2f7; color:#3a3a3c; border:none; border-radius:14px; font-size:0.9rem; cursor:pointer;">
+        <button onclick="closeGameScreen()" style="width:100%; padding:11px; font-weight:700; background:#f2f2f7; color:#3a3a3c; border:none; border-radius:14px; font-size:0.88rem; cursor:pointer;">
           EXIT TO ARENA
         </button>
       </div>
@@ -734,7 +745,6 @@ function triggerHeliJump() {
 }
 
 function resetHeliGameUI() {
-  // New game session starts: reset revive flag so player gets 1 revive chance per fresh game start
   appState.hasRevivedThisGame = false;
   appState.isRevivingState = false;
 
@@ -800,7 +810,6 @@ function startHeliGame() {
   canvas.height = container ? container.clientHeight : window.innerHeight;
 
   if (!appState.isRevivingState) {
-    // Fresh game session
     appState.hasRevivedThisGame = false;
     heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
     heliGame.velocity = 0;
@@ -820,7 +829,6 @@ function startHeliGame() {
     heliGame.raindrops = [];
     heliGame.floatingTexts = [];
   } else {
-    // Resuming from revive position: place helicopter safely above ground, clear immediate pipes
     heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 40;
     heliGame.velocity = 0;
     heliGame.angle = 0;
@@ -837,27 +845,22 @@ function startHeliGame() {
   heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
-// Revive and Double Score handler with ad simulation, 3, 2, 1 countdown & score doubling
 function handleReviveAndDouble() {
   if (appState.hasRevivedThisGame) return;
   unlockMobileAudio();
   appState.hasRevivedThisGame = true;
 
-  // Hide Game Over Screen
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
 
-  // Save score state before doubling
   appState.savedReviveDistance = heliGame.distanceMeters;
   appState.savedReviveBonus = heliGame.bonusScore;
   const rawTotalBefore = appState.savedReviveDistance + appState.savedReviveBonus;
   appState.savedReviveScoreBeforeMultiplier = rawTotalBefore;
 
-  // Double the ongoing scores instantly
   heliGame.distanceMeters *= 2;
   heliGame.heliRawScoreAcc = heliGame.distanceMeters;
   heliGame.bonusScore *= 2;
 
-  // Show Countdown Overlay (3, 2, 1)
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const countNumber = document.getElementById("countdownNumber");
   if (countOverlay) {
@@ -1518,13 +1521,11 @@ function handleCrash() {
   gameSounds.stopRain();
   gameSounds.playCrash();
 
-  // If the user used revive during this session, accumulate the before-revive score and after-revive score correctly
   let finalRunTotal = 0;
   let displayDist = heliGame.distanceMeters;
   let displayBonus = heliGame.bonusScore;
 
   if (appState.hasRevivedThisGame && appState.savedReviveScoreBeforeMultiplier > 0) {
-    // Current run score = previous score before revive + current run score after revive
     const currentRunAfterRevive = heliGame.distanceMeters + heliGame.bonusScore;
     finalRunTotal = appState.savedReviveScoreBeforeMultiplier + currentRunAfterRevive;
     displayDist = appState.savedReviveDistance + heliGame.distanceMeters;
@@ -1540,18 +1541,18 @@ function handleCrash() {
     heliGame.bestScore = finalRunTotal;
   }
 
-  // Update Daily Leaderboard score and find user rank
   updateLeaderboardWithUserScore();
 
   const runScoreEl = document.getElementById("currentRunScore");
   const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
+  const personalBestEl = document.getElementById("personalBestDisplay");
   const rankBadgeEl = document.getElementById("userRankBadge");
   const reviveBtnEl = document.getElementById("reviveActionBtn");
 
   if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} (Dist: ${displayDist} + Bonus: ${displayBonus})`;
-  if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore} (Best: ${heliGame.bestScore})`;
+  if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
+  if (personalBestEl) personalBestEl.innerText = `${heliGame.bestScore}`;
 
-  // Find current user rank
   let userRank = "--";
   if (appState.currentUser) {
     const foundUserIdx = lbDailyData.findIndex(item => item.name === appState.currentUser.name);
@@ -1559,9 +1560,8 @@ function handleCrash() {
       userRank = `#${lbDailyData[foundUserIdx].rank}`;
     }
   }
-  if (rankBadgeEl) rankBadgeEl.innerText = `Rank: ${userRank}`;
+  if (rankBadgeEl) rankBadgeEl.innerText = `${userRank}`;
 
-  // Disable/Hide Revive button if already used in this game session
   if (reviveBtnEl) {
     if (appState.hasRevivedThisGame) {
       reviveBtnEl.style.display = "none";
