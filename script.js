@@ -10,12 +10,13 @@ const appState = {
   monthlyScore: 0,
   currentRunScore: 0,
   activeGameType: 'daily',
-  // Revive & Double Score state trackers
+  // Revive & Double Score state trackers with detailed breakdown tracking
   hasRevivedThisGame: false,
   isRevivingState: false,
-  savedReviveDistance: 0,
-  savedReviveBonus: 0,
-  savedReviveScoreBeforeMultiplier: 0
+  revivePreDistance: 0,
+  revivePreBonus: 0,
+  revivePostDistance: 0,
+  revivePostBonus: 0
 };
 
 const recentWinnersData = [
@@ -304,59 +305,75 @@ function setupGameOverModalLightAppleTheme() {
     modalContainer.appendChild(overOverlay);
   }
 
-  // Pure Apple Light Theme Styling with clean sequential layout & Rank on top-right
   overOverlay.className = "game-overlay hidden";
-  overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.88); backdrop-filter: blur(16px); display:flex; align-items:center; justify-content:center; z-index:55; animation: fadeInOverlay 0.3s ease; padding: 16px; overflow-y: auto;";
+  overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.92); backdrop-filter: blur(16px); display:flex; align-items:center; justify-content:center; z-index:55; animation: fadeInOverlay 0.3s ease; padding: 16px; overflow-y: auto;";
   overOverlay.innerHTML = `
-    <div style="text-align:center; padding:24px 20px; max-width:350px; width:100%; background:#ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius:28px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin: auto; position: relative;">
+    <div style="text-align:center; padding:22px 18px; max-width:360px; width:100%; background:#ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius:28px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin: auto; position: relative;">
       
-      <!-- User Rank Badge positioned strictly at Top Right -->
-      <div style="position: absolute; top: 18px; right: 20px; background: #eef2ff; border: 1px solid #c7d2fe; padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
-        <span style="font-size: 0.68rem; font-weight: 800; color: #4f46e5;">RANK</span>
-        <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #4338ca;">#--</span>
+      <!-- Rank Badge Top Right -->
+      <div style="position: absolute; top: 16px; right: 18px; background: #eef2ff; border: 1px solid #c7d2fe; padding: 3px 9px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
+        <span style="font-size: 0.65rem; font-weight: 800; color: #4f46e5;">RANK</span>
+        <span id="userRankBadge" style="font-size: 0.75rem; font-weight: 900; color: #4338ca;">#--</span>
       </div>
 
-      <!-- Modern Apple Badge Icon (Updated to Helicopter Crash Warning Icon) -->
-      <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #FF3B30, #FF9500); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; box-shadow: 0 8px 16px rgba(255,59,48,0.25);">
-        <span style="font-size: 1.4rem;">🚁💥</span>
+      <!-- Modern Apple Warning Badge Icon -->
+      <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #FF3B30, #FF9500); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px auto; box-shadow: 0 6px 14px rgba(255,59,48,0.25);">
+        <span style="font-size: 1.3rem;">⚠️</span>
       </div>
 
-      <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:14px; letter-spacing:-0.5px;">HELI CRASHED!</h2>
+      <h2 style="font-size:1.3rem; font-weight:900; color:#1c1c1e; margin-bottom:12px; letter-spacing:-0.5px;">HELI CRASHED!</h2>
 
       <!-- Clean Sequential Score Breakdown Card -->
-      <div style="background:#f9f9fb; border: 1px solid #e5e5ea; border-radius:18px; padding:14px; margin-bottom:16px; text-align:left; display: flex; flex-direction: column; gap: 10px;">
+      <div style="background:#f9f9fb; border: 1px solid #e5e5ea; border-radius:16px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
         
-        <!-- Current Run Row (Proper Sequence Fixed Here) -->
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:8px;">
-          <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.82rem; font-weight:800; color:#1c1c1e; text-align: right;">545 [Dist: 245 + Bonus: 300]</span>
+        <!-- Current Run Single-Line Sequence -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:7px;">
+          <span style="font-size:0.7rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px; white-space:nowrap;">CURRENT RUN</span>
+          <span id="currentRunScore" style="font-size:0.78rem; font-weight:900; color:#1c1c1e; text-align: right; white-space:nowrap;">0 [Dist: 0 + Bonus: 0]</span>
+        </div>
+
+        <!-- Revive Breakdown Details Section (Visible if Revived) -->
+        <div id="reviveBreakdownContainer" style="display:none; flex-direction:column; gap:6px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:8px 10px;">
+          <div style="font-size:0.68rem; font-weight:800; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">⚡ Revive Double Details</div>
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#4b5563;">
+            <span>Pre-Revive Score:</span>
+            <span id="preReviveScoreText" style="font-weight:800; color:#1f2937;">0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#4b5563;">
+            <span>Doubled Score (×2):</span>
+            <span id="doubledReviveScoreText" style="font-weight:800; color:#16a34a;">0</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#4b5563; border-top:1px dashed #d1fae5; pt:2px;">
+            <span>Post-Revive Run:</span>
+            <span id="postReviveRunText" style="font-weight:800; color:#1f2937;">0</span>
+          </div>
         </div>
 
         <!-- Daily Total Score Row -->
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:8px;">
-          <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">DAILY TOTAL</span>
-          <span id="dailyTotalScoreDisplay" style="font-size:0.9rem; font-weight:900; color:#34C759;">0</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:7px;">
+          <span style="font-size:0.7rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">DAILY TOTAL</span>
+          <span id="dailyTotalScoreDisplay" style="font-size:0.85rem; font-weight:900; color:#34C759;">0</span>
         </div>
 
         <!-- Best Score Row -->
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">PERSONAL BEST</span>
-          <span id="personalBestDisplay" style="font-size:0.85rem; font-weight:900; color:#007AFF;">0</span>
+          <span style="font-size:0.7rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">PERSONAL BEST</span>
+          <span id="personalBestDisplay" style="font-size:0.82rem; font-weight:900; color:#007AFF;">0</span>
         </div>
 
       </div>
 
       <!-- Action Buttons Hierarchy -->
-      <div style="display:flex; flex-direction:column; gap:10px;">
-        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:13px; font-weight:900; background:linear-gradient(135deg, #34C759, #30B0C7); color:#fff; border:none; border-radius:14px; font-size:0.92rem; box-shadow:0 8px 20px rgba(52,199,89,0.3); cursor:pointer; transition: transform 0.2s;">
+      <div style="display:flex; flex-direction:column; gap:9px;">
+        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #34C759, #30B0C7); color:#fff; border:none; border-radius:13px; font-size:0.88rem; box-shadow:0 6px 18px rgba(52,199,89,0.3); cursor:pointer; transition: transform 0.2s;">
           ⚡ REVIVE & DOUBLE SCORE
         </button>
 
-        <button onclick="startHeliGame()" style="width:100%; padding:13px; font-weight:800; background:#007AFF; color:#fff; border:none; border-radius:14px; font-size:0.92rem; box-shadow:0 8px 20px rgba(0,122,255,0.3); cursor:pointer; transition: transform 0.2s;">
+        <button onclick="startHeliGame()" style="width:100%; padding:12px; font-weight:800; background:#007AFF; color:#fff; border:none; border-radius:13px; font-size:0.88rem; box-shadow:0 6px 18px rgba(0,122,255,0.3); cursor:pointer; transition: transform 0.2s;">
           PLAY AGAIN 🔄
         </button>
 
-        <button onclick="closeGameScreen()" style="width:100%; padding:11px; font-weight:700; background:#f2f2f7; color:#3a3a3c; border:none; border-radius:14px; font-size:0.88rem; cursor:pointer;">
+        <button onclick="closeGameScreen()" style="width:100%; padding:10px; font-weight:700; background:#f2f2f7; color:#3a3a3c; border:none; border-radius:13px; font-size:0.85rem; cursor:pointer;">
           EXIT TO ARENA
         </button>
       </div>
@@ -747,6 +764,10 @@ function triggerHeliJump() {
 function resetHeliGameUI() {
   appState.hasRevivedThisGame = false;
   appState.isRevivingState = false;
+  appState.revivePreDistance = 0;
+  appState.revivePreBonus = 0;
+  appState.revivePostDistance = 0;
+  appState.revivePostBonus = 0;
 
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
   const pauseOverlay = document.getElementById("gamePauseOverlay");
@@ -811,6 +832,11 @@ function startHeliGame() {
 
   if (!appState.isRevivingState) {
     appState.hasRevivedThisGame = false;
+    appState.revivePreDistance = 0;
+    appState.revivePreBonus = 0;
+    appState.revivePostDistance = 0;
+    appState.revivePostBonus = 0;
+
     heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
     heliGame.velocity = 0;
     heliGame.angle = 0;
@@ -852,14 +878,18 @@ function handleReviveAndDouble() {
 
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
 
-  appState.savedReviveDistance = heliGame.distanceMeters;
-  appState.savedReviveBonus = heliGame.bonusScore;
-  const rawTotalBefore = appState.savedReviveDistance + appState.savedReviveBonus;
-  appState.savedReviveScoreBeforeMultiplier = rawTotalBefore;
+  // Save pre-revive score components exactly as they were before crash
+  appState.revivePreDistance = heliGame.distanceMeters;
+  appState.revivePreBonus = heliGame.bonusScore;
 
-  heliGame.distanceMeters *= 2;
-  heliGame.heliRawScoreAcc = heliGame.distanceMeters;
-  heliGame.bonusScore *= 2;
+  // Double ONLY the pre-out score components
+  appState.revivePostDistance = appState.revivePreDistance * 2;
+  appState.revivePostBonus = appState.revivePreBonus * 2;
+
+  // Set current game tracking values to the doubled pre-revive amounts so gameplay continues from there
+  heliGame.distanceMeters = appState.revivePostDistance;
+  heliGame.rawScoreAcc = appState.revivePostDistance;
+  heliGame.bonusScore = appState.revivePostBonus;
 
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const countNumber = document.getElementById("countdownNumber");
@@ -1522,16 +1552,21 @@ function handleCrash() {
   gameSounds.playCrash();
 
   let finalRunTotal = 0;
-  let displayDist = heliGame.distanceMeters;
-  let displayBonus = heliGame.bonusScore;
+  let displayDist = 0;
+  let displayBonus = 0;
 
-  if (appState.hasRevivedThisGame && appState.savedReviveScoreBeforeMultiplier > 0) {
-    const currentRunAfterRevive = heliGame.distanceMeters + heliGame.bonusScore;
-    finalRunTotal = appState.savedReviveScoreBeforeMultiplier + currentRunAfterRevive;
-    displayDist = appState.savedReviveDistance + heliGame.distanceMeters;
-    displayBonus = appState.savedReviveBonus + heliGame.bonusScore;
+  if (appState.hasRevivedThisGame) {
+    // Post-revive game run continuation score calculation
+    const postReviveDistEarned = heliGame.distanceMeters - appState.revivePostDistance;
+    const postReviveBonusEarned = heliGame.bonusScore - appState.revivePostBonus;
+
+    displayDist = appState.revivePostDistance + postReviveDistEarned;
+    displayBonus = appState.revivePostBonus + postReviveBonusEarned;
+    finalRunTotal = displayDist + displayBonus;
   } else {
-    finalRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
+    displayDist = heliGame.distanceMeters;
+    displayBonus = heliGame.bonusScore;
+    finalRunTotal = displayDist + displayBonus;
   }
 
   appState.currentRunScore = finalRunTotal;
@@ -1548,11 +1583,25 @@ function handleCrash() {
   const personalBestEl = document.getElementById("personalBestDisplay");
   const rankBadgeEl = document.getElementById("userRankBadge");
   const reviveBtnEl = document.getElementById("reviveActionBtn");
+  const reviveBreakdownContainer = document.getElementById("reviveBreakdownContainer");
 
-  // Updated proper sequence format assigned dynamically on game crash
+  // Single line formatted current run score
   if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} [Dist: ${displayDist} + Bonus: ${displayBonus}]`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
   if (personalBestEl) personalBestEl.innerText = `${heliGame.bestScore}`;
+
+  // Show or hide revive score details breakdown card
+  if (appState.hasRevivedThisGame) {
+    if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "flex";
+    const preTotal = appState.revivePreDistance + appState.revivePreBonus;
+    const postTotal = appState.revivePostDistance + appState.revivePostBonus;
+    
+    document.getElementById("preReviveScoreText").innerText = `${preTotal} (Dist: ${appState.revivePreDistance} + Bonus: ${appState.revivePreBonus})`;
+    document.getElementById("doubledReviveScoreText").innerText = `${postTotal} (Dist: ${appState.revivePostDistance} + Bonus: ${appState.revivePostBonus})`;
+    document.getElementById("postReviveRunText").innerText = `${finalRunTotal}`;
+  } else {
+    if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "none";
+  }
 
   let userRank = "--";
   if (appState.currentUser) {
