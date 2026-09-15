@@ -759,9 +759,9 @@ function updatePhysics(dt) {
     }
   }
 
-  // Speed doubles every 1000 score
-  const speedMultiplier = 1 + Math.floor(heliGame.distanceMeters / 1000);
-  heliGame.currentPipeSpeed = heliGame.basePipeSpeed * speedMultiplier;
+  // --- FIXED: Gradual speed increase every 1000 score instead of doubling ---
+  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 20;
+  heliGame.currentPipeSpeed = heliGame.basePipeSpeed + speedIncrement;
 
   heliGame.velocity += heliGame.gravity * dt;
   heliGame.y += heliGame.velocity * dt;
@@ -815,7 +815,7 @@ function updatePhysics(dt) {
       
       const distToTopEdge = Math.abs(heliGame.y - p.topHeight);
       const distToBottomEdge = Math.abs((heliGame.y + heliGame.height) - p.bottomY);
-      const strictThreshold = 18; // Super tight margin (out ho sakta tha)
+      const strictThreshold = 18; // Super tight margin
 
       if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
         heliGame.bonusScore += 50;
@@ -965,7 +965,6 @@ function renderCanvas() {
     drawCleanPipe(ctx, p.x, p.bottomY, heliGame.pipeWidth, bottomH, false);
   }
 
-  // Render floating attractive +50 bonus texts
   if (heliGame.floatingTexts && heliGame.floatingTexts.length > 0) {
     ctx.save();
     ctx.font = "900 16px sans-serif";
@@ -1224,7 +1223,6 @@ function drawVectorHelicopter(ctx, x, y, angleDeg, frame, isNight) {
 function renderTopHeaderUI(ctx, w) {
   ctx.save();
 
-  // --- ULTRA ATTRACTIVE EXIT BUTTON (Top Left) ---
   const exitX = 12, exitY = 12, exitW = 80, exitH = 32;
   const exitGrad = ctx.createLinearGradient(exitX, exitY, exitX, exitY + exitH);
   exitGrad.addColorStop(0, "#ef4444");
@@ -1243,9 +1241,8 @@ function renderTopHeaderUI(ctx, w) {
   ctx.shadowColor = "rgba(0,0,0,0.5)";
   ctx.shadowBlur = 4;
   ctx.fillText("✕ EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
-  ctx.shadowBlur = 0; // reset shadow
+  ctx.shadowBlur = 0;
 
-  // --- ULTRA ATTRACTIVE PAUSE BUTTON (Below Exit) ---
   const pauseX = 12, pauseY = 48, pauseW = 80, exitH_pause = 32;
   const pauseGrad = ctx.createLinearGradient(pauseX, pauseY, pauseX, pauseY + exitH_pause);
   pauseGrad.addColorStop(0, "#475569");
@@ -1266,7 +1263,6 @@ function renderTopHeaderUI(ctx, w) {
   ctx.fillText("⏸ PAUSE", pauseX + pauseW / 2, pauseY + exitH_pause / 2 + 1);
   ctx.shadowBlur = 0;
 
-  // --- GLOWING SCORE BOX (Top Right) ---
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
   const scoreW = 115, scoreH = 32;
   const scoreX = w - scoreW - 12, scoreY = 12;
@@ -1307,7 +1303,6 @@ function renderTopHeaderUI(ctx, w) {
   ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
   ctx.restore();
 
-  // --- HIGHLY ATTRACTIVE BONUS BUTTON/BOX (Just Below Score Box) ---
   const bonusStr = `⭐ BONUS: +${heliGame.bonusScore}`;
   const bonusW = 125, bonusH = 30;
   const bonusX = w - bonusW - 12, bonusY = 50;
