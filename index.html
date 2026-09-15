@@ -88,17 +88,27 @@
       <canvas id="heliCanvas"></canvas>
     </div>
 
-    <!-- Game Launch Overlay -->
-    <div id="gameStartOverlay" class="game-modal-overlay">
-      <div class="game-launch-card glass-card gpu-accelerated">
-        <div class="launch-icon-glow">🛸</div>
-        <h1 class="game-neon-title">COPTER CASH</h1>
-        <span class="fever-tag-pill">DAILY TOURNAMENT EDITION</span>
-        <p class="game-instructions">
-          Tap screen or press Spacebar to boost altitude. Precision dodge obstacles & survive to set top leaderboard scores!
+    <!-- Updated Game Launch Overlay (Mobile Friendly & Attractive) -->
+    <div id="gameStartOverlay" class="game-modal-overlay" style="display: flex; align-items: center; justify-content: center; padding: 16px;">
+      <div class="glass-card" style="text-align: center; padding: 32px 24px; max-width: 340px; width: 90%; background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95)); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 32px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.15); position: relative; overflow: hidden;">
+        
+        <!-- Floating Icon -->
+        <div style="width: 76px; height: 76px; background: linear-gradient(135deg, #0ea5e9, #2563eb); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px auto; box-shadow: 0 10px 25px rgba(14, 165, 233, 0.4); font-size: 2.2rem;">
+          🚁
+        </div>
+        
+        <!-- Game Title & Badge -->
+        <h1 style="font-size: 1.9rem; font-weight: 900; background: linear-gradient(135deg, #38bdf8, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; letter-spacing: 0.8px;">COPTER CASH</h1>
+        <div style="display: inline-block; background: rgba(250, 204, 21, 0.12); border: 1px solid rgba(250, 204, 21, 0.4); color: #facc15; font-size: 0.72rem; font-weight: 800; padding: 5px 14px; border-radius: 20px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px;">🔥 Daily Tournament Edition</div>
+        
+        <!-- Instructions -->
+        <p style="font-size: 0.88rem; color: #94a3b8; line-height: 1.5; margin-bottom: 28px; font-weight: 500; padding: 0 8px;">
+          Tap anywhere on your screen to fly higher. Precision dodge obstacles & survive to set top leaderboard scores!
         </p>
-        <button class="launch-cta-btn" onclick="startHeliGame()">
-          START GAME 🚀
+        
+        <!-- Start Button -->
+        <button onclick="startHeliGame()" style="width: 100%; padding: 16px; background: linear-gradient(135deg, #22c55e, #16a34a); color: #ffffff; font-size: 1.1rem; font-weight: 900; border: none; border-radius: 16px; box-shadow: 0 10px 25px rgba(34, 197, 94, 0.45); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+          <span>TAP TO START</span> 🚀
         </button>
       </div>
     </div>
@@ -464,3 +474,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
