@@ -316,9 +316,9 @@ function setupGameOverModalLightAppleTheme() {
         <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #4338ca;">#--</span>
       </div>
 
-      <!-- Modern Apple Badge Icon -->
+      <!-- Modern Apple Badge Icon (Updated to Helicopter Crash Warning Icon) -->
       <div style="width: 52px; height: 52px; background: linear-gradient(135deg, #FF3B30, #FF9500); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px auto; box-shadow: 0 8px 16px rgba(255,59,48,0.25);">
-        <span style="font-size: 1.5rem;">💥</span>
+        <span style="font-size: 1.4rem;">🚁💥</span>
       </div>
 
       <h2 style="font-size:1.4rem; font-weight:900; color:#1c1c1e; margin-bottom:14px; letter-spacing:-0.5px;">HELI CRASHED!</h2>
@@ -326,10 +326,10 @@ function setupGameOverModalLightAppleTheme() {
       <!-- Clean Sequential Score Breakdown Card -->
       <div style="background:#f9f9fb; border: 1px solid #e5e5ea; border-radius:18px; padding:14px; margin-bottom:16px; text-align:left; display: flex; flex-direction: column; gap: 10px;">
         
-        <!-- Current Run Row -->
+        <!-- Current Run Row (Proper Sequence Fixed Here) -->
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:8px;">
           <span style="font-size:0.72rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.82rem; font-weight:800; color:#1c1c1e; text-align: right;">0 (Dist: 0 + Bonus: 0)</span>
+          <span id="currentRunScore" style="font-size:0.82rem; font-weight:800; color:#1c1c1e; text-align: right;">545 [Dist: 245 + Bonus: 300]</span>
         </div>
 
         <!-- Daily Total Score Row -->
@@ -1549,7 +1549,8 @@ function handleCrash() {
   const rankBadgeEl = document.getElementById("userRankBadge");
   const reviveBtnEl = document.getElementById("reviveActionBtn");
 
-  if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} (Dist: ${displayDist} + Bonus: ${displayBonus})`;
+  // Updated proper sequence format assigned dynamically on game crash
+  if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} [Dist: ${displayDist} + Bonus: ${displayBonus}]`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
   if (personalBestEl) personalBestEl.innerText = `${heliGame.bestScore}`;
 
