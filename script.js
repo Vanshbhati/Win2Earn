@@ -532,7 +532,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH BALANCED PIPES, STRICT NEAR-MISS BONUS (+50) & SPEED
+// GAME ENGINE WITH UPDATED SPEED & 1500-UNIT ENVIRONMENT LOOP
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -554,8 +554,8 @@ const heliGame = {
   
   pipes: [],
   pipeWidth: 50,
-  basePipeSpeed: 160,
-  currentPipeSpeed: 160,
+  basePipeSpeed: 170, // Updated base speed to 170
+  currentPipeSpeed: 170,
   pipeSpacing: 230,
   groundHeight: 60,
   groundOffset: 0,
@@ -759,8 +759,8 @@ function updatePhysics(dt) {
     }
   }
 
-  // --- FIXED: Gradual speed increase every 1000 score instead of doubling ---
-  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 20;
+  // --- Speed Logic: Base speed 170, +40 increase for every 1000 distance completed ---
+  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 40;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + speedIncrement;
 
   heliGame.velocity += heliGame.gravity * dt;
@@ -809,19 +809,17 @@ function updatePhysics(dt) {
       return;
     }
 
-    // Strict Near-Miss Bonus (+50 points) only when chopper passes extremely close to pipe edges
     if (!p.bonusAwarded && heliGame.x > p.x + heliGame.pipeWidth) {
       p.bonusAwarded = true;
       
       const distToTopEdge = Math.abs(heliGame.y - p.topHeight);
       const distToBottomEdge = Math.abs((heliGame.y + heliGame.height) - p.bottomY);
-      const strictThreshold = 18; // Super tight margin
+      const strictThreshold = 18;
 
       if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
         heliGame.bonusScore += 50;
         gameSounds.playBonus();
 
-        // Spawn floating attractive +50 text near the pipe
         heliGame.floatingTexts.push({
           text: "+50",
           x: p.x + heliGame.pipeWidth / 2,
@@ -833,7 +831,6 @@ function updatePhysics(dt) {
     }
   }
 
-  // Update floating text animations
   for (let f = heliGame.floatingTexts.length - 1; f >= 0; f--) {
     let ft = heliGame.floatingTexts[f];
     ft.y += ft.vy * dt;
@@ -896,19 +893,25 @@ function renderCanvas() {
   const canvas = heliGame.canvas;
   const score = heliGame.distanceMeters;
 
+  // --- Environment Sequence & Timing (1500-unit loop repeated) ---
+  const cycleScore = score % 1500;
+  
   let skyTop, skyMid, skyBottom, showSun = false, showStars = false;
 
-  if (score >= 1000) {
+  if (cycleScore >= 1000 && cycleScore < 1500) {
+    // Night: 1000 – 1500
     skyTop = "#1e1b4b";
     skyMid = "#312e81";
     skyBottom = "#4338ca";
     showStars = true;
-  } else if (score >= 500) {
+  } else if (cycleScore >= 500 && cycleScore < 1000) {
+    // Sunset: 500 – 1000
     skyTop = "#fed7aa";
     skyMid = "#f472b6";
     skyBottom = "#fb923c";
     showSun = true;
   } else {
+    // Normal Day: 0 – 500 (and 1500-2000 loop continuation)
     skyTop = heliGame.isRaining ? "#2c3e50" : "#38bdf8";
     skyMid = heliGame.isRaining ? "#34495e" : "#7dd3fc";
     skyBottom = heliGame.isRaining ? "#475569" : "#e0f2fe";
@@ -951,11 +954,11 @@ function renderCanvas() {
     ctx.restore();
   }
 
-  if (score < 500) {
+  if (!(cycleScore >= 500 && cycleScore < 1000) && !(cycleScore >= 1000 && cycleScore < 1500)) {
     drawMovingClouds(ctx, canvas.width, canvas.height, heliGame.cloudScroll);
   }
 
-  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, score >= 500, score >= 1000);
+  drawBackgroundCity(ctx, canvas.width, canvas.height, heliGame.bgScroll, (cycleScore >= 500 && cycleScore < 1000), (cycleScore >= 1000 && cycleScore < 1500));
 
   const playableHeight = canvas.height - heliGame.groundHeight;
   for (let i = 0; i < heliGame.pipes.length; i++) {
@@ -981,7 +984,7 @@ function renderCanvas() {
 
   drawCartoonThemeGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
 
-  drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, score >= 1000);
+  drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, (cycleScore >= 1000 && cycleScore < 1500));
 
   if (heliGame.isRaining && heliGame.raindrops.length > 0) {
     ctx.strokeStyle = "rgba(174, 219, 238, 0.6)";
@@ -1441,3 +1444,4 @@ function renderProfileWallet() {
     `;
   }
 }
+
