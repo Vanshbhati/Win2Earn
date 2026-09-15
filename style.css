@@ -512,7 +512,7 @@ body.no-scroll {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(15, 23, 42, 0.65);
+  background: rgba(10, 15, 30, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   display: flex;
@@ -522,49 +522,94 @@ body.no-scroll {
   z-index: 30;
 }
 
+/* ==========================================================================
+   ULTRA-ATTRACTIVE REDESIGNED GAME LAUNCH CARD (ARCADE THEME)
+   ========================================================================== */
 .game-launch-card {
   width: 100%;
   max-width: 360px;
-  padding: 30px 24px;
+  padding: 32px 24px;
   text-align: center;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 28px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), rgba(245, 247, 250, 0.95));
+  border: 2px solid rgba(0, 113, 227, 0.25);
+  border-radius: 30px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 
+              0 0 30px rgba(0, 113, 227, 0.15);
+  position: relative;
+  overflow: hidden;
+  animation: modalPopIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.game-launch-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, #0071e3, #d4a017, transparent);
+  border-radius: 0 0 4px 4px;
+}
+
+@keyframes modalPopIn {
+  from { transform: scale(0.85) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 .launch-icon-glow {
-  font-size: 4rem;
-  margin-bottom: 10px;
+  width: 76px;
+  height: 76px;
+  margin: 0 auto 16px auto;
+  background: radial-gradient(circle, rgba(0,113,227,0.15) 0%, rgba(0,113,227,0.3) 100%);
+  border: 2px solid rgba(0, 113, 227, 0.4);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 25px rgba(0, 113, 227, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.8);
+  font-size: 2.2rem;
+  animation: floatCopter 3s ease-in-out infinite;
+}
+
+@keyframes floatCopter {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 .game-neon-title {
   font-family: 'Orbitron', -apple-system, sans-serif;
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 900;
-  background: linear-gradient(135deg, #0071e3, #d4a017);
+  background: linear-gradient(135deg, #0071e3 0%, #1d1d1f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  letter-spacing: 0.03em;
   margin-bottom: 8px;
 }
 
 .fever-tag-pill {
-  display: inline-block;
-  background: rgba(212, 160, 23, 0.1);
-  border: 1px solid rgba(212, 160, 23, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(90deg, rgba(212, 160, 23, 0.12), rgba(255, 59, 48, 0.12));
+  border: 1px solid rgba(212, 160, 23, 0.4);
   color: var(--accent-gold-dark);
-  font-size: 0.68rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 12px;
-  margin-bottom: 16px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 12px rgba(212, 160, 23, 0.15);
 }
 
 .game-instructions {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: var(--text-secondary);
-  line-height: 1.5;
-  margin-bottom: 24px;
+  line-height: 1.6;
+  margin-bottom: 26px;
+  padding: 0 4px;
 }
 
 .launch-cta-btn {
@@ -573,21 +618,33 @@ body.no-scroll {
   padding: 16px;
   border-radius: 16px;
   border: none;
-  background: linear-gradient(135deg, #0071e3, #005bb5);
+  background: linear-gradient(135deg, #34c759 0%, #248a3d 100%);
   color: #ffffff;
+  font-family: 'Orbitron', -apple-system, sans-serif;
   font-weight: 900;
   font-size: 1.05rem;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(0, 113, 227, 0.3);
+  box-shadow: 0 10px 30px rgba(52, 199, 89, 0.4),
+              inset 0 2px 0 rgba(255, 255, 255, 0.4);
   overflow: hidden;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: all 0.2s ease;
 }
 
-.launch-cta-btn:active { transform: scale(0.96); }
+.launch-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 35px rgba(52, 199, 89, 0.6),
+              inset 0 2px 0 rgba(255, 255, 255, 0.5);
+}
 
+.launch-cta-btn:active { 
+  transform: scale(0.96) translateY(0); 
+}
+
+/* Crash Card Styling */
 .crash-card {
-  border-color: rgba(255, 59, 48, 0.2);
-  box-shadow: 0 20px 50px rgba(255, 59, 48, 0.12);
+  border-color: rgba(255, 59, 48, 0.3);
+  box-shadow: 0 20px 50px rgba(255, 59, 48, 0.15);
 }
 
 .crash-icon-glow {
@@ -834,7 +891,7 @@ body.no-scroll {
 .compact-bottom-nav { padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px)) 0 !important; }
 .bottom-nav { position: fixed !important; bottom: 0 !important; left: 0 !important; width: 100% !important; display: flex; justify-content: space-around; border-radius: 20px 20px 0 0; z-index: 10000 !important; }
 .nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 0.65rem; gap: 3px; cursor: pointer; transition: color 0.2s ease; }
-.nav-svg { width: 22px; height: 22px; fill: currentColor; }
+.nav-svg { width: 22px; height: 22px; fill: #ffffff; }
 .nav-item.active { color: var(--accent-cyan); font-weight: 800; }
 
 .floating-tg-btn-fixed {
