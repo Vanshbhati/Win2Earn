@@ -532,7 +532,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH UPDATED SPEED & 1500-UNIT ENVIRONMENT LOOP
+// GAME ENGINE WITH SMOOTH SPEED INCREMENT & 1500-UNIT ENVIRONMENT LOOP
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -554,7 +554,7 @@ const heliGame = {
   
   pipes: [],
   pipeWidth: 50,
-  basePipeSpeed: 170, // Updated base speed to 170
+  basePipeSpeed: 170, 
   currentPipeSpeed: 170,
   pipeSpacing: 230,
   groundHeight: 60,
@@ -759,8 +759,8 @@ function updatePhysics(dt) {
     }
   }
 
-  // --- Speed Logic: Base speed 170, +40 increase for every 1000 distance completed ---
-  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 40;
+  // --- Speed Logic: Base speed 170, ab har 1000 distance par speed sirf 15 badhegi ---
+  const speedIncrement = Math.floor(heliGame.distanceMeters / 1000) * 15;
   heliGame.currentPipeSpeed = heliGame.basePipeSpeed + speedIncrement;
 
   heliGame.velocity += heliGame.gravity * dt;
