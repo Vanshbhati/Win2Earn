@@ -878,15 +878,12 @@ function handleReviveAndDouble() {
 
   document.getElementById("gameOverOverlay")?.classList.add("hidden");
 
-  // Save pre-revive score components exactly as they were before crash
   appState.revivePreDistance = heliGame.distanceMeters;
   appState.revivePreBonus = heliGame.bonusScore;
 
-  // Double ONLY the pre-out score components
   appState.revivePostDistance = appState.revivePreDistance * 2;
   appState.revivePostBonus = appState.revivePreBonus * 2;
 
-  // Set current game tracking values to the doubled pre-revive amounts so gameplay continues from there
   heliGame.distanceMeters = appState.revivePostDistance;
   heliGame.rawScoreAcc = appState.revivePostDistance;
   heliGame.bonusScore = appState.revivePostBonus;
@@ -1556,7 +1553,6 @@ function handleCrash() {
   let displayBonus = 0;
 
   if (appState.hasRevivedThisGame) {
-    // Post-revive game run continuation score calculation
     const postReviveDistEarned = heliGame.distanceMeters - appState.revivePostDistance;
     const postReviveBonusEarned = heliGame.bonusScore - appState.revivePostBonus;
 
@@ -1585,12 +1581,10 @@ function handleCrash() {
   const reviveBtnEl = document.getElementById("reviveActionBtn");
   const reviveBreakdownContainer = document.getElementById("reviveBreakdownContainer");
 
-  // Single line formatted current run score
   if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} [Dist: ${displayDist} + Bonus: ${displayBonus}]`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
   if (personalBestEl) personalBestEl.innerText = `${heliGame.bestScore}`;
 
-  // Show or hide revive score details breakdown card
   if (appState.hasRevivedThisGame) {
     if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "flex";
     const preTotal = appState.revivePreDistance + appState.revivePreBonus;
