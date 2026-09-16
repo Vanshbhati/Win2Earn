@@ -309,16 +309,14 @@ function setupGameStartModalCartoonTheme() {
   startOverlay.className = "game-overlay";
   startOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(15,23,42,0.85) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:55; padding: 16px; overflow-y: auto;";
   startOverlay.innerHTML = `
-    <div style="text-align:center; padding:26px 20px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 4px solid #38bdf8; border-radius:32px; box-shadow: 0 20px 45px rgba(56,189,248,0.35); margin: auto; position: relative; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <div style="text-align:center; padding:26px 20px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 4px solid #38bdf8; border-radius:32px; box-shadow: 0 20px 45px rgba(56,189,248,0.35); margin: auto; position: relative;">
       
-      <!-- Fun Animated Trophy Header Badge -->
       <div style="width: 72px; height: 72px; background: linear-gradient(135deg, #facc15, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -55px auto 12px auto; box-shadow: 0 8px 20px rgba(245,158,11,0.4); border: 4px solid #ffffff;">
         <span style="font-size: 2rem;">🏆</span>
       </div>
 
-      <h1 style="font-size:1.6rem; font-weight:900; color:#1e293b; margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase; font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif; text-shadow: 2px 2px 0px #e2e8f0;">COPTER CASH</h1>
+      <h1 style="font-size:1.6rem; font-weight:900; color:#1e293b; margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase;">COPTER CASH</h1>
       
-      <!-- Cartoon Pill Badge -->
       <div style="display: inline-block; background: #e0f2fe; border: 2px dashed #0284c7; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;">
         <span style="font-size: 0.72rem; font-weight: 900; color: #0369a1; text-transform: uppercase;">🚀 Daily Tournament Edition</span>
       </div>
@@ -327,8 +325,7 @@ function setupGameStartModalCartoonTheme() {
         Tap anywhere to bounce higher! Dodge wacky obstacles & collect maximum bonuses to rule the leaderboard!
       </p>
 
-      <!-- Fun Cartoon Tips Box -->
-      <div style="background:#fef9c3; border: 2px solid #fde047; border-radius:20px; padding:12px 14px; margin-bottom:18px; text-align:left; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);">
+      <div style="background:#fef9c3; border: 2px solid #fde047; border-radius:20px; padding:12px 14px; margin-bottom:18px; text-align:left;">
         <div style="font-size:0.75rem; font-weight:900; color:#854d0e; margin-bottom:6px; display:flex; align-items:center; gap:4px;">
           <span>💡</span> PRO GAMING TIPS
         </div>
@@ -338,8 +335,7 @@ function setupGameStartModalCartoonTheme() {
         </ul>
       </div>
 
-      <!-- Bouncy Cartoon Start Button -->
-      <button onclick="startHeliGame()" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:3px solid #86efac; border-radius:22px; font-size:1rem; box-shadow:0 8px 22px rgba(34,197,94,0.4); cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; transition: transform 0.1s;">
+      <button onclick="startHeliGame()" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:3px solid #86efac; border-radius:22px; font-size:1rem; box-shadow:0 8px 22px rgba(34,197,94,0.4); cursor:pointer; text-transform:uppercase; letter-spacing:0.5px;">
         🎮 TAP TO START 🚁
       </button>
 
@@ -362,22 +358,19 @@ function setupGameOverModalCartoonTheme() {
   overOverlay.className = "game-overlay hidden";
   overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(239,68,68,0.3) 0%, rgba(15,23,42,0.85) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:55; padding: 16px; overflow-y: auto;";
   overOverlay.innerHTML = `
-    <div style="text-align:center; padding:24px 18px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <div style="text-align:center; padding:24px 18px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative;">
       
-      <!-- Rank Badge Top Right -->
       <div style="position: absolute; top: 14px; right: 16px; background: #e0e7ff; border: 2px solid #818cf8; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
         <span style="font-size: 0.65rem; font-weight: 900; color: #4338ca;">RANK</span>
         <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #3730a3;">#--</span>
       </div>
 
-      <!-- Cartoon Crash Warning Icon -->
       <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #ef4444, #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -48px auto 10px auto; box-shadow: 0 8px 20px rgba(239,68,68,0.4); border: 4px solid #ffffff;">
         <span style="font-size: 1.8rem;">💥</span>
       </div>
 
-      <h2 style="font-size:1.5rem; font-weight:900; color:#be123c; margin-bottom:10px; letter-spacing:-0.5px; text-transform:uppercase; font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;">OOPS! CRASHED!</h2>
+      <h2 style="font-size:1.5rem; font-weight:900; color:#be123c; margin-bottom:10px; letter-spacing:-0.5px; text-transform:uppercase;">OOPS! CRASHED!</h2>
 
-      <!-- Cartoon Score Breakdown Card -->
       <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
         
         <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
@@ -413,7 +406,6 @@ function setupGameOverModalCartoonTheme() {
 
       </div>
 
-      <!-- Action Buttons Hierarchy -->
       <div style="display:flex; flex-direction:column; gap:8px;">
         <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:3px solid #6ee7b7; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(16,185,129,0.35); cursor:pointer;">
           ⚡ REVIVE & DOUBLE SCORE
@@ -554,13 +546,6 @@ function hideModal(modalId) {
   document.getElementById(modalId)?.classList.add("hidden"); 
 }
 
-function openInfoModal() { showModal("infoModal"); }
-function closeInfoModal() { hideModal("infoModal"); }
-function openPayoutInfoModal() { showModal("payoutInfoModal"); }
-function closePayoutInfoModal() { hideModal("payoutInfoModal"); }
-function openTelegramModal() { showModal("telegramModal"); }
-function closeTelegramModal() { hideModal("telegramModal"); }
-
 function openAuthModal(tab) {
   switchTab(tab);
   showModal("authModal");
@@ -585,20 +570,6 @@ function switchTab(type) {
     loginForm?.classList.add("hidden");
     signupForm?.classList.remove("hidden");
   }
-}
-
-function sendOtp() {
-  unlockMobileAudio();
-  const mobile = document.getElementById("signupMobile")?.value;
-  if (!mobile || mobile.length < 10) {
-    openPopup("Please enter a valid 10-digit mobile number.");
-    return;
-  }
-  const generated = Math.floor(1000 + Math.random() * 9000);
-  appState.generatedOtp = generated.toString();
-  const otpMsgElement = document.getElementById("otpPopupMessage");
-  if (otpMsgElement) otpMsgElement.innerText = `OTP: ${generated}`;
-  showModal("otpDisplayModal");
 }
 
 function handleLogin(e) {
@@ -647,10 +618,6 @@ function closeGameScreen() {
   document.getElementById("gameCountdownOverlay")?.classList.add("hidden");
   document.getElementById("confirmExitOverlay")?.classList.add("hidden");
   hideModal("gameScreenModal");
-}
-
-function handleUniversalStart() {
-  startHeliGame();
 }
 
 function pauseGame() {
@@ -717,7 +684,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH SMOOTH SPEED INCREMENT & 1500-UNIT ENVIRONMENT LOOP
+// GAME ENGINE
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -1226,7 +1193,6 @@ function renderCanvas() {
   }
 
   drawCartoonThemeGround(ctx, canvas.width, canvas.height, heliGame.groundHeight, heliGame.groundOffset);
-
   drawVectorHelicopter(ctx, heliGame.x, heliGame.y, heliGame.angle, heliGame.rotorFrame, (cycleScore >= 1000 && cycleScore < 1500));
 
   if (heliGame.isRaining && heliGame.raindrops.length > 0) {
@@ -1484,10 +1450,7 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 12px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur = 4;
   ctx.fillText("✕ EXIT", exitX + exitW / 2, exitY + exitH / 2 + 1);
-  ctx.shadowBlur = 0;
 
   const pauseX = 12, pauseY = 48, pauseW = 80, exitH_pause = 32;
   const pauseGrad = ctx.createLinearGradient(pauseX, pauseY, pauseX, pauseY + exitH_pause);
@@ -1504,10 +1467,7 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 11px sans-serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0,0,0,0.5)";
-  ctx.shadowBlur = 4;
   ctx.fillText("⏸ PAUSE", pauseX + pauseW / 2, pauseY + exitH_pause / 2 + 1);
-  ctx.shadowBlur = 0;
 
   const scoreStr = String(heliGame.distanceMeters).padStart(5, '0');
   const scoreW = 115, scoreH = 32;
@@ -1544,8 +1504,6 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 15px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0,0,0,0.6)";
-  ctx.shadowBlur = 6;
   ctx.fillText(scoreStr, scoreX + scoreW / 2, scoreY + scoreH / 2 + 1);
   ctx.restore();
 
@@ -1567,8 +1525,6 @@ function renderTopHeaderUI(ctx, w) {
   ctx.font = "900 11px monospace";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0,0,0,0.6)";
-  ctx.shadowBlur = 6;
   ctx.fillText(bonusStr, bonusX + bonusW / 2, bonusY + bonusH / 2 + 1);
 
   ctx.restore();
@@ -1679,14 +1635,6 @@ function updateLeaderboardWithUserScore() {
   targetData.sort((a, b) => b.score - a.score);
   targetData.forEach((item, index) => item.rank = index + 1);
   renderLeaderboard('daily');
-}
-
-function switchLeaderboard(type) {
-  unlockMobileAudio();
-  appState.leaderboardType = type;
-  document.getElementById("btnDailyLb")?.classList.toggle("active", type === 'daily');
-  document.getElementById("btnWeeklyLb")?.classList.toggle("active", type === 'weekly');
-  renderLeaderboard(type);
 }
 
 function renderLeaderboard(type) {
