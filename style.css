@@ -51,13 +51,12 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
-  overflow: hidden !important;
-  position: fixed;
+  min-height: 100%;
+  overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
-  overscroll-behavior: none;
 }
 
+/* Jab game active ho toh poori website ka scroll lock karne ke liye class */
 body.no-scroll {
   overflow: hidden !important;
   height: 100vh;
