@@ -373,35 +373,36 @@ function setupGameOverModalCartoonTheme() {
 
       <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.78rem; font-weight:900; color:#475569;">0 [Dist: 0 + Bonus: 0]</span>
+        <!-- CURRENT RUN SINGLE LINE -->
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px; white-space:nowrap; overflow:hidden;">
+          <span style="font-size:0.68rem; font-weight:900; color:#9f1239; flex-shrink:0;">CURRENT RUN</span>
+          <span id="currentRunScore" style="font-size:0.75rem; font-weight:900; color:#475569; overflow:hidden; text-overflow:ellipsis;">0 [Dist: 0 + Bonus: 0]</span>
         </div>
 
+        <!-- REVIVE DETAILS BOX (SINGLE LINE ITEMS) -->
         <div id="reviveBreakdownContainer" style="display:none; flex-direction:column; gap:5px; background:#f0fdf4; border:2px dashed #86efac; border-radius:14px; padding:8px;">
-          <div style="font-size:0.68rem; font-weight:900; color:#15803d; text-transform:uppercase;">⚡ Revive Double Details</div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151;">
-            <span>Pre-Revive Score:</span>
-            <span id="preReviveScoreText" style="font-weight:900; color:#1f2937;">0</span>
+          <div style="font-size:0.68rem; font-weight:900; color:#15803d; text-transform:uppercase;">⚡ Revive Details</div>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:#374151; white-space:nowrap; overflow:hidden;">
+            <span style="flex-shrink:0;">Pre-Revive Score:</span>
+            <span id="preReviveScoreText" style="font-weight:900; color:#1f2937; overflow:hidden; text-overflow:ellipsis;">0</span>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151;">
-            <span>Doubled Score (×2):</span>
-            <span id="doubledReviveScoreText" style="font-weight:900; color:#15803d;">0</span>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:#374151; white-space:nowrap; overflow:hidden;">
+            <span style="flex-shrink:0;">Doubled Score (×2):</span>
+            <span id="doubledReviveScoreText" style="font-weight:900; color:#15803d; overflow:hidden; text-overflow:ellipsis;">0</span>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151; border-top:1px dashed #bbf7d0; padding-top:2px;">
-            <span>Post-Revive Run:</span>
-            <span id="postReviveRunText" style="font-weight:900; color:#1f2937;">0</span>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:#374151; border-top:1px dashed #bbf7d0; padding-top:2px; white-space:nowrap; overflow:hidden;">
+            <span style="flex-shrink:0;">Post-Revive Run:</span>
+            <span id="postReviveRunText" style="font-weight:900; color:#1f2937; overflow:hidden; text-overflow:ellipsis;">0</span>
           </div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">DAILY TOTAL</span>
-          <span id="dailyTotalScoreDisplay" style="font-size:0.85rem; font-weight:900; color:#16a34a;">0</span>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">PERSONAL BEST</span>
-          <span id="personalBestDisplay" style="font-size:0.82rem; font-weight:900; color:#2563eb;">0</span>
+        <!-- DAILY TOTAL (EXTRA LARGE & BOLD, SINGLE LINE) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; white-space:nowrap; overflow:hidden;">
+          <span style="font-size:0.7rem; font-weight:900; color:#9f1239; flex-shrink:0;">DAILY TOTAL</span>
+          <span id="dailyTotalScoreDisplay" style="font-size:1.2rem; font-weight:900; color:#16a34a; overflow:hidden; text-overflow:ellipsis;">0</span>
         </div>
 
       </div>
@@ -1582,14 +1583,12 @@ function handleCrash() {
 
   const runScoreEl = document.getElementById("currentRunScore");
   const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
-  const personalBestEl = document.getElementById("personalBestDisplay");
   const rankBadgeEl = document.getElementById("userRankBadge");
   const reviveBtnEl = document.getElementById("reviveActionBtn");
   const reviveBreakdownContainer = document.getElementById("reviveBreakdownContainer");
 
   if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} [Dist: ${displayDist} + Bonus: ${displayBonus}]`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
-  if (personalBestEl) personalBestEl.innerText = `${heliGame.bestScore}`;
 
   if (appState.hasRevivedThisGame) {
     if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "flex";
@@ -1685,4 +1684,3 @@ function renderProfileWallet() {
     `;
   }
 }
-
