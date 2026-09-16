@@ -10,7 +10,6 @@ const appState = {
   monthlyScore: 0,
   currentRunScore: 0,
   activeGameType: 'daily',
-  // Revive & Double Score state trackers with detailed breakdown tracking
   hasRevivedThisGame: false,
   isRevivingState: false,
   revivePreDistance: 0,
@@ -284,7 +283,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeliGameListeners();
   setupMonthlyButtons();
   setupPauseModalHTML();
-  setupGameOverModalLightAppleTheme();
+  setupGameStartModalCartoonTheme();
+  setupGameOverModalCartoonTheme();
 });
 
 function setupMonthlyButtons() {
@@ -294,7 +294,61 @@ function setupMonthlyButtons() {
   });
 }
 
-function setupGameOverModalLightAppleTheme() {
+// 🎨 CARTOON THEME START OVERLAY MODAL
+function setupGameStartModalCartoonTheme() {
+  const modalContainer = document.getElementById("gameScreenModal");
+  if (!modalContainer) return;
+
+  let startOverlay = document.getElementById("gameStartOverlay");
+  if (!startOverlay) {
+    startOverlay = document.createElement("div");
+    startOverlay.id = "gameStartOverlay";
+    modalContainer.appendChild(startOverlay);
+  }
+
+  startOverlay.className = "game-overlay";
+  startOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(15,23,42,0.85) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:55; padding: 16px; overflow-y: auto;";
+  startOverlay.innerHTML = `
+    <div style="text-align:center; padding:26px 20px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 4px solid #38bdf8; border-radius:32px; box-shadow: 0 20px 45px rgba(56,189,248,0.35); margin: auto; position: relative; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+      
+      <!-- Fun Animated Trophy Header Badge -->
+      <div style="width: 72px; height: 72px; background: linear-gradient(135deg, #facc15, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -55px auto 12px auto; box-shadow: 0 8px 20px rgba(245,158,11,0.4); border: 4px solid #ffffff;">
+        <span style="font-size: 2rem;">🏆</span>
+      </div>
+
+      <h1 style="font-size:1.6rem; font-weight:900; color:#1e293b; margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase; font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif; text-shadow: 2px 2px 0px #e2e8f0;">COPTER CASH</h1>
+      
+      <!-- Cartoon Pill Badge -->
+      <div style="display: inline-block; background: #e0f2fe; border: 2px dashed #0284c7; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;">
+        <span style="font-size: 0.72rem; font-weight: 900; color: #0369a1; text-transform: uppercase;">🚀 Daily Tournament Edition</span>
+      </div>
+
+      <p style="font-size:0.82rem; color:#475569; margin-bottom:16px; font-weight:600; line-height: 1.4;">
+        Tap anywhere to bounce higher! Dodge wacky obstacles & collect maximum bonuses to rule the leaderboard!
+      </p>
+
+      <!-- Fun Cartoon Tips Box -->
+      <div style="background:#fef9c3; border: 2px solid #fde047; border-radius:20px; padding:12px 14px; margin-bottom:18px; text-align:left; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);">
+        <div style="font-size:0.75rem; font-weight:900; color:#854d0e; margin-bottom:6px; display:flex; align-items:center; gap:4px;">
+          <span>💡</span> PRO GAMING TIPS
+        </div>
+        <ul style="margin:0; padding-left:16px; font-size:0.75rem; color:#713f12; font-weight:700; display:flex; flex-direction:column; gap:4px;">
+          <li>Watch ads to double your final score!</li>
+          <li>Fly close to pipes for hidden streak bonuses!</li>
+        </ul>
+      </div>
+
+      <!-- Bouncy Cartoon Start Button -->
+      <button onclick="startHeliGame()" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:3px solid #86efac; border-radius:22px; font-size:1rem; box-shadow:0 8px 22px rgba(34,197,94,0.4); cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; transition: transform 0.1s;">
+        🎮 TAP TO START 🚁
+      </button>
+
+    </div>
+  `;
+}
+
+// 🎨 CARTOON THEME GAME OVER MODAL
+function setupGameOverModalCartoonTheme() {
   const modalContainer = document.getElementById("gameScreenModal");
   if (!modalContainer) return;
 
@@ -306,74 +360,70 @@ function setupGameOverModalLightAppleTheme() {
   }
 
   overOverlay.className = "game-overlay hidden";
-  overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.92); backdrop-filter: blur(16px); display:flex; align-items:center; justify-content:center; z-index:55; animation: fadeInOverlay 0.3s ease; padding: 16px; overflow-y: auto;";
+  overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(239,68,68,0.3) 0%, rgba(15,23,42,0.85) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:55; padding: 16px; overflow-y: auto;";
   overOverlay.innerHTML = `
-    <div style="text-align:center; padding:22px 18px; max-width:360px; width:100%; background:#ffffff; border: 1px solid rgba(0,0,0,0.06); border-radius:28px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin: auto; position: relative;">
+    <div style="text-align:center; padding:24px 18px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
       
       <!-- Rank Badge Top Right -->
-      <div style="position: absolute; top: 16px; right: 18px; background: #eef2ff; border: 1px solid #c7d2fe; padding: 3px 9px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
-        <span style="font-size: 0.65rem; font-weight: 800; color: #4f46e5;">RANK</span>
-        <span id="userRankBadge" style="font-size: 0.75rem; font-weight: 900; color: #4338ca;">#--</span>
+      <div style="position: absolute; top: 14px; right: 16px; background: #e0e7ff; border: 2px solid #818cf8; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
+        <span style="font-size: 0.65rem; font-weight: 900; color: #4338ca;">RANK</span>
+        <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #3730a3;">#--</span>
       </div>
 
-      <!-- Modern Apple Warning Badge Icon -->
-      <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #FF3B30, #FF9500); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 8px auto; box-shadow: 0 6px 14px rgba(255,59,48,0.25);">
-        <span style="font-size: 1.3rem;">⚠️</span>
+      <!-- Cartoon Crash Warning Icon -->
+      <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #ef4444, #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -48px auto 10px auto; box-shadow: 0 8px 20px rgba(239,68,68,0.4); border: 4px solid #ffffff;">
+        <span style="font-size: 1.8rem;">💥</span>
       </div>
 
-      <h2 style="font-size:1.3rem; font-weight:900; color:#1c1c1e; margin-bottom:12px; letter-spacing:-0.5px;">HELI CRASHED!</h2>
+      <h2 style="font-size:1.5rem; font-weight:900; color:#be123c; margin-bottom:10px; letter-spacing:-0.5px; text-transform:uppercase; font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;">OOPS! CRASHED!</h2>
 
-      <!-- Clean Sequential Score Breakdown Card -->
-      <div style="background:#f9f9fb; border: 1px solid #e5e5ea; border-radius:16px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
+      <!-- Cartoon Score Breakdown Card -->
+      <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
         
-        <!-- Current Run Single-Line Sequence -->
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:7px;">
-          <span style="font-size:0.7rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px; white-space:nowrap;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.78rem; font-weight:900; color:#1c1c1e; text-align: right; white-space:nowrap;">0 [Dist: 0 + Bonus: 0]</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
+          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">CURRENT RUN</span>
+          <span id="currentRunScore" style="font-size:0.78rem; font-weight:900; color:#475569;">0 [Dist: 0 + Bonus: 0]</span>
         </div>
 
-        <!-- Revive Breakdown Details Section (Visible if Revived) -->
-        <div id="reviveBreakdownContainer" style="display:none; flex-direction:column; gap:6px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px; padding:8px 10px;">
-          <div style="font-size:0.68rem; font-weight:800; color:#16a34a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px;">⚡ Revive Double Details</div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#4b5563;">
+        <div id="reviveBreakdownContainer" style="display:none; flex-direction:column; gap:5px; background:#f0fdf4; border:2px dashed #86efac; border-radius:14px; padding:8px;">
+          <div style="font-size:0.68rem; font-weight:900; color:#15803d; text-transform:uppercase;">⚡ Revive Double Details</div>
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151;">
             <span>Pre-Revive Score:</span>
-            <span id="preReviveScoreText" style="font-weight:800; color:#1f2937;">0</span>
+            <span id="preReviveScoreText" style="font-weight:900; color:#1f2937;">0</span>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#4b5563;">
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151;">
             <span>Doubled Score (×2):</span>
-            <span id="doubledReviveScoreText" style="font-weight:800; color:#16a34a;">0</span>
+            <span id="doubledReviveScoreText" style="font-weight:900; color:#15803d;">0</span>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#4b5563; border-top:1px dashed #d1fae5; pt:2px;">
+          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151; border-top:1px dashed #bbf7d0; padding-top:2px;">
             <span>Post-Revive Run:</span>
-            <span id="postReviveRunText" style="font-weight:800; color:#1f2937;">0</span>
+            <span id="postReviveRunText" style="font-weight:900; color:#1f2937;">0</span>
           </div>
         </div>
 
-        <!-- Daily Total Score Row -->
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #e5e5ea; padding-bottom:7px;">
-          <span style="font-size:0.7rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">DAILY TOTAL</span>
-          <span id="dailyTotalScoreDisplay" style="font-size:0.85rem; font-weight:900; color:#34C759;">0</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
+          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">DAILY TOTAL</span>
+          <span id="dailyTotalScoreDisplay" style="font-size:0.85rem; font-weight:900; color:#16a34a;">0</span>
         </div>
 
-        <!-- Best Score Row -->
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.7rem; font-weight:800; color:#8e8e93; letter-spacing:0.3px;">PERSONAL BEST</span>
-          <span id="personalBestDisplay" style="font-size:0.82rem; font-weight:900; color:#007AFF;">0</span>
+          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">PERSONAL BEST</span>
+          <span id="personalBestDisplay" style="font-size:0.82rem; font-weight:900; color:#2563eb;">0</span>
         </div>
 
       </div>
 
       <!-- Action Buttons Hierarchy -->
-      <div style="display:flex; flex-direction:column; gap:9px;">
-        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #34C759, #30B0C7); color:#fff; border:none; border-radius:13px; font-size:0.88rem; box-shadow:0 6px 18px rgba(52,199,89,0.3); cursor:pointer; transition: transform 0.2s;">
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:3px solid #6ee7b7; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(16,185,129,0.35); cursor:pointer;">
           ⚡ REVIVE & DOUBLE SCORE
         </button>
 
-        <button onclick="startHeliGame()" style="width:100%; padding:12px; font-weight:800; background:#007AFF; color:#fff; border:none; border-radius:13px; font-size:0.88rem; box-shadow:0 6px 18px rgba(0,122,255,0.3); cursor:pointer; transition: transform 0.2s;">
+        <button onclick="startHeliGame()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #3b82f6, #1d4ed8); color:#fff; border:3px solid #93c5fd; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(59,130,246,0.35); cursor:pointer;">
           PLAY AGAIN 🔄
         </button>
 
-        <button onclick="closeGameScreen()" style="width:100%; padding:10px; font-weight:700; background:#f2f2f7; color:#3a3a3c; border:none; border-radius:13px; font-size:0.85rem; cursor:pointer;">
+        <button onclick="closeGameScreen()" style="width:100%; padding:10px; font-weight:800; background:#f1f5f9; color:#475569; border:2px solid #cbd5e1; border-radius:16px; font-size:0.8rem; cursor:pointer;">
           EXIT TO ARENA
         </button>
       </div>
@@ -390,16 +440,15 @@ function setupPauseModalHTML() {
     const pauseDiv = document.createElement("div");
     pauseDiv.id = "gamePauseOverlay";
     pauseDiv.className = "game-overlay hidden";
-    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.85); backdrop-filter: blur(12px); display:flex; align-items:center; justify-content:center; z-index:50; animation: fadeInOverlay 0.3s ease;";
+    pauseDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.85); backdrop-filter: blur(12px); display:flex; align-items:center; justify-content:center; z-index:50;";
     pauseDiv.innerHTML = `
-      <div class="glass-card" style="text-align:center; padding:36px 28px; max-width:330px; width:90%; background:#ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius:28px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-        <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #007AFF, #5856D6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; box-shadow: 0 10px 20px rgba(0,122,255,0.3); font-size: 1.8rem; color: #fff;">⏸️</div>
-        <h2 style="font-size:1.6rem; font-weight:900; color:#1c1c1e; margin-bottom:8px; letter-spacing:0.5px;">GAME PAUSED</h2>
-        <p style="font-size:0.9rem; color:#8e8e93; margin-bottom:24px; font-weight:500; line-height: 1.4;">Take a breather! Tap below to resume your session.</p>
-        <button id="resumeBtnInternal" class="glass-btn primary-btn" style="width:100%; padding:14px; font-weight:900; background:#007AFF; color:#fff; border:none; border-radius:14px; font-size:1rem; box-shadow:0 10px 20px rgba(0,122,255,0.35); cursor:pointer; transition: transform 0.2s;">RESUME GAME</button>
+      <div style="text-align:center; padding:32px 24px; max-width:330px; width:90%; background:#ffffff; border: 4px solid #38bdf8; border-radius:28px; box-shadow: 0 25px 50px rgba(0,0,0,0.2);">
+        <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 1.8rem; color: #fff; border: 3px solid #93c5fd;">⏸️</div>
+        <h2 style="font-size:1.5rem; font-weight:900; color:#1e293b; margin-bottom:8px;">GAME PAUSED</h2>
+        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px; font-weight:600;">Take a breather! Tap below to resume your flight.</p>
+        <button id="resumeBtnInternal" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:3px solid #86efac; border-radius:18px; font-size:0.95rem; cursor:pointer;">RESUME GAME</button>
       </div>
     `;
-    
     modalContainer.appendChild(pauseDiv);
     
     document.getElementById("resumeBtnInternal").addEventListener("click", (e) => {
@@ -412,9 +461,9 @@ function setupPauseModalHTML() {
     const countDiv = document.createElement("div");
     countDiv.id = "gameCountdownOverlay";
     countDiv.className = "game-overlay hidden";
-    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.75); backdrop-filter: blur(6px); display:flex; align-items:center; justify-content:center; z-index:50;";
+    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.75); backdrop-filter: blur(6px); display:flex; align-items:center; justify-content:center; z-index:50;";
     countDiv.innerHTML = `
-      <div style="font-size:6.5rem; font-weight:900; color:#FF9500; text-shadow:0 0 40px rgba(255,149,0,0.4); animation: pulseCount 0.9s infinite alternate;" id="countdownNumber">3</div>
+      <div style="font-size:6.5rem; font-weight:900; color:#facc15; text-shadow:0 0 30px rgba(250,204,21,0.6);" id="countdownNumber">3</div>
     `;
     modalContainer.appendChild(countDiv);
   }
@@ -423,15 +472,15 @@ function setupPauseModalHTML() {
     const confirmDiv = document.createElement("div");
     confirmDiv.id = "confirmExitOverlay";
     confirmDiv.className = "game-overlay hidden";
-    confirmDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(242, 242, 247, 0.85); backdrop-filter: blur(12px); display:flex; align-items:center; justify-content:center; z-index:60; animation: fadeInOverlay 0.3s ease;";
+    confirmDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.85); backdrop-filter: blur(12px); display:flex; align-items:center; justify-content:center; z-index:60;";
     confirmDiv.innerHTML = `
-      <div class="glass-card" style="text-align:center; padding:36px 28px; max-width:330px; width:90%; background:#ffffff; border: 1px solid rgba(0,0,0,0.08); border-radius:28px; box-shadow: 0 25px 50px rgba(0,0,0,0.15);">
-        <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #FF9500, #FFCC00); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; box-shadow: 0 10px 20px rgba(255,149,0,0.3); font-size: 1.8rem; color: #fff;">⚠️</div>
-        <h2 style="font-size:1.6rem; font-weight:900; color:#1c1c1e; margin-bottom:8px; letter-spacing:0.5px;">QUIT GAME?</h2>
-        <p style="font-size:0.9rem; color:#8e8e93; margin-bottom:24px; font-weight:500; line-height: 1.4;">Are you sure? Your current game progress and score will be lost!</p>
-        <div style="display:flex; gap:12px;">
-          <button id="cancelExitBtn" class="glass-btn" style="flex:1; padding:14px; font-weight:800; background:#f2f2f7; color:#3a3a3c; border:none; border-radius:14px; cursor:pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: background 0.2s;">STAY</button>
-          <button id="confirmExitBtn" class="glass-btn" style="flex:1; padding:14px; font-weight:800; background:#FF3B30; color:#fff; border:none; border-radius:14px; cursor:pointer; box-shadow: 0 8px 16px rgba(255,59,48,0.3); transition: transform 0.2s;">QUIT</button>
+      <div style="text-align:center; padding:32px 24px; max-width:330px; width:90%; background:#ffffff; border: 4px solid #f59e0b; border-radius:28px; box-shadow: 0 25px 50px rgba(0,0,0,0.2);">
+        <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 1.8rem; color: #fff; border: 3px solid #fde047;">⚠️</div>
+        <h2 style="font-size:1.5rem; font-weight:900; color:#1e293b; margin-bottom:8px;">QUIT GAME?</h2>
+        <p style="font-size:0.85rem; color:#64748b; margin-bottom:20px; font-weight:600;">Are you sure? Your current score progress will be lost!</p>
+        <div style="display:flex; gap:10px;">
+          <button id="cancelExitBtn" style="flex:1; padding:12px; font-weight:800; background:#f1f5f9; color:#475569; border:2px solid #cbd5e1; border-radius:16px; cursor:pointer;">STAY</button>
+          <button id="confirmExitBtn" style="flex:1; padding:12px; font-weight:800; background:linear-gradient(135deg, #ef4444, #dc2626); color:#fff; border:3px solid #fca5a5; border-radius:16px; cursor:pointer;">QUIT</button>
         </div>
       </div>
     `;
@@ -583,7 +632,8 @@ function handleGameLaunch() {
   }
   showModal("gameScreenModal");
   setupPauseModalHTML();
-  setupGameOverModalLightAppleTheme();
+  setupGameStartModalCartoonTheme();
+  setupGameOverModalCartoonTheme();
   resetHeliGameUI();
 }
 
