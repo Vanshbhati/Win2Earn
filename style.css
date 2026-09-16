@@ -51,10 +51,11 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  height: 100%;
+  overflow: hidden !important;
+  position: fixed;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
 }
 
 body.no-scroll {
@@ -63,6 +64,7 @@ body.no-scroll {
   height: 100dvh;
   position: fixed;
   width: 100%;
+  overscroll-behavior: none;
 }
 
 /* --------------------------------------------------------------------------
@@ -240,6 +242,7 @@ body.no-scroll {
   align-items: center;
   z-index: 99999 !important;
   padding: 16px;
+  overscroll-behavior: none;
 }
 
 .high-priority-z { z-index: 9999999 !important; }
@@ -345,7 +348,7 @@ body.no-scroll {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   height: 100dvh;
   background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
@@ -353,6 +356,8 @@ body.no-scroll {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  touch-action: none;
+  overscroll-behavior: none;
 }
 
 .game-engine-header {
@@ -500,13 +505,16 @@ body.no-scroll {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  touch-action: none;
 }
 
 #heliCanvas {
   width: 100%;
   height: 100%;
   display: block;
-  touch-action: manipulation;
+  touch-action: none;
+  -webkit-user-select: none;
 }
 
 .game-modal-overlay {
@@ -523,6 +531,7 @@ body.no-scroll {
   align-items: center;
   padding: 20px;
   z-index: 30;
+  overscroll-behavior: none;
 }
 
 /* ==========================================================================
