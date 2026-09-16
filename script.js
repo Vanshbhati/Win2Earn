@@ -309,16 +309,14 @@ function setupGameStartModalCartoonTheme() {
   startOverlay.className = "game-overlay";
   startOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(15,23,42,0.85) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:55; padding: 16px; overflow-y: auto;";
   startOverlay.innerHTML = `
-    <div style="text-align:center; padding:26px 20px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 4px solid #38bdf8; border-radius:32px; box-shadow: 0 20px 45px rgba(56,189,248,0.35); margin: auto; position: relative; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <div style="text-align:center; padding:26px 20px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border: 4px solid #38bdf8; border-radius:32px; box-shadow: 0 20px 45px rgba(56,189,248,0.35); margin: auto; position: relative;">
       
-      <!-- Fun Animated Trophy Header Badge -->
       <div style="width: 72px; height: 72px; background: linear-gradient(135deg, #facc15, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -55px auto 12px auto; box-shadow: 0 8px 20px rgba(245,158,11,0.4); border: 4px solid #ffffff;">
         <span style="font-size: 2rem;">🏆</span>
       </div>
 
-      <h1 style="font-size:1.6rem; font-weight:900; color:#1e293b; margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase; font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif; text-shadow: 2px 2px 0px #e2e8f0;">COPTER CASH</h1>
+      <h1 style="font-size:1.6rem; font-weight:900; color:#1e293b; margin-bottom:6px; letter-spacing:0.5px; text-transform:uppercase;">COPTER CASH</h1>
       
-      <!-- Cartoon Pill Badge -->
       <div style="display: inline-block; background: #e0f2fe; border: 2px dashed #0284c7; padding: 4px 12px; border-radius: 20px; margin-bottom: 14px;">
         <span style="font-size: 0.72rem; font-weight: 900; color: #0369a1; text-transform: uppercase;">🚀 Daily Tournament Edition</span>
       </div>
@@ -327,19 +325,7 @@ function setupGameStartModalCartoonTheme() {
         Tap anywhere to bounce higher! Dodge wacky obstacles & collect maximum bonuses to rule the leaderboard!
       </p>
 
-      <!-- Fun Cartoon Tips Box -->
-      <div style="background:#fef9c3; border: 2px solid #fde047; border-radius:20px; padding:12px 14px; margin-bottom:18px; text-align:left; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03);">
-        <div style="font-size:0.75rem; font-weight:900; color:#854d0e; margin-bottom:6px; display:flex; align-items:center; gap:4px;">
-          <span>💡</span> PRO GAMING TIPS
-        </div>
-        <ul style="margin:0; padding-left:16px; font-size:0.75rem; color:#713f12; font-weight:700; display:flex; flex-direction:column; gap:4px;">
-          <li>Watch ads to double your final score!</li>
-          <li>Fly close to pipes for hidden streak bonuses!</li>
-        </ul>
-      </div>
-
-      <!-- Bouncy Cartoon Start Button -->
-      <button onclick="startHeliGame()" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:3px solid #86efac; border-radius:22px; font-size:1rem; box-shadow:0 8px 22px rgba(34,197,94,0.4); cursor:pointer; text-transform:uppercase; letter-spacing:0.5px; transition: transform 0.1s;">
+      <button onclick="startHeliGame()" style="width:100%; padding:14px; font-weight:900; background:linear-gradient(135deg, #22c55e, #16a34a); color:#fff; border:3px solid #86efac; border-radius:22px; font-size:1rem; box-shadow:0 8px 22px rgba(34,197,94,0.4); cursor:pointer; text-transform:uppercase;">
         🎮 TAP TO START 🚁
       </button>
 
@@ -347,7 +333,7 @@ function setupGameStartModalCartoonTheme() {
   `;
 }
 
-// 🎨 CARTOON THEME GAME OVER MODAL
+// 🎨 CLEAN & SIMPLE GAME OVER MODAL (Aapki requirement ke mutabiq)
 function setupGameOverModalCartoonTheme() {
   const modalContainer = document.getElementById("gameScreenModal");
   if (!modalContainer) return;
@@ -362,68 +348,42 @@ function setupGameOverModalCartoonTheme() {
   overOverlay.className = "game-overlay hidden";
   overOverlay.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(239,68,68,0.3) 0%, rgba(15,23,42,0.85) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:55; padding: 16px; overflow-y: auto;";
   overOverlay.innerHTML = `
-    <div style="text-align:center; padding:24px 18px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative; animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
+    <div style="text-align:center; padding:24px 18px; max-width:340px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative;">
       
-      <!-- Rank Badge Top Right -->
-      <div style="position: absolute; top: 14px; right: 16px; background: #e0e7ff; border: 2px solid #818cf8; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
-        <span style="font-size: 0.65rem; font-weight: 900; color: #4338ca;">RANK</span>
-        <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #3730a3;">#--</span>
-      </div>
-
-      <!-- Cartoon Crash Warning Icon -->
+      <!-- Crash Icon -->
       <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #ef4444, #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -48px auto 10px auto; box-shadow: 0 8px 20px rgba(239,68,68,0.4); border: 4px solid #ffffff;">
         <span style="font-size: 1.8rem;">💥</span>
       </div>
 
-      <h2 style="font-size:1.5rem; font-weight:900; color:#be123c; margin-bottom:10px; letter-spacing:-0.5px; text-transform:uppercase; font-family: 'Comic Sans MS', 'Bubblegum Sans', sans-serif;">OOPS! CRASHED!</h2>
+      <h2 style="font-size:1.5rem; font-weight:900; color:#be123c; margin-bottom:14px; text-transform:uppercase;">OOPS! CRASHED!</h2>
 
-      <!-- Cartoon Score Breakdown Card -->
-      <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
+      <!-- Clean Score Board -->
+      <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:14px; margin-bottom:16px; text-align:left; display: flex; flex-direction: column; gap: 10px;">
         
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.78rem; font-weight:900; color:#475569;">0 [Dist: 0 + Bonus: 0]</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:8px;">
+          <span style="font-size:0.75rem; font-weight:900; color:#9f1239;">CURRENT SCORE</span>
+          <span id="currentRunScore" style="font-size:0.9rem; font-weight:900; color:#1e293b;">0</span>
         </div>
 
-        <div id="reviveBreakdownContainer" style="display:none; flex-direction:column; gap:5px; background:#f0fdf4; border:2px dashed #86efac; border-radius:14px; padding:8px;">
-          <div style="font-size:0.68rem; font-weight:900; color:#15803d; text-transform:uppercase;">⚡ Revive Double Details</div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151;">
-            <span>Pre-Revive Score:</span>
-            <span id="preReviveScoreText" style="font-weight:900; color:#1f2937;">0</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151;">
-            <span>Doubled Score (×2):</span>
-            <span id="doubledReviveScoreText" style="font-weight:900; color:#15803d;">0</span>
-          </div>
-          <div style="display:flex; justify-content:space-between; font-size:0.72rem; color:#374151; border-top:1px dashed #bbf7d0; padding-top:2px;">
-            <span>Post-Revive Run:</span>
-            <span id="postReviveRunText" style="font-weight:900; color:#1f2937;">0</span>
-          </div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">DAILY TOTAL</span>
-          <span id="dailyTotalScoreDisplay" style="font-size:0.85rem; font-weight:900; color:#16a34a;">0</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:8px;">
+          <span style="font-size:0.75rem; font-weight:900; color:#9f1239;">DAILY TOTAL</span>
+          <span id="dailyTotalScoreDisplay" style="font-size:0.9rem; font-weight:900; color:#16a34a;">0</span>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239;">PERSONAL BEST</span>
-          <span id="personalBestDisplay" style="font-size:0.82rem; font-weight:900; color:#2563eb;">0</span>
+          <span style="font-size:0.75rem; font-weight:900; color:#9f1239;">PERSONAL BEST</span>
+          <span id="personalBestDisplay" style="font-size:0.9rem; font-weight:900; color:#2563eb;">0</span>
         </div>
 
       </div>
 
-      <!-- Action Buttons Hierarchy -->
-      <div style="display:flex; flex-direction:column; gap:8px;">
-        <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:3px solid #6ee7b7; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(16,185,129,0.35); cursor:pointer;">
-          ⚡ REVIVE & DOUBLE SCORE
-        </button>
-
-        <button onclick="startHeliGame()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #3b82f6, #1d4ed8); color:#fff; border:3px solid #93c5fd; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(59,130,246,0.35); cursor:pointer;">
+      <!-- Action Buttons -->
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button onclick="startHeliGame()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #3b82f6, #1d4ed8); color:#fff; border:3px solid #93c5fd; border-radius:18px; font-size:0.9rem; box-shadow:0 6px 16px rgba(59,130,246,0.35); cursor:pointer; text-transform:uppercase;">
           PLAY AGAIN 🔄
         </button>
 
-        <button onclick="closeGameScreen()" style="width:100%; padding:10px; font-weight:800; background:#f1f5f9; color:#475569; border:2px solid #cbd5e1; border-radius:16px; font-size:0.8rem; cursor:pointer;">
+        <button onclick="closeGameScreen()" style="width:100%; padding:10px; font-weight:800; background:#f1f5f9; color:#475569; border:2px solid #cbd5e1; border-radius:16px; font-size:0.85srem; cursor:pointer; text-transform:uppercase;">
           EXIT TO ARENA
         </button>
       </div>
@@ -717,7 +677,7 @@ function startHeliGameResumed() {
 }
 
 // ==========================================================================
-// GAME ENGINE WITH SMOOTH SPEED INCREMENT & 1500-UNIT ENVIRONMENT LOOP
+// GAME ENGINE
 // ==========================================================================
 const heliGame = {
   canvas: null,
@@ -814,10 +774,6 @@ function triggerHeliJump() {
 function resetHeliGameUI() {
   appState.hasRevivedThisGame = false;
   appState.isRevivingState = false;
-  appState.revivePreDistance = 0;
-  appState.revivePreBonus = 0;
-  appState.revivePostDistance = 0;
-  appState.revivePostBonus = 0;
 
   document.getElementById("gameStartOverlay")?.classList.remove("hidden");
   const pauseOverlay = document.getElementById("gamePauseOverlay");
@@ -882,11 +838,6 @@ function startHeliGame() {
 
   if (!appState.isRevivingState) {
     appState.hasRevivedThisGame = false;
-    appState.revivePreDistance = 0;
-    appState.revivePreBonus = 0;
-    appState.revivePostDistance = 0;
-    appState.revivePostBonus = 0;
-
     heliGame.y = (canvas.height - heliGame.groundHeight) / 2 - 20;
     heliGame.velocity = 0;
     heliGame.angle = 0;
@@ -919,47 +870,6 @@ function startHeliGame() {
 
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
   heliGame.loopId = requestAnimationFrame(heliGameLoop);
-}
-
-function handleReviveAndDouble() {
-  if (appState.hasRevivedThisGame) return;
-  unlockMobileAudio();
-  appState.hasRevivedThisGame = true;
-
-  document.getElementById("gameOverOverlay")?.classList.add("hidden");
-
-  appState.revivePreDistance = heliGame.distanceMeters;
-  appState.revivePreBonus = heliGame.bonusScore;
-
-  appState.revivePostDistance = appState.revivePreDistance * 2;
-  appState.revivePostBonus = appState.revivePreBonus * 2;
-
-  heliGame.distanceMeters = appState.revivePostDistance;
-  heliGame.rawScoreAcc = appState.revivePostDistance;
-  heliGame.bonusScore = appState.revivePostBonus;
-
-  const countOverlay = document.getElementById("gameCountdownOverlay");
-  const countNumber = document.getElementById("countdownNumber");
-  if (countOverlay) {
-    countOverlay.classList.remove("hidden");
-  }
-
-  let count = 3;
-  if (countNumber) countNumber.innerText = count;
-
-  const countInterval = setInterval(() => {
-    count--;
-    if (count > 0) {
-      if (countNumber) countNumber.innerText = count;
-    } else {
-      clearInterval(countInterval);
-      if (countOverlay) {
-        countOverlay.classList.add("hidden");
-      }
-      appState.isRevivingState = true;
-      startHeliGame();
-    }
-  }, 1000);
 }
 
 function heliGameLoop(timestamp) {
@@ -1598,22 +1508,7 @@ function handleCrash() {
   gameSounds.stopRain();
   gameSounds.playCrash();
 
-  let finalRunTotal = 0;
-  let displayDist = 0;
-  let displayBonus = 0;
-
-  if (appState.hasRevivedThisGame) {
-    const postReviveDistEarned = heliGame.distanceMeters - appState.revivePostDistance;
-    const postReviveBonusEarned = heliGame.bonusScore - appState.revivePostBonus;
-
-    displayDist = appState.revivePostDistance + postReviveDistEarned;
-    displayBonus = appState.revivePostBonus + postReviveBonusEarned;
-    finalRunTotal = displayDist + displayBonus;
-  } else {
-    displayDist = heliGame.distanceMeters;
-    displayBonus = heliGame.bonusScore;
-    finalRunTotal = displayDist + displayBonus;
-  }
+  let finalRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
 
   appState.currentRunScore = finalRunTotal;
   appState.dailyScore += finalRunTotal;
@@ -1627,42 +1522,10 @@ function handleCrash() {
   const runScoreEl = document.getElementById("currentRunScore");
   const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
   const personalBestEl = document.getElementById("personalBestDisplay");
-  const rankBadgeEl = document.getElementById("userRankBadge");
-  const reviveBtnEl = document.getElementById("reviveActionBtn");
-  const reviveBreakdownContainer = document.getElementById("reviveBreakdownContainer");
 
-  if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} [Dist: ${displayDist} + Bonus: ${displayBonus}]`;
+  if (runScoreEl) runScoreEl.innerText = `${finalRunTotal}`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
   if (personalBestEl) personalBestEl.innerText = `${heliGame.bestScore}`;
-
-  if (appState.hasRevivedThisGame) {
-    if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "flex";
-    const preTotal = appState.revivePreDistance + appState.revivePreBonus;
-    const postTotal = appState.revivePostDistance + appState.revivePostBonus;
-    
-    document.getElementById("preReviveScoreText").innerText = `${preTotal} (Dist: ${appState.revivePreDistance} + Bonus: ${appState.revivePreBonus})`;
-    document.getElementById("doubledReviveScoreText").innerText = `${postTotal} (Dist: ${appState.revivePostDistance} + Bonus: ${appState.revivePostBonus})`;
-    document.getElementById("postReviveRunText").innerText = `${finalRunTotal}`;
-  } else {
-    if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "none";
-  }
-
-  let userRank = "--";
-  if (appState.currentUser) {
-    const foundUserIdx = lbDailyData.findIndex(item => item.name === appState.currentUser.name);
-    if (foundUserIdx !== -1) {
-      userRank = `#${lbDailyData[foundUserIdx].rank}`;
-    }
-  }
-  if (rankBadgeEl) rankBadgeEl.innerText = `${userRank}`;
-
-  if (reviveBtnEl) {
-    if (appState.hasRevivedThisGame) {
-      reviveBtnEl.style.display = "none";
-    } else {
-      reviveBtnEl.style.display = "block";
-    }
-  }
 
   document.getElementById("gameOverOverlay")?.classList.remove("hidden");
 }
