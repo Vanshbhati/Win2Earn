@@ -11,7 +11,7 @@
 </head>
 <body class="no-scroll">
 
-  <!-- Desktop-Only Restriction Overlay (Dark Apple OLED Style) -->
+  <!-- Desktop-Only Restriction Overlay -->
   <div class="desktop-blocker-overlay">
     <div class="blocker-card">
       <div class="blocker-icon">📱</div>
@@ -25,7 +25,7 @@
   <!-- Live Canvas Background -->
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
-  <!-- Splash Screen (Dark Apple Theme) - 8 to 9 Seconds Timer Added -->
+  <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen gpu-accelerated">
     <div class="splash-content">
       <div class="splash-logo">
@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- Priority Alert / Error Popup (Non-scrollable) -->
+  <!-- Priority Alert / Error Popup -->
   <div id="errorPopup" class="popup-overlay hidden high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠️</div>
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <!-- OTP Verification Modal (Non-scrollable) -->
+  <!-- OTP Verification Modal -->
   <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">🔐</div>
@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal (Non-scrollable body container) -->
+  <!-- Payout Info Modal -->
   <div id="payoutInfoModal" class="modal-overlay hidden">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
@@ -75,13 +75,13 @@
     </div>
   </div>
 
-  <!-- Monthly Championship Modal -->
+  <!-- Monthly Championship Modal (Cyan/Green Glow Theme) -->
   <div id="comingSoonModal" class="modal-overlay hidden">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
       <div class="popup-icon">👑</div>
       <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: var(--accent-gold-dark); margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
-      <div class="info-body" style="background: rgba(191, 90, 242, 0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
+      <div class="info-body" style="background: rgba(0, 240, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
         <p style="font-size: 1rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 6px;">🚀 COMING SOON!</p>
         <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
           Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
@@ -91,15 +91,13 @@
     </div>
   </div>
 
-  <!-- Fullscreen Game Arena Overlay (Copter Cash) -->
+  <!-- Fullscreen Game Arena Overlay -->
   <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
-
     <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
       <canvas id="heliCanvas"></canvas>
     </div>
 
-    <!-- Game Launch Overlay -->
     <div id="gameStartOverlay" class="game-modal-overlay" style="display: flex; align-items: center; justify-content: center; padding: 16px;">
       <div class="game-launch-card glass-card gpu-accelerated">
         <div class="launch-icon-glow">🏆</div>
@@ -108,8 +106,6 @@
         <p class="game-instructions">
           Tap anywhere on your screen to fly higher. Precision dodge obstacles & survive to set top leaderboard scores!
         </p>
-
-        <!-- Pro Tips Box -->
         <div class="launch-tips-box">
           <div class="tips-title">💡 Pro Gaming Tips</div>
           <ul class="tips-list" style="margin: 0; padding-left: 16px; text-align: left;">
@@ -117,19 +113,16 @@
             <li>Focus sharply on pipes to survive longer and score higher!</li>
           </ul>
         </div>
-        
         <button class="launch-cta-btn" onclick="startHeliGame()">
           <span>TAP TO START</span> 🚀
         </button>
       </div>
     </div>
 
-    <!-- Game Over / Crash Screen -->
     <div id="gameOverOverlay" class="game-modal-overlay hidden">
       <div class="game-launch-card crash-card glass-card gpu-accelerated">
         <div class="crash-icon-glow">💥</div>
         <h2 class="crash-head-text">HELI CRASHED!</h2>
-        
         <div class="score-breakdown-card">
           <div class="score-row">
             <span class="s-label">CURRENT RUN SCORE</span>
@@ -141,7 +134,6 @@
             <span id="dailyTotalScoreDisplay" class="s-val">0</span>
           </div>
         </div>
-
         <div class="crash-btn-group">
           <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
           <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
@@ -224,12 +216,11 @@
     </div>
   </div>
 
-  <!-- Auth Modal (Non-scrollable wrapper container) -->
+  <!-- Auth Modal -->
   <div id="authModal" class="modal-overlay hidden">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
-      <!-- Login Form -->
       <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
         <h2 class="popup-title" style="margin-bottom: 16px; text-align: center;">Log In</h2>
         <input type="email" id="loginEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 12px;">
@@ -238,7 +229,6 @@
         <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center;">Don't have an account? <a href="#" onclick="switchTab('signup')" style="color: var(--accent-cyan); font-weight: 700; text-decoration: none;">Sign Up</a></p>
       </form>
 
-      <!-- Signup Form -->
       <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
         <h2 class="popup-title" style="margin-bottom: 16px; text-align: center;">Sign Up</h2>
         <input type="text" id="signupName" class="glass-input" placeholder="Full Name" required style="margin-bottom: 10px;">
@@ -266,7 +256,7 @@
     </div>
     <div class="auth-btns" id="navAuthBtns">
       <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 8px 14px; font-size: 0.8rem;">Log In</button>
-      <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 8px 14px; font-size: 0.8rem;">Sign Up</button>
+      <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 8px 14px; font-size: 0.8rem; background: linear-gradient(135deg, #00F0FF, #00FF88); color: #000; font-weight: 800;">Sign Up</button>
     </div>
   </header>
 
@@ -276,15 +266,13 @@
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Winners Ticker -->
       <section class="ticker-wrapper glass-card pointer-locked">
-        <div class="ticker-badge">WINNERS</div>
+        <div class="ticker-badge" style="background: rgba(0, 240, 255, 0.2); color: #00F0FF;">WINNERS</div>
         <div class="ticker-viewport">
           <div class="ticker-track gpu-accelerated ticker-speed-normal" id="tickerTrack"></div>
         </div>
       </section>
 
-      <!-- Mega Event Banner -->
       <section id="megaBannerCard" class="mega-banner-card glass-card mega-attractive-glow">
         <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
         <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
@@ -296,7 +284,6 @@
         </div>
       </section>
 
-      <!-- Main Daily Tournament Hero Section -->
       <section class="tournament-hero-card glass-card">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
@@ -318,13 +305,11 @@
 
         <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
-        <!-- Home Play Now redirects unauthenticated users straight to Signup/Login -->
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
+        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem; background: linear-gradient(135deg, #00F0FF, #00FF88); color: #000; font-weight: 900;">
           PLAY NOW ➔
         </button>
       </section>
 
-      <!-- Info Trigger Card -->
       <section class="glass-card" onclick="openInfoModal()" style="padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
         <div style="display: flex; align-items: center; gap: 12px;">
           <span style="font-size: 1.5rem;">💡</span>
@@ -452,9 +437,9 @@
     </div>
   </footer>
 
-  <!-- Floating Telegram Support Button -->
-  <div class="floating-tg-btn-fixed gpu-accelerated" onclick="openTelegramModal()">
-    <svg viewBox="0 0 24 24" class="tg-floating-icon"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+  <!-- Floating Telegram Support Button (Cyan/Green Glowing Theme) -->
+  <div class="floating-tg-btn-fixed gpu-accelerated" onclick="openTelegramModal()" style="background: linear-gradient(135deg, #00F0FF, #00FF88); color: #000; box-shadow: 0 4px 20px rgba(0, 240, 255, 0.4);">
+    <svg viewBox="0 0 24 24" class="tg-floating-icon" style="fill: #000;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
   <!-- Bottom Navigation Bar -->
@@ -471,7 +456,7 @@
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c2.12-.39 3.79-2.02 4.61-4.1C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
       <span>Leaderboard</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNav_click = event => handleNavClick(event, 'alerts')">
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
       <span>Alerts</span>
     </a>
@@ -482,7 +467,6 @@
   </nav>
 
   <script src="sound.js"></script>
-  <!-- Splash Screen Timer Control Script Added -->
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const splashScreen = document.getElementById('splashScreen');
@@ -493,11 +477,10 @@
           setTimeout(() => {
             splashScreen.style.display = 'none';
           }, 500);
-        }, 8500); // 8.5 Seconds duration for splash screen
+        }, 8500);
       }
     });
   </script>
   <script src="script.js"></script>
 </body>
 </html>
-
