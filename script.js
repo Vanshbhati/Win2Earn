@@ -294,7 +294,6 @@ function setupMonthlyButtons() {
   });
 }
 
-// 🎨 CARTOON THEME START OVERLAY MODAL
 function setupGameStartModalCartoonTheme() {
   const modalContainer = document.getElementById("gameScreenModal");
   if (!modalContainer) return;
@@ -343,7 +342,6 @@ function setupGameStartModalCartoonTheme() {
   `;
 }
 
-// 🎨 CARTOON THEME GAME OVER MODAL WITH CURRENT SCORE, TOTAL SCORE & LIVE RANK BADGE
 function setupGameOverModalCartoonTheme() {
   const modalContainer = document.getElementById("gameScreenModal");
   if (!modalContainer) return;
@@ -360,7 +358,6 @@ function setupGameOverModalCartoonTheme() {
   overOverlay.innerHTML = `
     <div style="text-align:center; padding:24px 18px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative;">
       
-      <!-- 🏆 LIVE RANK BADGE (TOP RIGHT) -->
       <div id="crashRankBadge" style="position: absolute; top: 14px; right: 16px; background: linear-gradient(135deg, #f59e0b, #d97706); border: 2px solid #fef08a; border-radius: 20px; padding: 4px 10px; box-shadow: 0 4px 10px rgba(245,158,11,0.4); display: flex; align-items: center; gap: 4px;">
         <span style="font-size: 0.85rem;">👑</span>
         <span id="crashRankText" style="font-size: 0.75rem; font-weight: 900; color: #ffffff; text-transform: uppercase;">RANK #--</span>
@@ -372,7 +369,6 @@ function setupGameOverModalCartoonTheme() {
 
       <h2 style="font-size:1.4rem; font-weight:900; color:#be123c; margin-bottom:12px; letter-spacing:-0.5px; text-transform:uppercase;">OOPS! CRASHED!</h2>
 
-      <!-- SCORE CARDS WRAPPER -->
       <div style="display: flex; gap: 8px; margin-bottom: 16px;">
         <div style="flex: 1; background:#fff5f5; border: 2px solid #fecdd3; border-radius:18px; padding:12px 8px; text-align:center;">
           <div style="font-size:0.65rem; font-weight:900; color:#9f1239; text-transform:uppercase; margin-bottom:4px;">CURRENT RUN</div>
@@ -427,24 +423,29 @@ function setupPauseModalHTML() {
     });
   }
 
-  // ULTRA-ATTRACTIVE CINEMATIC REVIVE / COUNTDOWN SCREEN
+  // THEMED ARCADE REVIVE / COUNTDOWN SCREEN
   if (!document.getElementById("gameCountdownOverlay")) {
     const countDiv = document.createElement("div");
     countDiv.id = "gameCountdownOverlay";
     countDiv.className = "game-overlay hidden";
-    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(16,185,129,0.3) 0%, rgba(15,23,42,0.92) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:50; text-align:center; padding: 20px;";
+    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(56,189,248,0.35) 0%, rgba(15,23,42,0.92) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:50; text-align:center; padding: 20px;";
     countDiv.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; background: rgba(15,23,42,0.6); border: 3px solid #34d399; padding: 28px 24px; border-radius: 28px; box-shadow: 0 0 35px rgba(52,211,153,0.35); max-width: 320px; width: 100%;">
-        <div style="position: relative; width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;">
-          <div style="position: absolute; width: 100%; height: 100%; border: 4px solid #34d399; border-top: 4px solid transparent; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; background: linear-gradient(135deg, rgba(30,41,59,0.9) 0%, rgba(15,23,42,0.95) 100%); border: 4px solid #38bdf8; padding: 32px 24px; border-radius: 32px; box-shadow: 0 0 40px rgba(56,189,248,0.4); max-width: 320px; width: 100%; position: relative;">
+        
+        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #facc15, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(245,158,11,0.4); border: 3px solid #ffffff;">
           <span style="font-size: 1.6rem;">⚡</span>
         </div>
-        <div id="reviveLoadingText" style="font-size:1.15rem; font-weight:900; color:#facc15; text-shadow:0 2px 12px rgba(250,204,21,0.5); letter-spacing: 0.5px; line-height: 1.4; animation: pulseGlow 1.2s infinite ease-in-out;">
-          ⚡ DOUBLING YOUR SCORE... PLEASE WAIT ⚡
+
+        <div id="reviveLoadingText" style="font-size:1.1rem; font-weight:900; color:#facc15; text-shadow:0 2px 10px rgba(250,204,21,0.5); letter-spacing: 0.5px; line-height: 1.4; text-transform: uppercase; animation: pulseGlow 1.2s infinite ease-in-out;">
+          DOUBLING SCORE...
         </div>
+
+        <div id="reviveCountdownNumber" style="font-size: 3rem; font-weight: 900; color: #38bdf8; text-shadow: 0 0 20px rgba(56,189,248,0.6); display: none;">
+          3
+        </div>
+
       </div>
       <style>
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes pulseGlow { 0%, 100% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.03); } }
       </style>
     `;
@@ -642,26 +643,35 @@ function resumeGameWithCountdown() {
 
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const reviveText = document.getElementById("reviveLoadingText");
-  if (reviveText) reviveText.innerText = "3";
+  const countNum = document.getElementById("reviveCountdownNumber");
+  
+  if (reviveText) reviveText.style.display = "block";
+  if (reviveText) reviveText.innerText = "RESUMING GAME...";
+  if (countNum) countNum.style.display = "none";
 
   if (countOverlay) {
     countOverlay.classList.remove("hidden");
   }
 
-  let count = 3;
-  const countInterval = setInterval(() => {
-    count--;
-    if (count > 0) {
-      if (reviveText) reviveText.innerText = count;
-    } else {
-      clearInterval(countInterval);
-      if (countOverlay) {
-        countOverlay.classList.add("hidden");
+  setTimeout(() => {
+    if (reviveText) reviveText.style.display = "none";
+    if (countNum) countNum.style.display = "block";
+    if (countNum) countNum.innerText = "3";
+
+    let count = 3;
+    const countInterval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        if (countNum) countNum.innerText = count;
+      } else {
+        clearInterval(countInterval);
+        if (countOverlay) {
+          countOverlay.classList.add("hidden");
+        }
+        startHeliGameResumed();
       }
-      if (reviveText) reviveText.innerText = "⚡ DOUBLING YOUR SCORE... PLEASE WAIT ⚡";
-      startHeliGameResumed();
-    }
-  }, 1000);
+    }, 1000);
+  }, 1200);
 }
 
 function startHeliGameResumed() {
@@ -884,7 +894,7 @@ function startHeliGame() {
   heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
-// ⚡ REVIVE & DOUBLE SCORE WITH CINEMATIC LOADER
+// ⚡ REVIVE & DOUBLE SCORE WITH THEMED ARCADE 3-2-1 COUNTDOWN
 function handleReviveAndDouble() {
   if (appState.hasRevivedThisGame) return;
   unlockMobileAudio();
@@ -904,19 +914,36 @@ function handleReviveAndDouble() {
 
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const reviveText = document.getElementById("reviveLoadingText");
-  if (reviveText) reviveText.innerText = "⚡ DOUBLING YOUR SCORE... PLEASE WAIT ⚡";
+  const countNum = document.getElementById("reviveCountdownNumber");
+
+  if (reviveText) reviveText.style.display = "block";
+  if (reviveText) reviveText.innerText = "⚡ DOUBLING SCORE... ⚡";
+  if (countNum) countNum.style.display = "none";
 
   if (countOverlay) {
     countOverlay.classList.remove("hidden");
   }
 
   setTimeout(() => {
-    if (countOverlay) {
-      countOverlay.classList.add("hidden");
-    }
-    appState.isRevivingState = true;
-    startHeliGame();
-  }, 2200);
+    if (reviveText) reviveText.style.display = "none";
+    if (countNum) countNum.style.display = "block";
+    if (countNum) countNum.innerText = "3";
+
+    let count = 3;
+    const countInterval = setInterval(() => {
+      count--;
+      if (count > 0) {
+        if (countNum) countNum.innerText = count;
+      } else {
+        clearInterval(countInterval);
+        if (countOverlay) {
+          countOverlay.classList.add("hidden");
+        }
+        appState.isRevivingState = true;
+        startHeliGame();
+      }
+    }, 1000);
+  }, 1500);
 }
 
 function heliGameLoop(timestamp) {
@@ -939,6 +966,7 @@ function updatePhysics(dt) {
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
 
+  // Original score milestone check
   if (heliGame.distanceMeters > 0 && heliGame.distanceMeters % 100 === 0 && heliGame.distanceMeters !== heliGame.lastMilestoneScore) {
     heliGame.lastMilestoneScore = heliGame.distanceMeters;
     heliGame.scoreBlinkTimer = 0.6;
@@ -949,6 +977,7 @@ function updatePhysics(dt) {
     heliGame.scoreBlinkTimer -= dt;
   }
 
+  // Automatic rain triggered strictly by original true distance milestone (750)
   const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
   if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
     heliGame.lastRainMilestone = currentRainMilestone;
@@ -1097,6 +1126,7 @@ function renderCanvas() {
   const canvas = heliGame.canvas;
   const score = heliGame.distanceMeters;
 
+  // Environment and background shifts strictly bound to original score progress
   const cycleScore = score % 1500;
   
   let skyTop, skyMid, skyBottom, showSun = false, showStars = false;
@@ -1535,7 +1565,6 @@ function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   if (fill) ctx.fill();
 }
 
-// 💥 CRASH HANDLING WITH ACCUMULATED SCORES & LIVE RANK DISPLAY
 function handleCrash() {
   heliGame.active = false;
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
@@ -1548,7 +1577,6 @@ function handleCrash() {
   let currentRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
   appState.currentRunScore = currentRunTotal;
   
-  // Accumulate into total score smoothly across deaths/revives
   appState.dailyScore += currentRunTotal;
 
   if (appState.dailyScore > heliGame.bestScore) {
@@ -1565,7 +1593,6 @@ function handleCrash() {
   if (currentRunEl) currentRunEl.innerText = `${currentRunTotal}`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
 
-  // Find user's current rank from lbDailyData
   if (rankTextEl && appState.currentUser) {
     const userRankObj = lbDailyData.find(item => item.name === appState.currentUser.name);
     if (userRankObj) {
