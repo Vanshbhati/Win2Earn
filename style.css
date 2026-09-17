@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WIN2EARN - SKILL BASED GAME (STAKE.COM EDITION)
+   WIN2EARN - SKILL BASED GAME (STAKE BLUE EDITION)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -18,7 +18,7 @@
 }
 
 :root {
-  /* Stake.com Dark Theme Palette */
+  /* Stake.com Dark Theme Palette with Blue Accent */
   --bg-main: #0f212e;         /* Stake's signature dark navy background */
   --bg-secondary: #1a2c38;    /* Elevated card / panel background */
   --glass-bg: rgba(26, 44, 56, 0.85);
@@ -31,15 +31,15 @@
   --text-secondary: #b1bad3;  /* Stake's standard muted gray-blue text */
   --text-muted: #557086;
 
-  /* Stake Signature Accents (Emerald Green & Neon Highlights) */
-  --accent-green: #00e701;    /* Stake Main Action Green */
-  --accent-green-dark: #00b801;
+  /* Replaced Green with Stake Electric Blue Accents */
+  --accent-green: #007aff;    /* Replaced with Deep Dark Blue */
+  --accent-green-dark: #0056b3;/* Replaced with Darker Blue */
   --accent-blue: #007aff;
   --accent-gold: #f1c40f;
   --accent-gold-dark: #d4a017;
   --accent-red: #ff4d4f;
 
-  --neon-glow-green: 0 0 20px rgba(0, 231, 1, 0.35);
+  --neon-glow-green: 0 0 20px rgba(0, 122, 255, 0.35); /* Updated glow to Blue */
   --neon-glow-gold: 0 4px 20px rgba(241, 196, 15, 0.3);
   --neon-glow-blue: 0 4px 20px rgba(0, 122, 255, 0.3);
 }
@@ -137,7 +137,7 @@ body.no-scroll {
 }
 
 .glass-card:hover {
-  border-color: rgba(0, 231, 1, 0.3);
+  border-color: rgba(0, 122, 255, 0.4);
 }
 
 .glass-nav {
@@ -329,7 +329,7 @@ body.no-scroll {
 
 .glass-input:focus {
   border-color: var(--accent-green);
-  box-shadow: 0 0 0 2px rgba(0, 231, 1, 0.2);
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2);
 }
 
 .glass-btn {
@@ -346,7 +346,7 @@ body.no-scroll {
 
 .primary-btn {
   background: var(--accent-green);
-  color: #0f212e;
+  color: #ffffff;
   font-weight: 900;
   box-shadow: var(--neon-glow-green);
 }
@@ -360,7 +360,7 @@ body.no-scroll {
 .action-btn {
   width: 100%;
   background: var(--accent-green);
-  color: #0f212e;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 900;
   box-shadow: var(--neon-glow-green);
@@ -447,7 +447,7 @@ body.no-scroll {
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-size: 0.7rem;
   font-weight: 900;
-  color: #0f212e;
+  color: #ffffff;
   background: var(--accent-green);
   padding: 5px 12px;
   border-radius: 20px;
@@ -511,7 +511,7 @@ body.no-scroll {
   font-weight: 900;
   font-size: 1.2rem;
   color: var(--accent-green);
-  text-shadow: 0 2px 10px rgba(0, 231, 1, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 122, 255, 0.5);
   pointer-events: none;
   z-index: 25;
   animation: nearMissPop 0.8s ease-out forwards;
@@ -623,8 +623,8 @@ body.no-scroll {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(0, 231, 1, 0.1);
-  border: 1px solid rgba(0, 231, 1, 0.3);
+  background: rgba(0, 122, 255, 0.1);
+  border: 1px solid rgba(0, 122, 255, 0.3);
   color: var(--accent-green);
   font-size: 0.7rem;
   font-weight: 800;
@@ -693,7 +693,7 @@ body.no-scroll {
   border-radius: 8px;
   border: none;
   background: var(--accent-green);
-  color: #0f212e;
+  color: #ffffff;
   font-family: 'Orbitron', -apple-system, sans-serif;
   font-weight: 900;
   font-size: 1rem;
@@ -793,7 +793,7 @@ body.no-scroll {
 
 .retry-btn {
   background: var(--accent-green);
-  color: #0f212e;
+  color: #ffffff;
   border: none;
   padding: 13px;
   border-radius: 8px;
@@ -841,7 +841,7 @@ body.no-scroll {
 }
 
 .ticker-badge {
-  background: rgba(0, 231, 1, 0.15);
+  background: rgba(0, 122, 255, 0.15);
   color: var(--accent-green);
   font-weight: 900;
   font-size: 0.65rem;
@@ -871,7 +871,7 @@ body.no-scroll {
 
 .tournament-hero-card { padding: 24px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; margin-bottom: 14px; background: var(--bg-secondary); border: 1px solid var(--glass-border); border-radius: 12px; }
 .status-badge-wrapper { margin-bottom: 14px; }
-.live-status-pill { background: rgba(0, 231, 1, 0.15); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(0, 231, 1, 0.3); }
+.live-status-pill { background: rgba(0, 122, 255, 0.15); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 6px 14px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(0, 122, 255, 0.3); }
 .live-dot { width: 7px; height: 7px; background-color: var(--accent-green); border-radius: 50%; box-shadow: 0 0 8px var(--accent-green); animation: pulse 1.5s infinite; }
 
 @keyframes pulse {
@@ -890,9 +890,9 @@ body.no-scroll {
 
 .play-pulse-btn { animation: playPulse 2s infinite; }
 @keyframes playPulse {
-  0% { box-shadow: 0 0 0 0 rgba(0, 231, 1, 0.6); }
-  70% { box-shadow: 0 0 0 15px rgba(0, 231, 1, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(0, 231, 1, 0); }
+  0% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0.6); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 122, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 122, 255, 0); }
 }
 
 .featured-games-wrapper { display: flex; flex-direction: column; gap: 14px; }
@@ -909,7 +909,7 @@ body.no-scroll {
 .details-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .game-title { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
 .tag-daily { background: rgba(241, 196, 15, 0.15); color: var(--accent-gold); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
-.tag-monthly { background: rgba(0, 231, 1, 0.15); color: var(--accent-green); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
+.tag-monthly { background: rgba(0, 122, 255, 0.15); color: var(--accent-green); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
 .win-label { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; line-height: 1.4; }
 .win-label span { color: var(--accent-gold); font-weight: 800; }
 
@@ -957,7 +957,7 @@ body.no-scroll {
   z-index: 9999 !important;
 }
 
-.tg-floating-icon { width: 26px; height: 26px; fill: #0f212e; }
+.tg-floating-icon { width: 26px; height: 26px; fill: #ffffff; }
 
 .hidden { display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important; }
 .flex-center { display: flex; justify-content: center; align-items: center; }
