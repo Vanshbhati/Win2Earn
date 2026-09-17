@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark-apple-theme">
+<html lang="en" class="light-apple-theme">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -8,15 +8,131 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+      --card-bg: #FFFFFF;
+      --card-radius: 28px;
+      --card-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
+      --text-main: #0F172A;
+      --text-sub: #64748B;
+      --primary-blue: #1976D2;
+    }
+    body {
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card {
+      background: var(--card-bg) !important;
+      border-radius: var(--card-radius) !important;
+      box-shadow: var(--card-shadow) !important;
+      border: none !important;
+      padding: 24px !important;
+      margin-bottom: 20px !important;
+    }
+    .gradient-highlight-text {
+      background: linear-gradient(135deg, #1976D2 0%, #FBC02D 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+      font-weight: 900;
+    }
+    .event-red-pill {
+      background: #EF5350;
+      color: #FFFFFF;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 800;
+      display: inline-block;
+    }
+    .feature-sub-pill {
+      background: #E3F2FD;
+      color: #1E3A5F;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+    .primary-action-btn {
+      background: #1976D2 !important;
+      height: 56px !important;
+      border-radius: 16px !important;
+      box-shadow: 0 8px 20px rgba(25,118,210,0.3) !important;
+      color: #FFFFFF !important;
+      font-size: 18px !important;
+      font-weight: bold !important;
+      border: none !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      cursor: pointer;
+    }
+    .login-custom-btn {
+      background: #FFFFFF !important;
+      border: 1px solid #E2E8F0 !important;
+      color: #334155 !important;
+      border-radius: 16px;
+      font-weight: 700;
+    }
+    .signup-custom-btn {
+      background: #1976D2 !important;
+      color: #FFFFFF !important;
+      border-radius: 16px;
+      font-weight: 700;
+      border: none !important;
+    }
+    /* Bottom Navigation Light Theme */
+    .bottom-nav.light-bottom-nav {
+      background: #FFFFFF !important;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
+      border-top: 1px solid #F1F5F9;
+    }
+    .bottom-nav.light-bottom-nav .nav-item {
+      color: #64748B !important;
+    }
+    .bottom-nav.light-bottom-nav .nav-item.active {
+      color: #1976D2 !important;
+    }
+    /* Smaller Telegram Button */
+    .floating-tg-btn-fixed {
+      width: 48px !important;
+      height: 48px !important;
+      border-radius: 50%;
+      background: #1976D2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(25,118,210,0.4) !important;
+      position: fixed;
+      bottom: 85px;
+      right: 20px;
+      z-index: 999;
+      cursor: pointer;
+    }
+    .floating-tg-btn-fixed svg {
+      width: 24px;
+      height: 24px;
+      fill: #FFFFFF;
+    }
+  </style>
 </head>
 <body class="no-scroll">
 
   <!-- Desktop-Only Restriction Overlay -->
   <div class="desktop-blocker-overlay">
-    <div class="blocker-card">
+    <div class="blocker-card glass-card">
       <div class="blocker-icon">📱</div>
-      <h2 class="blocker-title">Mobile Only Experience</h2>
-      <p class="blocker-desc">
+      <h2 style="color: #0F172A; font-weight: 800; font-size: 1.5rem; margin-bottom: 8px;">Mobile Only Experience</h2>
+      <p style="color: #64748B; font-size: 0.9rem;">
         Win2Earn is exclusively optimized for mobile smartphones. Please open this link on your mobile device to play and win rewards!
       </p>
     </div>
@@ -26,12 +142,14 @@
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
   <!-- Splash Screen -->
-  <div id="splashScreen" class="splash-screen gpu-accelerated">
+  <div id="splashScreen" class="splash-screen gpu-accelerated" style="background: #E3F2FD;">
     <div class="splash-content">
-      <div class="logo-text" style="font-size: 2.2rem; margin-bottom: 4px;">WIN2EARN</div>
-      <p class="splash-tagline">Skill Based Game</p>
-      <div class="splash-loader">
-        <div class="splash-loader-bar" style="animation-duration: 8.5s;"></div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: #0F172A; margin-bottom: 6px;">
+        WIN<span style="color: #1976D2;">2</span>EARN
+      </div>
+      <p style="color: #64748B; font-size: 0.95rem; font-weight: 600;">Skill Based Game</p>
+      <div class="splash-loader" style="background: #CBD5E1; margin-top: 20px;">
+        <div class="splash-loader-bar" style="animation-duration: 8.5s; background: #1976D2;"></div>
       </div>
     </div>
   </div>
@@ -40,9 +158,9 @@
   <div id="errorPopup" class="popup-overlay hidden high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠️</div>
-      <h3 class="popup-title">Attention</h3>
-      <p id="popupMessage">An error occurred.</p>
-      <button class="glass-btn primary-btn w-100" onclick="closePopup()">Got it</button>
+      <h3 style="color: #0F172A; font-weight: 800; margin-bottom: 8px;">Attention</h3>
+      <p id="popupMessage" style="color: #64748B; margin-bottom: 16px;">An error occurred.</p>
+      <button class="primary-action-btn" onclick="closePopup()">Got it</button>
     </div>
   </div>
 
@@ -50,9 +168,9 @@
   <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">🔐</div>
-      <h3 class="popup-title">OTP Verification Code</h3>
-      <p id="otpPopupMessage">Verification code generated successfully.</p>
-      <button class="glass-btn action-btn w-100" onclick="closeOtpModal()">ENTER OTP NOW</button>
+      <h3 style="color: #0F172A; font-weight: 800; margin-bottom: 8px;">OTP Verification Code</h3>
+      <p id="otpPopupMessage" style="color: #64748B; margin-bottom: 16px;">Verification code generated successfully.</p>
+      <button class="primary-action-btn" onclick="closeOtpModal()">ENTER OTP NOW</button>
     </div>
   </div>
 
@@ -62,14 +180,14 @@
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center;">
         <span class="popup-icon">💎</span>
-        <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
+        <h3 style="color: #0F172A; font-weight: 800;">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+      <div class="info-body" style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin-bottom: 20px;">
         <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
         <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
         <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
+      <button class="primary-action-btn" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
     </div>
   </div>
 
@@ -78,14 +196,14 @@
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
       <div class="popup-icon">👑</div>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
-      <div class="info-body" style="background: rgba(20, 117, 225, 0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
-        <p style="font-size: 1rem; font-weight: 800; color: var(--accent-green); margin-bottom: 6px;">🚀 COMING SOON!</p>
-        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: #0F172A; margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
+      <div class="info-body" style="background: #F8FAFC; border-radius: 16px; padding: 16px; margin-bottom: 20px;">
+        <p style="font-size: 1rem; font-weight: 800; color: #1976D2; margin-bottom: 6px;">🚀 COMING SOON!</p>
+        <p style="font-size: 0.85rem; color: #64748B; line-height: 1.5;">
           Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
         </p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeComingSoonModal()">CAN'T WAIT! 🔥</button>
+      <button class="primary-action-btn" onclick="closeComingSoonModal()">CAN'T WAIT! 🔥</button>
     </div>
   </div>
 
@@ -99,19 +217,19 @@
     <div id="gameStartOverlay" class="game-modal-overlay" style="display: flex; align-items: center; justify-content: center; padding: 16px;">
       <div class="game-launch-card glass-card gpu-accelerated">
         <div class="launch-icon-glow">🏆</div>
-        <h1 class="game-neon-title">COPTER CASH</h1>
-        <div class="fever-tag-pill">🔥 DAILY TOURNAMENT EDITION</div>
-        <p class="game-instructions">
+        <h1 style="color: #0F172A; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.8rem; margin-bottom: 6px;">COPTER CASH</h1>
+        <div class="event-red-pill" style="margin-bottom: 12px;">🔥 DAILY TOURNAMENT EDITION</div>
+        <p style="color: #64748B; font-size: 0.9rem; line-height: 1.5; margin-bottom: 16px;">
           Tap anywhere on your screen to fly higher. Precision dodge obstacles & survive to set top leaderboard scores!
         </p>
-        <div class="launch-tips-box">
-          <div class="tips-title">💡 Pro Gaming Tips</div>
-          <ul class="tips-list" style="margin: 0; padding-left: 16px; text-align: left;">
+        <div class="launch-tips-box" style="background: #F8FAFC; padding: 14px; border-radius: 16px; margin-bottom: 20px;">
+          <div style="font-weight: 800; color: #0F172A; font-size: 0.85rem; margin-bottom: 6px;">💡 Pro Gaming Tips</div>
+          <ul style="margin: 0; padding-left: 16px; text-align: left; color: #64748B; font-size: 0.82rem; line-height: 1.4;">
             <li>Watch ads to double your final score!</li>
             <li>Focus sharply on pipes to survive longer and score higher!</li>
           </ul>
         </div>
-        <button class="launch-cta-btn" onclick="startHeliGame()">
+        <button class="primary-action-btn" onclick="startHeliGame()">
           <span>TAP TO START</span> 🚀
         </button>
       </div>
@@ -120,21 +238,21 @@
     <div id="gameOverOverlay" class="game-modal-overlay hidden">
       <div class="game-launch-card crash-card glass-card gpu-accelerated">
         <div class="crash-icon-glow">💥</div>
-        <h2 class="crash-head-text">HELI CRASHED!</h2>
-        <div class="score-breakdown-card">
-          <div class="score-row">
-            <span class="s-label">CURRENT RUN SCORE</span>
-            <span id="currentRunScore" class="s-val gold-text">0</span>
+        <h2 style="color: #0F172A; font-weight: 900; font-size: 1.5rem; margin-bottom: 16px;">HELI CRASHED!</h2>
+        <div class="score-breakdown-card" style="background: #F8FAFC; padding: 16px; border-radius: 16px; margin-bottom: 20px;">
+          <div class="score-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+            <span style="color: #64748B; font-size: 0.85rem; font-weight: 700;">CURRENT RUN SCORE</span>
+            <span id="currentRunScore" style="color: #1976D2; font-weight: 900; font-size: 1.1rem;">0</span>
           </div>
-          <hr class="score-divider">
-          <div class="score-row total-row">
-            <span class="s-label">DAILY LEADERBOARD SCORE</span>
-            <span id="dailyTotalScoreDisplay" class="s-val">0</span>
+          <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 8px 0;">
+          <div class="score-row total-row" style="display: flex; justify-content: space-between; margin-top: 8px;">
+            <span style="color: #64748B; font-size: 0.85rem; font-weight: 700;">DAILY LEADERBOARD SCORE</span>
+            <span id="dailyTotalScoreDisplay" style="color: #0F172A; font-weight: 900; font-size: 1.1rem;">0</span>
           </div>
         </div>
-        <div class="crash-btn-group">
-          <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
-          <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
+        <div class="crash-btn-group" style="display: flex; flex-direction: column; gap: 10px;">
+          <button class="primary-action-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
+          <button class="glass-btn secondary-glass-btn" onclick="closeGameScreen()" style="background: #F1F5F9; color: #334155; border: none; height: 48px; border-radius: 16px; font-weight: 700; width: 100%;">EXIT TO ARENA</button>
         </div>
       </div>
     </div>
@@ -144,9 +262,9 @@
   <div id="welcomeModal" class="modal-overlay hidden">
     <div class="modal-card glass-card popup-animated gpu-accelerated" style="text-align: center;">
       <div class="popup-icon">🎉</div>
-      <h2 id="welcomeUserName" style="font-weight: 800; font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary);">Welcome!</h2>
-      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5;">Your account has been created successfully. Enter the arena and claim your rewards!</p>
-      <button class="glass-btn action-btn w-100" onclick="handleWelcomePlay()">ENTER ARENA 🚀</button>
+      <h2 id="welcomeUserName" style="font-weight: 900; font-size: 1.4rem; margin-bottom: 8px; color: #0F172A;">Welcome!</h2>
+      <p style="font-size: 0.9rem; color: #64748B; margin-bottom: 20px; line-height: 1.5;">Your account has been created successfully. Enter the arena and claim your rewards!</p>
+      <button class="primary-action-btn" onclick="handleWelcomePlay()">ENTER ARENA 🚀</button>
     </div>
   </div>
 
@@ -156,13 +274,13 @@
       <button class="close-btn" onclick="closeInfoModal()">&times;</button>
       <div class="info-header" style="text-align: center; margin-bottom: 12px;">
         <span class="popup-icon">💡</span>
-        <h3 class="popup-title">Important Information</h3>
+        <h3 style="color: #0F172A; font-weight: 800;">Important Information</h3>
       </div>
-      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+      <div class="info-body" style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin-bottom: 20px;">
         <p style="margin-bottom: 10px;">Win2Earn does not charge you a single rupee. This is 100% free skill gaming and strictly NOT gambling or betting.</p>
         <p>It is designed purely for entertainment, allowing users to enjoy their time while offering exciting opportunities to earn real cash rewards through pure performance.</p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeInfoModal()">I UNDERSTAND</button>
+      <button class="primary-action-btn" onclick="closeInfoModal()">I UNDERSTAND</button>
     </div>
   </div>
 
@@ -171,9 +289,9 @@
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px;">
-        <h3 id="legalModalTitle" class="popup-title">Legal Information</h3>
+        <h3 id="legalModalTitle" style="color: #0F172A; font-weight: 800;">Legal Information</h3>
       </div>
-      <div class="info-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px; overflow-y: auto;"></div>
+      <div class="info-body" id="legalModalBody" style="font-size: 0.85rem; color: #64748B; line-height: 1.6; max-height: 250px; overflow-y: auto;"></div>
     </div>
   </div>
 
@@ -182,12 +300,12 @@
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
       <div class="popup-icon">💬</div>
-      <h3 class="popup-title" style="margin-bottom: 6px;">24x7 Support Team</h3>
-      <span class="fever-tag-pill" style="margin-bottom: 12px;">🟢 Live Assistance Active</span>
-      <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+      <h3 style="color: #0F172A; font-weight: 800; margin-bottom: 6px;">24x7 Support Team</h3>
+      <span class="event-red-pill" style="background: #10B981; margin-bottom: 12px;">🟢 Live Assistance Active</span>
+      <p style="font-size: 0.9rem; color: #64748B; line-height: 1.5; margin-bottom: 20px;">
         For support, login issues, tournament verification, or updating your verified UPI ID, connect with our official support representative on Telegram.
       </p>
-      <a href="https://t.me" target="_blank" class="glass-btn action-btn w-100" style="display: block; text-decoration: none;">Contact Team on Telegram</a>
+      <a href="https://t.me" target="_blank" class="primary-action-btn" style="text-decoration: none;">Contact Team on Telegram</a>
     </div>
   </div>
 
@@ -198,17 +316,17 @@
       <div class="auth-form">
         <div style="text-align: center; margin-bottom: 10px;">
           <span class="popup-icon">💳</span>
-          <h3 class="popup-title">Verify Payout UPI ID</h3>
+          <h3 style="color: #0F172A; font-weight: 800;">Verify Payout UPI ID</h3>
         </div>
-        <p style="font-size: 0.82rem; color: var(--text-secondary); text-align: center; margin-bottom: 12px; line-height: 1.4;">
+        <p style="font-size: 0.85rem; color: #64748B; text-align: center; margin-bottom: 12px; line-height: 1.4;">
           Enter your official valid UPI ID (GPay / PhonePe / Paytm / BHIM) to start playing and receive direct cash rewards.
         </p>
-        <div style="background: rgba(255, 77, 79, 0.1); border: 1px solid rgba(255, 77, 79, 0.3); border-radius: 12px; padding: 10px; font-size: 0.75rem; color: var(--accent-red); margin-bottom: 14px; line-height: 1.4;">
+        <div style="background: rgba(239, 83, 80, 0.1); border: 1px solid rgba(239, 83, 80, 0.3); border-radius: 12px; padding: 10px; font-size: 0.78rem; color: #EF5350; margin-bottom: 14px; line-height: 1.4;">
           ⚠️ <strong>Strict Policy:</strong> Fake UPI IDs will cause instant disqualification. UPI ID cannot be changed once saved.
         </div>
         <form onsubmit="activateWallet(event)">
-          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. 9876543210@paytm / name@upi" required style="margin-bottom: 14px;">
-          <button type="submit" class="glass-btn action-btn w-100">SAVE UPI & START GAME</button>
+          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. 9876543210@paytm / name@upi" required style="margin-bottom: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
+          <button type="submit" class="primary-action-btn">SAVE UPI & START GAME</button>
         </form>
       </div>
     </div>
@@ -220,146 +338,150 @@
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
       <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
-        <h2 class="popup-title" style="margin-bottom: 16px; text-align: center;">Log In</h2>
-        <input type="email" id="loginEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 12px;">
-        <input type="password" id="loginPassword" class="glass-input" placeholder="Password" required style="margin-bottom: 16px;">
-        <button type="submit" class="glass-btn action-btn w-100" style="margin-bottom: 14px;">LOG IN</button>
-        <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center;">Don't have an account? <a href="#" onclick="switchTab('signup')" style="color: var(--accent-green); font-weight: 700; text-decoration: none;">Sign Up</a></p>
+        <h2 style="color: #0F172A; font-weight: 900; font-size: 1.3rem; margin-bottom: 16px; text-align: center;">Log In</h2>
+        <input type="email" id="loginEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
+        <input type="password" id="loginPassword" class="glass-input" placeholder="Password" required style="margin-bottom: 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
+        <button type="submit" class="primary-action-btn" style="margin-bottom: 14px;">LOG IN</button>
+        <p style="font-size: 0.85rem; color: #64748B; text-align: center;">Don't have an account? <a href="#" onclick="switchTab('signup')" style="color: #1976D2; font-weight: 700; text-decoration: none;">Sign Up</a></p>
       </form>
 
       <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
-        <h2 class="popup-title" style="margin-bottom: 16px; text-align: center;">Sign Up</h2>
-        <input type="text" id="signupName" class="glass-input" placeholder="Full Name" required style="margin-bottom: 10px;">
-        <input type="tel" id="signupMobile" class="glass-input" placeholder="10-Digit Mobile Number" required style="margin-bottom: 10px;">
-        <input type="email" id="signupEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 10px;">
+        <h2 style="color: #0F172A; font-weight: 900; font-size: 1.3rem; margin-bottom: 16px; text-align: center;">Sign Up</h2>
+        <input type="text" id="signupName" class="glass-input" placeholder="Full Name" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
+        <input type="tel" id="signupMobile" class="glass-input" placeholder="10-Digit Mobile Number" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
+        <input type="email" id="signupEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
         
         <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <input type="text" id="signupOtp" class="glass-input" placeholder="Enter OTP" required style="flex: 1;">
-          <button type="button" class="glass-btn secondary-btn" onclick="sendOtp()" style="padding: 10px 14px; font-size: 0.78rem; white-space: nowrap;">Get OTP</button>
+          <input type="text" id="signupOtp" class="glass-input" placeholder="Enter OTP" required style="flex: 1; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px;">
+          <button type="button" class="glass-btn secondary-btn" onclick="sendOtp()" style="padding: 10px 14px; font-size: 0.78rem; white-space: nowrap; background: #E3F2FD; color: #1976D2; border: none; border-radius: 12px; font-weight: 700;">Get OTP</button>
         </div>
 
-        <input type="password" id="signupPassword" class="glass-input" placeholder="Password" required style="margin-bottom: 10px;">
-        <input type="password" id="signupConfirmPassword" class="glass-input" placeholder="Confirm Password" required style="margin-bottom: 16px;">
+        <input type="password" id="signupPassword" class="glass-input" placeholder="Password" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
+        <input type="password" id="signupConfirmPassword" class="glass-input" placeholder="Confirm Password" required style="margin-bottom: 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
         
-        <button type="submit" class="glass-btn action-btn w-100" style="margin-bottom: 14px;">REGISTER NOW</button>
-        <p style="font-size: 0.8rem; color: var(--text-secondary); text-align: center;">Already registered? <a href="#" onclick="switchTab('login')" style="color: var(--accent-green); font-weight: 700; text-decoration: none;">Log In</a></p>
+        <button type="submit" class="primary-action-btn" style="margin-bottom: 14px;">REGISTER NOW</button>
+        <p style="font-size: 0.85rem; color: #64748B; text-align: center;">Already registered? <a href="#" onclick="switchTab('login')" style="color: #1976D2; font-weight: 700; text-decoration: none;">Log In</a></p>
       </form>
     </div>
   </div>
 
   <!-- Top Navigation Bar -->
-  <header class="navbar glass-nav">
-    <div class="logo-text">WIN2EARN</div>
-    <div class="auth-btns" id="navAuthBtns">
-      <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 8px 14px; font-size: 0.8rem;">Log In</button>
-      <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 8px 14px; font-size: 0.8rem;">Sign Up</button>
+  <header class="navbar glass-nav" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid #E2E8F0;">
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; font-weight: 900; color: #0F172A;">
+      WIN<span style="color: #1976D2;">2</span>EARN
+    </div>
+    <div class="auth-btns" id="navAuthBtns" style="display: flex; gap: 8px;">
+      <button class="glass-btn login-custom-btn" onclick="openAuthModal('login')" style="padding: 8px 16px; font-size: 0.85rem;">Log In</button>
+      <button class="glass-btn signup-custom-btn" onclick="openAuthModal('signup')" style="padding: 8px 16px; font-size: 0.85rem;">Sign Up</button>
     </div>
   </header>
 
   <!-- Main Viewports Container -->
-  <main class="main-content">
+  <main class="main-content" style="padding: 16px;">
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
       <section class="ticker-wrapper glass-card pointer-locked">
-        <div class="ticker-badge">WINNERS</div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+          <span style="font-size: 0.75rem; font-weight: 800; color: #1976D2; background: #E3F2FD; padding: 3px 8px; border-radius: 6px;">WINNERS</span>
+          <span style="font-size: 0.8rem; color: #64748B; font-weight: 600;">Live Payout Updates</span>
+        </div>
         <div class="ticker-viewport">
-          <div class="ticker-track gpu-accelerated ticker-speed-normal" id="tickerTrack"></div>
+          <div class="ticker-track gpu-accelerated ticker-speed-normal" id="tickerTrack" style="display: flex; gap: 16px; align-items: center;"></div>
         </div>
       </section>
 
-      <section id="megaBannerCard" class="mega-banner-card glass-card mega-attractive-glow">
-        <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
-        <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
-        <p class="mega-desc">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
-        <div class="mega-tags">
-          <span>⚡ Mega Leaderboard</span>
-          <span>🔥 100% Free Entry</span>
-          <span>👑 Guaranteed Rewards</span>
+      <section id="megaBannerCard" class="mega-banner-card glass-card">
+        <div class="event-red-pill" style="margin-bottom: 12px;">🔥 UPCOMING GRAND EVENT</div>
+        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 10px;">₹10 LAKH PRIZE POOL</h2>
+        <p style="color: #64748B; font-size: 15px; line-height: 1.5; margin-bottom: 16px;">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
+        <div class="mega-tags" style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <span class="feature-sub-pill">⚡ Mega Leaderboard</span>
+          <span class="feature-sub-pill">🔥 100% Free Entry</span>
+          <span class="feature-sub-pill">👑 Guaranteed Rewards</span>
         </div>
       </section>
 
       <section class="tournament-hero-card glass-card">
-        <div class="status-badge-wrapper">
-          <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
+        <div class="status-badge-wrapper" style="margin-bottom: 12px;">
+          <span class="live-status-pill" style="background: #E8F5E9; color: #2E7D32; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
+            <span class="live-dot" style="width: 6px; height: 6px; background: #2E7D32; border-radius: 50%;"></span> DAILY TOURNAMENT LIVE
+          </span>
         </div>
 
-        <div class="logo-text hero-logo-text">WIN2EARN</div>
+        <h1 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 12px;">
+          WIN2EARN
+        </h1>
 
-        <div class="total-prize-box premium-glass-prize">
-          <span class="prize-label">DAILY TOURNAMENT POOL</span>
-          <div class="prize-amount gold-text">50% AD REVENUE SHARE</div>
-          <p class="pool-sub-note">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
+        <div class="total-prize-box" style="background: #F8FAFC; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 16px;">
+          <span style="font-size: 12px; color: #64748B; font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">DAILY TOURNAMENT POOL</span>
+          <div class="gradient-highlight-text" style="font-size: 1.6rem; margin-bottom: 6px;">50% AD REVENUE SHARE</div>
+          <p style="font-size: 13px; color: #64748B;">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
         </div>
 
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="background: #F1F5F9; color: #334155; border: none; padding: 12px; border-radius: 14px; font-weight: 700; font-size: 13px; margin-bottom: 16px; width: 100%; cursor: pointer;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+        <p style="color: #64748B; font-size: 15px; text-align: center; margin-bottom: 16px;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
-          PLAY NOW ➔
+        <button class="primary-action-btn" onclick="handleGameLaunch()">
+          <span>PLAY NOW</span> ➔
         </button>
       </section>
 
-      <section class="glass-card" onclick="openInfoModal()" style="padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-size: 1.5rem;">💡</span>
+      <section class="glass-card" onclick="openInfoModal()" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 14px;">
+          <span style="font-size: 1.8rem;">💡</span>
           <div>
-            <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--text-primary);">Important Information</h4>
-            <p style="font-size: 0.75rem; color: var(--text-secondary);">Read Win2Earn's 100% Free Fair Skill Gaming Commitment</p>
+            <h4 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">Important Information</h4>
+            <p style="font-size: 15px; color: #64748B;">Read Win2Earn's 100% Free Fair Skill Gaming Commitment</p>
           </div>
         </div>
-        <span style="font-size: 1.1rem; color: var(--accent-green); font-weight: 800;">➔</span>
+        <span style="font-size: 1.2rem; color: #1976D2; font-weight: 800;">➔</span>
       </section>
     </div>
 
     <!-- Games Tab -->
     <div id="tab-games" class="tab-content hidden">
-      <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Live Tournaments</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Compete in skill games and secure top leaderboard rankings</p>
+      <div style="margin-bottom: 20px; text-align: center;">
+        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Live Tournaments</h2>
+        <p style="font-size: 15px; color: #64748B;">Compete in skill games and secure top leaderboard rankings</p>
       </div>
 
-      <div class="featured-games-wrapper">
-        <div class="featured-card glass-card">
-          <div class="card-header-bar">
-            <span>⭐ Daily Skill Tournament</span>
-          </div>
-          <div class="card-image-container">
-            <span class="entry-badge">₹0 Entry Fee</span>
-            <img src="daily-game.jpg" alt="Daily Tournament" class="game-card-img">
+      <div class="featured-games-wrapper" style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="featured-card glass-card" style="margin-bottom: 0 !important;">
+          <div style="font-size: 13px; font-weight: 800; color: #1976D2; margin-bottom: 12px;">⭐ Daily Skill Tournament</div>
+          <div class="card-image-container" style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 14px;">
+            <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #FFF; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;">₹0 Entry Fee</span>
+            <img src="daily-game.jpg" alt="Daily Tournament" class="game-card-img" style="width: 100%; height: 160px; object-fit: cover;">
           </div>
           <div class="card-details">
-            <div class="details-top">
-              <h3 class="game-title">Copter Cash</h3>
-              <span class="tag-daily">DAILY TOURNAMENT</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <h3 style="font-size: 18px; font-weight: 800; color: #0F172A;">Copter Cash</h3>
+              <span class="event-red-pill" style="background: #E3F2FD; color: #1976D2;">DAILY</span>
             </div>
-            <div class="win-label">Rewards: <span>Top 10 daily winners get 50% Ad Revenue every night at 10 PM!</span></div>
-            <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()">PLAY NOW</button>
+            <p style="font-size: 15px; color: #64748B; margin-bottom: 16px;">Rewards: Top 10 daily winners get 50% Ad Revenue every night at 10 PM!</p>
+            <button class="primary-action-btn" onclick="handleGameLaunch()">PLAY NOW</button>
           </div>
         </div>
 
-        <div class="featured-card glass-card monthly-premium-card">
-          <div class="card-header-bar premium-header-bar">
-            <span>👑 Grand Monthly Tournament</span>
-          </div>
-          <div class="card-image-container">
-            <span class="entry-badge gold-badge">Grand Mega Pool</span>
-            <img src="monthly-game.jpg" alt="Monthly Grand Championship" class="game-card-img">
+        <div class="featured-card glass-card" style="margin-bottom: 0 !important;">
+          <div style="font-size: 13px; font-weight: 800; color: #D97706; margin-bottom: 12px;">👑 Grand Monthly Tournament</div>
+          <div class="card-image-container" style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 14px;">
+            <span style="position: absolute; top: 10px; right: 10px; background: #F59E0B; color: #FFF; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;">Grand Mega Pool</span>
+            <img src="monthly-game.jpg" alt="Monthly Grand Championship" class="game-card-img" style="width: 100%; height: 160px; object-fit: cover;">
           </div>
           <div class="card-details">
-            <div class="details-top">
-              <h3 class="game-title">Grand Monthly Championship</h3>
-              <span class="tag-monthly">MONTHLY GRAND</span>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <h3 style="font-size: 18px; font-weight: 800; color: #0F172A;">Grand Monthly Championship</h3>
+              <span class="event-red-pill" style="background: #FEF3C7; color: #D97706;">MONTHLY</span>
             </div>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">
+            <p style="font-size: 15px; color: #64748B; margin-bottom: 16px; line-height: 1.5;">
               <strong>80% of total website ad revenue</strong> generated every month will be distributed among top ranking users.
             </p>
-            <div class="win-label">Grand Prize: <span>80% Ad Share Pool for Winners</span></div>
-            <button class="glass-btn primary-btn w-100" onclick="openComingSoonModal()">ENTER CHAMPIONSHIP</button>
+            <button class="primary-action-btn" onclick="openComingSoonModal()" style="background: #D97706 !important;">ENTER CHAMPIONSHIP</button>
           </div>
         </div>
       </div>
@@ -367,96 +489,96 @@
 
     <!-- Leaderboard Tab -->
     <div id="tab-leaderboard" class="tab-content hidden">
-      <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Global Leaderboards</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Live rankings and real user standings</p>
+      <div style="margin-bottom: 20px; text-align: center;">
+        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Global Leaderboards</h2>
+        <p style="font-size: 15px; color: #64748B;">Live rankings and real user standings</p>
       </div>
 
-      <div class="lb-type-toggle">
-        <button id="btnDailyLb" class="lb-toggle-btn active" onclick="switchLeaderboard('daily')">Daily Tournament</button>
-        <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')">Monthly Tournament</button>
+      <div class="lb-type-toggle" style="display: flex; background: #E2E8F0; padding: 4px; border-radius: 16px; margin-bottom: 20px;">
+        <button id="btnDailyLb" class="lb-toggle-btn active" onclick="switchLeaderboard('daily')" style="flex: 1; padding: 10px; border: none; background: #FFFFFF; color: #0F172A; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer;">Daily Tournament</button>
+        <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')" style="flex: 1; padding: 10px; border: none; background: transparent; color: #64748B; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer;">Monthly Tournament</button>
       </div>
 
-      <div class="lb-list-container glass-card" id="lbList"></div>
-      <div class="glass-card" id="userRankCard" style="padding: 14px; margin-top: 12px; text-align: center;"></div>
+      <div class="lb-list-container glass-card" id="lbList" style="margin-bottom: 16px;"></div>
+      <div class="glass-card" id="userRankCard" style="text-align: center; margin-bottom: 0 !important;"></div>
     </div>
 
     <!-- Alerts Tab -->
     <div id="tab-alerts" class="tab-content hidden">
-      <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Activity & Alerts</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Real notifications & personal updates</p>
+      <div style="margin-bottom: 20px; text-align: center;">
+        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Activity & Alerts</h2>
+        <p style="font-size: 15px; color: #64748B;">Real notifications & personal updates</p>
       </div>
-      <div class="alerts-feed" id="alertsFeed" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      <div class="alerts-feed glass-card" id="alertsFeed" style="display: flex; flex-direction: column; gap: 12px;"></div>
     </div>
 
     <!-- Wallet Tab -->
     <div id="tab-wallet" class="tab-content hidden">
-      <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">My Payout Wallet</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Verified payment details & official earnings</p>
+      <div style="margin-bottom: 20px; text-align: center;">
+        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">My Payout Wallet</h2>
+        <p style="font-size: 15px; color: #64748B;">Verified payment details & official earnings</p>
       </div>
 
       <div id="profileDetailsContainer"></div>
 
-      <div class="glass-card" style="padding: 18px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+      <div class="glass-card" style="display: flex; justify-content: space-between; align-items: center;">
         <div>
-          <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">LINKED UPI ID</span>
-          <div id="walletUpiDisplay" style="font-weight: 800; color: var(--accent-green); font-size: 1rem;">Not Linked</div>
+          <span style="font-size: 11px; color: #64748B; font-weight: 800; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">LINKED UPI ID</span>
+          <div id="walletUpiDisplay" style="font-weight: 800; color: #1976D2; font-size: 1rem;">Not Linked</div>
         </div>
       </div>
 
-      <div class="tx-history-wrapper">
-        <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 10px;">Winning Transactions</h4>
+      <div class="tx-history-wrapper glass-card">
+        <h4 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px;">Winning Transactions</h4>
         <div id="txList" class="tx-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
       </div>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer class="compact-footer glass-card" style="padding: 20px 16px; text-align: center; margin-bottom: 70px; background: var(--bg-secondary);">
-    <div style="margin-bottom: 10px;">
-      <div class="logo-text" style="font-size: 1.1rem; justify-content: center; margin-bottom: 4px;">WIN2EARN</div>
-      <p class="footer-tagline" style="font-size: 0.75rem; color: var(--text-secondary);">Skill based gaming platform</p>
+  <footer class="compact-footer glass-card" style="text-align: center; margin-bottom: 90px;">
+    <div style="margin-bottom: 12px;">
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 900; color: #0F172A; margin-bottom: 4px;">WIN<span style="color: #1976D2;">2</span>EARN</div>
+      <p style="font-size: 15px; color: #64748B;">Skill based gaming platform</p>
     </div>
     
-    <div class="legal-links" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 10px;">
-      <a href="#" onclick="openLegalModal('privacy')" style="color: var(--text-secondary); text-decoration: none;">Privacy Policy</a> • 
-      <a href="#" onclick="openLegalModal('terms')" style="color: var(--text-secondary); text-decoration: none;">Terms & Conditions</a> • 
-      <a href="#" onclick="openLegalModal('community')" style="color: var(--text-secondary); text-decoration: none;">Community Guidelines</a>
+    <div class="legal-links" style="font-size: 15px; color: #64748B; margin-bottom: 12px; display: flex; justify-content: center; gap: 8px;">
+      <a href="#" onclick="openLegalModal('privacy')" style="color: #64748B; text-decoration: none;">Privacy Policy</a> • 
+      <a href="#" onclick="openLegalModal('terms')" style="color: #64748B; text-decoration: none;">Terms & Conditions</a> • 
+      <a href="#" onclick="openLegalModal('community')" style="color: #64748B; text-decoration: none;">Community Guidelines</a>
     </div>
 
     <div class="footer-bottom">
-      <p style="font-size: 0.7rem; color: var(--text-muted);">© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
+      <p style="font-size: 12px; color: #94A3B8;">© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
   <!-- Floating Telegram Support Button -->
   <div class="floating-tg-btn-fixed gpu-accelerated" onclick="openTelegramModal()">
-    <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar (Stake Exact Layout: Browse, Casino, For You, Sports, Chat) -->
-  <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav">
-    <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      <span>Browse</span>
+  <!-- Bottom Navigation Bar -->
+  <nav class="bottom-nav light-bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav" style="position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 10px 0; z-index: 998;">
+    <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
+      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
-      <span>Casino</span>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
+      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      <span>Games</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-      <span>For You</span>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
+      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c2.12-.39 3.79-2.02 4.61-4.1C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+      <span>Leaderboard</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-      <span>Sports</span>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
+      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+      <span>Alerts</span>
     </a>
-    <a href="#" class="nav-item" onclick="mainTabClick(event, 'wallet')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-      <span>Chat</span>
+    <a href="#" class="nav-item" onclick="mainTabClick(event, 'wallet')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
+      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5z"/></svg>
+      <span>Wallet</span>
     </a>
   </nav>
 
