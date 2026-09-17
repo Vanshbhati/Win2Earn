@@ -1,8 +1,8 @@
 /* ==========================================================================
-   WIN2EARN - STAKE.COM EXACT CLEAN THEME (OPTIMIZED & COMPLETE)
+   WIN2EARN - STAKE EXACT THEME (CUSTOMIZED & OPTIMIZED)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 *,
 *::before,
@@ -10,7 +10,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
@@ -28,15 +28,15 @@
   --glass-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 
   --text-primary: #ffffff;
-  --text-secondary: #b1bad3;  /* Stake's Standard Gray-Blue Readable Text */
+  --text-secondary: #b1bad3;  /* Stake's Standard Gray-Blue Text */
   --text-muted: #557086;
 
-  /* Stake Solid Blue Accents (Replaced flashy colors) */
-  --accent-green: #1475e1;    /* Stake Blue */
-  --accent-green-dark: #0b5ab5;/* Darker Stake Blue Hover */
+  /* Stake Casino Button & Accent Blue */
+  --accent-green: #1475e1;    /* Stake Casino Blue Button Color */
+  --accent-green-dark: #0b5ab5;/* Darker Blue Hover */
   --accent-blue: #1475e1;
-  --accent-gold: #ffffff;     /* Clean white/neutral instead of flashy gold */
-  --accent-gold-dark: #b1bad3;
+  --accent-gold: #f1c40f;
+  --accent-gold-dark: #d4a017;
   --accent-red: #ff4d4f;
 
   --neon-glow-green: none;
@@ -98,10 +98,10 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Typography & Flat Effects
+   Typography & Stake-style Attractive Logo
    -------------------------------------------------------------------------- */
 .gold-text {
-  color: var(--text-primary);
+  color: var(--accent-gold);
   font-weight: 900;
 }
 
@@ -115,13 +115,37 @@ body.no-scroll {
   font-weight: 800;
 }
 
+/* Stake Inspired Attractive Logo */
 .logo-text {
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
-  font-size: 1.4rem;
-  letter-spacing: 0.02em;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
   font-weight: 900;
   color: #ffffff;
   text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 30%, #1475e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.logo-text::before {
+  content: 'S';
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background: var(--accent-green);
+  color: #fff;
+  border-radius: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 900;
+  -webkit-text-fill-color: #fff;
+  box-shadow: 0 4px 12px rgba(20, 117, 225, 0.4);
 }
 
 /* --------------------------------------------------------------------------
@@ -178,13 +202,16 @@ body.no-scroll {
 }
 
 .splash-logo {
-  font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  font-family: 'Orbitron', sans-serif;
   font-size: 2.2rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
   font-weight: 900;
   margin-bottom: 4px;
   color: #ffffff;
   text-transform: uppercase;
+  background: linear-gradient(135deg, #ffffff 30%, #1475e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .splash-tagline {
@@ -342,7 +369,7 @@ body.no-scroll {
   background: var(--accent-green);
   color: #ffffff;
   font-weight: 800;
-  box-shadow: none;
+  box-shadow: 0 4px 12px rgba(20, 117, 225, 0.3);
 }
 
 .primary-btn:hover {
@@ -363,7 +390,7 @@ body.no-scroll {
   font-size: 0.95rem;
   font-weight: 800;
   border-radius: 6px;
-  box-shadow: none;
+  box-shadow: 0 4px 12px rgba(20, 117, 225, 0.3);
 }
 
 .action-btn:hover {
@@ -497,7 +524,7 @@ body.no-scroll {
   font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   font-size: 1rem;
   font-weight: 900;
-  color: var(--text-primary);
+  color: var(--accent-gold);
 }
 
 @keyframes nearMissPop {
@@ -693,6 +720,7 @@ body.no-scroll {
   font-size: 0.95rem;
   letter-spacing: 0.03em;
   cursor: pointer;
+  box-shadow: 0 4px 15px rgba(20, 117, 225, 0.35);
   transition: background 0.15s ease;
 }
 
@@ -773,7 +801,7 @@ body.no-scroll {
 .score-divider { border: 0; border-top: 1px solid var(--glass-border); margin: 8px 0; }
 .total-row { margin-top: 4px; }
 .total-row .s-label { color: var(--text-primary); font-weight: 800; font-size: 0.78rem; }
-.total-row .s-val { color: var(--text-primary); font-size: 1.2rem; font-weight: 900; }
+.total-row .s-val { color: var(--accent-gold); font-size: 1.2rem; font-weight: 900; }
 
 .crash-btn-group { display: flex; flex-direction: column; gap: 8px; }
 
@@ -787,6 +815,7 @@ body.no-scroll {
   font-weight: 900;
   font-size: 0.88rem;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(20, 117, 225, 0.3);
   transition: background 0.15s ease;
 }
 
@@ -810,7 +839,7 @@ body.no-scroll {
 /* --------------------------------------------------------------------------
    Dashboard & Navigation Elements
    -------------------------------------------------------------------------- */
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; position: sticky; top: 0; z-index: 100; background: var(--bg-main); border-bottom: 1px solid var(--glass-border); }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; position: sticky; top: 0; z-index: 100; background: var(--bg-main); border-bottom: 1px solid var(--glass-border); }
 .auth-btns { display: flex; gap: 8px; }
 .main-content { padding: 16px; max-width: 440px; margin: 0 auto; }
 .pointer-locked { pointer-events: none !important; }
@@ -839,7 +868,7 @@ body.no-scroll {
 .ticker-viewport { flex: 1; overflow: hidden; position: relative; white-space: nowrap; }
 .ticker-track { display: inline-block; white-space: nowrap; }
 .ticker-item { display: inline-block; font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; margin-right: 24px; }
-.ticker-item span { color: var(--text-primary); font-weight: 800; }
+.ticker-item span { color: var(--accent-gold); font-weight: 800; }
 .ticker-speed-normal { animation: tickerSlide 22s linear infinite; }
 
 @keyframes tickerSlide {
@@ -861,10 +890,10 @@ body.no-scroll {
 .live-dot { width: 7px; height: 7px; background-color: var(--accent-green); border-radius: 50%; box-shadow: 0 0 6px var(--accent-green); }
 
 .hero-logo-text { font-size: 2rem; margin-bottom: 14px; }
-.premium-glass-prize { background: rgba(20, 117, 225, 0.03); border: 1px solid var(--glass-border-gold); }
+.premium-glass-prize { background: rgba(241, 196, 15, 0.03); border: 1px solid var(--glass-border-gold); }
 .total-prize-box { width: 100%; padding: 16px 18px; border-radius: 8px; text-align: center; margin-bottom: 10px; }
 .prize-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em; }
-.prize-amount { font-size: 1.35rem; margin: 4px 0; color: var(--text-primary); font-weight: 900; }
+.prize-amount { font-size: 1.35rem; margin: 4px 0; color: var(--accent-gold); font-weight: 900; }
 .pool-sub-note { font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; }
 .hero-subtext { font-size: 0.78rem; color: var(--text-secondary); margin: 6px 0 14px 0; }
 
@@ -874,19 +903,19 @@ body.no-scroll {
 .featured-card { padding: 0; overflow: hidden; background: var(--bg-secondary); border: 1px solid var(--glass-border); border-radius: 8px; }
 .monthly-premium-card { border: 1px solid var(--glass-border-gold); }
 .card-header-bar { padding: 10px 16px; font-size: 0.82rem; font-weight: 800; color: var(--text-primary); background: #213743; text-align: left; }
-.premium-header-bar { background: rgba(20, 117, 225, 0.12); color: var(--accent-green); }
+.premium-header-bar { background: rgba(241, 196, 15, 0.12); color: var(--accent-gold); }
 .card-image-container { height: 150px; width: 100%; background: #0f212e; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 .game-card-img { width: 100%; height: 100%; object-fit: cover; }
 .entry-badge { position: absolute; top: 10px; left: 10px; z-index: 2; background: rgba(15, 33, 46, 0.9); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--glass-border); }
-.gold-badge { color: var(--accent-green); border-color: rgba(20, 117, 225, 0.4); }
+.gold-badge { color: var(--accent-gold); border-color: rgba(241, 196, 15, 0.4); }
 
 .card-details { padding: 16px; text-align: left; }
 .details-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .game-title { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
-.tag-daily { background: rgba(20, 117, 225, 0.15); color: var(--accent-green); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
+.tag-daily { background: rgba(241, 196, 15, 0.15); color: var(--accent-gold); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
 .tag-monthly { background: rgba(20, 117, 225, 0.15); color: var(--accent-green); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
 .win-label { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; line-height: 1.4; }
-.win-label span { color: var(--text-primary); font-weight: 800; }
+.win-label span { color: var(--accent-gold); font-weight: 800; }
 
 .lb-type-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
 .lb-toggle-btn { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border); background: #0f212e; color: var(--text-secondary); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.15s ease; }
@@ -896,25 +925,42 @@ body.no-scroll {
 .lb-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid var(--glass-border); }
 .lb-row:last-child { border-bottom: none; }
 .lb-rank { font-weight: 800; font-size: 0.85rem; width: 30px; color: var(--text-muted); }
-.lb-rank.top1 { color: var(--accent-green); font-size: 1.05rem; }
+.lb-rank.top1 { color: var(--accent-gold); font-size: 1.05rem; }
 .lb-rank.top2 { color: #d1d5db; font-size: 1rem; }
-.lb-rank.top3 { color: var(--text-secondary); font-size: 0.95rem; }
+.lb-rank.top3 { color: #b45309; font-size: 0.95rem; }
 .lb-name { flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--text-primary); text-align: left; }
 .lb-score { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--accent-green); }
 
-/* Footer & Navigation */
-.compact-footer { margin: 16px auto 8px auto; padding: 18px; max-width: 440px; text-align: center; }
-.footer-tagline { font-size: 0.75rem; font-weight: 700; color: var(--text-secondary); margin: 4px 0 10px 0; }
-.legal-links { font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 10px; display: flex; justify-content: center; gap: 12px; }
-.legal-links a { color: var(--accent-green); text-decoration: none; font-weight: 700; }
-.footer-bottom { border-top: 1px solid var(--glass-border); padding-top: 10px; }
-.footer-bottom p { font-size: 0.68rem; color: var(--text-muted); }
-
+/* Stake Exact Bottom Navigation Layout (Browse, Casino, For You, Sports, Chat) */
 .compact-bottom-nav { padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px)) 0 !important; }
-.bottom-nav { position: fixed !important; bottom: 0 !important; left: 0 !important; width: 100% !important; display: flex; justify-content: space-around; background: #1a2c38 !important; border-top: 1px solid var(--glass-border); border-radius: 0 !important; z-index: 10000 !important; }
-.nav-item { display: flex; flex-direction: column; align-items: center; text-decoration: none; color: var(--text-muted); font-size: 0.65rem; gap: 3px; cursor: pointer; }
+.bottom-nav { 
+  position: fixed !important; 
+  bottom: 0 !important; 
+  left: 0 !important; 
+  width: 100% !important; 
+  display: flex; 
+  justify-content: space-around; 
+  background: #1a2c38 !important; 
+  border-top: 1px solid var(--glass-border); 
+  border-radius: 0 !important; 
+  z-index: 10000 !important; 
+  padding: 8px 4px;
+}
+.nav-item { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-decoration: none; 
+  color: var(--text-muted); 
+  font-size: 0.65rem; 
+  font-weight: 600;
+  gap: 4px; 
+  cursor: pointer; 
+  transition: color 0.15s ease;
+}
 .nav-svg { width: 22px; height: 22px; fill: currentColor; }
 .nav-item.active { color: var(--accent-green); font-weight: 800; }
+.nav-item:hover { color: var(--text-primary); }
 
 .floating-tg-btn-fixed {
   position: fixed !important;
