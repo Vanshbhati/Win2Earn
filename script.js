@@ -343,7 +343,7 @@ function setupGameStartModalCartoonTheme() {
   `;
 }
 
-// 🎨 CARTOON THEME GAME OVER MODAL
+// 🎨 CARTOON THEME GAME OVER MODAL (SIMPLIFIED FOR 1ST & 2ND DEATH)
 function setupGameOverModalCartoonTheme() {
   const modalContainer = document.getElementById("gameScreenModal");
   if (!modalContainer) return;
@@ -360,64 +360,28 @@ function setupGameOverModalCartoonTheme() {
   overOverlay.innerHTML = `
     <div style="text-align:center; padding:24px 18px; max-width:360px; width:100%; background:linear-gradient(135deg, #ffffff 0%, #fff1f2 100%); border: 4px solid #fb7185; border-radius:32px; box-shadow: 0 20px 45px rgba(244,63,94,0.35); margin: auto; position: relative;">
       
-      <div style="position: absolute; top: 14px; right: 16px; background: #e0e7ff; border: 2px solid #818cf8; padding: 3px 10px; border-radius: 20px; display: flex; align-items: center; gap: 4px;">
-        <span style="font-size: 0.65rem; font-weight: 900; color: #4338ca;">RANK</span>
-        <span id="userRankBadge" style="font-size: 0.78rem; font-weight: 900; color: #3730a3;">#--</span>
-      </div>
-
       <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #ef4444, #f97316); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: -48px auto 10px auto; box-shadow: 0 8px 20px rgba(239,68,68,0.4); border: 4px solid #ffffff;">
         <span style="font-size: 1.8rem;">💥</span>
       </div>
 
       <h2 style="font-size:1.5rem; font-weight:900; color:#be123c; margin-bottom:10px; letter-spacing:-0.5px; text-transform:uppercase;">OOPS! CRASHED!</h2>
 
-      <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:12px; margin-bottom:14px; text-align:left; display: flex; flex-direction: column; gap: 8px;">
-        
-        <!-- CURRENT RUN SINGLE LINE -->
-        <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px dashed #ffe4e6; padding-bottom:6px; white-space:nowrap; overflow:hidden;">
-          <span style="font-size:0.68rem; font-weight:900; color:#9f1239; flex-shrink:0;">CURRENT RUN</span>
-          <span id="currentRunScore" style="font-size:0.75rem; font-weight:900; color:#475569; overflow:hidden; text-overflow:ellipsis;">0 [Dist: 0 + Bonus: 0]</span>
-        </div>
-
-        <!-- REVIVE DETAILS BOX (SINGLE LINE ITEMS) -->
-        <div id="reviveBreakdownContainer" style="display:none; flex-direction:column; gap:5px; background:#f0fdf4; border:2px dashed #86efac; border-radius:14px; padding:8px;">
-          <div style="font-size:0.68rem; font-weight:900; color:#15803d; text-transform:uppercase;">⚡ Revive Details</div>
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:#374151; white-space:nowrap; overflow:hidden;">
-            <span style="flex-shrink:0;">Pre-Revive Score:</span>
-            <span id="preReviveScoreText" style="font-weight:900; color:#1f2937; overflow:hidden; text-overflow:ellipsis;">0</span>
-          </div>
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:#374151; white-space:nowrap; overflow:hidden;">
-            <span style="flex-shrink:0;">Doubled Score (×2):</span>
-            <span id="doubledReviveScoreText" style="font-weight:900; color:#15803d; overflow:hidden; text-overflow:ellipsis;">0</span>
-          </div>
-          
-          <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:#374151; border-top:1px dashed #bbf7d0; padding-top:2px; white-space:nowrap; overflow:hidden;">
-            <span style="flex-shrink:0;">Post-Revive Run:</span>
-            <span id="postReviveRunText" style="font-weight:900; color:#1f2937; overflow:hidden; text-overflow:ellipsis;">0</span>
-          </div>
-        </div>
-
-        <!-- DAILY TOTAL (EXTRA LARGE & BOLD, SINGLE LINE) -->
-        <div style="display:flex; justify-content:space-between; align-items:center; white-space:nowrap; overflow:hidden;">
-          <span style="font-size:0.7rem; font-weight:900; color:#9f1239; flex-shrink:0;">DAILY TOTAL</span>
-          <span id="dailyTotalScoreDisplay" style="font-size:1.2rem; font-weight:900; color:#16a34a; overflow:hidden; text-overflow:ellipsis;">0</span>
-        </div>
-
+      <div style="background:#fff5f5; border: 2px solid #fecdd3; border-radius:20px; padding:16px; margin-bottom:16px; text-align:center;">
+        <div style="font-size:0.75rem; font-weight:900; color:#9f1239; text-transform:uppercase; margin-bottom:4px;">TOTAL SCORE</div>
+        <div id="dailyTotalScoreDisplay" style="font-size:2rem; font-weight:900; color:#16a34a;">0</div>
       </div>
 
-      <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
         <button id="reviveActionBtn" onclick="handleReviveAndDouble()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #10b981, #059669); color:#fff; border:3px solid #6ee7b7; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(16,185,129,0.35); cursor:pointer;">
           ⚡ REVIVE & DOUBLE SCORE
         </button>
 
         <button onclick="startHeliGame()" style="width:100%; padding:12px; font-weight:900; background:linear-gradient(135deg, #3b82f6, #1d4ed8); color:#fff; border:3px solid #93c5fd; border-radius:18px; font-size:0.85rem; box-shadow:0 6px 16px rgba(59,130,246,0.35); cursor:pointer;">
-          PLAY AGAIN 🔄
+          TRY AGAIN 🔄
         </button>
 
         <button onclick="closeGameScreen()" style="width:100%; padding:10px; font-weight:800; background:#f1f5f9; color:#475569; border:2px solid #cbd5e1; border-radius:16px; font-size:0.8rem; cursor:pointer;">
-          EXIT TO ARENA
+          EXIT
         </button>
       </div>
 
@@ -450,13 +414,23 @@ function setupPauseModalHTML() {
     });
   }
 
+  // BLUR SCREEN WITH ANIMATED TEXT FOR REVIVE ("Score double hora hai pls wait kare..." in English animation style)
   if (!document.getElementById("gameCountdownOverlay")) {
     const countDiv = document.createElement("div");
     countDiv.id = "gameCountdownOverlay";
     countDiv.className = "game-overlay hidden";
-    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.75); backdrop-filter: blur(6px); display:flex; align-items:center; justify-content:center; z-index:50;";
+    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.85); backdrop-filter: blur(10px); display:flex; align-items:center; justify-content:center; z-index:50; text-align:center; padding: 20px;";
     countDiv.innerHTML = `
-      <div style="font-size:6.5rem; font-weight:900; color:#facc15; text-shadow:0 0 30px rgba(250,204,21,0.6);" id="countdownNumber">3</div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px;">
+        <div style="width: 50px; height: 50px; border: 5px solid #38bdf8; border-top: 5px solid transparent; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+        <div id="reviveLoadingText" style="font-size:1.1rem; font-weight:900; color:#facc15; text-shadow:0 2px 10px rgba(250,204,21,0.4); animation: pulse 1.2s infinite ease-in-out;">
+          Doubling your score, please wait...
+        </div>
+      </div>
+      <style>
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.02); } }
+      </style>
     `;
     modalContainer.appendChild(countDiv);
   }
@@ -651,23 +625,26 @@ function resumeGameWithCountdown() {
   }
 
   const countOverlay = document.getElementById("gameCountdownOverlay");
-  const countNumber = document.getElementById("countdownNumber");
+  // Restore countdown text temporarily for pause resume
+  const reviveText = document.getElementById("reviveLoadingText");
+  if (reviveText) reviveText.innerText = "3";
+
   if (countOverlay) {
     countOverlay.classList.remove("hidden");
   }
 
   let count = 3;
-  if (countNumber) countNumber.innerText = count;
-
   const countInterval = setInterval(() => {
     count--;
     if (count > 0) {
-      if (countNumber) countNumber.innerText = count;
+      if (reviveText) reviveText.innerText = count;
     } else {
       clearInterval(countInterval);
       if (countOverlay) {
         countOverlay.classList.add("hidden");
       }
+      // Reset text back to revive message for future revives
+      if (reviveText) reviveText.innerText = "Doubling your score, please wait...";
       startHeliGameResumed();
     }
   }, 1000);
@@ -889,6 +866,7 @@ function startHeliGame() {
   heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
+// ⚡ REVIVE ACTION: SHOWS BLUR SCREEN WITH ANIMATED ENGLISH TEXT AND DOUBLES SCORE
 function handleReviveAndDouble() {
   if (appState.hasRevivedThisGame) return;
   unlockMobileAudio();
@@ -907,27 +885,21 @@ function handleReviveAndDouble() {
   heliGame.bonusScore = appState.revivePostBonus;
 
   const countOverlay = document.getElementById("gameCountdownOverlay");
-  const countNumber = document.getElementById("countdownNumber");
+  const reviveText = document.getElementById("reviveLoadingText");
+  if (reviveText) reviveText.innerText = "Doubling your score, please wait...";
+
   if (countOverlay) {
     countOverlay.classList.remove("hidden");
   }
 
-  let count = 3;
-  if (countNumber) countNumber.innerText = count;
-
-  const countInterval = setInterval(() => {
-    count--;
-    if (count > 0) {
-      if (countNumber) countNumber.innerText = count;
-    } else {
-      clearInterval(countInterval);
-      if (countOverlay) {
-        countOverlay.classList.add("hidden");
-      }
-      appState.isRevivingState = true;
-      startHeliGame();
+  // Simulate ad / loading delay with blur and animated text
+  setTimeout(() => {
+    if (countOverlay) {
+      countOverlay.classList.add("hidden");
     }
-  }, 1000);
+    appState.isRevivingState = true;
+    startHeliGame();
+  }, 2200);
 }
 
 function heliGameLoop(timestamp) {
@@ -1546,6 +1518,7 @@ function drawRoundedRect(ctx, x, y, width, height, radius, fill) {
   if (fill) ctx.fill();
 }
 
+// 💥 CRASH HANDLING: 1ST DEATH SHOWS 3 BUTTONS, 2ND DEATH SHOWS ONLY 2 BUTTONS
 function handleCrash() {
   heliGame.active = false;
   if (heliGame.loopId) cancelAnimationFrame(heliGame.loopId);
@@ -1555,22 +1528,7 @@ function handleCrash() {
   gameSounds.stopRain();
   gameSounds.playCrash();
 
-  let finalRunTotal = 0;
-  let displayDist = 0;
-  let displayBonus = 0;
-
-  if (appState.hasRevivedThisGame) {
-    const postReviveDistEarned = heliGame.distanceMeters - appState.revivePostDistance;
-    const postReviveBonusEarned = heliGame.bonusScore - appState.revivePostBonus;
-
-    displayDist = appState.revivePostDistance + postReviveDistEarned;
-    displayBonus = appState.revivePostBonus + postReviveBonusEarned;
-    finalRunTotal = displayDist + displayBonus;
-  } else {
-    displayDist = heliGame.distanceMeters;
-    displayBonus = heliGame.bonusScore;
-    finalRunTotal = displayDist + displayBonus;
-  }
+  let finalRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
 
   appState.currentRunScore = finalRunTotal;
   appState.dailyScore += finalRunTotal;
@@ -1581,36 +1539,12 @@ function handleCrash() {
 
   updateLeaderboardWithUserScore();
 
-  const runScoreEl = document.getElementById("currentRunScore");
   const dailyTotalEl = document.getElementById("dailyTotalScoreDisplay");
-  const rankBadgeEl = document.getElementById("userRankBadge");
   const reviveBtnEl = document.getElementById("reviveActionBtn");
-  const reviveBreakdownContainer = document.getElementById("reviveBreakdownContainer");
 
-  if (runScoreEl) runScoreEl.innerText = `${finalRunTotal} [Dist: ${displayDist} + Bonus: ${displayBonus}]`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
 
-  if (appState.hasRevivedThisGame) {
-    if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "flex";
-    const preTotal = appState.revivePreDistance + appState.revivePreBonus;
-    const postTotal = appState.revivePostDistance + appState.revivePostBonus;
-    
-    document.getElementById("preReviveScoreText").innerText = `${preTotal} (Dist: ${appState.revivePreDistance} + Bonus: ${appState.revivePreBonus})`;
-    document.getElementById("doubledReviveScoreText").innerText = `${postTotal} (Dist: ${appState.revivePostDistance} + Bonus: ${appState.revivePostBonus})`;
-    document.getElementById("postReviveRunText").innerText = `${finalRunTotal}`;
-  } else {
-    if (reviveBreakdownContainer) reviveBreakdownContainer.style.display = "none";
-  }
-
-  let userRank = "--";
-  if (appState.currentUser) {
-    const foundUserIdx = lbDailyData.findIndex(item => item.name === appState.currentUser.name);
-    if (foundUserIdx !== -1) {
-      userRank = `#${lbDailyData[foundUserIdx].rank}`;
-    }
-  }
-  if (rankBadgeEl) rankBadgeEl.innerText = `${userRank}`;
-
+  // Hide Revive button if already revived once (making it 2nd death screen)
   if (reviveBtnEl) {
     if (appState.hasRevivedThisGame) {
       reviveBtnEl.style.display = "none";
