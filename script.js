@@ -423,31 +423,21 @@ function setupPauseModalHTML() {
     });
   }
 
-  // THEMED ARCADE REVIVE / COUNTDOWN SCREEN
+  // CLEAN & SLEEK REVIVE / COUNTDOWN SCREEN
   if (!document.getElementById("gameCountdownOverlay")) {
     const countDiv = document.createElement("div");
     countDiv.id = "gameCountdownOverlay";
     countDiv.className = "game-overlay hidden";
-    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:radial-gradient(circle, rgba(56,189,248,0.35) 0%, rgba(15,23,42,0.92) 100%); backdrop-filter: blur(14px); display:flex; align-items:center; justify-content:center; z-index:50; text-align:center; padding: 20px;";
+    countDiv.style.cssText = "position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(15,23,42,0.8); backdrop-filter: blur(8px); display:flex; align-items:center; justify-content:center; z-index:50; text-align:center; padding: 20px;";
     countDiv.innerHTML = `
-      <div style="display: flex; flex-direction: column; align-items: center; gap: 16px; background: linear-gradient(135deg, rgba(30,41,59,0.9) 0%, rgba(15,23,42,0.95) 100%); border: 4px solid #38bdf8; padding: 32px 24px; border-radius: 32px; box-shadow: 0 0 40px rgba(56,189,248,0.4); max-width: 320px; width: 100%; position: relative;">
-        
-        <div style="width: 56px; height: 56px; background: linear-gradient(135deg, #facc15, #f59e0b); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(245,158,11,0.4); border: 3px solid #ffffff;">
-          <span style="font-size: 1.6rem;">⚡</span>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; background: #ffffff; border: 3px solid #38bdf8; padding: 28px 36px; border-radius: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.25); max-width: 260px; width: 100%;">
+        <div id="reviveLoadingText" style="font-size: 0.95rem; font-weight: 800; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px;">
+          GET READY...
         </div>
-
-        <div id="reviveLoadingText" style="font-size:1.1rem; font-weight:900; color:#facc15; text-shadow:0 2px 10px rgba(250,204,21,0.5); letter-spacing: 0.5px; line-height: 1.4; text-transform: uppercase; animation: pulseGlow 1.2s infinite ease-in-out;">
-          DOUBLING SCORE...
-        </div>
-
-        <div id="reviveCountdownNumber" style="font-size: 3rem; font-weight: 900; color: #38bdf8; text-shadow: 0 0 20px rgba(56,189,248,0.6); display: none;">
+        <div id="reviveCountdownNumber" style="font-size: 2.8rem; font-weight: 900; color: #1e293b; display: none;">
           3
         </div>
-
       </div>
-      <style>
-        @keyframes pulseGlow { 0%, 100% { opacity: 0.7; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1.03); } }
-      </style>
     `;
     modalContainer.appendChild(countDiv);
   }
@@ -646,7 +636,7 @@ function resumeGameWithCountdown() {
   const countNum = document.getElementById("reviveCountdownNumber");
   
   if (reviveText) reviveText.style.display = "block";
-  if (reviveText) reviveText.innerText = "RESUMING GAME...";
+  if (reviveText) reviveText.innerText = "RESUMING...";
   if (countNum) countNum.style.display = "none";
 
   if (countOverlay) {
@@ -671,7 +661,7 @@ function resumeGameWithCountdown() {
         startHeliGameResumed();
       }
     }, 1000);
-  }, 1200);
+  }, 1000);
 }
 
 function startHeliGameResumed() {
@@ -894,7 +884,7 @@ function startHeliGame() {
   heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
-// ⚡ REVIVE & DOUBLE SCORE WITH THEMED ARCADE 3-2-1 COUNTDOWN
+// ⚡ REVIVE & DOUBLE SCORE WITH CLEAN ARCADE 3-2-1 COUNTDOWN & INSTANT TOTAL ADDITION
 function handleReviveAndDouble() {
   if (appState.hasRevivedThisGame) return;
   unlockMobileAudio();
@@ -912,12 +902,20 @@ function handleReviveAndDouble() {
   heliGame.rawScoreAcc = appState.revivePostDistance;
   heliGame.bonusScore = appState.revivePostBonus;
 
+  // Immediately add the doubled score difference directly to total daily score
+  const preTotalRun = appState.revivePreDistance + appState.revivePreBonus;
+  const postTotalRun = appState.revivePostDistance + appState.revivePostBonus;
+  const addedDifference = postTotalRun - preTotalRun;
+  appState.dailyScore += addedDifference;
+  appState.currentRunScore = postTotalRun;
+  updateLeaderboardWithUserScore();
+
   const countOverlay = document.getElementById("gameCountdownOverlay");
   const reviveText = document.getElementById("reviveLoadingText");
   const countNum = document.getElementById("reviveCountdownNumber");
 
   if (reviveText) reviveText.style.display = "block";
-  if (reviveText) reviveText.innerText = "⚡ DOUBLING SCORE... ⚡";
+  if (reviveText) reviveText.innerText = "DOUBLING SCORE...";
   if (countNum) countNum.style.display = "none";
 
   if (countOverlay) {
@@ -943,7 +941,7 @@ function handleReviveAndDouble() {
         startHeliGame();
       }
     }, 1000);
-  }, 1500);
+  }, 1000);
 }
 
 function heliGameLoop(timestamp) {
@@ -963,8 +961,18 @@ function updatePhysics(dt) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
 
+  // Track old total run score to calculate real-time difference and add directly to total score
+  const oldRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
+
   heliGame.rawScoreAcc += dt * 12;
   heliGame.distanceMeters = Math.floor(heliGame.rawScoreAcc);
+
+  const newRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
+  const diff = newRunTotal - oldRunTotal;
+  if (diff > 0) {
+    appState.dailyScore += diff;
+    appState.currentRunScore = newRunTotal;
+  }
 
   // Original score milestone check
   if (heliGame.distanceMeters > 0 && heliGame.distanceMeters % 100 === 0 && heliGame.distanceMeters !== heliGame.lastMilestoneScore) {
@@ -1051,6 +1059,7 @@ function updatePhysics(dt) {
 
       if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
         heliGame.bonusScore += 50;
+        appState.dailyScore += 50; // Instant addition of bonus score to total daily score
         gameSounds.playBonus();
 
         heliGame.floatingTexts.push({
@@ -1576,8 +1585,6 @@ function handleCrash() {
 
   let currentRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
   appState.currentRunScore = currentRunTotal;
-  
-  appState.dailyScore += currentRunTotal;
 
   if (appState.dailyScore > heliGame.bestScore) {
     heliGame.bestScore = appState.dailyScore;
