@@ -1,8 +1,8 @@
 /* ==========================================================================
-   WIN2EARN - STAKE ORIGINAL EXACT THEME (OPTIMIZED & COMPLETE)
+   WIN2EARN - STAKE.COM EXACT CLEAN THEME (OPTIMIZED & COMPLETE)
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
 
 *,
 *::before,
@@ -10,7 +10,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   user-select: none;
@@ -24,19 +24,19 @@
   --glass-bg: #1a2c38;
   --glass-card-bg: #1a2c38;
   --glass-border: #2b4150;    /* Stake Subtle Border */
-  --glass-border-gold: rgba(241, 196, 15, 0.4);
+  --glass-border-gold: rgba(20, 117, 225, 0.3);
   --glass-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 
   --text-primary: #ffffff;
-  --text-secondary: #b1bad3;  /* Stake's Standard Gray-Blue Text */
+  --text-secondary: #b1bad3;  /* Stake's Standard Gray-Blue Readable Text */
   --text-muted: #557086;
 
-  /* Stake Vibrant Blue Accents */
+  /* Stake Solid Blue Accents (Replaced flashy colors) */
   --accent-green: #1475e1;    /* Stake Blue */
-  --accent-green-dark: #0b5ab5;/* Darker Stake Blue */
+  --accent-green-dark: #0b5ab5;/* Darker Stake Blue Hover */
   --accent-blue: #1475e1;
-  --accent-gold: #f1c40f;
-  --accent-gold-dark: #d4a017;
+  --accent-gold: #ffffff;     /* Clean white/neutral instead of flashy gold */
+  --accent-gold-dark: #b1bad3;
   --accent-red: #ff4d4f;
 
   --neon-glow-green: none;
@@ -101,7 +101,7 @@ body.no-scroll {
    Typography & Flat Effects
    -------------------------------------------------------------------------- */
 .gold-text {
-  color: var(--accent-gold);
+  color: var(--text-primary);
   font-weight: 900;
 }
 
@@ -497,7 +497,7 @@ body.no-scroll {
   font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
   font-size: 1rem;
   font-weight: 900;
-  color: var(--accent-gold);
+  color: var(--text-primary);
 }
 
 @keyframes nearMissPop {
@@ -773,7 +773,7 @@ body.no-scroll {
 .score-divider { border: 0; border-top: 1px solid var(--glass-border); margin: 8px 0; }
 .total-row { margin-top: 4px; }
 .total-row .s-label { color: var(--text-primary); font-weight: 800; font-size: 0.78rem; }
-.total-row .s-val { color: var(--accent-gold); font-size: 1.2rem; font-weight: 900; }
+.total-row .s-val { color: var(--text-primary); font-size: 1.2rem; font-weight: 900; }
 
 .crash-btn-group { display: flex; flex-direction: column; gap: 8px; }
 
@@ -839,7 +839,7 @@ body.no-scroll {
 .ticker-viewport { flex: 1; overflow: hidden; position: relative; white-space: nowrap; }
 .ticker-track { display: inline-block; white-space: nowrap; }
 .ticker-item { display: inline-block; font-size: 0.8rem; color: var(--text-secondary); font-weight: 600; margin-right: 24px; }
-.ticker-item span { color: var(--accent-gold); font-weight: 800; }
+.ticker-item span { color: var(--text-primary); font-weight: 800; }
 .ticker-speed-normal { animation: tickerSlide 22s linear infinite; }
 
 @keyframes tickerSlide {
@@ -861,10 +861,10 @@ body.no-scroll {
 .live-dot { width: 7px; height: 7px; background-color: var(--accent-green); border-radius: 50%; box-shadow: 0 0 6px var(--accent-green); }
 
 .hero-logo-text { font-size: 2rem; margin-bottom: 14px; }
-.premium-glass-prize { background: rgba(241, 196, 15, 0.03); border: 1px solid var(--glass-border-gold); }
+.premium-glass-prize { background: rgba(20, 117, 225, 0.03); border: 1px solid var(--glass-border-gold); }
 .total-prize-box { width: 100%; padding: 16px 18px; border-radius: 8px; text-align: center; margin-bottom: 10px; }
 .prize-label { font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em; }
-.prize-amount { font-size: 1.35rem; margin: 4px 0; color: var(--accent-gold); font-weight: 900; }
+.prize-amount { font-size: 1.35rem; margin: 4px 0; color: var(--text-primary); font-weight: 900; }
 .pool-sub-note { font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; }
 .hero-subtext { font-size: 0.78rem; color: var(--text-secondary); margin: 6px 0 14px 0; }
 
@@ -874,19 +874,19 @@ body.no-scroll {
 .featured-card { padding: 0; overflow: hidden; background: var(--bg-secondary); border: 1px solid var(--glass-border); border-radius: 8px; }
 .monthly-premium-card { border: 1px solid var(--glass-border-gold); }
 .card-header-bar { padding: 10px 16px; font-size: 0.82rem; font-weight: 800; color: var(--text-primary); background: #213743; text-align: left; }
-.premium-header-bar { background: rgba(241, 196, 15, 0.12); color: var(--accent-gold); }
+.premium-header-bar { background: rgba(20, 117, 225, 0.12); color: var(--accent-green); }
 .card-image-container { height: 150px; width: 100%; background: #0f212e; position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; }
 .game-card-img { width: 100%; height: 100%; object-fit: cover; }
 .entry-badge { position: absolute; top: 10px; left: 10px; z-index: 2; background: rgba(15, 33, 46, 0.9); color: var(--accent-green); font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--glass-border); }
-.gold-badge { color: var(--accent-gold); border-color: rgba(241, 196, 15, 0.4); }
+.gold-badge { color: var(--accent-green); border-color: rgba(20, 117, 225, 0.4); }
 
 .card-details { padding: 16px; text-align: left; }
 .details-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 .game-title { font-size: 1rem; font-weight: 800; color: var(--text-primary); }
-.tag-daily { background: rgba(241, 196, 15, 0.15); color: var(--accent-gold); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
+.tag-daily { background: rgba(20, 117, 225, 0.15); color: var(--accent-green); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
 .tag-monthly { background: rgba(20, 117, 225, 0.15); color: var(--accent-green); font-size: 0.62rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; }
 .win-label { font-size: 0.78rem; color: var(--text-secondary); margin-bottom: 12px; font-weight: 600; line-height: 1.4; }
-.win-label span { color: var(--accent-gold); font-weight: 800; }
+.win-label span { color: var(--text-primary); font-weight: 800; }
 
 .lb-type-toggle { display: flex; gap: 8px; margin-bottom: 12px; }
 .lb-toggle-btn { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--glass-border); background: #0f212e; color: var(--text-secondary); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.15s ease; }
@@ -896,9 +896,9 @@ body.no-scroll {
 .lb-row { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-bottom: 1px solid var(--glass-border); }
 .lb-row:last-child { border-bottom: none; }
 .lb-rank { font-weight: 800; font-size: 0.85rem; width: 30px; color: var(--text-muted); }
-.lb-rank.top1 { color: var(--accent-gold); font-size: 1.05rem; }
+.lb-rank.top1 { color: var(--accent-green); font-size: 1.05rem; }
 .lb-rank.top2 { color: #d1d5db; font-size: 1rem; }
-.lb-rank.top3 { color: #b45309; font-size: 0.95rem; }
+.lb-rank.top3 { color: var(--text-secondary); font-size: 0.95rem; }
 .lb-name { flex: 1; font-size: 0.85rem; font-weight: 700; color: var(--text-primary); text-align: left; }
 .lb-score { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-size: 0.85rem; font-weight: 800; color: var(--accent-green); }
 
@@ -943,4 +943,3 @@ body.no-scroll {
 .flex-center { display: flex; justify-content: center; align-items: center; }
 .text-center { text-align: center; }
 .w-100 { width: 100%; }
-
