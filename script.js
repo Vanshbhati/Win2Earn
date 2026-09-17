@@ -423,7 +423,6 @@ function setupPauseModalHTML() {
     });
   }
 
-  // CLEAN & SLEEK REVIVE / COUNTDOWN SCREEN
   if (!document.getElementById("gameCountdownOverlay")) {
     const countDiv = document.createElement("div");
     countDiv.id = "gameCountdownOverlay";
@@ -884,7 +883,6 @@ function startHeliGame() {
   heliGame.loopId = requestAnimationFrame(heliGameLoop);
 }
 
-// ⚡ REVIVE & DOUBLE SCORE WITH CLEAN ARCADE 3-2-1 COUNTDOWN & INSTANT TOTAL ADDITION
 function handleReviveAndDouble() {
   if (appState.hasRevivedThisGame) return;
   unlockMobileAudio();
@@ -902,7 +900,6 @@ function handleReviveAndDouble() {
   heliGame.rawScoreAcc = appState.revivePostDistance;
   heliGame.bonusScore = appState.revivePostBonus;
 
-  // Immediately add the doubled score difference directly to total daily score
   const preTotalRun = appState.revivePreDistance + appState.revivePreBonus;
   const postTotalRun = appState.revivePostDistance + appState.revivePostBonus;
   const addedDifference = postTotalRun - preTotalRun;
@@ -961,7 +958,6 @@ function updatePhysics(dt) {
   const canvas = heliGame.canvas;
   const playableHeight = canvas.height - heliGame.groundHeight;
 
-  // Track old total run score to calculate real-time difference and add directly to total score
   const oldRunTotal = heliGame.distanceMeters + heliGame.bonusScore;
 
   heliGame.rawScoreAcc += dt * 12;
@@ -974,7 +970,6 @@ function updatePhysics(dt) {
     appState.currentRunScore = newRunTotal;
   }
 
-  // Original score milestone check
   if (heliGame.distanceMeters > 0 && heliGame.distanceMeters % 100 === 0 && heliGame.distanceMeters !== heliGame.lastMilestoneScore) {
     heliGame.lastMilestoneScore = heliGame.distanceMeters;
     heliGame.scoreBlinkTimer = 0.6;
@@ -985,7 +980,6 @@ function updatePhysics(dt) {
     heliGame.scoreBlinkTimer -= dt;
   }
 
-  // Automatic rain triggered strictly by original true distance milestone (750)
   const currentRainMilestone = Math.floor(heliGame.distanceMeters / 750);
   if (currentRainMilestone > 0 && currentRainMilestone !== heliGame.lastRainMilestone) {
     heliGame.lastRainMilestone = currentRainMilestone;
@@ -1059,7 +1053,7 @@ function updatePhysics(dt) {
 
       if (distToTopEdge <= strictThreshold || distToBottomEdge <= strictThreshold) {
         heliGame.bonusScore += 50;
-        appState.dailyScore += 50; // Instant addition of bonus score to total daily score
+        appState.dailyScore += 50;
         gameSounds.playBonus();
 
         heliGame.floatingTexts.push({
@@ -1135,7 +1129,6 @@ function renderCanvas() {
   const canvas = heliGame.canvas;
   const score = heliGame.distanceMeters;
 
-  // Environment and background shifts strictly bound to original score progress
   const cycleScore = score % 1500;
   
   let skyTop, skyMid, skyBottom, showSun = false, showStars = false;
