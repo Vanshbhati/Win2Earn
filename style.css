@@ -18,7 +18,7 @@
 }
 
 :root {
-  /* Apple Purple Premium Theme */
+  /* Apple Purple Premium Theme (Light Mode) */
   --bg-main: #f3f0f7;
   --bg-secondary: #ffffff;
   --glass-bg: rgba(255, 255, 255, 0.82);
@@ -167,7 +167,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Splash Screen (8.5 Seconds Smooth Apple Purple Theme)
+   Splash Screen (Version 9 Updated - Apple Light Theme)
    -------------------------------------------------------------------------- */
 .splash-screen {
   position: fixed;
@@ -234,7 +234,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Mobile-Only Restriction Screen (Agar koi desktop ya doosri cheez par khole)
+   Mobile-Only Restriction Screen (Desktop Blocked - Apple Light Theme)
    -------------------------------------------------------------------------- */
 .desktop-blocker-overlay {
   display: none;
@@ -254,6 +254,10 @@ body.no-scroll {
 @media screen and (min-width: 768px) {
   .desktop-blocker-overlay {
     display: flex !important;
+  }
+  /* Desktop par baaki poori website content chupane ke liye */
+  body > *:not(.desktop-blocker-overlay) {
+    display: none !important;
   }
 }
 
