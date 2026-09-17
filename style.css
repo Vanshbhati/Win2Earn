@@ -856,7 +856,7 @@ body.no-scroll {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 20px gap between cards */
+  gap: 20px;
   padding-bottom: 100px;
 }
 
@@ -975,7 +975,7 @@ body.no-scroll {
 
 .win-label { font-size: 15px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600; line-height: 1.4; }
 
-/* PLAY NOW / Join Now Buttons (56px height, 16px radius, shadow) */
+/* PLAY NOW / Join Now Buttons */
 .play-now-btn, .launch-cta-btn, .action-btn {
   width: 100%;
   height: 56px;
@@ -998,7 +998,7 @@ body.no-scroll {
   background: var(--accent-blue-dark);
 }
 
-/* Mega Leaderboard / Pills & Badges (#E3F2FD bg, blue icon, #1E3A5F text, rounded 12px) */
+/* Mega Leaderboard / Pills & Badges */
 .mega-leaderboard-pill, .badge-pill-custom {
   display: inline-flex;
   align-items: center;
@@ -1024,7 +1024,7 @@ body.no-scroll {
 
 .lb-list-container { padding: 12px; margin-bottom: 12px; background: #FFFFFF; border-radius: 28px; box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
 
-/* Winners Marquee Fix - Avatar + Name + Amount in Green */
+/* Winners Marquee */
 .winners-marquee-row, .lb-row {
   display: flex;
   align-items: center;
@@ -1047,7 +1047,7 @@ body.no-scroll {
 .lb-name { flex: 1; font-size: 15px; font-weight: 700; color: var(--text-primary); text-align: left; }
 .lb-score, .winner-amount { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800; color: var(--accent-green); }
 
-/* Bottom Nav - White Background with slate icons and blue active state */
+/* Bottom Nav */
 .compact-bottom-nav { padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px)) 0 !important; }
 .bottom-nav { 
   position: fixed !important; 
@@ -1079,7 +1079,7 @@ body.no-scroll {
 .nav-item.active { color: #1976D2; font-weight: 800; }
 .nav-item:hover { color: var(--text-primary); }
 
-/* Telegram Floating Button - 48px with shadow */
+/* Telegram Floating Button */
 .floating-tg-btn-fixed {
   position: fixed !important;
   bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
