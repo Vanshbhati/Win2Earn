@@ -167,7 +167,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Splash Screen (Version 9 Updated - Apple Light Theme)
+   Splash Screen (Apple Light Theme)
    -------------------------------------------------------------------------- */
 .splash-screen {
   position: fixed;
@@ -234,7 +234,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Mobile-Only Restriction Screen (Desktop Blocked - Apple Light Theme)
+   Mobile-Only Restriction Screen (Desktop Blocked)
    -------------------------------------------------------------------------- */
 .desktop-blocker-overlay {
   display: none;
@@ -255,7 +255,6 @@ body.no-scroll {
   .desktop-blocker-overlay {
     display: flex !important;
   }
-  /* Desktop par baaki poori website content chupane ke liye */
   body > *:not(.desktop-blocker-overlay) {
     display: none !important;
   }
@@ -290,7 +289,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Modals & Overlays
+   Modals & Overlays (Strictly Non-Scrollable)
    -------------------------------------------------------------------------- */
 .popup-overlay, .modal-overlay {
   position: fixed;
@@ -299,7 +298,7 @@ body.no-scroll {
   width: 100%;
   height: 100vh;
   height: 100dvh;
-  background: rgba(40, 20, 60, 0.3);
+  background: rgba(40, 20, 60, 0.35);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
@@ -307,7 +306,9 @@ body.no-scroll {
   align-items: center;
   z-index: 99999 !important;
   padding: 16px;
-  overscroll-behavior: none;
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
 }
 
 .high-priority-z { z-index: 9999999 !important; }
@@ -316,6 +317,7 @@ body.no-scroll {
 .popup-box, .modal-card {
   width: 100%;
   max-width: 400px;
+  max-height: 85vh;
   padding: 24px;
   position: relative;
   text-align: center;
@@ -323,6 +325,9 @@ body.no-scroll {
   border: 1px solid var(--glass-border);
   border-radius: 24px;
   box-shadow: 0 20px 40px rgba(175, 82, 222, 0.12);
+  overflow: hidden !important;
+  touch-action: none !important;
+  overscroll-behavior: none !important;
 }
 
 .popup-animated {
@@ -600,7 +605,7 @@ body.no-scroll {
 }
 
 /* ==========================================================================
-   GAME LAUNCH CARD (APPLE PURPLE THEME)
+   GAME LAUNCH CARD
    ========================================================================== */
 .game-launch-card {
   width: 100%;
@@ -755,7 +760,7 @@ body.no-scroll {
 }
 
 /* ==========================================================================
-   CRASH CARD (APPLE PURPLE THEME)
+   CRASH CARD
    ========================================================================== */
 .crash-card {
   width: 100%;
@@ -877,25 +882,6 @@ body.no-scroll {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-.revive-btn {
-  background: linear-gradient(135deg, #ff9500, #ff3b30);
-  color: #ffffff;
-  border: none;
-  padding: 13px;
-  border-radius: 14px;
-  box-shadow: 0 6px 20px rgba(255, 149, 0, 0.25);
-  font-family: 'Orbitron', -apple-system, sans-serif;
-  font-weight: 900;
-  font-size: 0.9rem;
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-.revive-btn:active {
-  transform: scale(0.96);
 }
 
 .retry-btn {
