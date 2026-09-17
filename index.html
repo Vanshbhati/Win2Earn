@@ -1,603 +1,1240 @@
 <!DOCTYPE html>
-<html lang="en" class="light-apple-theme">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Win2Earn - Skill Based Game</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>WIN2EARN - Daily Tournaments & 50% Ad Revenue Share</title>
+  <!-- Embedded Optimized CSS stylesheet corresponding precisely to your design requirements -->
   <style>
+    /* ==========================================================================
+       WIN2EARN - PREMIUM LIGHT THEME (OPTIMIZED)
+       ========================================================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
     :root {
-      --bg-gradient: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
-      --card-bg: #FFFFFF;
-      --card-radius: 28px;
-      --card-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 4px 12px rgba(0,0,0,0.04);
-      --text-main: #0F172A;
-      --text-sub: #64748B;
-      --primary-blue: #1976D2;
+      --bg-main: #E3F2FD;         
+      --bg-gradient-end: #BBDEFB; 
+      --bg-secondary: #FFFFFF;    
+      --glass-bg: #FFFFFF;
+      --glass-card-bg: #FFFFFF;
+      --glass-border: transparent; 
+      --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+
+      --text-primary: #0F172A;    
+      --text-secondary: #64748B;  
+      --text-muted: #94A3B8;
+
+      --accent-blue: #1976D2;
+      --accent-blue-dark: #115293;
+      --accent-gold: #FBC02D;
+      --accent-red: #EF5350;
+      --accent-green: #2E7D32;
     }
-    body {
-      background: var(--bg-gradient);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
+
+    html, body {
+      background: linear-gradient(135deg, var(--bg-main) 0%, var(--bg-gradient-end) 100%);
+      color: var(--text-primary);
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
-    .glass-card {
-      background: var(--card-bg) !important;
-      border-radius: var(--card-radius) !important;
-      box-shadow: var(--card-shadow) !important;
-      border: none !important;
-      padding: 24px !important;
-      margin-bottom: 20px !important;
+
+    body.no-scroll {
+      overflow: hidden !important;
+      height: 100vh;
+      height: 100dvh;
+      position: fixed;
+      width: 100%;
+      overscroll-behavior: none;
     }
-    .gradient-highlight-text {
-      background: linear-gradient(135deg, #1976D2 0%, #FBC02D 100%);
+
+    .live-hd-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(180deg, #E3F2FD 0%, #BBDEFB 100%);
+    }
+
+    .live-hd-bg::after {
+      content: '';
+      position: absolute;
+      top: 10%;
+      left: 5%;
+      width: 200px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.4);
+      filter: blur(20px);
+      border-radius: 50%;
+      box-shadow: 50px 40px 0 20px rgba(255, 255, 255, 0.3), 150px 80px 0 40px rgba(255, 255, 255, 0.25);
+    }
+
+    .gpu-accelerated,
+    .glass-card,
+    .popup-box,
+    .modal-card,
+    .ticker-track,
+    .bottom-nav,
+    .floating-tg-btn-fixed,
+    .splash-screen,
+    .fullscreen-game-arena,
+    .game-canvas-wrapper,
+    #heliCanvas {
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .gold-text { color: var(--accent-gold); font-weight: 900; }
+    .green-text { color: var(--accent-green); font-weight: 900; }
+    .white-text { color: #FFFFFF; font-weight: 800; }
+
+    .highlight-3d-text, .win-label span, .total-row .s-val {
+      background: linear-gradient(135deg, #1976D2 30%, #FBC02D 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
       font-weight: 900;
+      text-shadow: 0 2px 4px rgba(25, 118, 210, 0.15), 0 4px 8px rgba(251, 192, 45, 0.1);
     }
-    .event-red-pill {
-      background: #EF5350;
-      color: #FFFFFF;
-      font-size: 10px;
+
+    .logo-text {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.35rem;
+      letter-spacing: 0.08em;
+      font-weight: 900;
+      color: var(--text-primary);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-weight: 800;
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
-    .feature-sub-pill {
+
+    .glass-card {
+      background: #FFFFFF;
+      border: none;
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .glass-card:hover {
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
       background: #E3F2FD;
-      color: #1E3A5F;
-      font-size: 13px;
-      padding: 8px 14px;
-      border-radius: 12px;
       display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999999 !important;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .splash-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .splash-logo {
+      font-size: 2.2rem;
+      letter-spacing: 0.05em;
+      font-weight: 900;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+      text-transform: uppercase;
+    }
+
+    .splash-tagline {
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--accent-blue);
+      font-weight: 800;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+
+    .splash-loader {
+      width: 140px;
+      height: 3px;
+      background: rgba(25, 118, 210, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .splash-loader-bar {
+      width: 100%;
+      height: 100%;
+      background: var(--accent-blue);
+      animation: splashProgress 1.5s cubic-bezier(0.1, 0.5, 0.1, 1) forwards;
+      transform-origin: left;
+    }
+
+    @keyframes splashProgress {
+      0% { transform: scaleX(0); }
+      100% { transform: scaleX(1); }
+    }
+
+    .desktop-blocker-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #E3F2FD;
+      z-index: 999999999 !important;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+      text-align: center;
+    }
+
+    @media screen and (min-width: 768px) {
+      .desktop-blocker-overlay {
+        display: flex !important;
+      }
+      body > *:not(.desktop-blocker-overlay) {
+        display: none !important;
+      }
+    }
+
+    .blocker-card {
+      max-width: 380px;
+      padding: 32px 24px;
+      background: #FFFFFF;
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .blocker-icon { font-size: 3rem; margin-bottom: 14px; }
+    .blocker-title { font-size: 1.2rem; font-weight: 900; color: var(--text-primary); margin-bottom: 10px; }
+    .blocker-desc { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+
+    .popup-overlay, .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999 !important;
+      padding: 16px;
+    }
+
+    .popup-box, .modal-card {
+      width: 100%;
+      max-width: 400px;
+      max-height: 85vh;
+      padding: 28px;
+      position: relative;
+      text-align: center;
+      background: #FFFFFF;
+      border-radius: 28px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+      overflow: hidden !important;
+    }
+
+    .popup-animated { animation: popIn 0.2s ease-out; }
+
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .popup-title { font-size: 1.25rem; color: var(--text-primary); margin-bottom: 6px; font-weight: 800; }
+    #popupMessage { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 18px; line-height: 1.5; }
+
+    .glass-btn {
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+    .glass-btn:active { transform: scale(0.98); }
+
+    .primary-btn {
+      background: var(--accent-blue);
+      color: #FFFFFF;
+      font-weight: 800;
+      box-shadow: 0 8px 20px rgba(25, 118, 210, 0.3);
+      width: 100%;
+      height: 48px;
+      border-radius: 14px;
+    }
+    .primary-btn:hover { background: var(--accent-blue-dark); }
+
+    .close-btn {
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1.4rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #E2E8F0;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+      margin-bottom: 16px;
+    }
+
+    .nav-icon-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: var(--text-secondary);
+      transition: all 0.15s ease;
+    }
+    .nav-icon-btn:hover { background: #E3F2FD; color: var(--accent-blue); border-color: var(--accent-blue); }
+
+    .main-content {
+      padding: 0 16px;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding-bottom: 100px;
+    }
+
+    .ticker-wrapper {
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+    }
+
+    .ticker-badge {
+      background: #E3F2FD;
+      color: var(--accent-blue);
+      font-weight: 900;
+      font-size: 0.65rem;
+      padding: 5px 10px;
+      border-radius: 8px;
+      margin-right: 12px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+    }
+
+    .ticker-viewport { flex: 1; overflow: hidden; position: relative; white-space: nowrap; }
+    .ticker-track { display: inline-block; white-space: nowrap; animation: tickerSlide 25s linear infinite; }
+    .ticker-item { display: inline-block; font-size: 0.78rem; color: var(--text-secondary); font-weight: 600; margin-right: 28px; }
+    .ticker-item span { color: var(--accent-green); font-weight: 800; }
+
+    @keyframes tickerSlide {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .tournament-hero-card {
+      padding: 28px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #FFFFFF;
+      border-radius: 28px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+      position: relative;
+    }
+
+    .trophy-header-icons {
+      display: flex;
+      gap: 12px;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .mega-title-large {
+      font-size: 2.1rem;
+      font-weight: 900;
+      color: #0F172A;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      margin-bottom: 2px;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .mega-title-sub {
+      font-size: 1.9rem;
+      font-weight: 900;
+      color: #0F172A;
+      background: linear-gradient(135deg, #0F172A 30%, #1976D2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .season-timer-row {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-pills-row {
+      display: flex;
+      gap: 8px;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-pill-item {
+      flex: 1;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 8px 6px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .hero-pill-item:hover { background: #E3F2FD; color: var(--accent-blue); border-color: var(--accent-blue); }
+
+    .daily-tournament-card {
+      padding: 26px 22px;
+      background: linear-gradient(135deg, #1976D2 0%, #115293 100%);
+      border-radius: 28px;
+      color: #FFFFFF;
+      box-shadow: 0 16px 40px rgba(25, 118, 210, 0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .daily-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .daily-title-area h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      letter-spacing: 0.02em;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .daily-title-area h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      color: var(--accent-gold);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .daily-title-area p {
+      font-size: 0.78rem;
+      color: rgba(255, 255, 255, 0.85);
+      font-weight: 500;
+      line-height: 1.4;
+      max-width: 220px;
+    }
+
+    .daily-coin-graphic {
+      font-size: 3.5rem;
+      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.2));
+      animation: floatCoin 3s ease-in-out infinite;
+    }
+
+    @keyframes floatCoin {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .play-now-btn {
+      width: 100%;
+      height: 52px;
+      background: #FFFFFF;
+      color: var(--accent-blue);
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 900;
+      border: none;
+      display: flex;
+      justify-content: center;
       align-items: center;
       gap: 8px;
-      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      transition: transform 0.15s ease, background 0.15s ease;
+      margin-bottom: 12px;
     }
-    .primary-action-btn {
-      background: #1976D2 !important;
-      height: 56px !important;
-      border-radius: 16px !important;
-      box-shadow: 0 8px 20px rgba(25,118,210,0.3) !important;
-      color: #FFFFFF !important;
-      font-size: 18px !important;
-      font-weight: bold !important;
-      border: none !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .play-now-btn:hover { background: #F8FAFC; }
+    .play-now-btn:active { transform: scale(0.98); }
+
+    .no-fee-footer {
+      text-align: center;
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.8);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      width: 100%;
-      cursor: pointer;
     }
-    .login-custom-btn {
-      background: #FFFFFF !important;
-      border: 1px solid #E2E8F0 !important;
-      color: #334155 !important;
-      border-radius: 16px;
-      font-weight: 700;
+
+    .feature-box {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 16px 10px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
-    .signup-custom-btn {
-      background: #1976D2 !important;
-      color: #FFFFFF !important;
-      border-radius: 16px;
-      font-weight: 700;
-      border: none !important;
-    }
-    /* Bottom Navigation Light Theme */
-    .bottom-nav.light-bottom-nav {
-      background: #FFFFFF !important;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.06) !important;
-      border-top: 1px solid #F1F5F9;
-    }
-    .bottom-nav.light-bottom-nav .nav-item {
-      color: #64748B !important;
-    }
-    .bottom-nav.light-bottom-nav .nav-item.active {
-      color: #1976D2 !important;
-    }
-    /* Smaller Telegram Button */
-    .floating-tg-btn-fixed {
-      width: 48px !important;
-      height: 48px !important;
+
+    .feature-icon-circle {
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: #1976D2;
+      background: #E3F2FD;
+      color: var(--accent-blue);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.1rem;
+      margin-bottom: 2px;
+    }
+
+    .feature-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    .feature-sub {
+      font-size: 0.62rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      line-height: 1.2;
+    }
+
+    .bottom-nav {
+      position: fixed !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      display: flex;
+      justify-content: space-around;
+      background: #FFFFFF !important;
+      border-top: 1px solid #E2E8F0;
+      z-index: 10000 !important;
+      padding: 10px 4px calc(10px + env(safe-area-inset-bottom, 0px)) 4px;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-decoration: none;
+      color: var(--text-secondary);
+      font-size: 0.65rem;
+      font-weight: 700;
+      gap: 4px;
+      cursor: pointer;
+      transition: color 0.15s ease;
+      background: none;
+      border: none;
+    }
+
+    .nav-svg { width: 22px; height: 22px; fill: currentColor; }
+    .nav-item.active { color: var(--accent-blue); font-weight: 900; }
+    .nav-item:hover { color: var(--text-primary); }
+
+    /* Game Arena & Modals */
+    .fullscreen-game-arena {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: #E3F2FD;
+      z-index: 999999 !important;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      touch-action: none;
+    }
+
+    .game-engine-header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65px;
+      padding: 0 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 16px rgba(25,118,210,0.4) !important;
-      position: fixed;
-      bottom: 85px;
-      right: 20px;
-      z-index: 999;
+      z-index: 20;
+    }
+
+    .game-top-pill-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid #E2E8F0;
+      padding: 6px 14px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+    }
+
+    .exit-arena-btn {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 800;
       cursor: pointer;
     }
-    .floating-tg-btn-fixed svg {
-      width: 24px;
-      height: 24px;
-      fill: #FFFFFF;
+
+    .game-canvas-wrapper {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
+
+    #heliCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .game-modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      z-index: 30;
+    }
+
+    .game-launch-card, .crash-card {
+      width: 100%;
+      max-width: 360px;
+      padding: 28px 22px;
+      text-align: center;
+      background: #FFFFFF;
+      border-radius: 28px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+      position: relative;
+      animation: popIn 0.2s ease-out;
+    }
+
+    .hidden { display: none !important; }
   </style>
 </head>
-<body class="no-scroll">
+<body>
 
-  <!-- Desktop-Only Restriction Overlay -->
-  <div class="desktop-blocker-overlay">
-    <div class="blocker-card glass-card">
-      <div class="blocker-icon">📱</div>
-      <h2 style="color: #0F172A; font-weight: 800; font-size: 1.5rem; margin-bottom: 8px;">Mobile Only Experience</h2>
-      <p style="color: #64748B; font-size: 0.9rem;">
-        Win2Earn is exclusively optimized for mobile smartphones. Please open this link on your mobile device to play and win rewards!
-      </p>
-    </div>
-  </div>
+  <!-- Live Background -->
+  <div class="live-hd-bg"></div>
 
-  <!-- Live Canvas Background -->
-  <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
-
-  <!-- Splash Screen -->
-  <div id="splashScreen" class="splash-screen gpu-accelerated" style="background: #E3F2FD;">
+  <!-- Splash Screen Loader -->
+  <div id="splashScreen" class="splash-screen">
     <div class="splash-content">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; font-weight: 900; color: #0F172A; margin-bottom: 6px;">
-        WIN<span style="color: #1976D2;">2</span>EARN
-      </div>
-      <p style="color: #64748B; font-size: 0.95rem; font-weight: 600;">Skill Based Game</p>
-      <div class="splash-loader" style="background: #CBD5E1; margin-top: 20px;">
-        <div class="splash-loader-bar" style="animation-duration: 8.5s; background: #1976D2;"></div>
+      <div class="splash-logo">WIN2EARN</div>
+      <div class="splash-tagline">Play & Win Real Cash</div>
+      <div class="splash-loader">
+        <div class="splash-loader-bar"></div>
       </div>
     </div>
   </div>
 
-  <!-- Priority Alert / Error Popup -->
-  <div id="errorPopup" class="popup-overlay hidden high-priority-z">
-    <div class="popup-box glass-card popup-animated gpu-accelerated">
-      <div class="popup-icon">⚠️</div>
-      <h3 style="color: #0F172A; font-weight: 800; margin-bottom: 8px;">Attention</h3>
-      <p id="popupMessage" style="color: #64748B; margin-bottom: 16px;">An error occurred.</p>
-      <button class="primary-action-btn" onclick="closePopup()">Got it</button>
+  <!-- Desktop Mobile-Only Blocker -->
+  <div class="desktop-blocker-overlay">
+    <div class="blocker-card">
+      <div class="blocker-icon">📱</div>
+      <div class="blocker-title">Mobile Experience Required</div>
+      <div class="blocker-desc">WIN2EARN is optimized for mobile screens. Please open this app on your smartphone or shrink your browser window width below 768px.</div>
     </div>
   </div>
 
-  <!-- OTP Verification Modal -->
-  <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
-    <div class="popup-box glass-card popup-animated gpu-accelerated">
-      <div class="popup-icon">🔐</div>
-      <h3 style="color: #0F172A; font-weight: 800; margin-bottom: 8px;">OTP Verification Code</h3>
-      <p id="otpPopupMessage" style="color: #64748B; margin-bottom: 16px;">Verification code generated successfully.</p>
-      <button class="primary-action-btn" onclick="closeOtpModal()">ENTER OTP NOW</button>
-    </div>
-  </div>
-
-  <!-- Payout Info Modal -->
-  <div id="payoutInfoModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
-      <div class="info-header" style="margin-bottom: 12px; text-align: center;">
-        <span class="popup-icon">💎</span>
-        <h3 style="color: #0F172A; font-weight: 800;">How Is Prize Pool Calculated?</h3>
-      </div>
-      <div class="info-body" style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
-        <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
-        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
-      </div>
-      <button class="primary-action-btn" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
-    </div>
-  </div>
-
-  <!-- Monthly Championship Modal -->
-  <div id="comingSoonModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
-      <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
-      <div class="popup-icon">👑</div>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: #0F172A; margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
-      <div class="info-body" style="background: #F8FAFC; border-radius: 16px; padding: 16px; margin-bottom: 20px;">
-        <p style="font-size: 1rem; font-weight: 800; color: #1976D2; margin-bottom: 6px;">🚀 COMING SOON!</p>
-        <p style="font-size: 0.85rem; color: #64748B; line-height: 1.5;">
-          Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
-        </p>
-      </div>
-      <button class="primary-action-btn" onclick="closeComingSoonModal()">CAN'T WAIT! 🔥</button>
-    </div>
-  </div>
-
-  <!-- Fullscreen Game Arena Overlay -->
-  <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
-    <div id="gameEffectOverlay" class="game-effects-layer"></div>
-    <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
-      <canvas id="heliCanvas"></canvas>
-    </div>
-
-    <div id="gameStartOverlay" class="game-modal-overlay" style="display: flex; align-items: center; justify-content: center; padding: 16px;">
-      <div class="game-launch-card glass-card gpu-accelerated">
-        <div class="launch-icon-glow">🏆</div>
-        <h1 style="color: #0F172A; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1.8rem; margin-bottom: 6px;">COPTER CASH</h1>
-        <div class="event-red-pill" style="margin-bottom: 12px;">🔥 DAILY TOURNAMENT EDITION</div>
-        <p style="color: #64748B; font-size: 0.9rem; line-height: 1.5; margin-bottom: 16px;">
-          Tap anywhere on your screen to fly higher. Precision dodge obstacles & survive to set top leaderboard scores!
-        </p>
-        <div class="launch-tips-box" style="background: #F8FAFC; padding: 14px; border-radius: 16px; margin-bottom: 20px;">
-          <div style="font-weight: 800; color: #0F172A; font-size: 0.85rem; margin-bottom: 6px;">💡 Pro Gaming Tips</div>
-          <ul style="margin: 0; padding-left: 16px; text-align: left; color: #64748B; font-size: 0.82rem; line-height: 1.4;">
-            <li>Watch ads to double your final score!</li>
-            <li>Focus sharply on pipes to survive longer and score higher!</li>
-          </ul>
-        </div>
-        <button class="primary-action-btn" onclick="startHeliGame()">
-          <span>TAP TO START</span> 🚀
-        </button>
-      </div>
-    </div>
-
-    <div id="gameOverOverlay" class="game-modal-overlay hidden">
-      <div class="game-launch-card crash-card glass-card gpu-accelerated">
-        <div class="crash-icon-glow">💥</div>
-        <h2 style="color: #0F172A; font-weight: 900; font-size: 1.5rem; margin-bottom: 16px;">HELI CRASHED!</h2>
-        <div class="score-breakdown-card" style="background: #F8FAFC; padding: 16px; border-radius: 16px; margin-bottom: 20px;">
-          <div class="score-row" style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-            <span style="color: #64748B; font-size: 0.85rem; font-weight: 700;">CURRENT RUN SCORE</span>
-            <span id="currentRunScore" style="color: #1976D2; font-weight: 900; font-size: 1.1rem;">0</span>
-          </div>
-          <hr style="border: none; border-top: 1px solid #E2E8F0; margin: 8px 0;">
-          <div class="score-row total-row" style="display: flex; justify-content: space-between; margin-top: 8px;">
-            <span style="color: #64748B; font-size: 0.85rem; font-weight: 700;">DAILY LEADERBOARD SCORE</span>
-            <span id="dailyTotalScoreDisplay" style="color: #0F172A; font-weight: 900; font-size: 1.1rem;">0</span>
-          </div>
-        </div>
-        <div class="crash-btn-group" style="display: flex; flex-direction: column; gap: 10px;">
-          <button class="primary-action-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
-          <button class="glass-btn secondary-glass-btn" onclick="closeGameScreen()" style="background: #F1F5F9; color: #334155; border: none; height: 48px; border-radius: 16px; font-weight: 700; width: 100%;">EXIT TO ARENA</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Welcome Modal -->
-  <div id="welcomeModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card popup-animated gpu-accelerated" style="text-align: center;">
-      <div class="popup-icon">🎉</div>
-      <h2 id="welcomeUserName" style="font-weight: 900; font-size: 1.4rem; margin-bottom: 8px; color: #0F172A;">Welcome!</h2>
-      <p style="font-size: 0.9rem; color: #64748B; margin-bottom: 20px; line-height: 1.5;">Your account has been created successfully. Enter the arena and claim your rewards!</p>
-      <button class="primary-action-btn" onclick="handleWelcomePlay()">ENTER ARENA 🚀</button>
-    </div>
-  </div>
-
-  <!-- Info Modal -->
-  <div id="infoModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closeInfoModal()">&times;</button>
-      <div class="info-header" style="text-align: center; margin-bottom: 12px;">
-        <span class="popup-icon">💡</span>
-        <h3 style="color: #0F172A; font-weight: 800;">Important Information</h3>
-      </div>
-      <div class="info-body" style="font-size: 0.9rem; color: #64748B; line-height: 1.6; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">Win2Earn does not charge you a single rupee. This is 100% free skill gaming and strictly NOT gambling or betting.</p>
-        <p>It is designed purely for entertainment, allowing users to enjoy their time while offering exciting opportunities to earn real cash rewards through pure performance.</p>
-      </div>
-      <button class="primary-action-btn" onclick="closeInfoModal()">I UNDERSTAND</button>
-    </div>
-  </div>
-
-  <!-- Legal Modal -->
-  <div id="legalModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closeLegalModal()">&times;</button>
-      <div class="info-header" style="margin-bottom: 12px;">
-        <h3 id="legalModalTitle" style="color: #0F172A; font-weight: 800;">Legal Information</h3>
-      </div>
-      <div class="info-body" id="legalModalBody" style="font-size: 0.85rem; color: #64748B; line-height: 1.6; max-height: 250px; overflow-y: auto;"></div>
-    </div>
-  </div>
-
-  <!-- Telegram Support Modal -->
-  <div id="telegramModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
-      <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
-      <div class="popup-icon">💬</div>
-      <h3 style="color: #0F172A; font-weight: 800; margin-bottom: 6px;">24x7 Support Team</h3>
-      <span class="event-red-pill" style="background: #10B981; margin-bottom: 12px;">🟢 Live Assistance Active</span>
-      <p style="font-size: 0.9rem; color: #64748B; line-height: 1.5; margin-bottom: 20px;">
-        For support, login issues, tournament verification, or updating your verified UPI ID, connect with our official support representative on Telegram.
-      </p>
-      <a href="https://t.me" target="_blank" class="primary-action-btn" style="text-decoration: none;">Contact Team on Telegram</a>
-    </div>
-  </div>
-
-  <!-- Wallet / UPI Verification Modal -->
-  <div id="walletActivationModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closeWalletModal()">&times;</button>
-      <div class="auth-form">
-        <div style="text-align: center; margin-bottom: 10px;">
-          <span class="popup-icon">💳</span>
-          <h3 style="color: #0F172A; font-weight: 800;">Verify Payout UPI ID</h3>
-        </div>
-        <p style="font-size: 0.85rem; color: #64748B; text-align: center; margin-bottom: 12px; line-height: 1.4;">
-          Enter your official valid UPI ID (GPay / PhonePe / Paytm / BHIM) to start playing and receive direct cash rewards.
-        </p>
-        <div style="background: rgba(239, 83, 80, 0.1); border: 1px solid rgba(239, 83, 80, 0.3); border-radius: 12px; padding: 10px; font-size: 0.78rem; color: #EF5350; margin-bottom: 14px; line-height: 1.4;">
-          ⚠️ <strong>Strict Policy:</strong> Fake UPI IDs will cause instant disqualification. UPI ID cannot be changed once saved.
-        </div>
-        <form onsubmit="activateWallet(event)">
-          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. 9876543210@paytm / name@upi" required style="margin-bottom: 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-          <button type="submit" class="primary-action-btn">SAVE UPI & START GAME</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Auth Modal -->
-  <div id="authModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closeAuthModal()">&times;</button>
-      
-      <form id="loginForm" class="auth-form" onsubmit="handleLogin(event)">
-        <h2 style="color: #0F172A; font-weight: 900; font-size: 1.3rem; margin-bottom: 16px; text-align: center;">Log In</h2>
-        <input type="email" id="loginEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 12px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        <input type="password" id="loginPassword" class="glass-input" placeholder="Password" required style="margin-bottom: 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        <button type="submit" class="primary-action-btn" style="margin-bottom: 14px;">LOG IN</button>
-        <p style="font-size: 0.85rem; color: #64748B; text-align: center;">Don't have an account? <a href="#" onclick="switchTab('signup')" style="color: #1976D2; font-weight: 700; text-decoration: none;">Sign Up</a></p>
-      </form>
-
-      <form id="signupForm" class="auth-form hidden" onsubmit="handleSignup(event)">
-        <h2 style="color: #0F172A; font-weight: 900; font-size: 1.3rem; margin-bottom: 16px; text-align: center;">Sign Up</h2>
-        <input type="text" id="signupName" class="glass-input" placeholder="Full Name" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        <input type="tel" id="signupMobile" class="glass-input" placeholder="10-Digit Mobile Number" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        <input type="email" id="signupEmail" class="glass-input" placeholder="Email Address" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        
-        <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-          <input type="text" id="signupOtp" class="glass-input" placeholder="Enter OTP" required style="flex: 1; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px;">
-          <button type="button" class="glass-btn secondary-btn" onclick="sendOtp()" style="padding: 10px 14px; font-size: 0.78rem; white-space: nowrap; background: #E3F2FD; color: #1976D2; border: none; border-radius: 12px; font-weight: 700;">Get OTP</button>
-        </div>
-
-        <input type="password" id="signupPassword" class="glass-input" placeholder="Password" required style="margin-bottom: 10px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        <input type="password" id="signupConfirmPassword" class="glass-input" placeholder="Confirm Password" required style="margin-bottom: 16px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 12px; width: 100%;">
-        
-        <button type="submit" class="primary-action-btn" style="margin-bottom: 14px;">REGISTER NOW</button>
-        <p style="font-size: 0.85rem; color: #64748B; text-align: center;">Already registered? <a href="#" onclick="switchTab('login')" style="color: #1976D2; font-weight: 700; text-decoration: none;">Log In</a></p>
-      </form>
-    </div>
-  </div>
-
-  <!-- Top Navigation Bar -->
-  <header class="navbar glass-nav" style="background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid #E2E8F0;">
-    <div style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; font-weight: 900; color: #0F172A;">
-      WIN<span style="color: #1976D2;">2</span>EARN
-    </div>
-    <div class="auth-btns" id="navAuthBtns" style="display: flex; gap: 8px;">
-      <button class="glass-btn login-custom-btn" onclick="openAuthModal('login')" style="padding: 8px 16px; font-size: 0.85rem;">Log In</button>
-      <button class="glass-btn signup-custom-btn" onclick="openAuthModal('signup')" style="padding: 8px 16px; font-size: 0.85rem;">Sign Up</button>
+  <!-- Main Application Header / Navbar -->
+  <header class="navbar">
+    <div class="logo-text">WIN2EARN</div>
+    <div class="nav-icon-group">
+      <button class="nav-icon-btn" id="notificationsBtn" title="Notifications">
+        🔔
+      </button>
+      <button class="nav-icon-btn" id="profileNavBtn" title="Profile">
+        👤
+      </button>
     </div>
   </header>
 
-  <!-- Main Viewports Container -->
-  <main class="main-content" style="padding: 16px;">
-    
-    <!-- Home Tab -->
-    <div id="tab-home" class="tab-content">
-      
-      <section class="ticker-wrapper glass-card pointer-locked">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-          <span style="font-size: 0.75rem; font-weight: 800; color: #1976D2; background: #E3F2FD; padding: 3px 8px; border-radius: 6px;">WINNERS</span>
-          <span style="font-size: 0.8rem; color: #64748B; font-weight: 600;">Live Payout Updates</span>
-        </div>
-        <div class="ticker-viewport">
-          <div class="ticker-track gpu-accelerated ticker-speed-normal" id="tickerTrack" style="display: flex; gap: 16px; align-items: center;"></div>
-        </div>
-      </section>
+  <!-- Content Container -->
+  <main class="main-content">
 
-      <section id="megaBannerCard" class="mega-banner-card glass-card">
-        <div class="event-red-pill" style="margin-bottom: 12px;">🔥 UPCOMING GRAND EVENT</div>
-        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 10px;">₹10 LAKH PRIZE POOL</h2>
-        <p style="color: #64748B; font-size: 15px; line-height: 1.5; margin-bottom: 16px;">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
-        <div class="mega-tags" style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <span class="feature-sub-pill">⚡ Mega Leaderboard</span>
-          <span class="feature-sub-pill">🔥 100% Free Entry</span>
-          <span class="feature-sub-pill">👑 Guaranteed Rewards</span>
-        </div>
-      </section>
-
-      <section class="tournament-hero-card glass-card">
-        <div class="status-badge-wrapper" style="margin-bottom: 12px;">
-          <span class="live-status-pill" style="background: #E8F5E9; color: #2E7D32; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 800; display: inline-flex; align-items: center; gap: 6px;">
-            <span class="live-dot" style="width: 6px; height: 6px; background: #2E7D32; border-radius: 50%;"></span> DAILY TOURNAMENT LIVE
-          </span>
-        </div>
-
-        <h1 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 12px;">
-          WIN2EARN
-        </h1>
-
-        <div class="total-prize-box" style="background: #F8FAFC; border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 16px;">
-          <span style="font-size: 12px; color: #64748B; font-weight: 700; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">DAILY TOURNAMENT POOL</span>
-          <div class="gradient-highlight-text" style="font-size: 1.6rem; margin-bottom: 6px;">50% AD REVENUE SHARE</div>
-          <p style="font-size: 13px; color: #64748B;">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
-        </div>
-
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="background: #F1F5F9; color: #334155; border: none; padding: 12px; border-radius: 14px; font-weight: 700; font-size: 13px; margin-bottom: 16px; width: 100%; cursor: pointer;">
-          ℹ️ How is Prize Pool Calculated?
-        </button>
-
-        <p style="color: #64748B; font-size: 15px; text-align: center; margin-bottom: 16px;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
-
-        <button class="primary-action-btn" onclick="handleGameLaunch()">
-          <span>PLAY NOW</span> ➔
-        </button>
-      </section>
-
-      <section class="glass-card" onclick="openInfoModal()" style="cursor: pointer; display: flex; align-items: center; justify-content: space-between;">
-        <div style="display: flex; align-items: center; gap: 14px;">
-          <span style="font-size: 1.8rem;">💡</span>
-          <div>
-            <h4 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 2px;">Important Information</h4>
-            <p style="font-size: 15px; color: #64748B;">Read Win2Earn's 100% Free Fair Skill Gaming Commitment</p>
-          </div>
-        </div>
-        <span style="font-size: 1.2rem; color: #1976D2; font-weight: 800;">➔</span>
-      </section>
-    </div>
-
-    <!-- Games Tab -->
-    <div id="tab-games" class="tab-content hidden">
-      <div style="margin-bottom: 20px; text-align: center;">
-        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Live Tournaments</h2>
-        <p style="font-size: 15px; color: #64748B;">Compete in skill games and secure top leaderboard rankings</p>
+    <!-- Live Winners Ticker Bar -->
+    <div class="ticker-wrapper">
+      <div class="ticker-badge">
+        🏆 LIVE WINNERS
       </div>
-
-      <div class="featured-games-wrapper" style="display: flex; flex-direction: column; gap: 20px;">
-        <div class="featured-card glass-card" style="margin-bottom: 0 !important;">
-          <div style="font-size: 13px; font-weight: 800; color: #1976D2; margin-bottom: 12px;">⭐ Daily Skill Tournament</div>
-          <div class="card-image-container" style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 14px;">
-            <span style="position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #FFF; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;">₹0 Entry Fee</span>
-            <img src="daily-game.jpg" alt="Daily Tournament" class="game-card-img" style="width: 100%; height: 160px; object-fit: cover;">
-          </div>
-          <div class="card-details">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <h3 style="font-size: 18px; font-weight: 800; color: #0F172A;">Copter Cash</h3>
-              <span class="event-red-pill" style="background: #E3F2FD; color: #1976D2;">DAILY</span>
-            </div>
-            <p style="font-size: 15px; color: #64748B; margin-bottom: 16px;">Rewards: Top 10 daily winners get 50% Ad Revenue every night at 10 PM!</p>
-            <button class="primary-action-btn" onclick="handleGameLaunch()">PLAY NOW</button>
-          </div>
-        </div>
-
-        <div class="featured-card glass-card" style="margin-bottom: 0 !important;">
-          <div style="font-size: 13px; font-weight: 800; color: #D97706; margin-bottom: 12px;">👑 Grand Monthly Tournament</div>
-          <div class="card-image-container" style="position: relative; border-radius: 16px; overflow: hidden; margin-bottom: 14px;">
-            <span style="position: absolute; top: 10px; right: 10px; background: #F59E0B; color: #FFF; padding: 4px 10px; border-radius: 10px; font-size: 11px; font-weight: 700;">Grand Mega Pool</span>
-            <img src="monthly-game.jpg" alt="Monthly Grand Championship" class="game-card-img" style="width: 100%; height: 160px; object-fit: cover;">
-          </div>
-          <div class="card-details">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-              <h3 style="font-size: 18px; font-weight: 800; color: #0F172A;">Grand Monthly Championship</h3>
-              <span class="event-red-pill" style="background: #FEF3C7; color: #D97706;">MONTHLY</span>
-            </div>
-            <p style="font-size: 15px; color: #64748B; margin-bottom: 16px; line-height: 1.5;">
-              <strong>80% of total website ad revenue</strong> generated every month will be distributed among top ranking users.
-            </p>
-            <button class="primary-action-btn" onclick="openComingSoonModal()" style="background: #D97706 !important;">ENTER CHAMPIONSHIP</button>
-          </div>
+      <div class="ticker-viewport">
+        <div class="ticker-track">
+          <span class="ticker-item">Riya just won <span>₹25,000</span></span>
+          <span class="ticker-item">Arjun won <span>₹12,500</span></span>
+          <span class="ticker-item">Sneha won <span>₹50,000</span></span>
+          <span class="ticker-item">Vikram won <span>₹10,000</span></span>
+          <span class="ticker-item">Priya won <span>₹75,000</span></span>
+          <!-- Infinite loop duplicate items -->
+          <span class="ticker-item">Riya just won <span>₹25,000</span></span>
+          <span class="ticker-item">Arjun won <span>₹12,500</span></span>
+          <span class="ticker-item">Sneha won <span>₹50,000</span></span>
         </div>
       </div>
     </div>
 
-    <!-- Leaderboard Tab -->
-    <div id="tab-leaderboard" class="tab-content hidden">
-      <div style="margin-bottom: 20px; text-align: center;">
-        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Global Leaderboards</h2>
-        <p style="font-size: 15px; color: #64748B;">Live rankings and real user standings</p>
+    <!-- 10 Lakh Prize Pool Hero Card -->
+    <section class="tournament-hero-card">
+      <div class="trophy-header-icons">
+        🏆 🏆
       </div>
-
-      <div class="lb-type-toggle" style="display: flex; background: #E2E8F0; padding: 4px; border-radius: 16px; margin-bottom: 20px;">
-        <button id="btnDailyLb" class="lb-toggle-btn active" onclick="switchLeaderboard('daily')" style="flex: 1; padding: 10px; border: none; background: #FFFFFF; color: #0F172A; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer;">Daily Tournament</button>
-        <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')" style="flex: 1; padding: 10px; border: none; background: transparent; color: #64748B; border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer;">Monthly Tournament</button>
+      <h1 class="mega-title-large">10 LAKH</h1>
+      <h2 class="mega-title-sub">PRIZE POOL</h2>
+      <div class="season-timer-row">
+        <span>Season 12</span> • <span>Ends in 02:14:36</span> ⏱️
       </div>
-
-      <div class="lb-list-container glass-card" id="lbList" style="margin-bottom: 16px;"></div>
-      <div class="glass-card" id="userRankCard" style="text-align: center; margin-bottom: 0 !important;"></div>
-    </div>
-
-    <!-- Alerts Tab -->
-    <div id="tab-alerts" class="tab-content hidden">
-      <div style="margin-bottom: 20px; text-align: center;">
-        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Activity & Alerts</h2>
-        <p style="font-size: 15px; color: #64748B;">Real notifications & personal updates</p>
-      </div>
-      <div class="alerts-feed glass-card" id="alertsFeed" style="display: flex; flex-direction: column; gap: 12px;"></div>
-    </div>
-
-    <!-- Wallet Tab -->
-    <div id="tab-wallet" class="tab-content hidden">
-      <div style="margin-bottom: 20px; text-align: center;">
-        <h2 style="font-family: 'Inter', sans-serif; font-size: 32px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">My Payout Wallet</h2>
-        <p style="font-size: 15px; color: #64748B;">Verified payment details & official earnings</p>
-      </div>
-
-      <div id="profileDetailsContainer"></div>
-
-      <div class="glass-card" style="display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <span style="font-size: 11px; color: #64748B; font-weight: 800; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">LINKED UPI ID</span>
-          <div id="walletUpiDisplay" style="font-weight: 800; color: #1976D2; font-size: 1rem;">Not Linked</div>
+      <div class="hero-pills-row">
+        <div class="hero-pill-item" id="megaLeaderboardBtn">
+          📊 Mega Leaderboard
+        </div>
+        <div class="hero-pill-item" id="playersLiveBtn">
+          🎮 100+ Players LIVE
+        </div>
+        <div class="hero-pill-item" id="instantPrizesBtn">
+          ⚡ Instant Prizes
         </div>
       </div>
+    </section>
 
-      <div class="tx-history-wrapper glass-card">
-        <h4 style="font-size: 16px; font-weight: 800; color: #0F172A; margin-bottom: 12px;">Winning Transactions</h4>
-        <div id="txList" class="tx-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+    <!-- Daily Tournament & Ad Revenue Share Banner -->
+    <section class="daily-tournament-card">
+      <div class="daily-card-top">
+        <div class="daily-title-area">
+          <h3>DAILY TOURNAMENT</h3>
+          <h2>50% AD REVENUE SHARE</h2>
+          <p>Earn passive rewards from every match you play</p>
+        </div>
+        <div class="daily-coin-graphic">🪙</div>
+      </div>
+      <button class="play-now-btn" id="launchGameBtn">
+        🎮 PLAY NOW
+      </button>
+      <div class="no-fee-footer">
+        No entry fee • Play now & win real cash
+      </div>
+    </section>
+
+    <!-- Secure, Withdrawals & Support Cards -->
+    <div class="features-grid">
+      <div class="feature-box">
+        <div class="feature-icon-circle">🛡️</div>
+        <div class="feature-title">Secure & Fair</div>
+        <div class="feature-sub">Anti-cheat protected</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon-circle">⚡</div>
+        <div class="feature-title">Instant Payouts</div>
+        <div class="feature-sub">UPI • Paytm • Bank</div>
+      </div>
+      <div class="feature-box">
+        <div class="feature-icon-circle">🎧</div>
+        <div class="feature-title">24/7 Support</div>
+        <div class="feature-sub">Live help anytime</div>
       </div>
     </div>
+
   </main>
 
-  <!-- Footer -->
-  <footer class="compact-footer glass-card" style="text-align: center; margin-bottom: 90px;">
-    <div style="margin-bottom: 12px;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 900; color: #0F172A; margin-bottom: 4px;">WIN<span style="color: #1976D2;">2</span>EARN</div>
-      <p style="font-size: 15px; color: #64748B;">Skill based gaming platform</p>
-    </div>
-    
-    <div class="legal-links" style="font-size: 15px; color: #64748B; margin-bottom: 12px; display: flex; justify-content: center; gap: 8px;">
-      <a href="#" onclick="openLegalModal('privacy')" style="color: #64748B; text-decoration: none;">Privacy Policy</a> • 
-      <a href="#" onclick="openLegalModal('terms')" style="color: #64748B; text-decoration: none;">Terms & Conditions</a> • 
-      <a href="#" onclick="openLegalModal('community')" style="color: #64748B; text-decoration: none;">Community Guidelines</a>
-    </div>
-
-    <div class="footer-bottom">
-      <p style="font-size: 12px; color: #94A3B8;">© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
-    </div>
-  </footer>
-
-  <!-- Floating Telegram Support Button -->
-  <div class="floating-tg-btn-fixed gpu-accelerated" onclick="openTelegramModal()">
-    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
-  </div>
-
   <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav light-bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav" style="position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 10px 0; z-index: 998;">
-    <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
-      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      <span>Home</span>
-    </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
-      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
-      <span>Games</span>
-    </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
-      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c2.12-.39 3.79-2.02 4.61-4.1C19.08 11.63 21 9.55 21 7V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
-      <span>Leaderboard</span>
-    </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
-      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-      <span>Alerts</span>
-    </a>
-    <a href="#" class="nav-item" onclick="mainTabClick(event, 'wallet')" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; font-size: 11px; font-weight: 700; gap: 4px;">
-      <svg class="nav-svg" viewBox="0 0 24 24" style="width: 22px; height: 22px; fill: currentColor;"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5z"/></svg>
-      <span>Wallet</span>
-    </a>
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="home">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      Home
+    </button>
+    <button class="nav-item" data-tab="tournaments">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-3.99v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 10.63 21 8.55 21 6V5h-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
+      Tournaments
+    </button>
+    <button class="nav-item" data-tab="wallet">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      Wallet
+    </button>
+    <button class="nav-item" data-tab="profile">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      Profile
+    </button>
   </nav>
 
-  <script src="sound.js"></script>
+  <!-- Fullscreen Game Arena Overlay (Mini Heli / Endless Obstacle Runner) -->
+  <div id="gameArena" class="fullscreen-game-arena hidden">
+    <div class="game-engine-header">
+      <div class="game-top-pill-container">
+        <button class="exit-arena-btn" id="exitGameBtn">✕ Exit</button>
+        <div class="hud-stats-group">
+          <div class="hud-stat-box score-box">
+            <span class="hud-label">SCORE</span>
+            <span class="hud-value" id="gameScoreVal">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-canvas-wrapper" id="canvasWrapper">
+      <canvas id="heliCanvas"></canvas>
+    </div>
+
+    <!-- Game Launch / Ready Modal inside Arena -->
+    <div id="gameLaunchModal" class="game-modal-overlay">
+      <div class="game-launch-card">
+        <div class="launch-icon-glow">🚁</div>
+        <div class="game-neon-title">SKY COPTER 3D</div>
+        <div class="fever-tag-pill">🔥 AD REVENUE MATCH ACTIVE</div>
+        <div class="game-instructions">Tap or Hold screen to fly upward. Avoid red obstacles to score maximum points and share the daily prize pool!</div>
+        <button class="launch-cta-btn" id="startHeliGameBtn">START FLYING</button>
+      </div>
+    </div>
+
+    <!-- Game Over / Crash Modal -->
+    <div id="gameOverModal" class="game-modal-overlay hidden">
+      <div class="crash-card">
+        <div class="crash-icon-glow">💥</div>
+        <div class="crash-head-text">MISSION CRASHED</div>
+        <div class="score-breakdown-card">
+          <div class="score-row">
+            <span class="s-label">Final Distance Score</span>
+            <span class="s-val" id="finalScoreVal">0</span>
+          </div>
+          <div class="score-row">
+            <span class="s-label">Ad Revenue Share Earned</span>
+            <span class="s-val green-text" id="finalEarningsVal">₹0.00</span>
+          </div>
+        </div>
+        <div class="crash-btn-group">
+          <button class="retry-btn" id="retryGameBtn">PLAY AGAIN</button>
+          <button class="secondary-glass-btn" id="backToHomeArenaBtn">RETURN TO LOBBY</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- General Info Popups -->
+  <div id="infoModal" class="popup-overlay hidden">
+    <div class="popup-box popup-animated">
+      <button class="close-btn" id="closeInfoModal">✕</button>
+      <div class="popup-icon" id="infoPopupIcon">🏆</div>
+      <h3 class="popup-title" id="infoPopupTitle">Tournament Info</h3>
+      <p id="popupMessage">Details regarding current event.</p>
+      <button class="primary-btn glass-btn" id="infoPopupActionBtn">GOT IT</button>
+    </div>
+  </div>
+
+  <!-- JavaScript Game Engine & UI Interactivity -->
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const splashScreen = document.getElementById('splashScreen');
-      if (splashScreen) {
-        setTimeout(() => {
-          splashScreen.style.opacity = '0';
-          splashScreen.style.transition = 'opacity 0.5s ease';
-          setTimeout(() => {
-            splashScreen.style.display = 'none';
-          }, 500);
-        }, 8500);
+    document.addEventListener("DOMContentLoaded", () => {
+      // Splash screen fadeout
+      setTimeout(() => {
+        const splash = document.getElementById("splashScreen");
+        if (splash) {
+          splash.style.opacity = "0";
+          setTimeout(() => splash.remove(), 500);
+        }
+      }, 1200);
+
+      // DOM Elements
+      const launchGameBtn = document.getElementById("launchGameBtn");
+      const gameArena = document.getElementById("gameArena");
+      const exitGameBtn = document.getElementById("exitGameBtn");
+      const startHeliGameBtn = document.getElementById("startHeliGameBtn");
+      const gameLaunchModal = document.getElementById("gameLaunchModal");
+      const gameOverModal = document.getElementById("gameOverModal");
+      const retryGameBtn = document.getElementById("retryGameBtn");
+      const backToHomeArenaBtn = document.getElementById("backToHomeArenaBtn");
+      
+      const gameScoreVal = document.getElementById("gameScoreVal");
+      const finalScoreVal = document.getElementById("finalScoreVal");
+      const finalEarningsVal = document.getElementById("finalEarningsVal");
+      const heliCanvas = document.getElementById("heliCanvas");
+      const canvasWrapper = document.getElementById("canvasWrapper");
+
+      // Info Modal Elements
+      const infoModal = document.getElementById("infoModal");
+      const closeInfoModal = document.getElementById("closeInfoModal");
+      const infoPopupTitle = document.getElementById("infoPopupTitle");
+      const popupMessage = document.getElementById("popupMessage");
+      const infoPopupIcon = document.getElementById("infoPopupIcon");
+      const infoPopupActionBtn = document.getElementById("infoPopupActionBtn");
+
+      function showInfoPopup(icon, title, msg) {
+        infoPopupIcon.textContent = icon;
+        infoPopupTitle.textContent = title;
+        popupMessage.textContent = msg;
+        infoModal.classList.remove("hidden");
+        document.body.classList.add("no-scroll");
+      }
+
+      function hideInfoPopup() {
+        infoModal.classList.add("hidden");
+        document.body.classList.remove("no-scroll");
+      }
+
+      closeInfoModal.addEventListener("click", hideInfoPopup);
+      infoPopupActionBtn.addEventListener("click", hideInfoPopup);
+
+      // Hero Pills Interactivity
+      document.getElementById("megaLeaderboardBtn").addEventListener("click", () => {
+        showInfoPopup("📊", "Mega Leaderboard", "Season 12 Leaderboard is live! Top 100 players will share the ₹10 Lakh prize pool at midnight.");
+      });
+      document.getElementById("playersLiveBtn").addEventListener("click", () => {
+        showInfoPopup("🎮", "Active Tournaments", "Over 142 players are currently competing across Sky Copter and Ad Revenue battles right now!");
+      });
+      document.getElementById("instantPrizesBtn").addEventListener("click", () => {
+        showInfoPopup("⚡", "Instant Prizes", "All tournament earnings and ad revenue shares are credited instantly to your wallet upon game completion.");
+      });
+
+      document.getElementById("notificationsBtn").addEventListener("click", () => {
+        showInfoPopup("🔔", "Notifications", "You received ₹250 ad revenue bonus from yesterday's tournament session!");
+      });
+      document.getElementById("profileNavBtn").addEventListener("click", () => {
+        showInfoPopup("👤", "Player Profile", "Username: ProWinner_99\nLevel: 12 Elite\nVerified UPI: Connected ✅");
+      });
+
+      // Bottom Navigation tab switching
+      const navItems = document.querySelectorAll(".bottom-nav .nav-item");
+      navItems.forEach(item => {
+        item.addEventListener("click", () => {
+          navItems.forEach(n => n.classList.remove("active"));
+          item.classList.add("active");
+          const tabName = item.getAttribute("data-tab");
+          if(tabName !== "home") {
+            showInfoPopup("🏆", `${tabName.toUpperCase()} TAB`, `Switching to ${tabName} view. Join upcoming matches to boost your rank!`);
+          }
+        });
+      });
+
+      // -----------------------------------------------------------------------------
+      // GAME ENGINE: SKY COPTER 3D (Endless Obstacle Avoidance)
+      // -----------------------------------------------------------------------------
+      let ctx = heliCanvas.getContext("2d");
+      let animationFrameId = null;
+      let gameActive = false;
+      let score = 0;
+
+      let copter = {
+        x: 60,
+        y: 0,
+        radius: 18,
+        vy: 0,
+        gravity: 0.38,
+        lift: -7.2
+      };
+
+      let obstacles = [];
+      let frameCount = 0;
+
+      function resizeCanvas() {
+        if (!canvasWrapper) return;
+        heliCanvas.width = canvasWrapper.clientWidth;
+        heliCanvas.height = canvasWrapper.clientHeight;
+        if (!gameActive) {
+          copter.y = heliCanvas.height / 2;
+        }
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+
+      function initGame() {
+        resizeCanvas();
+        score = 0;
+        frameCount = 0;
+        obstacles = [];
+        copter.y = heliCanvas.height / 2;
+        copter.vy = 0;
+        gameScoreVal.textContent = "0";
+      }
+
+      launchGameBtn.addEventListener("click", () => {
+        gameArena.classList.remove("hidden");
+        document.body.classList.add("no-scroll");
+        gameLaunchModal.classList.remove("hidden");
+        gameOverModal.classList.add("hidden");
+        initGame();
+      });
+
+      exitGameBtn.addEventListener("click", () => {
+        gameActive = false;
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        gameArena.classList.add("hidden");
+        document.body.classList.remove("no-scroll");
+      });
+
+      backToHomeArenaBtn.addEventListener("click", () => {
+        gameActive = false;
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        gameArena.classList.add("hidden");
+        document.body.classList.remove("no-scroll");
+      });
+
+      startHeliGameBtn.addEventListener("click", () => {
+        gameLaunchModal.classList.add("hidden");
+        gameActive = true;
+        initGame();
+        runGameLoop();
+      });
+
+      retryGameBtn.addEventListener("click", () => {
+        gameOverModal.classList.add("hidden");
+        initGame();
+        gameActive = true;
+        runGameLoop();
+      });
+
+      // Controls (Touch & Click)
+      function handleGameInput(e) {
+        if (!gameActive) return;
+        e.preventDefault();
+        copter.vy = copter.lift;
+      }
+
+      window.addEventListener("keydown", (e) => {
+        if (e.code === "Space" && gameActive) {
+          e.preventDefault();
+          copter.vy = copter.lift;
+        }
+      });
+
+      heliCanvas.addEventListener("pointerdown", handleGameInput);
+
+      function spawnObstacle() {
+        let minH = 60;
+        let maxH = heliCanvas.height - 220;
+        let topH = Math.floor(Math.random() * (maxH - minH + 1)) + minH;
+        let gap = 140;
+        obstacles.push({
+          x: heliCanvas.width,
+          topHeight: topH,
+          bottomY: topH + gap,
+          width: 55,
+          passed: false
+        });
+      }
+
+      function runGameLoop() {
+        if (!gameActive) return;
+
+        ctx.clearRect(0, 0, heliCanvas.width, heliCanvas.height);
+
+        // Update Copter Physics
+        copter.vy += copter.gravity;
+        copter.y += copter.vy;
+
+        // Draw Sky Background Gradient
+        let bgGrad = ctx.createLinearGradient(0, 0, 0, heliCanvas.height);
+        bgGrad.addColorStop(0, "#E3F2FD");
+        bgGrad.addColorStop(1, "#BBDEFB");
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, heliCanvas.width, heliCanvas.height);
+
+        // Spawn Obstacles
+        frameCount++;
+        if (frameCount % 110 === 0) {
+          spawnObstacle();
+        }
+
+        // Draw & Update Obstacles (Pillars / Buildings)
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+          let obs = obstacles[i];
+          obs.x -= 3.2;
+
+          // Draw Top Obstacle
+          ctx.fillStyle = "#1976D2";
+          ctx.beginPath();
+          ctx.roundRect(obs.x, 0, obs.width, obs.topHeight, [0, 0, 12, 12]);
+          ctx.fill();
+
+          // Draw Bottom Obstacle
+          let bHeight = heliCanvas.height - obs.bottomY;
+          ctx.beginPath();
+          ctx.roundRect(obs.x, obs.bottomY, obs.width, bHeight, [12, 12, 0, 0]);
+          ctx.fill();
+
+          // Score check
+          if (!obs.passed && obs.x + obs.width < copter.x) {
+            obs.passed = true;
+            score += 10;
+            gameScoreVal.textContent = score;
+          }
+
+          // Collision Detection
+          if (
+            copter.x + copter.radius > obs.x &&
+            copter.x - copter.radius < obs.x + obs.width &&
+            (copter.y - copter.radius < obs.topHeight || copter.y + copter.radius > obs.bottomY)
+          ) {
+            triggerGameOver();
+            return;
+          }
+
+          // Remove offscreen obstacles
+          if (obs.x + obs.width < -50) {
+            obstacles.splice(i, 1);
+          }
+        }
+
+        // Boundary collision (Floor or Ceiling)
+        if (copter.y + copter.radius >= heliCanvas.height || copter.y - copter.radius <= 0) {
+          triggerGameOver();
+          return;
+        }
+
+        // Draw Copter
+        ctx.save();
+        ctx.translate(copter.x, copter.y);
+        let tilt = Math.min(Math.max(copter.vy * 0.05, -0.4), 0.5);
+        ctx.rotate(tilt);
+
+        // Copter Body
+        ctx.fillStyle = "#0F172A";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 22, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Copter Rotor
+        ctx.strokeStyle = "#1976D2";
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(-24, -14);
+        ctx.lineTo(24, -14);
+        ctx.stroke();
+
+        // Rotor animation blade
+        let bladeOffset = Math.sin(frameCount * 0.6) * 18;
+        ctx.fillStyle = "#FBC02D";
+        ctx.fillRect(bladeOffset - 8, -18, 16, 3);
+
+        ctx.restore();
+
+        animationFrameId = requestAnimationFrame(runGameLoop);
+      }
+
+      function triggerGameOver() {
+        gameActive = false;
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        
+        finalScoreVal.textContent = score;
+        let earnings = (score * 1.25).toFixed(2);
+        finalEarningsVal.textContent = "₹" + earnings;
+
+        gameOverModal.classList.remove("hidden");
       }
     });
   </script>
-  <script src="script.js"></script>
 </body>
 </html>
+
+```
 
