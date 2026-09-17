@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-apple-theme">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -11,7 +11,7 @@
 </head>
 <body class="no-scroll">
 
-  <!-- Desktop-Only Restriction Overlay (Apple Light Theme Style) -->
+  <!-- Desktop-Only Restriction Overlay (Dark Apple OLED Style) -->
   <div class="desktop-blocker-overlay">
     <div class="blocker-card">
       <div class="blocker-icon">📱</div>
@@ -25,7 +25,7 @@
   <!-- Live Canvas Background -->
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
-  <!-- Splash Screen (Version 9 - Apple Light Theme) -->
+  <!-- Splash Screen (Dark Apple Theme) -->
   <div id="splashScreen" class="splash-screen gpu-accelerated">
     <div class="splash-content">
       <div class="splash-logo">
@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  <!-- Priority Alert / Error Popup -->
+  <!-- Priority Alert / Error Popup (Non-scrollable) -->
   <div id="errorPopup" class="popup-overlay hidden high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠️</div>
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <!-- OTP Verification Modal -->
+  <!-- OTP Verification Modal (Non-scrollable) -->
   <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">🔐</div>
@@ -58,7 +58,7 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal -->
+  <!-- Payout Info Modal (Non-scrollable body container) -->
   <div id="payoutInfoModal" class="modal-overlay hidden">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
@@ -81,7 +81,7 @@
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
       <div class="popup-icon">👑</div>
       <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: var(--accent-gold-dark); margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
-      <div class="info-body" style="background: rgba(175, 82, 222, 0.03); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
+      <div class="info-body" style="background: rgba(191, 90, 242, 0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
         <p style="font-size: 1rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 6px;">🚀 COMING SOON!</p>
         <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
           Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
@@ -183,7 +183,7 @@
       <div class="info-header" style="margin-bottom: 12px;">
         <h3 id="legalModalTitle" class="popup-title">Legal Information</h3>
       </div>
-      <div class="info-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 300px; overflow-y: auto;"></div>
+      <div class="info-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px; overflow-y: auto;"></div>
     </div>
   </div>
 
@@ -213,7 +213,7 @@
         <p style="font-size: 0.82rem; color: var(--text-secondary); text-align: center; margin-bottom: 12px; line-height: 1.4;">
           Enter your official valid UPI ID (GPay / PhonePe / Paytm / BHIM) to start playing and receive direct cash rewards.
         </p>
-        <div style="background: rgba(255, 59, 48, 0.08); border: 1px solid rgba(255, 59, 48, 0.2); border-radius: 12px; padding: 10px; font-size: 0.75rem; color: var(--accent-red); margin-bottom: 14px; line-height: 1.4;">
+        <div style="background: rgba(255, 69, 58, 0.1); border: 1px solid rgba(255, 69, 58, 0.3); border-radius: 12px; padding: 10px; font-size: 0.75rem; color: var(--accent-red); margin-bottom: 14px; line-height: 1.4;">
           ⚠️ <strong>Strict Policy:</strong> Fake UPI IDs will cause instant disqualification. UPI ID cannot be changed once saved.
         </div>
         <form onsubmit="activateWallet(event)">
@@ -224,7 +224,7 @@
     </div>
   </div>
 
-  <!-- Auth Modal -->
+  <!-- Auth Modal (Non-scrollable wrapper container) -->
   <div id="authModal" class="modal-overlay hidden">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
@@ -318,6 +318,7 @@
 
         <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
+        <!-- Home Play Now redirects unauthenticated users straight to Signup/Login -->
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
           PLAY NOW ➔
         </button>
@@ -474,7 +475,7 @@
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
       <span>Alerts</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
+    <a href="#" class="nav-item" onclick="mainTabClick(event, 'wallet')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path fill="currentColor" d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5-1.5z"/></svg>
       <span>Wallet</span>
     </a>
