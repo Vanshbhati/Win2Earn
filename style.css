@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WIN2EARN - STAKE ORIGINAL EXACT THEME
+   WIN2EARN - STAKE ORIGINAL EXACT THEME (OPTIMIZED & COMPLETE)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -32,14 +32,14 @@
   --text-muted: #557086;
 
   /* Stake Vibrant Blue Accents */
-  --accent-green: #1475e1;    /* Replaced with Stake Blue */
+  --accent-green: #1475e1;    /* Stake Blue */
   --accent-green-dark: #0b5ab5;/* Darker Stake Blue */
   --accent-blue: #1475e1;
   --accent-gold: #f1c40f;
   --accent-gold-dark: #d4a017;
   --accent-red: #ff4d4f;
 
-  --neon-glow-green: 0 0 20px rgba(20, 117, 225, 0.35); /* Updated glow to Blue */
+  --neon-glow-green: 0 0 20px rgba(20, 117, 225, 0.35);
   --neon-glow-gold: 0 4px 20px rgba(241, 196, 15, 0.3);
   --neon-glow-blue: 0 4px 20px rgba(20, 117, 225, 0.3);
 }
@@ -66,7 +66,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Live Background (Stake Dark Grid/Gradient)
+   Live Background
    -------------------------------------------------------------------------- */
 .live-hd-bg {
   position: fixed;
@@ -126,7 +126,7 @@ body.no-scroll {
 }
 
 /* --------------------------------------------------------------------------
-   Glassmorphism Components (Stake Dark Theme Cards)
+   Glassmorphism Components
    -------------------------------------------------------------------------- */
 .glass-card {
   background: var(--glass-card-bg);
@@ -963,4 +963,3 @@ body.no-scroll {
 .flex-center { display: flex; justify-content: center; align-items: center; }
 .text-center { text-align: center; }
 .w-100 { width: 100%; }
-
