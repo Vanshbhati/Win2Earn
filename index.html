@@ -247,73 +247,88 @@
     </div>
   </div>
 
-  <!-- Top Navigation Bar -->
-  <header class="navbar glass-nav">
-    <div class="logo-text">WIN2EARN</div>
-    <div class="auth-btns" id="navAuthBtns">
-      <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 8px 14px; font-size: 0.8rem;">Log In</button>
-      <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 8px 14px; font-size: 0.8rem;">Sign Up</button>
-    </div>
-  </header>
-
   <!-- Main Viewports Container -->
-  <main class="main-content">
+  <main class="main-content" style="padding-top: 12px;">
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <section class="ticker-wrapper glass-card pointer-locked">
-        <div class="ticker-badge">WINNERS</div>
-        <div class="ticker-viewport">
-          <div class="ticker-track gpu-accelerated ticker-speed-normal" id="tickerTrack"></div>
+      <!-- Top Header Card (Screenshot Style) -->
+      <header class="navbar-screenshot-card glass-card">
+        <div class="logo-text">🏆 WIN2EARN</div>
+        <div class="nav-icon-group">
+          <button class="icon-circle-btn" onclick="openTelegramModal()" title="Notifications">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
+          </button>
+          <button class="icon-circle-btn" onclick="openAuthModal('login')" title="Profile">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Live Winners Ticker Bar -->
+      <section class="ticker-screenshot-wrapper glass-card">
+        <div class="ticker-badge-new">🏆 LIVE WINNERS • NOW</div>
+        <div class="ticker-avatars-group">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop&crop=faces" alt="winner" class="avatar-sm">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=faces" alt="winner" class="avatar-sm">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=faces" alt="winner" class="avatar-sm">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=faces" alt="winner" class="avatar-sm">
+        </div>
+        <div class="ticker-text-scroll">
+          <span id="tickerTrack" style="display:inline-block; white-space:nowrap;">Riya just won ₹25,000 • Arjun won ₹12,500 • Sneha won ₹50,000</span>
         </div>
       </section>
 
-      <section id="megaBannerCard" class="mega-banner-card glass-card mega-attractive-glow">
-        <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
-        <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
-        <p class="mega-desc">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
-        <div class="mega-tags">
-          <span>⚡ Mega Leaderboard</span>
-          <span>🔥 100% Free Entry</span>
-          <span>👑 Guaranteed Rewards</span>
+      <!-- Mega Banner Card -->
+      <section class="mega-banner-screenshot glass-card">
+        <div class="trophy-icons-header">🏆 🏆</div>
+        <h2 class="mega-title-screenshot">10 LAKH PRIZE POOL</h2>
+        <div class="season-ends-row">Season 12 • Ends in 02:14:36 ⏱️</div>
+        <div class="mega-pills-row">
+          <button class="pill-badge-item" onclick="switchLeaderboard('daily')">⚡ Mega Leaderboard</button>
+          <div class="pill-badge-item">👥 100+ Players LIVE</div>
+          <div class="pill-badge-item">✨ Instant Prizes</div>
         </div>
       </section>
 
-      <section class="tournament-hero-card glass-card">
-        <div class="status-badge-wrapper">
-          <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
-        </div>
-
-        <div class="logo-text hero-logo-text">WIN2EARN</div>
-
-        <div class="total-prize-box premium-glass-prize">
-          <span class="prize-label">DAILY TOURNAMENT POOL</span>
-          <div class="prize-amount gold-text">50% AD REVENUE SHARE</div>
-          <p class="pool-sub-note">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
-        </div>
-
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
-          ℹ️ How is Prize Pool Calculated?
-        </button>
-
-        <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
-
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
-          PLAY NOW ➔
-        </button>
-      </section>
-
-      <section class="glass-card" onclick="openInfoModal()" style="padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-size: 1.5rem;">💡</span>
+      <!-- Daily Tournament Card -->
+      <section class="daily-tournament-screenshot glass-card">
+        <div class="daily-content-flex">
           <div>
-            <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--text-primary);">Important Information</h4>
-            <p style="font-size: 0.75rem; color: var(--text-secondary);">Read Win2Earn's 100% Free Fair Skill Gaming Commitment</p>
+            <h3 class="daily-head-title">DAILY TOURNAMENT</h3>
+            <div class="daily-sub-title">50% AD REVENUE SHARE</div>
+            <p class="daily-desc-text">Earn passive rewards from every match you play</p>
+          </div>
+          <div class="daily-coin-graphic">
+            <div class="coin-stack-icon">🪙</div>
           </div>
         </div>
-        <span style="font-size: 1.1rem; color: var(--accent-green); font-weight: 800;">➔</span>
+        <button class="play-now-gradient-btn" onclick="handleGameLaunch()">
+          🎮 PLAY NOW
+        </button>
+        <div class="no-entry-footer-note">No entry fee • Play now & win real cash</div>
       </section>
+
+      <!-- 3 Feature Cards Grid -->
+      <section class="features-grid-3">
+        <div class="feature-mini-card glass-card" onclick="openInfoModal()">
+          <div class="f-icon">🛡️</div>
+          <div class="f-title">Secure & Fair</div>
+          <div class="f-sub">Anti-cheat protected</div>
+        </div>
+        <div class="feature-mini-card glass-card" onclick="mainTabClick(event, 'wallet')">
+          <div class="f-icon">⚡</div>
+          <div class="f-title">Instant Withdrawals</div>
+          <div class="f-sub">UPI • Paytm • Bank</div>
+        </div>
+        <div class="feature-mini-card glass-card" onclick="openTelegramModal()">
+          <div class="f-icon">🎧</div>
+          <div class="f-title">24/7 Support</div>
+          <div class="f-sub">Live help anytime</div>
+        </div>
+      </section>
+
     </div>
 
     <!-- Games Tab -->
@@ -436,27 +451,23 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar (Stake Exact Layout: Browse, Casino, For You, Sports, Chat) -->
+  <!-- Bottom Navigation Bar (Same as exact screenshot: Home, Tournaments, Wallet, Profile) -->
   <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      <span>Browse</span>
+      <span>Home</span>
     </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
-      <span>Casino</span>
-    </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-      <span>For You</span>
-    </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-      <span>Sports</span>
+      <span>Tournaments</span>
     </a>
     <a href="#" class="nav-item" onclick="mainTabClick(event, 'wallet')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-      <span>Chat</span>
+      <span>Wallet</span>
+    </a>
+    <a href="#" class="nav-item" onclick="openAuthModal('login')">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>Profile</span>
     </a>
   </nav>
 
