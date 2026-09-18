@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>WIN2EARN - Skill Based Game</title>
+  <title>Win2Earn - Skill Based Game</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,7 +43,68 @@
     </div>
   </div>
 
-  <!-- Top Glossy Header matching Reference Image -->
+  <!-- Payout Info Modal -->
+  <div id="payoutInfoModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card gpu-accelerated">
+      <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
+      <div class="info-header" style="margin-bottom: 12px; text-align: center;">
+        <span class="popup-icon">💎</span>
+        <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
+      </div>
+      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+        <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
+        <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
+        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
+      </div>
+      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
+    </div>
+  </div>
+
+  <!-- Fullscreen Game Arena Overlay -->
+  <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
+    <div id="gameEffectOverlay" class="game-effects-layer"></div>
+    <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
+      <canvas id="heliCanvas"></canvas>
+    </div>
+
+    <div id="gameStartOverlay" class="game-modal-overlay" style="display: flex; align-items: center; justify-content: center; padding: 16px;">
+      <div class="game-launch-card glass-card gpu-accelerated">
+        <div class="launch-icon-glow">🏆</div>
+        <h1 class="game-neon-title">COPTER CASH</h1>
+        <div class="fever-tag-pill">🔥 DAILY TOURNAMENT EDITION</div>
+        <p class="game-instructions">
+          Tap anywhere on your screen to fly higher. Precision dodge obstacles & survive to set top leaderboard scores!
+        </p>
+        <button class="launch-cta-btn" onclick="startHeliGame()">
+          <span>TAP TO START</span> 🚀
+        </button>
+      </div>
+    </div>
+
+    <div id="gameOverOverlay" class="game-modal-overlay hidden">
+      <div class="game-launch-card crash-card glass-card gpu-accelerated">
+        <div class="crash-icon-glow">💥</div>
+        <h2 class="crash-head-text">HELI CRASHED!</h2>
+        <div class="score-breakdown-card">
+          <div class="score-row">
+            <span class="s-label">CURRENT RUN SCORE</span>
+            <span id="currentRunScore" class="s-val gold-text">0</span>
+          </div>
+          <hr class="score-divider">
+          <div class="score-row total-row">
+            <span class="s-label">DAILY LEADERBOARD SCORE</span>
+            <span id="dailyTotalScoreDisplay" class="s-val">0</span>
+          </div>
+        </div>
+        <div class="crash-btn-group">
+          <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
+          <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Glossy Header -->
   <header class="navbar glass-nav reference-header-light">
     <div style="display: flex; align-items: center; gap: 8px;">
       <span style="font-size: 1.2rem;">🏆</span>
@@ -65,7 +126,7 @@
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Live Winners Section matching Reference Image -->
+      <!-- Live Winners Section -->
       <section class="live-winners-banner glass-card-light" style="padding: 12px; margin-bottom: 14px; border-radius: 16px;">
         <div style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 800; color: #111827; margin-bottom: 10px;">
           <span style="color: #ef4444;">●</span> LIVE WINNERS
@@ -94,7 +155,7 @@
         </div>
       </section>
 
-      <!-- 10 Lakh Prize Pool Card (Exact Reference UI) -->
+      <!-- 10 Lakh Prize Pool Card -->
       <section class="mega-banner-card glass-card-light" style="border: 1px solid rgba(212, 175, 55, 0.4); text-align: center; padding: 20px 16px; margin-bottom: 14px; border-radius: 20px; background: rgba(255, 255, 255, 0.85);">
         <div style="display: flex; justify-content: center; gap: 6px; font-size: 1.3rem; margin-bottom: 4px;">
           <span>🏆</span><span>🏆</span>
@@ -110,7 +171,7 @@
         </div>
       </section>
 
-      <!-- Daily Spin Tournament Card (Exact Reference UI) -->
+      <!-- Daily Spin Tournament Card with working handleGameLaunch -->
       <section class="glass-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 18px; margin-bottom: 16px; color: #fff;">
         <div style="display: inline-block; background: rgba(255, 255, 255, 0.1); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 10px;">DAILY TOURNAMENT</div>
         
@@ -122,12 +183,12 @@
           <div style="font-size: 2.5rem;">🪙</div>
         </div>
 
-        <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #ffffff; font-weight: 800; border-radius: 12px; padding: 12px; display: flex; justify-content: center; align-items: center; gap: 6px;">
+        <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #ffffff; font-weight: 800; border-radius: 12px; padding: 12px; display: flex; justify-content: center; align-items: center; gap: 6px; cursor: pointer;">
           PLAY NOW ▶
         </button>
       </section>
 
-      <!-- 3 Feature Cards Grid (Exact Reference UI) -->
+      <!-- 3 Feature Cards Grid -->
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
         <div class="glass-card-light" style="padding: 14px 8px; text-align: center; border-radius: 16px; background: rgba(255, 255, 255, 0.85);">
           <div style="font-size: 1.4rem; margin-bottom: 4px;">🛡️</div>
@@ -148,7 +209,7 @@
     </div>
   </main>
 
-  <!-- Bottom Navigation Bar (Exact Reference Tabs: Home, Tournament, Wallet, Profile) -->
+  <!-- Bottom Navigation Bar -->
   <nav class="bottom-nav glass-nav-fixed-light gpu-accelerated compact-bottom-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
