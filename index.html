@@ -43,68 +43,7 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal -->
-  <div id="payoutInfoModal" class="modal-overlay hidden">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
-      <div class="info-header" style="margin-bottom: 12px; text-align: center;">
-        <span class="popup-icon">💎</span>
-        <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
-      </div>
-      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
-        <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
-        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
-      </div>
-      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
-    </div>
-  </div>
-
-  <!-- Fullscreen Game Arena Overlay -->
-  <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
-    <div id="gameEffectOverlay" class="game-effects-layer"></div>
-    <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
-      <canvas id="heliCanvas"></canvas>
-    </div>
-
-    <div id="gameStartOverlay" class="game-modal-overlay" style="display: flex; align-items: center; justify-content: center; padding: 16px;">
-      <div class="game-launch-card glass-card gpu-accelerated">
-        <div class="launch-icon-glow">🏆</div>
-        <h1 class="game-neon-title">COPTER CASH</h1>
-        <div class="fever-tag-pill">🔥 DAILY TOURNAMENT EDITION</div>
-        <p class="game-instructions">
-          Tap anywhere on your screen to fly higher. Precision dodge obstacles & survive to set top leaderboard scores!
-        </p>
-        <button class="launch-cta-btn" onclick="startHeliGame()">
-          <span>TAP TO START</span> 🚀
-        </button>
-      </div>
-    </div>
-
-    <div id="gameOverOverlay" class="game-modal-overlay hidden">
-      <div class="game-launch-card crash-card glass-card gpu-accelerated">
-        <div class="crash-icon-glow">💥</div>
-        <h2 class="crash-head-text">HELI CRASHED!</h2>
-        <div class="score-breakdown-card">
-          <div class="score-row">
-            <span class="s-label">CURRENT RUN SCORE</span>
-            <span id="currentRunScore" class="s-val gold-text">0</span>
-          </div>
-          <hr class="score-divider">
-          <div class="score-row total-row">
-            <span class="s-label">DAILY LEADERBOARD SCORE</span>
-            <span id="dailyTotalScoreDisplay" class="s-val">0</span>
-          </div>
-        </div>
-        <div class="crash-btn-group">
-          <button class="launch-cta-btn retry-btn" onclick="startHeliGame()">PLAY AGAIN 🔄</button>
-          <button class="secondary-glass-btn" onclick="closeGameScreen()">EXIT TO ARENA</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Top Glossy Header matching Reference Image 2 -->
+  <!-- Top Glossy Header matching Reference Image -->
   <header class="navbar glass-nav reference-header-light">
     <div style="display: flex; align-items: center; gap: 8px;">
       <span style="font-size: 1.2rem;">🏆</span>
@@ -126,76 +65,90 @@
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Live Winners Ticker Bar with Circular User Avatars -->
-      <section class="ticker-wrapper glass-card-light pointer-locked reference-ticker">
-        <div class="ticker-badge-light">🏆 LIVE WINNERS • NOW</div>
-        <div class="ticker-viewport">
-          <div class="ticker-track gpu-accelerated ticker-speed-normal" id="tickerTrack">
-            <span class="ticker-item"><img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" class="winner-avatar" alt=""> Riya just won ₹25,000</span>
-            <span class="ticker-item"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" class="winner-avatar" alt=""> Arjun won ₹12,500</span>
-            <span class="ticker-item"><img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100" class="winner-avatar" alt=""> Sneha won ₹50,000</span>
-          </div>
+      <!-- Live Winners Section matching Reference Image -->
+      <section class="live-winners-banner glass-card-light" style="padding: 12px; margin-bottom: 14px; border-radius: 16px;">
+        <div style="display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 800; color: #111827; margin-bottom: 10px;">
+          <span style="color: #ef4444;">●</span> LIVE WINNERS
         </div>
-      </section>
-
-      <!-- 10 Lakh Prize Pool Card (Light Glossy Theme) -->
-      <section class="mega-banner-card glass-card-light reference-prize-card-light">
-        <div style="text-align: center; margin-bottom: 4px;">
-          <span style="font-size: 1.2rem;">🏆 🏆</span>
-        </div>
-        <h2 class="mega-title-large" style="text-align: center; font-size: 1.9rem; color: #111827;">10 LAKH PRIZE POOL</h2>
-        <div style="text-align: center; font-size: 0.78rem; color: #4B5563; margin-bottom: 14px;">
-          Season 12 • Ends in 02:14:36 ⏱️
-        </div>
-        <div class="mega-tags" style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-          <span class="ref-pill-light">⚡ Mega Leaderboard</span>
-          <span class="ref-pill-light">🏆 100+ Players LIVE</span>
-          <span class="ref-pill-light">✨ Instant Prizes</span>
-        </div>
-      </section>
-
-      <!-- Daily Tournament Card matching Reference Image 2 -->
-      <section class="tournament-hero-card glass-card-gradient reference-daily-card-light">
-        <div style="display: flex; justify-content: space-between; align-items: center; text-align: left;">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center;">
           <div>
-            <div style="font-size: 0.85rem; font-weight: 800; color: #FFFFFF; margin-bottom: 4px;">DAILY TOURNAMENT</div>
-            <div class="prize-amount" style="font-size: 1.15rem; font-weight: 900; color: #FFD700; margin-bottom: 6px;">50% AD REVENUE SHARE</div>
-            <p class="pool-sub-note" style="font-size: 0.75rem; color: #E5E7EB; max-width: 200px; line-height: 1.3;">Earn passive rewards from every match you play</p>
+            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #fbbf24; object-fit: cover; margin-bottom: 4px;" alt="Rahul">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #111827;">Rahul</div>
+            <div style="font-size: 0.65rem; font-weight: 800; color: #059669;">+₹12,500</div>
           </div>
-          <div class="coin-stack-graphic" style="font-size: 3rem;">🪙</div>
+          <div>
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #fbbf24; object-fit: cover; margin-bottom: 4px;" alt="Ananya">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #111827;">Ananya</div>
+            <div style="font-size: 0.65rem; font-weight: 800; color: #059669;">+₹8,200</div>
+          </div>
+          <div>
+            <img src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=100" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #fbbf24; object-fit: cover; margin-bottom: 4px;" alt="Karan">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #111827;">Karan</div>
+            <div style="font-size: 0.65rem; font-weight: 800; color: #059669;">+₹15,000</div>
+          </div>
+          <div>
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" style="width: 44px; height: 44px; border-radius: 50%; border: 2px solid #fbbf24; object-fit: cover; margin-bottom: 4px;" alt="Priya">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #111827;">Priya</div>
+            <div style="font-size: 0.65rem; font-weight: 800; color: #059669;">+₹9,600</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 Lakh Prize Pool Card (Exact Reference UI) -->
+      <section class="mega-banner-card glass-card-light" style="border: 1px solid rgba(212, 175, 55, 0.4); text-align: center; padding: 20px 16px; margin-bottom: 14px; border-radius: 20px; background: rgba(255, 255, 255, 0.85);">
+        <div style="display: flex; justify-content: center; gap: 6px; font-size: 1.3rem; margin-bottom: 4px;">
+          <span>🏆</span><span>🏆</span>
+        </div>
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: 900; color: #111827; margin-bottom: 6px; letter-spacing: -0.5px;">10 LAKH PRIZE POOL</h2>
+        <div style="font-size: 0.78rem; color: #4B5563; margin-bottom: 16px; font-weight: 600;">
+          Mega Tournament • Ends in 04:23:12
+        </div>
+        <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+          <span style="background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;">✅ Verified</span>
+          <span style="background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;">⚡ Instant Withdraw</span>
+          <span style="background: rgba(245, 158, 11, 0.12); color: #b45309; border: 1px solid rgba(245, 158, 11, 0.3); padding: 5px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700;">👥 10k+ Players</span>
+        </div>
+      </section>
+
+      <!-- Daily Spin Tournament Card (Exact Reference UI) -->
+      <section class="glass-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 20px; padding: 18px; margin-bottom: 16px; color: #fff;">
+        <div style="display: inline-block; background: rgba(255, 255, 255, 0.1); padding: 3px 10px; border-radius: 6px; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.05em; margin-bottom: 10px;">DAILY TOURNAMENT</div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+          <div>
+            <h3 style="font-size: 1.15rem; font-weight: 900; color: #ffffff; margin-bottom: 4px;">Daily Spin Tournament</h3>
+            <p style="font-size: 0.72rem; color: #94a3b8; line-height: 1.4;">Entry: ₹100 • Prize: ₹50,000 • 256 Players Joined</p>
+          </div>
+          <div style="font-size: 2.5rem;">🪙</div>
         </div>
 
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="margin-top: 16px; padding: 12px; font-size: 1rem; border-radius: 14px; background: #FFFFFF; color: #1E1B4B; font-weight: 800;">
-          🎮 PLAY NOW
+        <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #ffffff; font-weight: 800; border-radius: 12px; padding: 12px; display: flex; justify-content: center; align-items: center; gap: 6px;">
+          PLAY NOW ▶
         </button>
       </section>
 
-      <div style="text-align: center; font-size: 0.72rem; color: #4B5563; margin-bottom: 12px;">
-        No entry fee • Play now & win real cash
-      </div>
-
-      <!-- 3 Feature Cards Grid (Light Glassmorphism) -->
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0 16px 14px 16px;">
-        <div class="glass-card-light" style="padding: 12px 8px; text-align: center;">
-          <div style="font-size: 1.2rem; margin-bottom: 4px;">🛡️</div>
-          <div style="font-size: 0.75rem; font-weight: 800; color: #111827;">Secure & Fair</div>
-          <div style="font-size: 0.62rem; color: #4B5563;">Anti-cheat protected</div>
+      <!-- 3 Feature Cards Grid (Exact Reference UI) -->
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px;">
+        <div class="glass-card-light" style="padding: 14px 8px; text-align: center; border-radius: 16px; background: rgba(255, 255, 255, 0.85);">
+          <div style="font-size: 1.4rem; margin-bottom: 4px;">🛡️</div>
+          <div style="font-size: 0.75rem; font-weight: 800; color: #111827; margin-bottom: 2px;">100% Secure</div>
+          <div style="font-size: 0.62rem; color: #4B5563;">SSL Encrypted</div>
         </div>
-        <div class="glass-card-light" style="padding: 12px 8px; text-align: center;">
-          <div style="font-size: 1.2rem; margin-bottom: 4px;">⚡</div>
-          <div style="font-size: 0.75rem; font-weight: 800; color: #111827;">Instant Withdrawals</div>
-          <div style="font-size: 0.62rem; color: #4B5563;">UPI • Paytm • Bank</div>
+        <div class="glass-card-light" style="padding: 14px 8px; text-align: center; border-radius: 16px; background: rgba(255, 255, 255, 0.85);">
+          <div style="font-size: 1.4rem; margin-bottom: 4px;">📜</div>
+          <div style="font-size: 0.75rem; font-weight: 800; color: #111827; margin-bottom: 2px;">RNG Certified</div>
+          <div style="font-size: 0.62rem; color: #4B5563;">Fair Play Assured</div>
         </div>
-        <div class="glass-card-light" style="padding: 12px 8px; text-align: center;">
-          <div style="font-size: 1.2rem; margin-bottom: 4px;">🎧</div>
-          <div style="font-size: 0.75rem; font-weight: 800; color: #111827;">24/7 Support</div>
-          <div style="font-size: 0.62rem; color: #4B5563;">Live help anytime</div>
+        <div class="glass-card-light" style="padding: 14px 8px; text-align: center; border-radius: 16px; background: rgba(255, 255, 255, 0.85);">
+          <div style="font-size: 1.4rem; margin-bottom: 4px;">🎧</div>
+          <div style="font-size: 0.75rem; font-weight: 800; color: #111827; margin-bottom: 2px;">24x7 Support</div>
+          <div style="font-size: 0.62rem; color: #4B5563;">Instant Help</div>
         </div>
       </div>
     </div>
   </main>
 
-  <!-- Bottom Navigation Bar (Exact Reference Image 2 Tabs: Home, Tournaments, Wallet, Profile) -->
+  <!-- Bottom Navigation Bar (Exact Reference Tabs: Home, Tournament, Wallet, Profile) -->
   <nav class="bottom-nav glass-nav-fixed-light gpu-accelerated compact-bottom-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -203,7 +156,7 @@
     </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94.63 1.5 1.98 2.63 3.61 2.96V19H7v2h10v-2h-4v-3.1c1.63-.33 2.98-1.46 3.61-2.96C19.08 12.63 21 10.55 21 8V7c0-1.1-.9-2-2-2zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z"/></svg>
-      <span>Tournaments</span>
+      <span>Tournament</span>
     </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
