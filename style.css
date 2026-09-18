@@ -856,7 +856,7 @@ body.no-scroll {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 20px gap between cards */
+  gap: 20px;
   padding-bottom: 100px;
 }
 
@@ -903,7 +903,6 @@ body.no-scroll {
 
 .mega-attractive-glow { box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
 
-/* UPCOMING GRAND EVENT: Red Pill */
 .mega-badge-pill, .upcoming-event-pill {
   display: inline-block;
   background: var(--accent-red);
@@ -975,7 +974,6 @@ body.no-scroll {
 
 .win-label { font-size: 15px; color: var(--text-secondary); margin-bottom: 16px; font-weight: 600; line-height: 1.4; }
 
-/* PLAY NOW / Join Now Buttons (56px height, 16px radius, shadow) */
 .play-now-btn, .launch-cta-btn, .action-btn {
   width: 100%;
   height: 56px;
@@ -998,7 +996,6 @@ body.no-scroll {
   background: var(--accent-blue-dark);
 }
 
-/* Mega Leaderboard / Pills & Badges (#E3F2FD bg, blue icon, #1E3A5F text, rounded 12px) */
 .mega-leaderboard-pill, .badge-pill-custom {
   display: inline-flex;
   align-items: center;
@@ -1024,7 +1021,6 @@ body.no-scroll {
 
 .lb-list-container { padding: 12px; margin-bottom: 12px; background: #FFFFFF; border-radius: 28px; box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
 
-/* Winners Marquee Fix - Avatar + Name + Amount in Green */
 .winners-marquee-row, .lb-row {
   display: flex;
   align-items: center;
@@ -1079,7 +1075,7 @@ body.no-scroll {
 .nav-item.active { color: #1976D2; font-weight: 800; }
 .nav-item:hover { color: var(--text-primary); }
 
-/* Telegram Floating Button - 48px with shadow */
+/* Telegram Floating Button */
 .floating-tg-btn-fixed {
   position: fixed !important;
   bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
@@ -1107,4 +1103,136 @@ body.no-scroll {
 .flex-center { display: flex; justify-content: center; align-items: center; }
 .text-center { text-align: center; }
 .w-100 { width: 100%; }
+
+
+/* ==========================================================================
+   EXTRA CSS CLASSES FOR REFERENCE SCREENSHOT DESIGN MATCHING
+   ========================================================================== */
+
+/* Top Header Profile & Notification Action Icons */
+.reference-top-icons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reference-icon-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reference-icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* Live Winners Ticker Pill Style */
+.reference-ticker-box {
+  background: #FFFFFF !important;
+  border-radius: 30px !important;
+  padding: 8px 14px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05) !important;
+}
+
+.reference-ticker-badge {
+  background: #FBC02D !important;
+  color: #0F172A !important;
+  font-weight: 900 !important;
+  font-size: 0.62rem !important;
+  padding: 4px 10px !important;
+  border-radius: 8px !important;
+}
+
+/* 10 Lakh Prize Pool Banner Card Adjustments */
+.reference-prize-banner {
+  background: #FFFFFF !important;
+  border-radius: 30px !important;
+  padding: 26px 20px !important;
+  text-align: center;
+}
+
+.reference-prize-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-weight: 900 !important;
+  font-size: 1.85rem !important;
+  color: #0F172A !important;
+  letter-spacing: -0.02em;
+  margin: 6px 0 4px 0;
+}
+
+.reference-pill-tag {
+  background: #E3F2FD !important;
+  color: #1976D2 !important;
+  font-weight: 800 !important;
+  font-size: 0.7rem !important;
+  padding: 6px 12px !important;
+  border-radius: 16px !important;
+}
+
+/* Daily Tournament Gradient Card & Coin Styling */
+.reference-daily-tournament-card {
+  background: linear-gradient(135deg, #1E293B, #0F172A) !important;
+  color: #FFFFFF !important;
+  border-radius: 30px !important;
+  padding: 24px !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.2) !important;
+}
+
+.reference-daily-tournament-card .prize-amount {
+  color: #FBC02D !important;
+  font-size: 1.25rem !important;
+  font-weight: 900 !important;
+}
+
+.reference-daily-tournament-card .pool-sub-note {
+  color: #94A3B8 !important;
+  font-size: 0.78rem !important;
+}
+
+.coin-graphic-container {
+  font-size: 3.2rem;
+  filter: drop-shadow(0 4px 12px rgba(251, 192, 45, 0.4));
+}
+
+/* Bottom 3 Features Grid Cards Enhancement */
+.reference-features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.reference-feature-mini-card {
+  background: #FFFFFF !important;
+  border-radius: 20px !important;
+  padding: 16px 10px !important;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04) !important;
+}
+
+.reference-feature-mini-card .f-icon {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+}
+
+.reference-feature-mini-card .f-title {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin-bottom: 2px;
+}
+
+.reference-feature-mini-card .f-desc {
+  font-size: 0.6rem;
+  color: #64748B;
+  font-weight: 600;
+}
 
