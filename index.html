@@ -9,14 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Custom Logo Styling: Win & Earn smaller, 2 larger with capital W and E */
+    /* Custom Logo Styling: Fully attached Win2Earn with stretched cursive font, capital W and E, and largest mid 2 */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
       font-weight: 800;
-      font-size: 1.4rem !important;
-      letter-spacing: -0.5px;
-      transform: scaleX(1.12);
+      font-size: 1.55rem !important;
+      letter-spacing: -2px !important;
+      transform: scaleX(1.3);
       transform-origin: left center;
       display: inline-block;
       white-space: nowrap;
@@ -25,8 +25,11 @@
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 8px rgba(255,215,0,0.55));
     }
+    .cursive-logo span {
+      letter-spacing: -2px !important;
+    }
     .cursive-logo .mid-two {
-      font-size: 1.55rem !important;
+      font-size: 1.85rem !important;
       vertical-align: baseline;
       display: inline-block;
     }
@@ -294,7 +297,7 @@
 
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
-    <div class="cursive-logo">Win<span class="mid-two">2</span>Earn</div>
+    <div class="cursive-logo"><span>W</span>in<span class="mid-two">2</span><span>E</span>arn</div>
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 6px 12px; font-size: 0.78rem;">Log In</button>
       <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 6px 12px; font-size: 0.78rem;">Sign Up</button>
