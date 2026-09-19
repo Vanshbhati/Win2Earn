@@ -9,12 +9,12 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Custom Cursive Font Styling: Single continuous word without gap */
+    /* Custom Logo Styling: Win & Earn smaller, 2 larger with capital W and E */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
       font-weight: 800;
-      font-size: 1.8rem !important;
+      font-size: 1.4rem !important;
       letter-spacing: -0.5px;
       transform: scaleX(1.12);
       transform-origin: left center;
@@ -24,6 +24,11 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       filter: drop-shadow(0 0 8px rgba(255,215,0,0.55));
+    }
+    .cursive-logo .mid-two {
+      font-size: 1.55rem !important;
+      vertical-align: baseline;
+      display: inline-block;
     }
 
     /* Infinite Smooth Marquee Animation */
@@ -289,7 +294,7 @@
 
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
-    <div class="cursive-logo">Win2Earn</div>
+    <div class="cursive-logo">Win<span class="mid-two">2</span>Earn</div>
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 6px 12px; font-size: 0.78rem;">Log In</button>
       <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 6px 12px; font-size: 0.78rem;">Sign Up</button>
@@ -302,12 +307,12 @@
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Live Winners Scrolling Ticker with 50 Indian Names ("Rahul Won 5000 last week" format) -->
+      <!-- Live Winners Scrolling Ticker with 50 Indian Names and 5000 Amount -->
       <section class="glass-card" style="padding: 10px 14px; margin-bottom: 14px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
         <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase; flex-shrink: 0; z-index: 2;">WINNERS</span>
         <div class="winners-ticker-wrap">
           <div class="winners-ticker-track" style="font-size: 0.78rem; color: var(--text-secondary);">
-            <span>Rahul Won 5000 last week</span> • <span>Amit Won 2500 last week</span> • <span>Priya Won 10000 last week</span> • <span>Sneha Won 7500 last week</span> • <span>Vikram Won 3000 last week</span> • <span>Anjali Won 5000 last week</span> • <span>Rohit Won 4500 last week</span> • <span>Pooja Won 6000 last week</span> • <span>Karan Won 8500 last week</span> • <span>Neha Won 3500 last week</span> • <span>Deepak Won 9000 last week</span> • <span>Simran Won 2000 last week</span> • <span>Manish Won 5500 last week</span> • <span>Divya Won 4000 last week</span> • <span>Ajay Won 6500 last week</span> • <span>Ritu Won 7000 last week</span> • <span>Sandeep Won 9500 last week</span> • <span>Kritika Won 3200 last week</span> • <span>Sunil Won 4800 last week</span> • <span>Megha Won 5200 last week</span> • <span>Vivek Won 8800 last week</span> • <span>Swati Won 6200 last week</span> • <span>Alok Won 4100 last week</span> • <span>Nisha Won 5900 last week</span> • <span>Rajesh Won 7300 last week</span> • <span>Monika Won 3800 last week</span> • <span>Naveen Won 8100 last week</span> • <span>Preeti Won 4600 last week</span> • <span>Gaurav Won 6700 last week</span> • <span>Sonam Won 3900 last week</span> • <span>Vikas Won 5400 last week</span> • <span>Jyoti Won 7600 last week</span> • <span>Sachin Won 8300 last week</span> • <span>Deepika Won 4200 last week</span> • <span>Ankit Won 6800 last week</span> • <span>Shweta Won 3100 last week</span> • <span>Manoj Won 9200 last week</span> • <span>Kajal Won 5700 last week</span> • <span>Pankaj Won 6400 last week</span> • <span>Payal Won 4900 last week</span> • <span>Tarun Won 7800 last week</span> • <span>Meenakshi Won 3600 last week</span> • <span>Sanjay Won 8600 last week</span> • <span>Radha Won 4300 last week</span> • <span>Abhishek Won 9900 last week</span> • <span>Geeta Won 5100 last week</span> • <span>Vineet Won 6900 last week</span> • <span>Rekha Won 3700 last week</span> • <span>Ashish Won 7400 last week</span> • <span>Kiran Won 5800 last week</span>
+            <span>Rahul Won 5000 last week</span> • <span>Amit Won 5000 last week</span> • <span>Priya Won 5000 last week</span> • <span>Sneha Won 5000 last week</span> • <span>Vikram Won 5000 last week</span> • <span>Anjali Won 5000 last week</span> • <span>Rohit Won 5000 last week</span> • <span>Pooja Won 5000 last week</span> • <span>Karan Won 5000 last week</span> • <span>Neha Won 5000 last week</span> • <span>Deepak Won 5000 last week</span> • <span>Simran Won 5000 last week</span> • <span>Manish Won 5000 last week</span> • <span>Divya Won 5000 last week</span> • <span>Ajay Won 5000 last week</span> • <span>Ritu Won 5000 last week</span> • <span>Sandeep Won 5000 last week</span> • <span>Kritika Won 5000 last week</span> • <span>Sunil Won 5000 last week</span> • <span>Megha Won 5000 last week</span> • <span>Vivek Won 5000 last week</span> • <span>Swati Won 5000 last week</span> • <span>Alok Won 5000 last week</span> • <span>Nisha Won 5000 last week</span> • <span>Rajesh Won 5000 last week</span> • <span>Monika Won 5000 last week</span> • <span>Naveen Won 5000 last week</span> • <span>Preeti Won 5000 last week</span> • <span>Gaurav Won 5000 last week</span> • <span>Sonam Won 5000 last week</span> • <span>Vikas Won 5000 last week</span> • <span>Jyoti Won 5000 last week</span> • <span>Sachin Won 5000 last week</span> • <span>Deepika Won 5000 last week</span> • <span>Ankit Won 5000 last week</span> • <span>Shweta Won 5000 last week</span> • <span>Manoj Won 5000 last week</span> • <span>Kajal Won 5000 last week</span> • <span>Pankaj Won 5000 last week</span> • <span>Payal Won 5000 last week</span> • <span>Tarun Won 5000 last week</span> • <span>Meenakshi Won 5000 last week</span> • <span>Sanjay Won 5000 last week</span> • <span>Radha Won 5000 last week</span> • <span>Abhishek Won 5000 last week</span> • <span>Geeta Won 5000 last week</span> • <span>Vineet Won 5000 last week</span> • <span>Rekha Won 5000 last week</span> • <span>Ashish Won 5000 last week</span> • <span>Kiran Won 5000 last week</span>
           </div>
         </div>
       </section>
