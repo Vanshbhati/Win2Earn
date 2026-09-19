@@ -56,66 +56,46 @@
       padding: 0 15px;
     }
 
-    /* Highly Attractive Ultra-Premium Mega Banner Styling */
-    @keyframes borderGlowPulse {
-      0% { border-color: rgba(255, 215, 0, 0.4); box-shadow: 0 0 20px rgba(243, 156, 18, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1); }
-      50% { border-color: rgba(255, 215, 0, 0.85); box-shadow: 0 0 35px rgba(243, 156, 18, 0.5), inset 0 0 25px rgba(255, 215, 0, 0.2); }
-      100% { border-color: rgba(255, 215, 0, 0.4); box-shadow: 0 0 20px rgba(243, 156, 18, 0.25), inset 0 0 15px rgba(255, 215, 0, 0.1); }
-    }
+    /* Clean, Professional & Lightweight Mega Banner Styling */
     .mega-banner-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%) !important;
-      border: 2px solid rgba(255, 215, 0, 0.5) !important;
-      border-radius: 22px !important;
-      padding: 24px 20px !important;
+      background: #111827 !important;
+      border: 1px solid rgba(255, 215, 0, 0.25) !important;
+      border-radius: 16px !important;
+      padding: 22px 18px !important;
       text-align: center;
       position: relative;
-      overflow: hidden;
-      animation: borderGlowPulse 3s infinite ease-in-out;
-    }
-    .mega-banner-card::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,215,0,0.08) 0%, transparent 70%);
-      transform: rotate(30deg);
-      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
     .mega-badge-pill {
-      background: linear-gradient(135deg, #ff4d4f 0%, #ff7a45 100%) !important;
-      color: #fff !important;
-      font-family: 'Orbitron', sans-serif;
+      background: rgba(245, 158, 11, 0.15) !important;
+      color: #fbbf24 !important;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 0.7rem !important;
       font-weight: 800 !important;
-      letter-spacing: 0.08em;
-      padding: 6px 14px !important;
-      border-radius: 30px !important;
+      letter-spacing: 0.05em;
+      padding: 5px 12px !important;
+      border-radius: 20px !important;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 4px 15px rgba(255, 77, 79, 0.4);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
     }
     .mega-title-large {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 2.1rem !important;
-      font-weight: 900 !important;
-      background: linear-gradient(180deg, #ffffff 20%, #f39c12 100%) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      text-shadow: 0 4px 20px rgba(243, 156, 18, 0.3);
-      margin-bottom: 10px !important;
-      letter-spacing: -0.5px;
+      font-size: 1.8rem !important;
+      font-weight: 800 !important;
+      color: #ffffff !important;
+      margin-bottom: 8px !important;
+      letter-spacing: -0.3px;
     }
     .mega-desc {
-      font-size: 0.88rem !important;
-      color: #cbd5e1 !important;
+      font-size: 0.85rem !important;
+      color: #94a3b8 !important;
       line-height: 1.5 !important;
-      margin-bottom: 18px !important;
-      padding: 0 10px;
+      margin-bottom: 16px !important;
+      padding: 0 6px;
     }
     .mega-tags {
       display: flex;
@@ -124,17 +104,16 @@
       flex-wrap: wrap;
     }
     .mega-tags span {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 215, 0, 0.25);
-      color: #f1f5f9;
-      font-size: 0.73rem;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e2e8f0;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 8px;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      backdrop-filter: blur(5px);
     }
   </style>
 </head>
@@ -401,7 +380,7 @@
         </div>
       </section>
 
-      <section id="megaBannerCard" class="mega-banner-card glass-card">
+      <section id="megaBannerCard" class="mega-banner-card">
         <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
         <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
         <p class="mega-desc">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
@@ -412,7 +391,7 @@
         </div>
       </section>
 
-      <section class="tournament-hero-card glass-card">
+      <section class="tournament-hero-card glass-card" style="margin-top: 14px;">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
@@ -610,3 +589,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
