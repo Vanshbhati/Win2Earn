@@ -56,31 +56,42 @@
       padding: 0 15px;
     }
 
-    /* Stake Inspired Clean & Professional Hero Banner Styling */
+    /* Stake Inspired Clean & Professional Hero Banner Styling (Made taller as requested) */
     .stake-hero-banner {
       background: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       border-radius: 20px !important;
-      padding: 24px 18px !important;
+      padding: 36px 18px !important; /* Thoda aur lamba kiya gaya hai */
       text-align: center;
       position: relative;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
       margin-bottom: 14px;
       overflow: hidden;
     }
-    .stake-hero-title {
+    .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 1.6rem !important;
+      font-size: 2.3rem !important; /* Aur bada size */
       font-weight: 900 !important;
+      background: linear-gradient(135deg, #fff 20%, #ffd700 60%, #ff8c00 100%) !important; /* Attractive gold/orange gradient */
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      margin-bottom: 10px !important;
+      line-height: 1.1;
+      filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.4));
+    }
+    .stake-hero-title-small {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 1.1rem !important; /* Ek line mein fit hone ke liye set kiya */
+      font-weight: 800 !important;
       color: #ffffff !important;
-      margin-bottom: 8px !important;
-      line-height: 1.3;
+      white-space: nowrap; /* Ek line mein rakhne ke liye */
+      margin-bottom: 14px !important;
     }
     .stake-hero-desc {
       font-size: 0.85rem !important;
       color: #cbd5e1 !important;
       line-height: 1.5 !important;
-      margin-bottom: 18px !important;
+      margin-bottom: 22px !important;
       padding: 0 4px;
     }
     .stake-explore-btn {
@@ -88,13 +99,13 @@
       color: #ffffff !important;
       font-family: 'Plus Jakarta Sans', sans-serif !important;
       font-weight: 800 !important;
-      font-size: 0.95rem !important;
-      padding: 14px 20px !important;
-      border-radius: 12px !important;
+      font-size: 1.05rem !important; /* Button ko bada kiya gaya hai */
+      padding: 16px 24px !important; /* Button ki height aur padding badhayi gayi hai */
+      border-radius: 14px !important;
       border: none !important;
       width: 100% !important;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
       transition: background 0.2s ease;
     }
     .stake-explore-btn:active {
@@ -365,9 +376,10 @@
         </div>
       </section>
 
-      <!-- Stake Style Professional Banner updated as requested -->
+      <!-- Updated Stake Style Banner: Taller card, bigger attractive 10,00,000, single-line prize pool, larger explore button -->
       <section class="stake-hero-banner">
-        <h2 class="stake-hero-title">₹10,00,000<br>Prize Pool for 10 Winners</h2>
+        <h2 class="stake-hero-title-big">₹10,00,000</h2>
+        <div class="stake-hero-title-small">Prize Pool for 10 Winners</div>
         <p class="stake-hero-desc">
           India's leading skill gaming platform with 100% free daily entries.
         </p>
