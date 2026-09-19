@@ -9,16 +9,32 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Custom Cursive Font Styling for exact 𝓦𝓲𝓷2𝓔𝓪𝓻𝓷 look */
+    /* Custom Cursive Font Styling: Larger, slightly stretched & same design */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
       font-weight: 800;
-      letter-spacing: 0.5px;
+      font-size: 1.75rem !important;
+      letter-spacing: 0.8px;
+      transform: scaleX(1.18);
+      transform-origin: left center;
+      display: inline-block;
+      white-space: nowrap;
       background: linear-gradient(135deg, #fff 30%, #f39c12 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 6px rgba(255,215,0,0.5));
+      filter: drop-shadow(0 0 8px rgba(255,215,0,0.55));
+    }
+
+    /* Fixed Smooth Marquee Animation */
+    @keyframes smoothMarquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .winners-ticker-track {
+      display: inline-block;
+      white-space: nowrap;
+      animation: smoothMarquee 22s linear infinite;
     }
   </style>
 </head>
@@ -262,7 +278,7 @@
 
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
-    <div class="cursive-logo" style="font-size: 1.4rem;">𝓦𝓲𝓷2𝓔𝓪𝓻𝓷</div>
+    <div class="cursive-logo">𝓦𝓲𝓷2𝓔𝓪𝓻𝓷</div>
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 6px 12px; font-size: 0.78rem;">Log In</button>
       <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 6px 12px; font-size: 0.78rem;">Sign Up</button>
@@ -275,14 +291,16 @@
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Live Winners Scrolling Ticker (Cleaned up stickers & premium green amounts) -->
+      <!-- Live Winners Scrolling Ticker (Fixed Smooth Scrolling) -->
       <section class="glass-card" style="padding: 10px 14px; margin-bottom: 14px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
-        <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase;">WINNERS</span>
-        <div style="display: inline-block; animation: marquee 18s linear infinite; font-size: 0.78rem; color: var(--text-secondary);">
-          <span>Rahul Sharma won <strong style="color: #10b981;">₹5000</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; 
-          <span>Priya won <strong style="color: #10b981;">₹2500</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; 
-          <span>Amit won <strong style="color: #10b981;">₹10000</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; 
-          <span>Sneha won <strong style="color: #10b981;">₹7500</strong></span>
+        <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase; flex-shrink: 0; z-index: 2;">WINNERS</span>
+        <div style="width: 100%; overflow: hidden; display: inline-block;">
+          <div class="winners-ticker-track" style="font-size: 0.78rem; color: var(--text-secondary);">
+            <span>Rahul Sharma won <strong style="color: #10b981;">₹5000</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; 
+            <span>Priya won <strong style="color: #10b981;">₹2500</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; 
+            <span>Amit won <strong style="color: #10b981;">₹10000</strong></span> &nbsp;&nbsp;•&nbsp;&nbsp; 
+            <span>Sneha won <strong style="color: #10b981;">₹7500</strong></span>
+          </div>
         </div>
       </section>
 
@@ -495,3 +513,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
