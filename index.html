@@ -56,64 +56,57 @@
       padding: 0 15px;
     }
 
-    /* Clean, Professional & Lightweight Mega Banner Styling */
-    .mega-banner-card {
-      background: #111827 !important;
-      border: 1px solid rgba(255, 215, 0, 0.25) !important;
-      border-radius: 16px !important;
-      padding: 22px 18px !important;
+    /* Stake Inspired Clean & Professional Hero Banner Styling */
+    .stake-hero-banner {
+      background: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 20px !important;
+      padding: 24px 18px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 14px;
+      overflow: hidden;
     }
-    .mega-badge-pill {
-      background: rgba(245, 158, 11, 0.15) !important;
-      color: #fbbf24 !important;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.7rem !important;
-      font-weight: 800 !important;
-      letter-spacing: 0.05em;
-      padding: 5px 12px !important;
-      border-radius: 20px !important;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .stake-hero-icons {
+      font-size: 2.5rem;
       margin-bottom: 12px;
-      text-transform: uppercase;
-    }
-    .mega-title-large {
-      font-family: 'Orbitron', sans-serif !important;
-      font-size: 1.8rem !important;
-      font-weight: 800 !important;
-      color: #ffffff !important;
-      margin-bottom: 8px !important;
-      letter-spacing: -0.3px;
-    }
-    .mega-desc {
-      font-size: 0.85rem !important;
-      color: #94a3b8 !important;
-      line-height: 1.5 !important;
-      margin-bottom: 16px !important;
-      padding: 0 6px;
-    }
-    .mega-tags {
       display: flex;
       justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 10px;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
     }
-    .mega-tags span {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #e2e8f0;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 8px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+    .stake-hero-title {
+      font-family: 'Orbitron', sans-serif !important;
+      font-size: 1.6rem !important;
+      font-weight: 900 !important;
+      color: #ffffff !important;
+      margin-bottom: 8px !important;
+      line-height: 1.3;
+    }
+    .stake-hero-desc {
+      font-size: 0.85rem !important;
+      color: #cbd5e1 !important;
+      line-height: 1.5 !important;
+      margin-bottom: 18px !important;
+      padding: 0 4px;
+    }
+    .stake-explore-btn {
+      background: #2563eb !important;
+      color: #ffffff !important;
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      font-weight: 800 !important;
+      font-size: 0.95rem !important;
+      padding: 14px 20px !important;
+      border-radius: 12px !important;
+      border: none !important;
+      width: 100% !important;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+      transition: background 0.2s ease;
+    }
+    .stake-explore-btn:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
@@ -380,18 +373,21 @@
         </div>
       </section>
 
-      <section id="megaBannerCard" class="mega-banner-card">
-        <div class="mega-badge-pill">🔥 UPCOMING GRAND EVENT</div>
-        <h2 class="mega-title-large">₹10 LAKH PRIZE POOL</h2>
-        <p class="mega-desc">Prepare for India's biggest skill gaming mega contest! Zero entry fee with instant UPI reward payouts.</p>
-        <div class="mega-tags">
-          <span>⚡ Mega Leaderboard</span>
-          <span>🔥 100% Free Entry</span>
-          <span>👑 Guaranteed Rewards</span>
+      <!-- Stake Style Professional Banner with 10 Lakh Prize Pool for 10 Winners & Explore Games Button -->
+      <section class="stake-hero-banner">
+        <div class="stake-hero-icons">
+          <span>🏀</span><span>💎</span><span>🎲</span>
         </div>
+        <h2 class="stake-hero-title">₹10 Lakh Prize Pool for 10 Winners</h2>
+        <p class="stake-hero-desc">
+          India's leading skill gaming platform with 100% free daily entries and instant guaranteed UPI payouts.
+        </p>
+        <button class="stake-explore-btn" onclick="handleNavClick(event, 'games')">
+          Explore Games ➔
+        </button>
       </section>
 
-      <section class="tournament-hero-card glass-card" style="margin-top: 14px;">
+      <section class="tournament-hero-card glass-card">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
