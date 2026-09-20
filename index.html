@@ -56,91 +56,103 @@
       padding: 0 15px;
     }
 
-    /* Stake Style Banner Design with Large 3D Floating Elements */
+    /* Stake Style Card Banner (Exact Stake Look with 3D Elements Inside/Overflowing) */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.18) !important;
-      border-radius: 24px !important;
-      padding: 85px 20px 36px 20px !important;
+      background: linear-gradient(180deg, #1d4ed8 0%, #090d16 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 26px !important;
+      padding: 125px 20px 32px 20px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
-      margin-top: 65px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+      margin-top: 55px;
       margin-bottom: 16px;
       overflow: visible !important;
     }
 
-    /* Large 3D Floating Elements Container (Stake Style) */
+    /* Large 3D Elements Container Positioned inside Card Header like Stake Website */
     .stake-cutouts-container {
       position: absolute;
-      top: -72px;
+      top: -45px;
       left: 50%;
       transform: translateX(-50%);
       width: 320px;
-      height: 110px;
+      height: 140px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 12px;
+      align-items: flex-end;
       pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Massive Stake Style 3D Cards with Glow and Perspective */
+    .game-badge-item {
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+      border: 3px solid rgba(255, 215, 0, 0.7);
+      border-radius: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), inset 0 3px 8px rgba(255, 255, 255, 0.3);
+      position: absolute;
+      backdrop-filter: blur(10px);
+    }
+
+    /* Left Element (Target) */
+    .game-badge-item:nth-child(1) {
+      width: 95px;
+      height: 95px;
+      font-size: 3rem;
+      left: 20px;
+      bottom: 5px;
+      transform: rotate(-14deg) scale(0.95);
+      border-color: #3b82f6;
+      box-shadow: 0 16px 35px rgba(59, 130, 246, 0.5), inset 0 2px 6px rgba(255,255,255,0.3);
+      z-index: 2;
+    }
+
+    /* Center Element (Helicopter - Biggest & Center) */
+    .game-badge-item:nth-child(2) {
+      width: 115px;
+      height: 115px;
+      font-size: 3.8rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(-15px) scale(1.05);
+      bottom: 0px;
+      border-color: #ffd700;
+      box-shadow: 0 22px 50px rgba(255, 215, 0, 0.6), inset 0 3px 8px rgba(255,255,255,0.4);
       z-index: 5;
     }
 
-    /* Individual HD 3D Element Card */
-    .game-badge-item {
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
-      border: 2px solid rgba(255, 215, 0, 0.6);
-      border-radius: 20px;
-      width: 75px;
-      height: 75px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.2);
-      font-size: 2.2rem;
-      position: relative;
-      backdrop-filter: blur(8px);
-      transition: transform 0.3s ease;
-    }
-
-    /* Positioning and rotating like Stake 3D items */
-    .game-badge-item:nth-child(1) { 
-      transform: rotate(-12deg) translateY(8px) scale(0.95); 
-      border-color: #3b82f6; 
-      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
-    }
-    .game-badge-item:nth-child(2) { 
-      transform: rotate(0deg) translateY(-8px) scale(1.15); 
-      border-color: #ffd700; 
-      width: 85px; 
-      height: 85px; 
-      font-size: 2.6rem;
-      z-index: 6;
-      box-shadow: 0 16px 35px rgba(255, 215, 0, 0.5);
-    }
-    .game-badge-item:nth-child(3) { 
-      transform: rotate(12deg) translateY(8px) scale(0.95); 
-      border-color: #ef4444; 
-      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4);
+    /* Right Element (Racing Car) */
+    .game-badge-item:nth-child(3) {
+      width: 95px;
+      height: 95px;
+      font-size: 3rem;
+      right: 20px;
+      bottom: 5px;
+      transform: rotate(14deg) scale(0.95);
+      border-color: #ef4444;
+      box-shadow: 0 16px 35px rgba(239, 68, 68, 0.5), inset 0 2px 6px rgba(255,255,255,0.3);
+      z-index: 2;
     }
 
     .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 2.3rem !important;
+      font-size: 2.4rem !important;
       font-weight: 900 !important;
-      background: linear-gradient(135deg, #ffffff 15%, #ffd700 55%, #ff8c00 100%) !important;
+      background: linear-gradient(135deg, #ffffff 10%, #ffd700 50%, #ff8c00 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
-      margin-bottom: 6px !important;
+      margin-bottom: 4px !important;
       line-height: 1.1;
-      filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.45));
+      filter: drop-shadow(0 2px 12px rgba(255, 215, 0, 0.5));
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       color: #ffffff !important;
-      white-space: nowrap;
       margin-bottom: 10px !important;
     }
     .stake-hero-desc {
@@ -148,7 +160,7 @@
       color: #cbd5e1 !important;
       line-height: 1.5 !important;
       margin-bottom: 20px !important;
-      padding: 0 4px;
+      padding: 0 6px;
     }
     .stake-explore-btn {
       background: #2563eb !important;
@@ -431,7 +443,7 @@
         </div>
       </section>
 
-      <!-- Stake Style Banner with 3 Large HD 3D Elements -->
+      <!-- Stake Style Banner with Big 3D Elements Inside/Overflowing Card -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
           <div class="game-badge-item" title="Sniper">🎯</div>
