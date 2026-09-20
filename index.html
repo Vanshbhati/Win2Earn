@@ -26,7 +26,7 @@
       font-size: 1.55rem !important;
       letter-spacing: -2px !important;
       transform: scaleX(1.3);
-      transform-origin: left center;
+      transform-origin: center center;
       display: inline-block;
       white-space: nowrap;
       background: linear-gradient(135deg, #fff 30%, #f39c12 100%);
@@ -223,8 +223,8 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal with Updated English Content -->
-  <div id="payoutInfoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <!-- Payout Info Modal -->
+  <div id="payoutInfoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center;">
@@ -242,7 +242,7 @@
   </div>
 
   <!-- Coming Soon Prize Pool Modal -->
-  <div id="bannerComingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="bannerComingSoonModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
       <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
       <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffd700; margin-bottom: 12px; margin-top: 5px;">COMING SOON!</h2>
@@ -256,7 +256,7 @@
   </div>
 
   <!-- Monthly Championship Modal -->
-  <div id="comingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="comingSoonModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
       <div class="popup-icon">👑</div>
@@ -323,7 +323,7 @@
   </div>
 
   <!-- Welcome Modal -->
-  <div id="welcomeModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="welcomeModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card popup-animated gpu-accelerated" style="text-align: center;">
       <div class="popup-icon">🎉</div>
       <h2 id="welcomeUserName" style="font-weight: 800; font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary);">Welcome!</h2>
@@ -333,7 +333,7 @@
   </div>
 
   <!-- Info Modal -->
-  <div id="infoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="infoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeInfoModal()">&times;</button>
       <div class="info-header" style="text-align: center; margin-bottom: 12px;">
@@ -349,7 +349,7 @@
   </div>
 
   <!-- Legal Modal -->
-  <div id="legalModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="legalModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px;">
@@ -360,7 +360,7 @@
   </div>
 
   <!-- Telegram Support Modal -->
-  <div id="telegramModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="telegramModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
       <div class="popup-icon">💬</div>
@@ -374,7 +374,7 @@
   </div>
 
   <!-- Wallet / UPI Verification Modal -->
-  <div id="walletActivationModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="walletActivationModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
       <div class="auth-form">
@@ -397,7 +397,7 @@
   </div>
 
   <!-- Auth Modal -->
-  <div id="authModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="authModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
@@ -482,15 +482,15 @@
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <!-- Attractive WIN2EARN Title -->
-        <div style="text-align: center; margin-bottom: 12px;">
-          <span class="cursive-logo" style="font-size: 2.2rem !important;"><span>W</span>in<span class="mid-two">2</span><span>E</span>arn</span>
+        <!-- Center aligned WIN2EARN Title -->
+        <div style="text-align: center; margin-bottom: 12px; width: 100%;">
+          <span class="cursive-logo" style="font-size: 2.2rem !important; display: inline-block;"><span>W</span>in<span class="mid-two">2</span><span>E</span>arn</span>
         </div>
 
         <div class="total-prize-box premium-glass-prize">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
-          <!-- 50% ad revenue in one single line -->
-          <div class="prize-amount gold-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE POOL</div>
+          <!-- 50% ad revenue adjusted smaller to fit in a single line without ... -->
+          <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
           <!-- Updated text: Guaranteed rewards for top players -->
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
@@ -499,8 +499,8 @@
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <!-- Free entry & competitive in one single line -->
-        <p class="hero-subtext" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+        <!-- Fixed bottom subtext line to fit properly inside bounds -->
+        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
           PLAY NOW ➔
@@ -674,11 +674,10 @@
           setTimeout(() => {
             splashScreen.style.display = 'none';
           }, 500);
-        }, 9000); // Exactly 9 seconds
+        }, 9000);
       }
     });
 
-    // Modal control functions for Banner Coming Soon Popup
     function openBannerComingSoonModal() {
       const modal = document.getElementById('bannerComingSoonModal');
       if (modal) modal.classList.remove('hidden');
@@ -686,6 +685,16 @@
 
     function closeBannerComingSoonModal() {
       const modal = document.getElementById('bannerComingSoonModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function openPayoutInfoModal() {
+      const modal = document.getElementById('payoutInfoModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closePayoutInfoModal() {
+      const modal = document.getElementById('payoutInfoModal');
       if (modal) modal.classList.add('hidden');
     }
   </script>
