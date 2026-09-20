@@ -223,7 +223,7 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal -->
+  <!-- Payout Info Modal with Updated English Content -->
   <div id="payoutInfoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
@@ -231,16 +231,17 @@
         <span class="popup-icon">💎</span>
         <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
-        <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
-        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
+      <div class="info-body" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px; overflow-y: auto;">
+        <p style="margin-bottom: 10px;">Top winners of the game will receive their payments directly to their UPI ID shortly after the game results are announced.</p>
+        <p style="margin-bottom: 10px;">The number of winners depends on the specific game and how many top players are selected for rewards (for example, top 10, top 50, etc.).</p>
+        <p style="margin-bottom: 10px;">Every user will be provided daily total ad revenue screenshots in their wallet section.</p>
+        <p>Additionally, 50% of the total revenue generated from each game will be distributed among the top players who participated.</p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
+      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()" style="margin-top: 10px;">UNDERSTOOD</button>
     </div>
   </div>
 
-  <!-- Coming Soon Prize Pool Modal (No Image, I Understand Button, Scroll Locked) -->
+  <!-- Coming Soon Prize Pool Modal -->
   <div id="bannerComingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
       <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
@@ -481,19 +482,25 @@
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <div class="logo-text hero-logo-text">WIN2EARN</div>
+        <!-- Attractive WIN2EARN Title -->
+        <div style="text-align: center; margin-bottom: 12px;">
+          <span class="cursive-logo" style="font-size: 2.2rem !important;"><span>W</span>in<span class="mid-two">2</span><span>E</span>arn</span>
+        </div>
 
         <div class="total-prize-box premium-glass-prize">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
-          <div class="prize-amount gold-text">50% AD REVENUE SHARE</div>
-          <p class="pool-sub-note">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
+          <!-- 50% ad revenue in one single line -->
+          <div class="prize-amount gold-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE POOL</div>
+          <!-- Updated text: Guaranteed rewards for top players -->
+          <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
 
         <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+        <!-- Free entry & competitive in one single line -->
+        <p class="hero-subtext" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
           PLAY NOW ➔
@@ -533,7 +540,7 @@
               <h3 class="game-title">Copter Cash</h3>
               <span class="tag-daily">DAILY TOURNAMENT</span>
             </div>
-            <div class="win-label">Rewards: <span>Top 10 daily winners get 50% Ad Revenue every night at 10 PM!</span></div>
+            <div class="win-label">Rewards: <span>Guaranteed rewards for top players every night!</span></div>
             <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()">PLAY NOW</button>
           </div>
         </div>
