@@ -58,7 +58,7 @@
 
     /* Stake Exact Style Card Banner */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #132f63 0%, #060911 100%) !important;
+      background: linear-gradient(180deg, #13346b 0%, #070e1c 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.12) !important;
       border-radius: 26px !important;
       padding: 24px 20px 32px 20px !important;
@@ -70,49 +70,119 @@
       overflow: hidden !important;
     }
 
-    /* Stake Exact Single Asset Layout */
-    .stake-cutouts-container {
+    /* 100% Stake Exact CSS Graphic Container */
+    .stake-graphics-container {
       position: relative;
       width: 100%;
-      height: 175px;
-      margin: 0 auto 5px auto;
-      pointer-events: none;
+      height: 160px;
+      margin: 0 auto 10px auto;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .stake-combined-img {
-      width: 220px;
-      height: 165px;
-      object-fit: contain;
-      filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 20px rgba(0, 150, 255, 0.3));
+    /* Basketball CSS */
+    .stake-basketball {
+      position: absolute;
+      width: 110px;
+      height: 110px;
+      background: radial-gradient(circle at 35% 35%, #ff9f43 0%, #e15f41 60%, #b71540 100%);
+      border-radius: 50%;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-68%);
+      box-shadow: inset -8px -8px 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5);
+      overflow: hidden;
+      z-index: 3;
+    }
+    .stake-basketball::before, .stake-basketball::after {
+      content: '';
+      position: absolute;
+      border: 3px solid rgba(0,0,0,0.4);
+      border-radius: 50%;
+    }
+    .stake-basketball::before {
+      top: -20px; left: -20px; right: -20px; bottom: -20px;
+      border-color: transparent transparent rgba(0,0,0,0.4) rgba(0,0,0,0.4);
+      transform: rotate(45deg);
+    }
+    .stake-bb-text {
+      position: absolute;
+      bottom: 25px;
+      left: 12px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: #111;
+      transform: rotate(-15deg);
+      text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+      letter-spacing: -1px;
+    }
+
+    /* Red 3D Dice CSS */
+    .stake-dice {
+      position: absolute;
+      width: 95px;
+      height: 95px;
+      background: linear-gradient(135deg, #ff4757 0%, #ff6b81 40%, #c0392b 100%);
+      border-radius: 20px;
+      top: 32px;
+      right: 50%;
+      transform: translateX(62%) rotate(12deg);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.4);
+      z-index: 4;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 16px;
+      justify-content: space-between;
+      align-content: space-between;
+    }
+    .dice-dot {
+      width: 14px;
+      height: 14px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: inset 0 2px 3px rgba(0,0,0,0.4);
+    }
+    .dice-dot.hidden-dot { opacity: 0; }
+
+    /* Blue Diamond CSS */
+    .stake-diamond {
+      position: absolute;
+      width: 85px;
+      height: 85px;
+      background: linear-gradient(135deg, #00d2d3 0%, #0abde3 50%, #2e86de 100%);
+      transform: translateX(-105%) translateY(35px) rotate(45deg);
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 198, 255, 0.5), inset 0 0 15px rgba(255,255,255,0.6);
+      z-index: 2;
     }
 
     .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 2.4rem !important;
+      font-size: 2.3rem !important;
       font-weight: 900 !important;
       background: linear-gradient(135deg, #ffffff 10%, #ffd700 50%, #ff8c00 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
-      margin-bottom: 4px !important;
+      margin-bottom: 2px !important;
       line-height: 1.1;
       filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 1.1rem !important;
+      font-size: 1.05rem !important;
       font-weight: 800 !important;
       color: #ffffff !important;
-      margin-bottom: 10px !important;
+      margin-bottom: 8px !important;
     }
     .stake-hero-desc {
-      font-size: 0.85rem !important;
+      font-size: 0.83rem !important;
       color: #cbd5e1 !important;
       line-height: 1.5 !important;
-      margin-bottom: 20px !important;
-      padding: 0 6px;
+      margin-bottom: 18px !important;
+      padding: 0 4px;
     }
     .stake-explore-btn {
       background: #2563eb !important;
@@ -395,11 +465,24 @@
         </div>
       </section>
 
-      <!-- Stake Exact Style Banner with Combined Assets -->
+      <!-- Stake Exact Style Banner with 100% Pure CSS/SVG Graphics (No External Images) -->
       <section class="stake-hero-banner">
-        <div class="stake-cutouts-container">
-          <!-- Stake Exact Single Image Asset (Basketball, Diamond & Dice Combined) -->
-          <img src="https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=500&q=80" alt="Stake Style Elements" class="stake-combined-img" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=500&q=80';">
+        <div class="stake-graphics-container">
+          <!-- Blue Diamond -->
+          <div class="stake-diamond"></div>
+          <!-- Basketball with Stake typography -->
+          <div class="stake-basketball">
+            <div class="stake-bb-text">Stake</div>
+          </div>
+          <!-- Red 3D Dice -->
+          <div class="stake-dice">
+            <div class="dice-dot"></div>
+            <div class="dice-dot hidden-dot"></div>
+            <div class="dice-dot"></div>
+            <div class="dice-dot"></div>
+            <div class="dice-dot"></div>
+            <div class="dice-dot"></div>
+          </div>
         </div>
         
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
@@ -610,3 +693,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
