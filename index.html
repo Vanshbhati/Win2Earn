@@ -241,7 +241,7 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal (Diamond Removed, Custom Scrollable Text Body With Scrollbar Added) -->
+  <!-- Payout Info Modal -->
   <div id="payoutInfoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="max-height: 80vh; display: flex; flex-direction: column; overflow: hidden !important;">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
@@ -346,22 +346,6 @@
       <h2 id="welcomeUserName" style="font-weight: 800; font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary);">Welcome!</h2>
       <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.5;">Your account has been created successfully. Enter the arena and claim your rewards!</p>
       <button class="glass-btn action-btn w-100" onclick="handleWelcomePlay()">ENTER ARENA 🚀</button>
-    </div>
-  </div>
-
-  <!-- Info Modal -->
-  <div id="infoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closeInfoModal()">&times;</button>
-      <div class="info-header" style="text-align: center; margin-bottom: 12px;">
-        <span class="popup-icon">💡</span>
-        <h3 class="popup-title">Important Information</h3>
-      </div>
-      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">WIN2EARN does not charge you a single rupee. This is 100% free skill gaming and strictly NOT gambling or betting.</p>
-        <p>It is designed purely for entertainment, allowing users to enjoy their time while offering exciting opportunities to earn real cash rewards through pure performance.</p>
-      </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeInfoModal()">I UNDERSTAND</button>
     </div>
   </div>
 
@@ -521,16 +505,6 @@
         </button>
       </section>
 
-      <section class="glass-card" onclick="openInfoModal()" style="padding: 16px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
-        <div style="display: flex; align-items: center; gap: 12px;">
-          <span style="font-size: 1.5rem;">💡</span>
-          <div>
-            <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--text-primary);">Important Information</h4>
-            <p style="font-size: 0.75rem; color: var(--text-secondary);">Read WIN2EARN's 100% Free Fair Skill Gaming Commitment</p>
-          </div>
-        </div>
-        <span style="font-size: 1.1rem; color: var(--accent-green); font-weight: 800;">➔</span>
-      </section>
     </div>
 
     <!-- Games Tab -->
@@ -653,27 +627,27 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar -->
+  <!-- Bottom Navigation Bar with updated names and symbols -->
   <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-      <span>Browse</span>
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>home</span>
     </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H7c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.03-.42 1.98-1.07 2.75z"/></svg>
-      <span>Casino</span>
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      <span>games</span>
     </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
-      <span>For You</span>
-    </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-      <span>Sports</span>
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M16 11V3H8v8H2v10h20V11h-6zm-6-6h4v14h-4V5zm-6 8h4v6H4v-6zm16 6h-4v-4h4v4z"/></svg>
+      <span>leaderboard</span>
     </a>
     <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/></svg>
-      <span>Chat</span>
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M21 18v1c0 1.1-.9 2-2 2H5c-1.11 0-2-.9-2-2V5c0-1.1.89-2 2-2h14c1.1 0 2 .9 2 2v1h-9c-1.11 0-2 .9-2 2v8c0 1.1.89 2 2 2h9zm-9-2h10V8H12v8zm4-2.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      <span>wallet</span>
+    </a>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'account')">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>account</span>
     </a>
   </nav>
 
