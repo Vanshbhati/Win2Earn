@@ -73,11 +73,11 @@
     /* 100% Stake Exact Large SVG Artwork */
     .stake-svg-artwork {
       width: 100%;
-      max-width: 300px;
-      height: 165px;
+      max-width: 310px;
+      height: 175px;
       margin: 0 auto 2px auto;
       display: block;
-      filter: drop-shadow(0 12px 25px rgba(0,0,0,0.6));
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,0.7));
     }
 
     .stake-hero-title-big {
@@ -386,10 +386,10 @@
         </div>
       </section>
 
-      <!-- Stake Exact Style Banner with Large 100% Exact High-Definition SVG Artwork -->
+      <!-- Stake Exact Style Banner with 100% Exact 3D High-Definition Artwork Replica -->
       <section class="stake-hero-banner">
         
-        <!-- 100% Stake Replica Large Artwork SVG -->
+        <!-- 100% Stake Replica Artwork SVG (Basketball + Glossy Red 3D Dice with All Dots + Glowing Blue Diamond) -->
         <svg class="stake-svg-artwork" viewBox="0 0 340 190" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <radialGradient id="basketGrad" cx="30%" cy="30%" r="70%">
@@ -398,51 +398,61 @@
               <stop offset="100%" stop-color="#b33939" />
             </radialGradient>
             <linearGradient id="diceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ff5252" />
-              <stop offset="50%" stop-color="#ff7979" />
+              <stop offset="0%" stop-color="#ff6b6b" />
+              <stop offset="50%" stop-color="#ee5253" />
               <stop offset="100%" stop-color="#b71540" />
             </linearGradient>
             <linearGradient id="diamondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#70a1ff" />
-              <stop offset="50%" stop-color="#1e90ff" />
-              <stop offset="100%" stop-color="#0984e3" />
+              <stop offset="0%" stop-color="#80d8ff" />
+              <stop offset="40%" stop-color="#00b0ff" />
+              <stop offset="100%" stop-color="#0065ff" />
             </linearGradient>
             <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000" flood-opacity="0.65"/>
+              <feDropShadow dx="0" dy="12" stdDeviation="10" flood-color="#000" flood-opacity="0.75"/>
+            </filter>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
             </filter>
           </defs>
 
-          <!-- Glowing Blue Diamond (Left-Bottom) - Bada Size -->
-          <g filter="url(#shadow)" transform="translate(35, 65)">
-            <polygon points="45,0 90,38 45,85 0,38" fill="url(#diamondGrad)" stroke="#74b9ff" stroke-width="2"/>
-            <polygon points="45,0 90,38 45,30" fill="#a29bfe" opacity="0.6"/>
-            <polygon points="45,0 0,38 45,30" fill="#dfe6e9" opacity="0.4"/>
-            <line x1="45" y1="30" x2="45" y2="85" stroke="#00cec9" stroke-width="2"/>
-            <line x1="0" y1="38" x2="45" y2="30" stroke="#00cec9" stroke-width="1.5"/>
-            <line x1="90" y1="38" x2="45" y2="30" stroke="#00cec9" stroke-width="1.5"/>
+          <!-- Radiant Blue Glow Under Diamond -->
+          <ellipse cx="85" cy="140" rx="45" ry="15" fill="#00b0ff" opacity="0.45" filter="url(#glow)" />
+
+          <!-- Glowing Blue Diamond (Bottom-Left Placement) -->
+          <g filter="url(#shadow)" transform="translate(42, 60)">
+            <polygon points="50,0 100,42 50,95 0,42" fill="url(#diamondGrad)" stroke="#b5fcff" stroke-width="2"/>
+            <polygon points="50,0 100,42 50,32" fill="#c7ecee" opacity="0.65"/>
+            <polygon points="50,0 0,42 50,32" fill="#ffffff" opacity="0.45"/>
+            <polygon points="50,32 100,42 50,95" fill="#002d62" opacity="0.4"/>
+            <line x1="50" y1="32" x2="50" y2="95" stroke="#ffffff" stroke-width="1.8"/>
+            <line x1="0" y1="42" x2="50" y2="32" stroke="#ffffff" stroke-width="1.5"/>
+            <line x1="100" y1="42" x2="50" y2="32" stroke="#ffffff" stroke-width="1.5"/>
           </g>
 
-          <!-- Red 3D Dice (Right-Top) - Bada Size -->
-          <g filter="url(#shadow)" transform="translate(175, 18) rotate(14)">
-            <rect x="0" y="0" width="105" height="105" rx="22" fill="url(#diceGrad)" stroke="#ff7675" stroke-width="2"/>
-            <!-- Dice Dots (Bade aur Clear) -->
-            <circle cx="28" cy="28" r="8.5" fill="#ffffff" />
-            <circle cx="77" cy="28" r="8.5" fill="#ffffff" />
-            <circle cx="52.5" cy="52.5" r="8.5" fill="#ffffff" />
-            <circle cx="28" cy="77" r="8.5" fill="#ffffff" />
-            <circle cx="77" cy="77" r="8.5" fill="#ffffff" />
+          <!-- Red 3D Dice (Right-Top Placement with Tilt & Complete Dots 6, 5, 4, 3, 2 style) -->
+          <g filter="url(#shadow)" transform="translate(182, 16) rotate(16)">
+            <rect x="0" y="0" width="112" height="112" rx="26" fill="url(#diceGrad)" stroke="#ff9999" stroke-width="2.5"/>
+            <!-- Inner gloss highlight -->
+            <path d="M 12 12 Q 56 6 100 12" stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+            <!-- Dice Dots (Clear White Spheres) -->
+            <circle cx="30" cy="30" r="9" fill="#ffffff" />
+            <circle cx="82" cy="30" r="9" fill="#ffffff" />
+            <circle cx="56" cy="56" r="9" fill="#ffffff" />
+            <circle cx="30" cy="82" r="9" fill="#ffffff" />
+            <circle cx="82" cy="82" r="9" fill="#ffffff" />
           </g>
 
-          <!-- Basketball (Top-Left Center) - Bada Size -->
-          <g filter="url(#shadow)" transform="translate(85, 5)">
-            <circle cx="68" cy="68" r="62" fill="url(#basketGrad)" stroke="#842020" stroke-width="2.5"/>
-            <!-- Ball lines -->
-            <path d="M6 68 C 40 16, 96 16, 130 68" stroke="#331a00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <path d="M6 68 C 40 120, 96 120, 130 68" stroke="#331a00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <path d="M68 6 C 22 40, 22 96, 68 130" stroke="#331a00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <path d="M68 6 C 114 40, 114 96, 68 130" stroke="#331a00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <!-- Stake Branding Text on Basketball -->
-            <text x="68" y="75" font-family="'Playfair Display', serif" font-style="italic" font-weight="800" font-size="26" fill="#111111" text-anchor="middle" transform="rotate(-15, 68, 68)">Stake</text>
+          <!-- Basketball (Top Center-Left Placement with Stake Logo) -->
+          <g filter="url(#shadow)" transform="translate(90, 4)">
+            <circle cx="70" cy="70" r="64" fill="url(#basketGrad)" stroke="#661414" stroke-width="3"/>
+            <!-- Ball seam lines -->
+            <path d="M6 70 C 42 16, 98 16, 134 70" stroke="#2b1100" stroke-width="4" fill="none" opacity="0.9"/>
+            <path d="M6 70 C 42 124, 98 124, 134 70" stroke="#2b1100" stroke-width="4" fill="none" opacity="0.9"/>
+            <path d="M70 6 C 22 42, 22 98, 70 134" stroke="#2b1100" stroke-width="4" fill="none" opacity="0.9"/>
+            <path d="M70 6 C 118 42, 118 98, 70 134" stroke="#2b1100" stroke-width="4" fill="none" opacity="0.9"/>
+            <!-- Stake Italic Branding Text on Basketball -->
+            <text x="70" y="78" font-family="'Playfair Display', serif" font-style="italic" font-weight="800" font-size="28" fill="#111111" text-anchor="middle" transform="rotate(-15, 70, 70)">Stake</text>
           </g>
         </svg>
 
