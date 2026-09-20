@@ -174,6 +174,17 @@
       max-height: 85vh !important;
       overflow: hidden !important;
     }
+
+    /* Custom Matched Tournament Hero Card Style */
+    .matched-tournament-hero {
+      background: linear-gradient(180deg, #1b53f4 0%, #0d2265 60%, #070e1a 100%) !important;
+      border: 1px solid rgba(255, 215, 0, 0.3) !important;
+      border-radius: 24px !important;
+      padding: 24px 18px 28px 18px !important;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(27, 83, 244, 0.4);
+      margin-bottom: 16px;
+      position: relative;
+    }
   </style>
 </head>
 <body>
@@ -223,24 +234,26 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal -->
+  <!-- Payout Info Modal (Updated with required detailed English text) -->
   <div id="payoutInfoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated">
+    <div class="modal-card glass-card gpu-accelerated" style="text-align: left;">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center;">
         <span class="popup-icon">💎</span>
         <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
-        <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
-        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
+      <div class="info-body" style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.55; margin-bottom: 20px;">
+        <p style="margin-bottom: 10px;">Users need to focus entirely on their gameplay, build high scores, and maintain their rank on the leaderboard.</p>
+        <p style="margin-bottom: 10px;">If a user finishes in the <strong>Top 10 daily winners</strong>, cash prizes will be sent directly to their verified UPI ID shortly after the winners are announced.</p>
+        <p style="margin-bottom: 10px;">To build complete trust in the Win2Earn platform, a <strong>50% ad revenue screenshot</strong> will be shared and displayed daily on every user's wallet dashboard.</p>
+        <p style="margin-bottom: 10px;">Top 10 winners will share 50% of total ad revenue pool.</p>
+        <p>If you face any payment delays or issues receiving your money, you can instantly message our support team on Telegram for quick assistance.</p>
       </div>
       <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
     </div>
   </div>
 
-  <!-- Coming Soon Prize Pool Modal (No Image, I Understand Button, Scroll Locked) -->
+  <!-- Coming Soon Prize Pool Modal -->
   <div id="bannerComingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
       <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
@@ -476,26 +489,32 @@
         </button>
       </section>
 
-      <section class="tournament-hero-card glass-card">
-        <div class="status-badge-wrapper">
+      <!-- Daily Tournament Card matching Stake Banner background -->
+      <section class="matched-tournament-hero">
+        <div class="status-badge-wrapper" style="text-align: center; margin-bottom: 8px;">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <div class="logo-text hero-logo-text">WIN2EARN</div>
-
-        <div class="total-prize-box premium-glass-prize">
-          <span class="prize-label">DAILY TOURNAMENT POOL</span>
-          <div class="prize-amount gold-text">50% AD REVENUE SHARE</div>
-          <p class="pool-sub-note">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
+        <!-- Attractive WIN2EARN Title -->
+        <div style="text-align: center; margin-bottom: 12px;">
+          <span style="font-family: 'Orbitron', sans-serif; font-size: 1.85rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 20%, #ffd700 60%, #ff8c00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4)); letter-spacing: 1px;">WIN2EARN</span>
         </div>
 
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
+        <div class="total-prize-box premium-glass-prize" style="text-align: center; background: rgba(13, 34, 101, 0.6); border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 16px; padding: 14px; margin-bottom: 12px;">
+          <span class="prize-label" style="font-size: 0.72rem; color: #93c5fd; font-weight: 800; display: block; margin-bottom: 4px; letter-spacing: 0.5px;">DAILY TOURNAMENT POOL</span>
+          <!-- 50% Ad revenue share in ONE single line -->
+          <div class="gold-text" style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ffd700; margin-bottom: 4px;">50% AD REVENUE SHARE</div>
+          <p class="pool-sub-note" style="font-size: 0.78rem; color: #e2e8f0; margin: 0;">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
+        </div>
+
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem; background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(255, 255, 255, 0.15); color: #fff;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+        <!-- Free competitive tagline in ONE single line -->
+        <p class="hero-subtext" style="font-size: 0.76rem; color: #cbd5e1; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 14px; font-weight: 600;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
+        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff; font-weight: 900; border: none; border-radius: 14px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">
           PLAY NOW ➔
         </button>
       </section>
