@@ -56,55 +56,73 @@
       padding: 0 15px;
     }
 
-    /* Stake Inspired Banner with Modern Game Badges */
+    /* Stake Style Banner Design with Large 3D Floating Elements */
     .stake-hero-banner {
       background: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.15) !important;
-      border-radius: 22px !important;
-      padding: 48px 18px 36px 18px !important;
+      border: 1px solid rgba(255, 255, 255, 0.18) !important;
+      border-radius: 24px !important;
+      padding: 85px 20px 36px 20px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-      margin-top: 55px;
-      margin-bottom: 14px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+      margin-top: 65px;
+      margin-bottom: 16px;
       overflow: visible !important;
     }
 
-    /* Floating Game Badges Container */
+    /* Large 3D Floating Elements Container (Stake Style) */
     .stake-cutouts-container {
       position: absolute;
-      top: -55px;
+      top: -72px;
       left: 50%;
       transform: translateX(-50%);
       width: 320px;
-      height: 85px;
+      height: 110px;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
       pointer-events: none;
       z-index: 5;
     }
+
+    /* Individual HD 3D Element Card */
     .game-badge-item {
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 2px solid rgba(255, 215, 0, 0.4);
-      border-radius: 14px;
-      width: 52px;
-      height: 52px;
+      background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
+      border: 2px solid rgba(255, 215, 0, 0.6);
+      border-radius: 20px;
+      width: 75px;
+      height: 75px;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
-      font-size: 1.3rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8), inset 0 2px 6px rgba(255, 255, 255, 0.2);
+      font-size: 2.2rem;
       position: relative;
+      backdrop-filter: blur(8px);
       transition: transform 0.3s ease;
     }
-    .game-badge-item:nth-child(1) { transform: rotate(-10deg) translateY(4px); border-color: #3b82f6; }
-    .game-badge-item:nth-child(2) { transform: rotate(-5deg) translateY(-2px); border-color: #ef4444; }
-    .game-badge-item:nth-child(3) { transform: rotate(0deg) translateY(-6px); border-color: #ffd700; width: 58px; height: 58px; font-size: 1.5rem; }
-    .game-badge-item:nth-child(4) { transform: rotate(5deg) translateY(-2px); border-color: #10b981; }
-    .game-badge-item:nth-child(5) { transform: rotate(10deg) translateY(4px); border-color: #8b5cf6; }
+
+    /* Positioning and rotating like Stake 3D items */
+    .game-badge-item:nth-child(1) { 
+      transform: rotate(-12deg) translateY(8px) scale(0.95); 
+      border-color: #3b82f6; 
+      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.4);
+    }
+    .game-badge-item:nth-child(2) { 
+      transform: rotate(0deg) translateY(-8px) scale(1.15); 
+      border-color: #ffd700; 
+      width: 85px; 
+      height: 85px; 
+      font-size: 2.6rem;
+      z-index: 6;
+      box-shadow: 0 16px 35px rgba(255, 215, 0, 0.5);
+    }
+    .game-badge-item:nth-child(3) { 
+      transform: rotate(12deg) translateY(8px) scale(0.95); 
+      border-color: #ef4444; 
+      box-shadow: 0 12px 30px rgba(239, 68, 68, 0.4);
+    }
 
     .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
@@ -113,7 +131,7 @@
       background: linear-gradient(135deg, #ffffff 15%, #ffd700 55%, #ff8c00 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
-      margin-bottom: 8px !important;
+      margin-bottom: 6px !important;
       line-height: 1.1;
       filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.45));
     }
@@ -123,13 +141,13 @@
       font-weight: 800 !important;
       color: #ffffff !important;
       white-space: nowrap;
-      margin-bottom: 12px !important;
+      margin-bottom: 10px !important;
     }
     .stake-hero-desc {
       font-size: 0.85rem !important;
       color: #cbd5e1 !important;
       line-height: 1.5 !important;
-      margin-bottom: 22px !important;
+      margin-bottom: 20px !important;
       padding: 0 4px;
     }
     .stake-explore-btn {
@@ -413,14 +431,12 @@
         </div>
       </section>
 
-      <!-- Stake Style Banner with Modern Floating Game Badges -->
+      <!-- Stake Style Banner with 3 Large HD 3D Elements -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
           <div class="game-badge-item" title="Sniper">🎯</div>
           <div class="game-badge-item" title="Copter">🚁</div>
           <div class="game-badge-item" title="Car Climb">🏎️</div>
-          <div class="game-badge-item" title="Surf">🚀</div>
-          <div class="game-badge-item" title="Bike Race">🏍️</div>
         </div>
         
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
