@@ -56,45 +56,55 @@
       padding: 0 15px;
     }
 
-    /* Stake Inspired Banner with Stacked Game Cutout Assets */
+    /* Stake Inspired Banner with Modern Game Badges */
     .stake-hero-banner {
       background: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
       border-radius: 22px !important;
-      padding: 48px 18px 36px 18px !important; /* Made taller to comfortably fit cutout graphics on top */
+      padding: 48px 18px 36px 18px !important;
       text-align: center;
       position: relative;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
-      margin-top: 55px; /* Leave space for game cutouts floating above */
+      margin-top: 55px;
       margin-bottom: 14px;
-      overflow: visible !important; /* Allow cutout elements to overflow nicely on top */
+      overflow: visible !important;
     }
 
-    /* Floating Game Cutouts Container (Stake Style) */
+    /* Floating Game Badges Container */
     .stake-cutouts-container {
       position: absolute;
-      top: -65px;
+      top: -55px;
       left: 50%;
       transform: translateX(-50%);
-      width: 290px;
-      height: 95px;
+      width: 320px;
+      height: 85px;
       display: flex;
       justify-content: center;
-      align-items: flex-end;
+      align-items: center;
+      gap: 8px;
       pointer-events: none;
       z-index: 5;
     }
-    .cutout-game-img {
-      position: absolute;
-      object-fit: contain;
-      filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
+    .game-badge-item {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 14px;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.7);
+      font-size: 1.3rem;
+      position: relative;
+      transition: transform 0.3s ease;
     }
-    /* Positioning individual game assets like Stake styling */
-    .cutout-1 { width: 75px; height: 75px; left: 10px; bottom: 5px; transform: rotate(-12deg); z-index: 2; }
-    .cutout-2 { width: 90px; height: 90px; left: 65px; bottom: 12px; transform: rotate(-5deg); z-index: 4; }
-    .cutout-3 { width: 100px; height: 100px; left: 130px; bottom: 0px; transform: rotate(4deg); z-index: 5; }
-    .cutout-4 { width: 85px; height: 85px; right: 60px; bottom: 10px; transform: rotate(10deg); z-index: 3; }
-    .cutout-5 { width: 72px; height: 72px; right: 15px; bottom: 5px; transform: rotate(18deg); z-index: 1; }
+    .game-badge-item:nth-child(1) { transform: rotate(-10deg) translateY(4px); border-color: #3b82f6; }
+    .game-badge-item:nth-child(2) { transform: rotate(-5deg) translateY(-2px); border-color: #ef4444; }
+    .game-badge-item:nth-child(3) { transform: rotate(0deg) translateY(-6px); border-color: #ffd700; width: 58px; height: 58px; font-size: 1.5rem; }
+    .game-badge-item:nth-child(4) { transform: rotate(5deg) translateY(-2px); border-color: #10b981; }
+    .game-badge-item:nth-child(5) { transform: rotate(10deg) translateY(4px); border-color: #8b5cf6; }
 
     .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
@@ -112,7 +122,7 @@
       font-size: 1.1rem !important;
       font-weight: 800 !important;
       color: #ffffff !important;
-      white-space: nowrap; /* Ensures it stays strictly in one line */
+      white-space: nowrap;
       margin-bottom: 12px !important;
     }
     .stake-hero-desc {
@@ -134,7 +144,6 @@
       width: 100% !important;
       cursor: pointer;
       box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
-      transition: background 0.2s ease;
     }
     .stake-explore-btn:active {
       transform: scale(0.98);
@@ -404,14 +413,14 @@
         </div>
       </section>
 
-      <!-- Stake Style Banner with Uploaded Game Cutouts Floating Above -->
+      <!-- Stake Style Banner with Modern Floating Game Badges -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
-          <img src="1000315092.jpg" alt="Sniper Game" class="cutout-game-img cutout-1">
-          <img src="1000315066.jpg" alt="Copter Game" class="cutout-game-img cutout-2">
-          <img src="1000315246.jpg" alt="Car Climb Game" class="cutout-game-img cutout-3">
-          <img src="1000315242.jpg" alt="Surf Game" class="cutout-game-img cutout-4">
-          <img src="1000315085.jpg" alt="Bike Race" class="cutout-game-img cutout-5">
+          <div class="game-badge-item" title="Sniper">🎯</div>
+          <div class="game-badge-item" title="Copter">🚁</div>
+          <div class="game-badge-item" title="Car Climb">🏎️</div>
+          <div class="game-badge-item" title="Surf">🚀</div>
+          <div class="game-badge-item" title="Bike Race">🏍️</div>
         </div>
         
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
@@ -472,9 +481,9 @@
           <div class="card-header-bar">
             <span>⭐ Daily Skill Tournament</span>
           </div>
-          <div class="card-image-container">
+          <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
             <span class="entry-badge">₹0 Entry Fee</span>
-            <img src="daily-game.jpg" alt="Daily Tournament" class="game-card-img">
+            <span style="font-size: 3.5rem;">🚁</span>
           </div>
           <div class="card-details">
             <div class="details-top">
@@ -490,9 +499,9 @@
           <div class="card-header-bar premium-header-bar">
             <span>👑 Grand Monthly Tournament</span>
           </div>
-          <div class="card-image-container">
+          <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
             <span class="entry-badge gold-badge">Grand Mega Pool</span>
-            <img src="monthly-game.jpg" alt="Monthly Grand Championship" class="game-card-img">
+            <span style="font-size: 3.5rem;">👑</span>
           </div>
           <div class="card-details">
             <div class="details-top">
