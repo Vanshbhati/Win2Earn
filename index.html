@@ -18,21 +18,21 @@
       display: none !important;
     }
 
-    /* Target Scrollbar Only For Payout Info Modal Body */
-    .payout-scroll-body {
+    /* Target Scrollbar Only For Payout & Legal Info Modal Bodies */
+    .payout-scroll-body, .legal-scroll-body {
       -ms-overflow-style: auto !important;
       scrollbar-width: thin !important;
       scrollbar-color: #f39c12 rgba(255, 255, 255, 0.05) !important;
     }
-    .payout-scroll-body::-webkit-scrollbar {
+    .payout-scroll-body::-webkit-scrollbar, .legal-scroll-body::-webkit-scrollbar {
       display: block !important;
       width: 5px !important;
     }
-    .payout-scroll-body::-webkit-scrollbar-track {
+    .payout-scroll-body::-webkit-scrollbar-track, .legal-scroll-body::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.05) !important;
       border-radius: 10px;
     }
-    .payout-scroll-body::-webkit-scrollbar-thumb {
+    .payout-scroll-body::-webkit-scrollbar-thumb, .legal-scroll-body::-webkit-scrollbar-thumb {
       background: #f39c12 !important;
       border-radius: 10px;
     }
@@ -102,8 +102,8 @@
       text-align: center;
       position: relative;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(27, 83, 244, 0.4);
-      margin-top: 20px;
-      margin-bottom: 16px;
+      margin-top: 10px;
+      margin-bottom: 10px;
       overflow: hidden !important;
     }
 
@@ -349,14 +349,17 @@
     </div>
   </div>
 
-  <!-- Legal Modal -->
+  <!-- Legal Modal (Dynamic Content for Privacy Policy, Terms, Community Guidelines) -->
   <div id="legalModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated">
+    <div class="modal-card glass-card gpu-accelerated" style="max-height: 85vh; display: flex; flex-direction: column; overflow: hidden !important;">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
-      <div class="info-header" style="margin-bottom: 12px;">
+      <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
         <h3 id="legalModalTitle" class="popup-title">Legal Information</h3>
       </div>
-      <div class="info-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px;"></div>
+      <div class="info-body legal-scroll-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; overflow-y: auto !important; max-height: 300px; padding-right: 10px; margin-bottom: 14px; text-align: left;">
+        <!-- Content injected dynamically via JS -->
+      </div>
+      <button class="glass-btn primary-btn w-100" onclick="closeLegalModal()" style="flex-shrink: 0;">CLOSE</button>
     </div>
   </div>
 
@@ -478,29 +481,29 @@
         </button>
       </section>
 
-      <section class="tournament-hero-card glass-card">
+      <section class="tournament-hero-card glass-card" style="margin-bottom: 12px;">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
         <!-- Center aligned WIN2EARN Title in ALL CAPS -->
-        <div style="text-align: center; margin-bottom: 12px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 10px; width: 100%;">
           <span class="cursive-logo" style="font-size: 2.2rem !important; display: inline-block;"><span>W</span>IN<span class="mid-two">2</span><span>E</span>ARN</span>
         </div>
 
-        <div class="total-prize-box premium-glass-prize">
+        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 10px;">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
           <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
 
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 10px; font-size: 0.78rem;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Rewards</p>
+        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 10px;">Free Entry • Compete Skillfully • Instant Rewards</p>
 
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
+        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 14px; font-size: 1.05rem;">
           PLAY NOW ➔
         </button>
       </section>
@@ -604,21 +607,21 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="compact-footer glass-card" style="padding: 20px 16px; text-align: center; margin-bottom: 70px; background: var(--bg-secondary);">
-    <div style="margin-bottom: 10px;">
-      <div class="logo-text" style="font-size: 1.1rem; justify-content: center; margin-bottom: 4px;">WIN2EARN</div>
-      <p class="footer-tagline" style="font-size: 0.75rem; color: var(--text-secondary);">Skill based gaming platform</p>
+  <!-- Footer (Reduced margin-bottom to remove unwanted gap) -->
+  <footer class="compact-footer glass-card" style="padding: 14px 16px; text-align: center; margin-bottom: 62px; background: var(--bg-secondary);">
+    <div style="margin-bottom: 6px;">
+      <div class="logo-text" style="font-size: 1rem; justify-content: center; margin-bottom: 2px;">WIN2EARN</div>
+      <p class="footer-tagline" style="font-size: 0.7rem; color: var(--text-secondary);">Skill based gaming platform</p>
     </div>
     
-    <div class="legal-links" style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 10px;">
-      <a href="#" onclick="openLegalModal('privacy')" style="color: var(--text-secondary); text-decoration: none;">Privacy Policy</a> • 
-      <a href="#" onclick="openLegalModal('terms')" style="color: var(--text-secondary); text-decoration: none;">Terms & Conditions</a> • 
-      <a href="#" onclick="openLegalModal('community')" style="color: var(--text-secondary); text-decoration: none;">Community Guidelines</a>
+    <div class="legal-links" style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 6px;">
+      <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Privacy Policy</a> • 
+      <a href="#" onclick="openLegalModal('terms'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Terms & Conditions</a> • 
+      <a href="#" onclick="openLegalModal('community'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Community Guidelines</a>
     </div>
 
     <div class="footer-bottom">
-      <p style="font-size: 0.7rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
+      <p style="font-size: 0.65rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
@@ -627,7 +630,7 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar with updated names and symbols -->
+  <!-- Bottom Navigation Bar -->
   <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
@@ -683,6 +686,46 @@
 
     function closePayoutInfoModal() {
       const modal = document.getElementById('payoutInfoModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    // Dynamic Legal Modals Content Handler
+    function openLegalModal(type) {
+      const modal = document.getElementById('legalModal');
+      const titleEl = document.getElementById('legalModalTitle');
+      const bodyEl = document.getElementById('legalModalBody');
+      if (!modal || !titleEl || !bodyEl) return;
+
+      if (type === 'privacy') {
+        titleEl.innerText = 'Privacy Policy';
+        bodyEl.innerHTML = `
+          <p style="margin-bottom: 8px;"><strong>1. Information Collection:</strong> WIN2EARN collects basic account info like your name, mobile number, email, and verified UPI ID strictly for secure payout processing.</p>
+          <p style="margin-bottom: 8px;"><strong>2. Data Usage:</strong> Your data is used exclusively to maintain tournament leaderboards, verify authentic user scores, and disburse cash rewards safely.</p>
+          <p style="margin-bottom: 8px;"><strong>3. Security:</strong> We employ high-grade encryption standards to safeguard your personal credentials and transaction records against unauthorized access.</p>
+          <p><strong>4. Third-Party Sharing:</strong> We do not sell or trade your personal information. Data is shared with payment gateways only when executing legitimate winning payouts.</p>
+        `;
+      } else if (type === 'terms') {
+        titleEl.innerText = 'Terms & Conditions';
+        bodyEl.innerHTML = `
+          <p style="margin-bottom: 8px;"><strong>1. Eligibility:</strong> Players must be at least 18 years of age and possess a valid, verified Indian UPI handle to receive rewards.</p>
+          <p style="margin-bottom: 8px;"><strong>2. Skill Gaming:</strong> All contests on WIN2EARN are purely skill-based (such as Copter Cash). Outcomes depend entirely on user reflexes and practice.</p>
+          <p style="margin-bottom: 8px;"><strong>3. Fair Play Policy:</strong> Use of bots, emulators, automated scripts, or multiple accounts by a single individual leads to instant permanent bans.</p>
+          <p><strong>4. Payout Terms:</strong> Rewards are distributed based on daily/monthly ad revenue shares as outlined in tournament rules. Decisions made by management are final.</p>
+        `;
+      } else if (type === 'community') {
+        titleEl.innerText = 'Community Guidelines';
+        bodyEl.innerHTML = `
+          <p style="margin-bottom: 8px;"><strong>1. Respectful Conduct:</strong> Maintain courteous behavior when interacting with support staff and fellow players across community channels.</p>
+          <p style="margin-bottom: 8px;"><strong>2. No Cheating / Exploits:</strong> Attempting to hack game code, manipulate scores, or exploit platform glitches will result in immediate forfeiture of winnings.</p>
+          <p style="margin-bottom: 8px;"><strong>3. Authentic UPI Verification:</strong> Providing fraudulent or someone else's UPI ID violates community integrity norms and leads to account suspension.</p>
+          <p><strong>4. Zero Tolerance:</strong> Any form of harassment, spamming support tickets, or spreading misinformation about payouts is strictly prohibited.</p>
+        `;
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeLegalModal() {
+      const modal = document.getElementById('legalModal');
       if (modal) modal.classList.add('hidden');
     }
   </script>
