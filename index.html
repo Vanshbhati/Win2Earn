@@ -70,7 +70,31 @@
       overflow: hidden !important;
     }
 
-    /* Collage Photo Styling inside Banner - Fixed with object-fit: contain */
+    /* Coming Soon Small Badge Button on Top Left of Banner */
+    .banner-coming-soon-badge {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      background: linear-gradient(135deg, #ff8008, #ffc837);
+      color: #1a1a2e;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 900;
+      padding: 4px 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 0 3px 10px rgba(255, 128, 8, 0.4);
+      z-index: 10;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.5px;
+      transition: transform 0.2s ease;
+    }
+    .banner-coming-soon-badge:active {
+      transform: scale(0.95);
+    }
+
+    /* Collage Photo Styling inside Banner */
     .hero-collage-container {
       width: 100%;
       height: 160px;
@@ -194,6 +218,21 @@
         <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
       </div>
       <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
+    </div>
+  </div>
+
+  <!-- Coming Soon Prize Pool Modal (Attractive Theme Popup) -->
+  <div id="bannerComingSoonModal" class="modal-overlay hidden">
+    <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
+      <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
+      <div class="popup-icon" style="font-size: 2.2rem; margin-bottom: 8px;">🚀</div>
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffd700; margin-bottom: 10px;">COMING SOON!</h2>
+      <div class="info-body" style="background: rgba(27, 83, 244, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
+        <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
+          This <strong>₹10,00,000 prize pool game</strong> is coming very soon! Meanwhile, other amazing games are available that you can play completely <strong>without any investment</strong>.
+        </p>
+      </div>
+      <button class="glass-btn primary-btn w-100" onclick="closeBannerComingSoonModal()" style="background: linear-gradient(135deg, #ff8008, #ffc837); color: #111; font-weight: 900;">EXPLORE FREE GAMES 🔥</button>
     </div>
   </div>
 
@@ -396,10 +435,15 @@
         </div>
       </section>
 
-      <!-- Stake Styled Hero Banner with Collage Photo -->
+      <!-- Stake Styled Hero Banner with Collage Photo & Coming Soon Button -->
       <section class="stake-hero-banner">
         
-        <!-- Collage Photo Container (Updated to GitHub Raw Link) -->
+        <!-- Coming Soon Button on Top Left -->
+        <div class="banner-coming-soon-badge" onclick="openBannerComingSoonModal()">
+          ⭐ Coming Soon
+        </div>
+
+        <!-- Collage Photo Container -->
         <div class="hero-collage-container">
           <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/game-home.jpg" alt="Game Home Artwork" onerror="this.src='Game-home.jpg'">
         </div>
@@ -608,6 +652,17 @@
         }, 8500);
       }
     });
+
+    // Modal control functions for Banner Coming Soon Popup
+    function openBannerComingSoonModal() {
+      const modal = document.getElementById('bannerComingSoonModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeBannerComingSoonModal() {
+      const modal = document.getElementById('bannerComingSoonModal');
+      if (modal) modal.classList.add('hidden');
+    }
   </script>
   <script src="script.js"></script>
 </body>
