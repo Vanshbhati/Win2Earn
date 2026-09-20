@@ -65,15 +65,15 @@
       padding: 0 15px;
     }
 
-    /* Lighter, Vibrant Stake Inspired Hero Banner */
+    /* Stake Inspired Hero Banner with Background Color & Collage Photo */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 65%, #0f172a 100%) !important;
-      border: 1px solid rgba(255, 215, 0, 0.4) !important;
+      background: linear-gradient(180deg, #1b53f4 0%, #0d2265 60%, #070e1a 100%) !important;
+      border: 1px solid rgba(255, 215, 0, 0.3) !important;
       border-radius: 24px !important;
       padding: 24px 18px 28px 18px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(59, 130, 246, 0.5);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(27, 83, 244, 0.4);
       margin-top: 20px;
       margin-bottom: 16px;
       overflow: hidden !important;
@@ -110,8 +110,8 @@
       margin: 0 auto 14px auto;
       border-radius: 16px;
       overflow: hidden;
-      border: 2px solid rgba(255, 215, 0, 0.5);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
       position: relative;
       background: #000;
     }
@@ -132,7 +132,7 @@
       -webkit-text-fill-color: transparent !important;
       margin-bottom: 2px !important;
       line-height: 1.1;
-      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
+      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
@@ -143,7 +143,7 @@
     }
     .stake-hero-desc {
       font-size: 0.82rem !important;
-      color: #e2e8f0 !important;
+      color: #cbd5e1 !important;
       line-height: 1.4 !important;
       margin-bottom: 16px !important;
       padding: 0 4px;
@@ -174,17 +174,6 @@
       max-height: 85vh !important;
       overflow: hidden !important;
     }
-
-    /* Custom Matched Tournament Hero Card Style with Lighter Blue Background */
-    .matched-tournament-hero {
-      background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 65%, #0f172a 100%) !important;
-      border: 1px solid rgba(255, 215, 0, 0.4) !important;
-      border-radius: 24px !important;
-      padding: 24px 18px 28px 18px !important;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(59, 130, 246, 0.5);
-      margin-bottom: 16px;
-      position: relative;
-    }
   </style>
 </head>
 <body>
@@ -203,23 +192,16 @@
   <!-- Live Canvas Background -->
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
-  <!-- Splash Screen (Locked & Exactly 9 Seconds) -->
-  <div id="splashScreen" class="splash-screen gpu-accelerated" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999; background: #070e1a; display: flex; align-items: center; justify-content: center;" onwheel="event.preventDefault()" ontouchmove="event.preventDefault({passive: false})">
-    <div class="splash-content" style="text-align: center;">
-      <div class="cursive-logo" style="font-size: 2.8rem !important; margin-bottom: 8px;"><span>W</span>in<span class="mid-two">3</span><span>E</span>arn</div>
-      <p class="splash-tagline" style="font-family: 'Orbitron', sans-serif; color: #ffd700; font-size: 0.9rem; letter-spacing: 2px; margin-bottom: 24px;">SKILL BASED GAME</p>
-      <div class="splash-loader" style="width: 200px; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 0 auto; overflow: hidden;">
-        <div class="splash-loader-bar" style="width: 100%; height: 100%; background: linear-gradient(90deg, #3b82f6, #ffd700); animation: splashLoadAnim 9.0s linear forwards;"></div>
+  <!-- Splash Screen (Locked & 9 Seconds) -->
+  <div id="splashScreen" class="splash-screen gpu-accelerated" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999;" onwheel="event.preventDefault()" ontouchmove="event.preventDefault({passive: false})">
+    <div class="splash-content">
+      <div class="logo-text" style="font-size: 2.2rem; margin-bottom: 4px;">WIN2EARN</div>
+      <p class="splash-tagline">Skill Based Game</p>
+      <div class="splash-loader">
+        <div class="splash-loader-bar" style="animation-duration: 9.0s;"></div>
       </div>
     </div>
   </div>
-
-  <style>
-    @keyframes splashLoadAnim {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
-  </style>
 
   <!-- Priority Alert / Error Popup -->
   <div id="errorPopup" class="popup-overlay hidden high-priority-z" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
@@ -241,31 +223,29 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal (Fully Working Prize Pool Calculated Modal) -->
+  <!-- Payout Info Modal -->
   <div id="payoutInfoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated" style="text-align: left;">
+    <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center;">
         <span class="popup-icon">💎</span>
         <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body" style="font-size: 0.84rem; color: #cbd5e1; line-height: 1.55; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">Users need to focus entirely on their gameplay, build high scores, and maintain their rank on the leaderboard.</p>
-        <p style="margin-bottom: 10px;">If a user finishes in the <strong>Top 10 daily winners</strong>, cash prizes will be sent directly to their verified UPI ID shortly after the winners are announced.</p>
-        <p style="margin-bottom: 10px;">To build complete trust in the Win2Earn platform, a <strong>50% ad revenue screenshot</strong> will be shared and displayed daily on every user's wallet dashboard.</p>
-        <p style="margin-bottom: 10px;">Top 10 winners will share 50% of total ad revenue pool.</p>
-        <p>If you face any payment delays or issues receiving your money, you can instantly message our support team on Telegram for quick assistance.</p>
+      <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
+        <p style="margin-bottom: 10px;">This is the ultimate daily reward contest designed for active skill gamers!</p>
+        <p style="margin-bottom: 10px;"><strong>100% Transparent Ad Revenue Model:</strong> <strong>50% of total daily ad revenue</strong> generated on the platform is directly distributed among the <strong>Top 10 daily leaderboard winners</strong> every night at 10:00 PM.</p>
+        <p>Play daily, build huge scores, and secure your position in the Top 10 to win guaranteed cash payouts!</p>
       </div>
       <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()">UNDERSTOOD</button>
     </div>
   </div>
 
-  <!-- Coming Soon Prize Pool Modal -->
+  <!-- Coming Soon Prize Pool Modal (No Image, I Understand Button, Scroll Locked) -->
   <div id="bannerComingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
       <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
       <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffd700; margin-bottom: 12px; margin-top: 5px;">COMING SOON!</h2>
-      <div class="info-body" style="background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
+      <div class="info-body" style="background: rgba(27, 83, 244, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
         <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
           This <strong>₹10,00,000 prize pool game</strong> is coming very soon! Meanwhile, other amazing games are available that you can play completely <strong>without any investment</strong>.
         </p>
@@ -496,33 +476,26 @@
         </button>
       </section>
 
-      <!-- Daily Tournament Card matching Stake Banner background -->
-      <section class="matched-tournament-hero">
-        <div class="status-badge-wrapper" style="text-align: center; margin-bottom: 8px;">
+      <section class="tournament-hero-card glass-card">
+        <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <!-- Attractive WIN2EARN Title -->
-        <div style="text-align: center; margin-bottom: 12px;">
-          <span style="font-family: 'Orbitron', sans-serif; font-size: 1.85rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 20%, #ffd700 60%, #ff8c00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4)); letter-spacing: 1px;">WIN2EARN</span>
+        <div class="logo-text hero-logo-text">WIN2EARN</div>
+
+        <div class="total-prize-box premium-glass-prize">
+          <span class="prize-label">DAILY TOURNAMENT POOL</span>
+          <div class="prize-amount gold-text">50% AD REVENUE SHARE</div>
+          <p class="pool-sub-note">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
         </div>
 
-        <div class="total-prize-box premium-glass-prize" style="text-align: center; background: rgba(30, 58, 138, 0.6); border: 1px solid rgba(255, 215, 0, 0.35); border-radius: 16px; padding: 14px; margin-bottom: 12px;">
-          <span class="prize-label" style="font-size: 0.72rem; color: #93c5fd; font-weight: 800; display: block; margin-bottom: 4px; letter-spacing: 0.5px;">DAILY TOURNAMENT POOL</span>
-          <!-- 50% Ad revenue share in ONE single line -->
-          <div class="gold-text" style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #ffd700; margin-bottom: 4px;">50% AD REVENUE SHARE</div>
-          <p class="pool-sub-note" style="font-size: 0.78rem; color: #f1f5f9; margin: 0;">Guaranteed rewards for Top 10 Winners Every Night at 10:00 PM!</p>
-        </div>
-
-        <!-- Prize Pool Calculated Button with Working Function -->
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem; background: rgba(255, 255, 255, 0.12); border: 1px solid rgba(255, 255, 255, 0.25); color: #fff;">
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <!-- Free competitive tagline in ONE single line -->
-        <p class="hero-subtext" style="font-size: 0.76rem; color: #e2e8f0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 14px; font-weight: 600;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+        <p class="hero-subtext">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
 
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff; font-weight: 900; border: none; border-radius: 14px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);">
+        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
           PLAY NOW ➔
         </button>
       </section>
@@ -690,11 +663,11 @@
       if (splashScreen) {
         setTimeout(() => {
           splashScreen.style.opacity = '0';
-          splashScreen.style.transition = 'opacity 0.6s ease';
+          splashScreen.style.transition = 'opacity 0.5s ease';
           setTimeout(() => {
             splashScreen.style.display = 'none';
-          }, 600);
-        }, 9000); // Strictly 9 seconds timer
+          }, 500);
+        }, 9000); // Exactly 9 seconds
       }
     });
 
