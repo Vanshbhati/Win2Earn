@@ -272,19 +272,18 @@
     </div>
   </div>
 
-  <!-- Monthly Championship Modal -->
-  <div id="comingSoonModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <!-- Locked Game Notice Modal -->
+  <div id="lockedGameModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
-      <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
-      <div class="popup-icon">👑</div>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 10px;">GRAND MONTHLY CHAMPIONSHIP</h2>
+      <button class="close-btn" onclick="closeLockedGameModal()">&times;</button>
+      <div class="popup-icon">🔒</div>
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 10px;">GAME LOCKED</h2>
       <div class="info-body" style="background: rgba(20, 117, 225, 0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
-        <p style="font-size: 1rem; font-weight: 800; color: var(--accent-green); margin-bottom: 6px;">🚀 COMING SOON!</p>
-        <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5;">
-          Get ready for the biggest contest! <strong>80% of total monthly ad revenue</strong> will be distributed among top players. Final preparations are underway!
+        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
+          This game is currently locked and will unlock soon! In the meantime, you can enjoy playing <strong>Copter Cash</strong> in the daily tournament.
         </p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeComingSoonModal()">CAN'T WAIT! 🔥</button>
+      <button class="glass-btn primary-btn w-100" onclick="closeLockedGameModal()">GOT IT</button>
     </div>
   </div>
 
@@ -356,9 +355,7 @@
       <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
         <h3 id="legalModalTitle" class="popup-title">Legal Information</h3>
       </div>
-      <div class="info-body legal-scroll-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; overflow-y: auto !important; max-height: 300px; padding-right: 10px; margin-bottom: 14px; text-align: left;">
-        <!-- Content injected dynamically via JS -->
-      </div>
+      <div class="info-body legal-scroll-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; overflow-y: auto !important; max-height: 300px; padding-right: 10px; margin-bottom: 14px; text-align: left;"></div>
       <button class="glass-btn primary-btn w-100" onclick="closeLegalModal()" style="flex-shrink: 0;">CLOSE</button>
     </div>
   </div>
@@ -510,17 +507,19 @@
 
     </div>
 
-    <!-- Games Tab -->
+    <!-- Games Tab (6 Games: 1 Working, 5 Locked) -->
     <div id="tab-games" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Live Tournaments</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Compete in skill games and secure top leaderboard rankings</p>
+        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Daily Tournament Games</h2>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">Choose your skill game and climb the leaderboard</p>
       </div>
 
-      <div class="featured-games-wrapper">
+      <div class="featured-games-wrapper" style="display: flex; flex-direction: column; gap: 14px;">
+        
+        <!-- Game 1: Copter Cash (WORKING) -->
         <div class="featured-card glass-card">
           <div class="card-header-bar">
-            <span>⭐ Daily Skill Tournament</span>
+            <span>⭐ Live Daily Tournament</span>
           </div>
           <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
             <span class="entry-badge">₹0 Entry Fee</span>
@@ -529,33 +528,108 @@
           <div class="card-details">
             <div class="details-top">
               <h3 class="game-title">Copter Cash</h3>
-              <span class="tag-daily">DAILY TOURNAMENT</span>
+              <span class="tag-daily">PLAYING LIVE</span>
             </div>
             <div class="win-label">Rewards: <span>Guaranteed rewards for top players every night!</span></div>
-            <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()">PLAY NOW</button>
+            <button class="glass-btn action-btn w-100" onclick="handleGameLaunch()">PLAY NOW ➔</button>
           </div>
         </div>
 
-        <div class="featured-card glass-card monthly-premium-card">
-          <div class="card-header-bar premium-header-bar">
-            <span>👑 Grand Monthly Tournament</span>
+        <!-- Game 2: Odin's Vault (LOCKED) -->
+        <div class="featured-card glass-card" style="opacity: 0.75;">
+          <div class="card-header-bar" style="background: rgba(100,100,100,0.2);">
+            <span>🔒 Locked Tournament</span>
           </div>
           <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
-            <span class="entry-badge gold-badge">Grand Mega Pool</span>
-            <span style="font-size: 3.5rem;">👑</span>
+            <span class="entry-badge" style="background: #e17055;">Coming Soon</span>
+            <span style="font-size: 3.5rem;">🛡️</span>
           </div>
           <div class="card-details">
             <div class="details-top">
-              <h3 class="game-title">Grand Monthly Championship</h3>
-              <span class="tag-monthly">MONTHLY GRAND</span>
+              <h3 class="game-title">Odin's Vault</h3>
+              <span class="tag-daily" style="background: rgba(255,255,255,0.1); color: #aaa;">LOCKED</span>
             </div>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">
-              <strong>80% of total website ad revenue</strong> generated every month will be distributed among top ranking users.
-            </p>
-            <div class="win-label">Grand Prize: <span>80% Ad Share Pool for Winners</span></div>
-            <button class="glass-btn primary-btn w-100" onclick="openComingSoonModal()">ENTER CHAMPIONSHIP</button>
+            <div class="win-label">Status: <span>Unlocking in next tournament update</span></div>
+            <button class="glass-btn secondary-btn w-100" onclick="openLockedModal()">PLAY NOW</button>
           </div>
         </div>
+
+        <!-- Game 3: Spicy Sixsixsix (LOCKED) -->
+        <div class="featured-card glass-card" style="opacity: 0.75;">
+          <div class="card-header-bar" style="background: rgba(100,100,100,0.2);">
+            <span>🔒 Locked Tournament</span>
+          </div>
+          <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <span class="entry-badge" style="background: #e17055;">Coming Soon</span>
+            <span style="font-size: 3.5rem;">🔥</span>
+          </div>
+          <div class="card-details">
+            <div class="details-top">
+              <h3 class="game-title">Spicy Sixsixsix</h3>
+              <span class="tag-daily" style="background: rgba(255,255,255,0.1); color: #aaa;">LOCKED</span>
+            </div>
+            <div class="win-label">Status: <span>Unlocking in next tournament update</span></div>
+            <button class="glass-btn secondary-btn w-100" onclick="openLockedModal()">PLAY NOW</button>
+          </div>
+        </div>
+
+        <!-- Game 4: Thunder Underworld (LOCKED) -->
+        <div class="featured-card glass-card" style="opacity: 0.75;">
+          <div class="card-header-bar" style="background: rgba(100,100,100,0.2);">
+            <span>🔒 Locked Tournament</span>
+          </div>
+          <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <span class="entry-badge" style="background: #e17055;">Coming Soon</span>
+            <span style="font-size: 3.5rem;">⚡</span>
+          </div>
+          <div class="card-details">
+            <div class="details-top">
+              <h3 class="game-title">Thunder Underworld</h3>
+              <span class="tag-daily" style="background: rgba(255,255,255,0.1); color: #aaa;">LOCKED</span>
+            </div>
+            <div class="win-label">Status: <span>Unlocking in next tournament update</span></div>
+            <button class="glass-btn secondary-btn w-100" onclick="openLockedModal()">PLAY NOW</button>
+          </div>
+        </div>
+
+        <!-- Game 5: Waylanders Forge (LOCKED) -->
+        <div class="featured-card glass-card" style="opacity: 0.75;">
+          <div class="card-header-bar" style="background: rgba(100,100,100,0.2);">
+            <span>🔒 Locked Tournament</span>
+          </div>
+          <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <span class="entry-badge" style="background: #e17055;">Coming Soon</span>
+            <span style="font-size: 3.5rem;">⚒️</span>
+          </div>
+          <div class="card-details">
+            <div class="details-top">
+              <h3 class="game-title">Waylanders Forge</h3>
+              <span class="tag-daily" style="background: rgba(255,255,255,0.1); color: #aaa;">LOCKED</span>
+            </div>
+            <div class="win-label">Status: <span>Unlocking in next tournament update</span></div>
+            <button class="glass-btn secondary-btn w-100" onclick="openLockedModal()">PLAY NOW</button>
+          </div>
+        </div>
+
+        <!-- Game 6: Duck Hunters (LOCKED) -->
+        <div class="featured-card glass-card" style="opacity: 0.75;">
+          <div class="card-header-bar" style="background: rgba(100,100,100,0.2);">
+            <span>🔒 Locked Tournament</span>
+          </div>
+          <div class="card-image-container" style="background: linear-gradient(135deg, #1e293b, #0f172a); height: 140px; display: flex; align-items: center; justify-content: center; position: relative;">
+            <span class="entry-badge" style="background: #e17055;">Coming Soon</span>
+            <span style="font-size: 3.5rem;">🦆</span>
+          </div>
+          <div class="card-details">
+            <div class="details-top">
+              <h3 class="game-title">Duck Hunters</h3>
+              <span class="tag-daily" style="background: rgba(255,255,255,0.1); color: #aaa;">LOCKED</span>
+            </div>
+            <div class="win-label">Status: <span>Unlocking in next tournament update</span></div>
+            <button class="glass-btn secondary-btn w-100" onclick="openLockedModal()">PLAY NOW</button>
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -566,10 +640,7 @@
         <p style="font-size: 0.8rem; color: var(--text-secondary);">Live rankings and real user standings</p>
       </div>
 
-      <div class="lb-type-toggle">
-        <button id="btnDailyLb" class="lb-toggle-btn active" onclick="switchLeaderboard('daily')">Daily Tournament</button>
-        <button id="btnWeeklyLb" class="lb-toggle-btn" onclick="switchLeaderboard('weekly')">Monthly Tournament</button>
-      </div>
+      <div class="lb-type-toggle" style="display: none;"></div>
 
       <div class="lb-list-container glass-card" id="lbList"></div>
       <div class="glass-card" id="userRankCard" style="padding: 14px; margin-top: 12px; text-align: center;"></div>
@@ -607,7 +678,7 @@
     </div>
   </main>
 
-  <!-- Footer (Reduced margin-bottom to remove unwanted gap) -->
+  <!-- Footer -->
   <footer class="compact-footer glass-card" style="padding: 14px 16px; text-align: center; margin-bottom: 62px; background: var(--bg-secondary);">
     <div style="margin-bottom: 6px;">
       <div class="logo-text" style="font-size: 1rem; justify-content: center; margin-bottom: 2px;">WIN2EARN</div>
@@ -689,6 +760,16 @@
       if (modal) modal.classList.add('hidden');
     }
 
+    function openLockedModal() {
+      const modal = document.getElementById('lockedGameModal');
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeLockedGameModal() {
+      const modal = document.getElementById('lockedGameModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
     // Dynamic Legal Modals Content Handler
     function openLegalModal(type) {
       const modal = document.getElementById('legalModal');
@@ -710,7 +791,7 @@
           <p style="margin-bottom: 8px;"><strong>1. Eligibility:</strong> Players must be at least 18 years of age and possess a valid, verified Indian UPI handle to receive rewards.</p>
           <p style="margin-bottom: 8px;"><strong>2. Skill Gaming:</strong> All contests on WIN2EARN are purely skill-based (such as Copter Cash). Outcomes depend entirely on user reflexes and practice.</p>
           <p style="margin-bottom: 8px;"><strong>3. Fair Play Policy:</strong> Use of bots, emulators, automated scripts, or multiple accounts by a single individual leads to instant permanent bans.</p>
-          <p><strong>4. Payout Terms:</strong> Rewards are distributed based on daily/monthly ad revenue shares as outlined in tournament rules. Decisions made by management are final.</p>
+          <p><strong>4. Payout Terms:</strong> Rewards are distributed based on daily ad revenue shares as outlined in tournament rules. Decisions made by management are final.</p>
         `;
       } else if (type === 'community') {
         titleEl.innerText = 'Community Guidelines';
