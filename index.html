@@ -56,7 +56,7 @@
       padding: 0 15px;
     }
 
-    /* Hero Banner Styled like the requested Epic Game Art */
+    /* Hero Banner Styled specifically for Win2Earn Brand */
     .stake-hero-banner {
       background: linear-gradient(180deg, #12223c 0%, #070e1a 100%) !important;
       border: 1px solid rgba(255, 215, 0, 0.25) !important;
@@ -70,12 +70,12 @@
       overflow: hidden !important;
     }
 
-    /* Epic Action Art SVG Container */
+    /* Win2Earn Branded Epic 3D Trophy SVG Artwork Container */
     .stake-svg-artwork {
       width: 100%;
-      max-width: 320px;
-      height: 190px;
-      margin: 0 auto -2px auto;
+      max-width: 300px;
+      height: 175px;
+      margin: 0 auto 2px auto;
       display: block;
       filter: drop-shadow(0 14px 28px rgba(0,0,0,0.8));
     }
@@ -386,72 +386,60 @@
         </div>
       </section>
 
-      <!-- Custom Epic Train Surfer / Desert Action Adventure Banner Artwork -->
+      <!-- Win2Earn Branded 3D Trophy & Cash Reward Banner Artwork -->
       <section class="stake-hero-banner">
         
-        <!-- Custom Epic Action SVG Artwork matching your image style -->
-        <svg class="stake-svg-artwork" viewBox="0 0 340 195" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Custom Win2Earn Branded 3D SVG Artwork -->
+        <svg class="stake-svg-artwork" viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="trainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#1e3a8a" />
-              <stop offset="50%" stop-color="#172554" />
-              <stop offset="100%" stop-color="#0f172a" />
-            </linearGradient>
-            <linearGradient id="goldCoins" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#fef08a" />
-              <stop offset="100%" stop-color="#ca8a04" />
-            </linearGradient>
-            <linearGradient id="hoverboard" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#fde047" />
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fffbeb" />
+              <stop offset="50%" stop-color="#f59e0b" />
               <stop offset="100%" stop-color="#b45309" />
             </linearGradient>
-            <filter id="epicGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.7"/>
-            </filter>
-            <filter id="neonJet" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+            <linearGradient id="blueCardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3b82f6" />
+              <stop offset="100%" stop-color="#1d4ed8" />
+            </linearGradient>
+            <filter id="shadowGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.6"/>
             </filter>
           </defs>
 
-          <!-- Background Pyramids / Dunes Silhouette -->
-          <path d="M 0 130 L 70 80 L 140 130 Z" fill="#d97706" opacity="0.3"/>
-          <path d="M 100 130 L 170 70 L 250 130 Z" fill="#b45309" opacity="0.4"/>
+          <!-- Floating Sparkling Coins Behind -->
+          <circle cx="70" cy="50" r="16" fill="url(#goldGrad)" filter="url(#shadowGlow)"/>
+          <text x="65" y="56" font-family="'Orbitron', sans-serif" font-weight="900" font-size="14" fill="#78350f">₹</text>
 
-          <!-- Futuristic Sci-Fi Train / Wagons Perspective -->
-          <g filter="url(#epicGlow)">
-            <path d="M 120 180 L 180 110 L 320 110 L 340 180 Z" fill="url(#trainGrad)" stroke="#3b82f6" stroke-width="2"/>
-            <!-- Train Panel lines & golden trims -->
-            <line x1="195" y1="110" x2="165" y2="180" stroke="#f59e0b" stroke-width="2"/>
-            <line x1="250" y1="110" x2="235" y2="180" stroke="#f59e0b" stroke-width="2"/>
-            <line x1="305" y1="110" x2="300" y2="180" stroke="#f59e0b" stroke-width="2"/>
+          <circle cx="250" cy="60" r="20" fill="url(#goldGrad)" filter="url(#shadowGlow)"/>
+          <text x="244" y="67" font-family="'Orbitron', sans-serif" font-weight="900" font-size="16" fill="#78350f">₹</text>
+
+          <!-- Main Floating Diamond / Cash Badge -->
+          <g filter="url(#shadowGlow)" transform="translate(15, 20)">
+            <path d="M 60 20 L 95 50 L 60 80 L 25 50 Z" fill="url(#blueCardGrad)" stroke="#60a5fa" stroke-width="2"/>
+            <path d="M 60 30 L 85 50 L 60 70 L 35 50 Z" fill="#93c5fd" opacity="0.3"/>
+            <text x="47" y="55" font-family="'Orbitron', sans-serif" font-weight="900" font-size="14" fill="#ffffff">W2E</text>
           </g>
 
-          <!-- Golden Flying Coins Trail -->
-          <circle cx="200" cy="95" r="7" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
-          <circle cx="225" cy="80" r="8" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
-          <circle cx="255" cy="65" r="9" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
-          <circle cx="290" cy="50" r="10" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
-          <circle cx="320" cy="35" r="11" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
-
-          <!-- Hoverboard Blue Jet Exhaust & Flames -->
-          <ellipse cx="145" cy="155" rx="22" ry="8" fill="#00ffff" opacity="0.8" filter="url(#neonJet)" />
-          <path d="M 130 155 L 90 170 L 130 162 Z" fill="#f97316"/>
-          <path d="M 135 158 L 95 178 L 138 168 Z" fill="#38bdf8"/>
-
-          <!-- Hoverboard Body -->
-          <g filter="url(#epicGlow)">
-            <ellipse cx="160" cy="148" rx="35" ry="12" fill="url(#hoverboard)" stroke="#fef08a" stroke-width="1.5"/>
+          <!-- Grand Center 3D Trophy -->
+          <g filter="url(#shadowGlow)">
+            <!-- Trophy Base -->
+            <path d="M 140 145 L 180 145 L 170 125 L 150 125 Z" fill="#475569" stroke="#94a3b8" stroke-width="1.5"/>
+            <!-- Trophy Stem -->
+            <rect x="155" y="105" width="10" height="22" fill="#334155"/>
+            <!-- Trophy Cup Bowl -->
+            <path d="M 130 50 C 130 90, 190 90, 190 50 Z" fill="url(#goldGrad)" stroke="#fef08a" stroke-width="2"/>
+            <ellipse cx="160" cy="50" rx="30" ry="8" fill="#fef08a"/>
+            <!-- Trophy Handles -->
+            <path d="M 133 55 C 115 55, 115 80, 133 85" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <path d="M 187 55 C 205 55, 205 80, 187 85" stroke="url(#goldGrad)" stroke-width="5" stroke-linecap="round" fill="none"/>
+            <!-- Winner Star on Trophy -->
+            <polygon points="160,58 164,68 174,68 166,74 169,84 160,78 151,84 154,74 146,68 156,68" fill="#ffffff" filter="url(#shadowGlow)"/>
           </g>
 
-          <!-- Character Silhouette / Armor Suit -->
-          <g filter="url(#epicGlow)">
-            <!-- Golden Head / Crown / Ears -->
-            <path d="M 155 90 L 150 70 L 160 80 L 170 70 L 165 90 Z" fill="#f59e0b"/>
-            <!-- Torso & Golden Armor -->
-            <path d="M 140 95 C 140 85, 180 85, 185 95 L 180 125 C 180 135, 145 135, 140 125 Z" fill="url(#trainGrad)" stroke="#f59e0b" stroke-width="2"/>
-            <!-- Outstretched Arm -->
-            <path d="M 175 100 L 205 110 L 200 120 L 175 110 Z" fill="#f59e0b"/>
+          <!-- Glowing Win Shield / Badge on Right -->
+          <g filter="url(#shadowGlow)" transform="translate(195, 30)">
+            <path d="M 30 10 C 50 10, 55 35, 45 55 C 35 70, 30 75, 30 75 C 30 75, 25 70, 15 55 C 5 35, 10 10, 30 10 Z" fill="url(#goldGrad)" stroke="#fef08a" stroke-width="2"/>
+            <text x="18" y="45" font-family="'Orbitron', sans-serif" font-weight="900" font-size="15" fill="#78350f">WIN</text>
           </g>
         </svg>
 
@@ -645,7 +633,7 @@
     </a>
   </nav>
 
-  <script src="sound.js"></style>
+  <script src="sound.js"></script>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const splashScreen = document.getElementById('splashScreen');
