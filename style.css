@@ -1182,36 +1182,48 @@ body.no-scroll {
   filter: drop-shadow(0 4px 12px rgba(251, 192, 45, 0.5));
 }
 
+/* UPDATED: Games grid set to 2 columns with increased size and spacing */
 .reference-features-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 16px !important;
+  margin-bottom: 20px !important;
 }
 
 .reference-feature-mini-card {
   background: #131C31 !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px !important;
-  padding: 16px 10px !important;
+  border-radius: 24px !important;
+  padding: 22px 14px !important;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.reference-feature-mini-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(251, 192, 45, 0.3);
 }
 
 .reference-feature-mini-card .f-icon {
-  font-size: 1.4rem;
-  margin-bottom: 6px;
+  font-size: 2rem !important;
+  margin-bottom: 10px !important;
 }
 
 .reference-feature-mini-card .f-title {
-  font-size: 0.72rem;
+  font-size: 0.88rem !important;
   font-weight: 800;
   color: #FFFFFF;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .reference-feature-mini-card .f-desc {
-  font-size: 0.6rem;
+  font-size: 0.7rem !important;
   color: #94A3B8;
   font-weight: 600;
 }
