@@ -56,85 +56,72 @@
       padding: 0 15px;
     }
 
-    /* Stake Style Card Banner (Exact Stake Look with 3D Elements Inside/Overflowing) */
+    /* Stake Style Card Banner (Reduced Lighting/Glow, Balanced Dark Blue Gradient) */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #1d4ed8 0%, #090d16 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: linear-gradient(180deg, #132f63 0%, #060911 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
       border-radius: 26px !important;
       padding: 125px 20px 32px 20px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
       margin-top: 55px;
       margin-bottom: 16px;
       overflow: visible !important;
     }
 
-    /* Large 3D Elements Container Positioned inside Card Header like Stake Website */
+    /* Stake Style Overlapping 3D Elements Container */
     .stake-cutouts-container {
       position: absolute;
-      top: -45px;
+      top: -55px;
       left: 50%;
       transform: translateX(-50%);
-      width: 320px;
+      width: 240px;
       height: 140px;
-      display: flex;
-      justify-content: center;
-      align-items: flex-end;
       pointer-events: none;
       z-index: 10;
     }
 
-    /* Massive Stake Style 3D Cards with Glow and Perspective */
+    /* Overlapping Elements Positioned Like Stake Reference Image */
     .game-badge-item {
-      background: linear-gradient(145deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.98));
-      border: 3px solid rgba(255, 215, 0, 0.7);
-      border-radius: 26px;
+      position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.9), inset 0 3px 8px rgba(255, 255, 255, 0.3);
-      position: absolute;
-      backdrop-filter: blur(10px);
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.6));
     }
 
-    /* Left Element (Diamond - Money/Value) */
+    /* 1. Top Back Element (Money Bag / Basketball style position) */
     .game-badge-item:nth-child(1) {
-      width: 95px;
-      height: 95px;
-      font-size: 3rem;
-      left: 20px;
-      bottom: 5px;
-      transform: rotate(-14deg) scale(0.95);
-      border-color: #38bdf8;
-      box-shadow: 0 16px 35px rgba(56, 189, 248, 0.5), inset 0 2px 6px rgba(255,255,255,0.3);
-      z-index: 2;
+      width: 105px;
+      height: 105px;
+      font-size: 4.2rem;
+      top: 0px;
+      left: 22px;
+      transform: rotate(-10deg);
+      z-index: 1;
     }
 
-    /* Center Element (Money Bag - Biggest & Center) */
+    /* 2. Bottom Left Element (Diamond) */
     .game-badge-item:nth-child(2) {
-      width: 115px;
-      height: 115px;
-      font-size: 3.8rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(-15px) scale(1.05);
+      width: 85px;
+      height: 85px;
+      font-size: 3.2rem;
       bottom: 0px;
-      border-color: #ffd700;
-      box-shadow: 0 22px 50px rgba(255, 215, 0, 0.6), inset 0 3px 8px rgba(255,255,255,0.4);
-      z-index: 5;
+      left: 0px;
+      transform: rotate(-15deg);
+      z-index: 3;
     }
 
-    /* Right Element (Dice - Casino/Gaming) */
+    /* 3. Right Front Element (Red Dice - Overlapping on others) */
     .game-badge-item:nth-child(3) {
-      width: 95px;
-      height: 95px;
-      font-size: 3rem;
-      right: 20px;
+      width: 100px;
+      height: 100px;
+      font-size: 3.8rem;
       bottom: 5px;
-      transform: rotate(14deg) scale(0.95);
-      border-color: #ef4444;
-      box-shadow: 0 16px 35px rgba(239, 68, 68, 0.5), inset 0 2px 6px rgba(255,255,255,0.3);
-      z-index: 2;
+      right: 10px;
+      transform: rotate(12deg);
+      z-index: 4;
     }
 
     .stake-hero-title-big {
@@ -146,7 +133,7 @@
       -webkit-text-fill-color: transparent !important;
       margin-bottom: 4px !important;
       line-height: 1.1;
-      filter: drop-shadow(0 2px 12px rgba(255, 215, 0, 0.5));
+      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
@@ -173,7 +160,7 @@
       border: none !important;
       width: 100% !important;
       cursor: pointer;
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.5);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
     }
     .stake-explore-btn:active {
       transform: scale(0.98);
@@ -443,11 +430,11 @@
         </div>
       </section>
 
-      <!-- Stake Style Banner with New Game/Money 3D Elements Inside Card -->
+      <!-- Stake Style Banner with Overlapping Clean 3D Elements -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
-          <div class="game-badge-item" title="Diamond">💎</div>
           <div class="game-badge-item" title="Money Bag">💰</div>
+          <div class="game-badge-item" title="Diamond">💎</div>
           <div class="game-badge-item" title="Dice">🎲</div>
         </div>
         
