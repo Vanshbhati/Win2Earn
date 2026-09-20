@@ -56,12 +56,12 @@
       padding: 0 15px;
     }
 
-    /* Stake Style Card Banner (Images completely inside the card like Stake reference) */
+    /* Stake Exact Style Card Banner */
     .stake-hero-banner {
       background: linear-gradient(180deg, #132f63 0%, #060911 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.12) !important;
       border-radius: 26px !important;
-      padding: 30px 20px 32px 20px !important;
+      padding: 24px 20px 32px 20px !important;
       text-align: center;
       position: relative;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
@@ -70,12 +70,12 @@
       overflow: hidden !important;
     }
 
-    /* Stake Style Fully Internal Overlapping 3D Elements Container */
+    /* Stake Exact Match 3D Overlapping Container */
     .stake-cutouts-container {
       position: relative;
       width: 100%;
-      height: 140px;
-      margin: 0 auto 10px auto;
+      height: 165px;
+      margin: 0 auto 5px auto;
       pointer-events: none;
     }
 
@@ -84,40 +84,40 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.6));
+      filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.75));
     }
 
-    /* 1. Back/Top Center Element (Money Bag / Basketball equivalent size) */
+    /* 1. Big Money Bag (Replicating Stake's Basketball position and massive size) */
     .game-badge-item:nth-child(1) {
+      width: 130px;
+      height: 130px;
+      font-size: 5.5rem;
+      top: 0px;
+      left: 30%;
+      transform: translateX(-30%) rotate(-10deg);
+      z-index: 2;
+    }
+
+    /* 2. Diamond (Tucked beneath just like Stake layout) */
+    .game-badge-item:nth-child(2) {
       width: 105px;
       height: 105px;
       font-size: 4.2rem;
-      top: 5px;
-      left: 50%;
-      transform: translateX(-35%) rotate(-8deg);
+      bottom: 2px;
+      left: 22%;
+      transform: rotate(-18deg);
       z-index: 1;
     }
 
-    /* 2. Left Element (Diamond tucked closely) */
-    .game-badge-item:nth-child(2) {
-      width: 85px;
-      height: 85px;
-      font-size: 3.2rem;
-      bottom: 5px;
-      left: 22%;
-      transform: rotate(-15deg);
-      z-index: 3;
-    }
-
-    /* 3. Right Element (Dice overlapping heavily on right) */
+    /* 3. Big Dice (Replicating Stake's massive overlapping red dice on the right) */
     .game-badge-item:nth-child(3) {
-      width: 100px;
-      height: 100px;
-      font-size: 3.8rem;
-      bottom: 2px;
-      right: 20%;
-      transform: rotate(14deg);
-      z-index: 4;
+      width: 135px;
+      height: 135px;
+      font-size: 5.2rem;
+      bottom: -5px;
+      right: 18%;
+      transform: rotate(15deg);
+      z-index: 3;
     }
 
     .stake-hero-title-big {
@@ -426,7 +426,7 @@
         </div>
       </section>
 
-      <!-- Stake Style Banner with Fully Internal Overlapping 3D Elements -->
+      <!-- Stake Exact Style Banner with Internal Overlapping Elements -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
           <div class="game-badge-item" title="Money Bag">💰</div>
