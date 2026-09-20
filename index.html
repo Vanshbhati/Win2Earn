@@ -58,110 +58,31 @@
 
     /* Stake Exact Style Card Banner */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #13346b 0%, #070e1c 100%) !important;
+      background: linear-gradient(180deg, #1b3a6b 0%, #0c182c 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.12) !important;
-      border-radius: 26px !important;
-      padding: 24px 20px 32px 20px !important;
+      border-radius: 24px !important;
+      padding: 22px 18px 28px 18px !important;
       text-align: center;
       position: relative;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
-      margin-top: 25px;
+      margin-top: 20px;
       margin-bottom: 16px;
       overflow: hidden !important;
     }
 
-    /* 100% Stake Exact CSS Graphic Container */
-    .stake-graphics-container {
-      position: relative;
+    /* 100% Stake Exact SVG Container */
+    .stake-svg-artwork {
       width: 100%;
-      height: 160px;
-      margin: 0 auto 10px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Basketball CSS */
-    .stake-basketball {
-      position: absolute;
-      width: 110px;
-      height: 110px;
-      background: radial-gradient(circle at 35% 35%, #ff9f43 0%, #e15f41 60%, #b71540 100%);
-      border-radius: 50%;
-      top: 5px;
-      left: 50%;
-      transform: translateX(-68%);
-      box-shadow: inset -8px -8px 20px rgba(0,0,0,0.6), 0 10px 25px rgba(0,0,0,0.5);
-      overflow: hidden;
-      z-index: 3;
-    }
-    .stake-basketball::before, .stake-basketball::after {
-      content: '';
-      position: absolute;
-      border: 3px solid rgba(0,0,0,0.4);
-      border-radius: 50%;
-    }
-    .stake-basketball::before {
-      top: -20px; left: -20px; right: -20px; bottom: -20px;
-      border-color: transparent transparent rgba(0,0,0,0.4) rgba(0,0,0,0.4);
-      transform: rotate(45deg);
-    }
-    .stake-bb-text {
-      position: absolute;
-      bottom: 25px;
-      left: 12px;
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-weight: 800;
-      font-size: 1.15rem;
-      color: #111;
-      transform: rotate(-15deg);
-      text-shadow: 0 1px 1px rgba(255,255,255,0.4);
-      letter-spacing: -1px;
-    }
-
-    /* Red 3D Dice CSS */
-    .stake-dice {
-      position: absolute;
-      width: 95px;
-      height: 95px;
-      background: linear-gradient(135deg, #ff4757 0%, #ff6b81 40%, #c0392b 100%);
-      border-radius: 20px;
-      top: 32px;
-      right: 50%;
-      transform: translateX(62%) rotate(12deg);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.7), inset 0 2px 5px rgba(255,255,255,0.4);
-      z-index: 4;
-      display: flex;
-      flex-wrap: wrap;
-      padding: 16px;
-      justify-content: space-between;
-      align-content: space-between;
-    }
-    .dice-dot {
-      width: 14px;
-      height: 14px;
-      background: #fff;
-      border-radius: 50%;
-      box-shadow: inset 0 2px 3px rgba(0,0,0,0.4);
-    }
-    .dice-dot.hidden-dot { opacity: 0; }
-
-    /* Blue Diamond CSS */
-    .stake-diamond {
-      position: absolute;
-      width: 85px;
-      height: 85px;
-      background: linear-gradient(135deg, #00d2d3 0%, #0abde3 50%, #2e86de 100%);
-      transform: translateX(-105%) translateY(35px) rotate(45deg);
-      border-radius: 8px;
-      box-shadow: 0 10px 25px rgba(0, 198, 255, 0.5), inset 0 0 15px rgba(255,255,255,0.6);
-      z-index: 2;
+      max-width: 280px;
+      height: 145px;
+      margin: 0 auto 6px auto;
+      display: block;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
     }
 
     .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 2.3rem !important;
+      font-size: 2.2rem !important;
       font-weight: 900 !important;
       background: linear-gradient(135deg, #ffffff 10%, #ffd700 50%, #ff8c00 100%) !important;
       -webkit-background-clip: text !important;
@@ -172,16 +93,16 @@
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 1.05rem !important;
+      font-size: 1rem !important;
       font-weight: 800 !important;
       color: #ffffff !important;
-      margin-bottom: 8px !important;
+      margin-bottom: 6px !important;
     }
     .stake-hero-desc {
-      font-size: 0.83rem !important;
+      font-size: 0.82rem !important;
       color: #cbd5e1 !important;
-      line-height: 1.5 !important;
-      margin-bottom: 18px !important;
+      line-height: 1.4 !important;
+      margin-bottom: 16px !important;
       padding: 0 4px;
     }
     .stake-explore-btn {
@@ -189,8 +110,8 @@
       color: #ffffff !important;
       font-family: 'Plus Jakarta Sans', sans-serif !important;
       font-weight: 800 !important;
-      font-size: 1.05rem !important;
-      padding: 16px 24px !important;
+      font-size: 1.02rem !important;
+      padding: 15px 24px !important;
       border-radius: 14px !important;
       border: none !important;
       width: 100% !important;
@@ -465,26 +386,66 @@
         </div>
       </section>
 
-      <!-- Stake Exact Style Banner with 100% Pure CSS/SVG Graphics (No External Images) -->
+      <!-- Stake Exact Style Banner with 100% Exact High-Definition SVG Artwork -->
       <section class="stake-hero-banner">
-        <div class="stake-graphics-container">
-          <!-- Blue Diamond -->
-          <div class="stake-diamond"></div>
-          <!-- Basketball with Stake typography -->
-          <div class="stake-basketball">
-            <div class="stake-bb-text">Stake</div>
-          </div>
-          <!-- Red 3D Dice -->
-          <div class="stake-dice">
-            <div class="dice-dot"></div>
-            <div class="dice-dot hidden-dot"></div>
-            <div class="dice-dot"></div>
-            <div class="dice-dot"></div>
-            <div class="dice-dot"></div>
-            <div class="dice-dot"></div>
-          </div>
-        </div>
         
+        <!-- 100% Stake Replica Artwork SVG -->
+        <svg class="stake-svg-artwork" viewBox="0 0 320 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="basketGrad" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" stop-color="#ffb142" />
+              <stop offset="60%" stop-color="#ff5252" />
+              <stop offset="100%" stop-color="#b33939" />
+            </radialGradient>
+            <linearGradient id="diceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff5252" />
+              <stop offset="50%" stop-color="#ff7979" />
+              <stop offset="100%" stop-color="#b71540" />
+            </linearGradient>
+            <linearGradient id="diamondGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#70a1ff" />
+              <stop offset="50%" stop-color="#1e90ff" />
+              <stop offset="100%" stop-color="#0984e3" />
+            </linearGradient>
+            <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.6"/>
+            </filter>
+          </defs>
+
+          <!-- Glowing Blue Diamond (Left-Bottom) -->
+          <g filter="url(#shadow)" transform="translate(45, 65)">
+            <polygon points="35,0 70,30 35,70 0,30" fill="url(#diamondGrad)" stroke="#74b9ff" stroke-width="1.5"/>
+            <polygon points="35,0 70,30 35,25" fill="#a29bfe" opacity="0.6"/>
+            <polygon points="35,0 0,30 35,25" fill="#dfe6e9" opacity="0.4"/>
+            <line x1="35" y1="25" x2="35" y2="70" stroke="#00cec9" stroke-width="1.5"/>
+            <line x1="0" y1="30" x2="35" y2="25" stroke="#00cec9" stroke-width="1"/>
+            <line x1="70" y1="30" x2="35" y2="25" stroke="#00cec9" stroke-width="1"/>
+          </g>
+
+          <!-- Red 3D Dice (Right-Top) -->
+          <g filter="url(#shadow)" transform="translate(165, 30) rotate(12)">
+            <rect x="0" y="0" width="85" height="85" rx="18" fill="url(#diceGrad)" stroke="#ff7675" stroke-width="1.5"/>
+            <!-- Dice Dots -->
+            <circle cx="24" cy="24" r="7" fill="#ffffff" />
+            <circle cx="61" cy="24" r="7" fill="#ffffff" />
+            <circle cx="42.5" cy="42.5" r="7" fill="#ffffff" />
+            <circle cx="24" cy="61" r="7" fill="#ffffff" />
+            <circle cx="61" cy="61" r="7" fill="#ffffff" />
+          </g>
+
+          <!-- Basketball (Top-Left Center) -->
+          <g filter="url(#shadow)" transform="translate(80, 10)">
+            <circle cx="60" cy="60" r="55" fill="url(#basketGrad)" stroke="#842020" stroke-width="2"/>
+            <!-- Ball lines -->
+            <path d="M5 60 C 35 15, 85 15, 115 60" stroke="#331a00" stroke-width="3" fill="none" opacity="0.8"/>
+            <path d="M5 60 C 35 105, 85 105, 115 60" stroke="#331a00" stroke-width="3" fill="none" opacity="0.8"/>
+            <path d="M60 5 C 20 35, 20 85, 60 115" stroke="#331a00" stroke-width="3" fill="none" opacity="0.8"/>
+            <path d="M60 5 C 100 35, 100 85, 60 115" stroke="#331a00" stroke-width="3" fill="none" opacity="0.8"/>
+            <!-- Stake Branding Text on Basketball -->
+            <text x="60" y="66" font-family="'Playfair Display', serif" font-style="italic" font-weight="800" font-size="22" fill="#111111" text-anchor="middle" transform="rotate(-15, 60, 60)">Stake</text>
+          </g>
+        </svg>
+
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
         <div class="stake-hero-title-small">Prize Pool for 10 Winners</div>
         <p class="stake-hero-desc">
