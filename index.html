@@ -74,8 +74,8 @@
     .stake-cutouts-container {
       position: relative;
       width: 100%;
-      height: 180px;
-      margin: 0 auto 8px auto;
+      height: 190px;
+      margin: 0 auto 4px auto;
       pointer-events: none;
     }
 
@@ -84,40 +84,44 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      filter: drop-shadow(0 16px 26px rgba(0, 0, 0, 0.85));
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.9));
+      transition: transform 0.3s ease;
     }
 
-    /* 1. Big Diamond (Top-Left where Stake has Basketball) */
+    /* 1. Diamond (Top-Left where Stake has Basketball) - Bada aur Premium */
     .game-badge-item:nth-child(1) {
-      width: 140px;
-      height: 140px;
-      font-size: 5.8rem;
-      top: -5px;
-      left: 28%;
-      transform: translateX(-30%) rotate(-12deg);
-      z-index: 2;
-    }
-
-    /* 2. Dice (Bottom-Left where Stake has Diamond) */
-    .game-badge-item:nth-child(2) {
-      width: 115px;
-      height: 115px;
-      font-size: 4.8rem;
-      bottom: 5px;
-      left: 20%;
-      transform: rotate(-20deg);
-      z-index: 1;
-    }
-
-    /* 3. Big Diamond (Right side where Stake has Red Dice) */
-    .game-badge-item:nth-child(3) {
-      width: 150px;
-      height: 150px;
+      width: 155px;
+      height: 155px;
       font-size: 6.2rem;
-      top: -2px;
-      right: 14%;
-      transform: rotate(18deg);
+      top: -8px;
+      left: 27%;
+      transform: translateX(-30%) rotate(-14deg);
+      z-index: 2;
+      filter: drop-shadow(0 20px 30px rgba(0, 191, 255, 0.4)) drop-shadow(0 15px 25px rgba(0,0,0,0.8));
+    }
+
+    /* 2. Dice (Bottom-Left where Stake has Diamond) - Bada aur Premium */
+    .game-badge-item:nth-child(2) {
+      width: 130px;
+      height: 130px;
+      font-size: 5.2rem;
+      bottom: 2px;
+      left: 18%;
+      transform: rotate(-22deg);
+      z-index: 1;
+      filter: drop-shadow(0 18px 25px rgba(255, 255, 255, 0.2)) drop-shadow(0 15px 25px rgba(0,0,0,0.8));
+    }
+
+    /* 3. Money Bag (Right side where Stake has Dice) - Bada aur Premium */
+    .game-badge-item:nth-child(3) {
+      width: 165px;
+      height: 165px;
+      font-size: 6.6rem;
+      top: -5px;
+      right: 12%;
+      transform: rotate(16deg);
       z-index: 3;
+      filter: drop-shadow(0 20px 30px rgba(255, 215, 0, 0.35)) drop-shadow(0 15px 25px rgba(0,0,0,0.8));
     }
 
     .stake-hero-title-big {
@@ -426,12 +430,12 @@
         </div>
       </section>
 
-      <!-- Stake 100% Exact Match Style Banner -->
+      <!-- Stake 100% Exact Match Style Banner with Diamond, Dice, Money Bag -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
           <div class="game-badge-item" title="Diamond">💎</div>
           <div class="game-badge-item" title="Dice">🎲</div>
-          <div class="game-badge-item" title="Diamond">💎</div>
+          <div class="game-badge-item" title="Money Bag">💰</div>
         </div>
         
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
