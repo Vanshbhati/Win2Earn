@@ -9,13 +9,41 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Hide Scrollbars Globally */
+    /* Hide Global Scrollbars */
     * {
       -ms-overflow-style: none !important;
       scrollbar-width: none !important;
     }
     *::-webkit-scrollbar {
       display: none !important;
+    }
+
+    /* Target Scrollbar Only For Payout Info Modal Body */
+    .payout-scroll-body {
+      -ms-overflow-style: auto !important;
+      scrollbar-width: thin !important;
+      scrollbar-color: #f39c12 rgba(255, 255, 255, 0.05) !important;
+    }
+    .payout-scroll-body::-webkit-scrollbar {
+      display: block !important;
+      width: 5px !important;
+    }
+    .payout-scroll-body::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05) !important;
+      border-radius: 10px;
+    }
+    .payout-scroll-body::-webkit-scrollbar-thumb {
+      background: #f39c12 !important;
+      border-radius: 10px;
+    }
+
+    /* Lock all other popups completely */
+    .modal-overlay, .popup-overlay {
+      overflow: hidden !important;
+      touch-action: none !important;
+    }
+    .modal-card, .popup-box {
+      overflow: hidden !important;
     }
 
     /* Custom Logo Styling */
@@ -213,14 +241,14 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal (Diamond Removed, Custom Scrollable Text Body Added) -->
+  <!-- Payout Info Modal (Diamond Removed, Custom Scrollable Text Body With Scrollbar Added) -->
   <div id="payoutInfoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated" style="max-height: 80vh; display: flex; flex-direction: column;">
+    <div class="modal-card glass-card gpu-accelerated" style="max-height: 80vh; display: flex; flex-direction: column; overflow: hidden !important;">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
         <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; overflow-y: auto; max-height: 220px; padding-right: 6px; margin-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,215,0,0.4) transparent;">
+      <div class="info-body payout-scroll-body" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; overflow-y: auto !important; max-height: 220px; padding-right: 10px; margin-bottom: 12px;">
         <p style="margin-bottom: 10px;">Top winners of the game will receive their payments directly to their UPI ID shortly after the game results are announced.</p>
         <p style="margin-bottom: 10px;">The number of winners depends on the specific game and how many top players are selected for rewards (for example, top 10, top 50, etc.).</p>
         <p style="margin-bottom: 10px;">Every user will be provided daily total ad revenue screenshots in their wallet section.</p>
@@ -486,7 +514,6 @@
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <!-- Updated subtext to "Instant Rewards" as requested -->
         <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Rewards</p>
 
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
