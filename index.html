@@ -56,28 +56,28 @@
       padding: 0 15px;
     }
 
-    /* Stake Exact Style Card Banner */
+    /* Hero Banner Styled like the requested Epic Game Art */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #1b3a6b 0%, #0c182c 100%) !important;
-      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      background: linear-gradient(180deg, #12223c 0%, #070e1a 100%) !important;
+      border: 1px solid rgba(255, 215, 0, 0.25) !important;
       border-radius: 24px !important;
       padding: 22px 18px 28px 18px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 176, 255, 0.15);
       margin-top: 20px;
       margin-bottom: 16px;
       overflow: hidden !important;
     }
 
-    /* 100% Stake Exact Large SVG Artwork */
+    /* Epic Action Art SVG Container */
     .stake-svg-artwork {
       width: 100%;
-      max-width: 310px;
-      height: 185px;
-      margin: 0 auto -4px auto;
+      max-width: 320px;
+      height: 190px;
+      margin: 0 auto -2px auto;
       display: block;
-      filter: drop-shadow(0 14px 28px rgba(0,0,0,0.7));
+      filter: drop-shadow(0 14px 28px rgba(0,0,0,0.8));
     }
 
     .stake-hero-title-big {
@@ -106,7 +106,7 @@
       padding: 0 4px;
     }
     .stake-explore-btn {
-      background: #2563eb !important;
+      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
       color: #ffffff !important;
       font-family: 'Plus Jakarta Sans', sans-serif !important;
       font-weight: 800 !important;
@@ -386,73 +386,72 @@
         </div>
       </section>
 
-      <!-- 100% Exact Stake Replica Banner Artwork -->
+      <!-- Custom Epic Train Surfer / Desert Action Adventure Banner Artwork -->
       <section class="stake-hero-banner">
         
-        <!-- Exact SVG Artwork matching Stake reference -->
+        <!-- Custom Epic Action SVG Artwork matching your image style -->
         <svg class="stake-svg-artwork" viewBox="0 0 340 195" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <radialGradient id="basketGradExact" cx="35%" cy="30%" r="65%">
-              <stop offset="0%" stop-color="#ffb84d" />
-              <stop offset="55%" stop-color="#ff5722" />
-              <stop offset="100%" stop-color="#bf360c" />
-            </radialGradient>
-            <linearGradient id="diceGradExact" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#ff5252" />
-              <stop offset="50%" stop-color="#e53935" />
-              <stop offset="100%" stop-color="#990000" />
+            <linearGradient id="trainGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#1e3a8a" />
+              <stop offset="50%" stop-color="#172554" />
+              <stop offset="100%" stop-color="#0f172a" />
             </linearGradient>
-            <linearGradient id="diamondGradExact" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#80d8ff" />
-              <stop offset="45%" stop-color="#00b0ff" />
-              <stop offset="100%" stop-color="#0047ab" />
+            <linearGradient id="goldCoins" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fef08a" />
+              <stop offset="100%" stop-color="#ca8a04" />
             </linearGradient>
-            <filter id="exactShadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="0" dy="10" stdDeviation="9" flood-color="#000" flood-opacity="0.8"/>
+            <linearGradient id="hoverboard" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#fde047" />
+              <stop offset="100%" stop-color="#b45309" />
+            </linearGradient>
+            <filter id="epicGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000" flood-opacity="0.7"/>
             </filter>
-            <filter id="diamondGlow" x="-50%" y="-50%" width="200%" height="200%">
-              <feGaussianBlur stdDeviation="12" result="blur" />
+            <filter id="neonJet" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over"/>
             </filter>
           </defs>
 
-          <!-- Radiant Blue Glow Under Diamond (Bottom-Left) -->
-          <ellipse cx="75" cy="142" rx="42" ry="16" fill="#00b0ff" opacity="0.5" filter="url(#diamondGlow)" />
+          <!-- Background Pyramids / Dunes Silhouette -->
+          <path d="M 0 130 L 70 80 L 140 130 Z" fill="#d97706" opacity="0.3"/>
+          <path d="M 100 130 L 170 70 L 250 130 Z" fill="#b45309" opacity="0.4"/>
 
-          <!-- 1. Diamond (Placed at Bottom-Left behind Basketball edge) -->
-          <g filter="url(#exactShadow)" transform="translate(34, 52)">
-            <polygon points="46,0 92,38 46,88 0,38" fill="url(#diamondGradExact)" stroke="#a7ffeb" stroke-width="1.8"/>
-            <polygon points="46,0 92,38 46,28" fill="#e0f7fa" opacity="0.7"/>
-            <polygon points="46,0 0,38 46,28" fill="#ffffff" opacity="0.5"/>
-            <polygon points="46,28 92,38 46,88" fill="#0d47a1" opacity="0.5"/>
-            <line x1="46" y1="28" x2="46" y2="88" stroke="#ffffff" stroke-width="1.6"/>
-            <line x1="0" y1="38" x2="46" y2="28" stroke="#ffffff" stroke-width="1.3"/>
-            <line x1="92" y1="38" x2="46" y2="28" stroke="#ffffff" stroke-width="1.3"/>
+          <!-- Futuristic Sci-Fi Train / Wagons Perspective -->
+          <g filter="url(#epicGlow)">
+            <path d="M 120 180 L 180 110 L 320 110 L 340 180 Z" fill="url(#trainGrad)" stroke="#3b82f6" stroke-width="2"/>
+            <!-- Train Panel lines & golden trims -->
+            <line x1="195" y1="110" x2="165" y2="180" stroke="#f59e0b" stroke-width="2"/>
+            <line x1="250" y1="110" x2="235" y2="180" stroke="#f59e0b" stroke-width="2"/>
+            <line x1="305" y1="110" x2="300" y2="180" stroke="#f59e0b" stroke-width="2"/>
           </g>
 
-          <!-- 2. Red 3D Dice (Right side, tilted, with exact white dots layout: 6, 5, 4 etc) -->
-          <g filter="url(#exactShadow)" transform="translate(142, 28) rotate(18)">
-            <rect x="0" y="0" width="122" height="122" rx="28" fill="url(#diceGradExact)" stroke="#ff8a80" stroke-width="2.2"/>
-            <!-- Gloss top reflection curve -->
-            <path d="M 14 14 Q 61 6 108 14" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" fill="none" opacity="0.65"/>
-            <!-- Exact Dice Pips (White Dots) -->
-            <circle cx="32" cy="32" r="9.5" fill="#ffffff" />
-            <circle cx="90" cy="32" r="9.5" fill="#ffffff" />
-            <circle cx="61" cy="61" r="9.5" fill="#ffffff" />
-            <circle cx="32" cy="90" r="9.5" fill="#ffffff" />
-            <circle cx="90" cy="90" r="9.5" fill="#ffffff" />
+          <!-- Golden Flying Coins Trail -->
+          <circle cx="200" cy="95" r="7" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
+          <circle cx="225" cy="80" r="8" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
+          <circle cx="255" cy="65" r="9" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
+          <circle cx="290" cy="50" r="10" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
+          <circle cx="320" cy="35" r="11" fill="url(#goldCoins)" filter="url(#epicGlow)"/>
+
+          <!-- Hoverboard Blue Jet Exhaust & Flames -->
+          <ellipse cx="145" cy="155" rx="22" ry="8" fill="#00ffff" opacity="0.8" filter="url(#neonJet)" />
+          <path d="M 130 155 L 90 170 L 130 162 Z" fill="#f97316"/>
+          <path d="M 135 158 L 95 178 L 138 168 Z" fill="#38bdf8"/>
+
+          <!-- Hoverboard Body -->
+          <g filter="url(#epicGlow)">
+            <ellipse cx="160" cy="148" rx="35" ry="12" fill="url(#hoverboard)" stroke="#fef08a" stroke-width="1.5"/>
           </g>
 
-          <!-- 3. Basketball (Top overlap layer with exact Stake italic font branding) -->
-          <g filter="url(#exactShadow)" transform="translate(102, 6)">
-            <circle cx="68" cy="68" r="62" fill="url(#basketGradExact)" stroke="#3e1400" stroke-width="2.8"/>
-            <!-- Basketball Seam Lines -->
-            <path d="M6 68 C 38 14, 98 14, 130 68" stroke="#260c00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <path d="M6 68 C 38 122, 98 122, 130 68" stroke="#260c00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <path d="M68 6 C 20 38, 20 98, 68 130" stroke="#260c00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <path d="M68 6 C 116 38, 116 98, 68 130" stroke="#260c00" stroke-width="3.5" fill="none" opacity="0.85"/>
-            <!-- Stake Italic Logo Text -->
-            <text x="68" y="75" font-family="'Playfair Display', serif" font-style="italic" font-weight="800" font-size="28" fill="#111111" text-anchor="middle" transform="rotate(-15, 68, 68)">Stake</text>
+          <!-- Character Silhouette / Armor Suit -->
+          <g filter="url(#epicGlow)">
+            <!-- Golden Head / Crown / Ears -->
+            <path d="M 155 90 L 150 70 L 160 80 L 170 70 L 165 90 Z" fill="#f59e0b"/>
+            <!-- Torso & Golden Armor -->
+            <path d="M 140 95 C 140 85, 180 85, 185 95 L 180 125 C 180 135, 145 135, 140 125 Z" fill="url(#trainGrad)" stroke="#f59e0b" stroke-width="2"/>
+            <!-- Outstretched Arm -->
+            <path d="M 175 100 L 205 110 L 200 120 L 175 110 Z" fill="#f59e0b"/>
           </g>
         </svg>
 
@@ -646,7 +645,7 @@
     </a>
   </nav>
 
-  <script src="sound.js"></script>
+  <script src="sound.js"></style>
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const splashScreen = document.getElementById('splashScreen');
