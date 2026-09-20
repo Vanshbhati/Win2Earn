@@ -9,6 +9,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
+    /* Hide Scrollbars Globally */
+    * {
+      -ms-overflow-style: none !important;  /* IE and Edge */
+      scrollbar-width: none !important;  /* Firefox */
+    }
+    *::-webkit-scrollbar {
+      display: none !important;  /* Safari and Chrome */
+    }
+
+    /* Prevent all scrolling on body */
+    body, html {
+      overflow: hidden !important;
+      height: 100% !important;
+      position: fixed !important;
+      width: 100% !important;
+    }
+
     /* Custom Logo Styling */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
@@ -155,9 +172,19 @@
     .stake-explore-btn:active {
       transform: scale(0.98);
     }
+
+    /* Strict Modal Scroll Lock */
+    .modal-overlay, .popup-overlay {
+      overflow: hidden !important;
+      overscroll-behavior: none !important;
+    }
+    .modal-card, .popup-box {
+      max-height: 85vh !important;
+      overflow: hidden !important;
+    }
   </style>
 </head>
-<body class="no-scroll">
+<body class="no-scroll" onwheel="event.preventDefault()" ontouchmove="event.preventDefault({passive: false})">
 
   <!-- Desktop-Only Restriction Overlay -->
   <div class="desktop-blocker-overlay">
@@ -173,19 +200,19 @@
   <!-- Live Canvas Background -->
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
-  <!-- Splash Screen -->
-  <div id="splashScreen" class="splash-screen gpu-accelerated">
+  <!-- Splash Screen (Locked & 8 Seconds) -->
+  <div id="splashScreen" class="splash-screen gpu-accelerated" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999;">
     <div class="splash-content">
       <div class="logo-text" style="font-size: 2.2rem; margin-bottom: 4px;">WIN2EARN</div>
       <p class="splash-tagline">Skill Based Game</p>
       <div class="splash-loader">
-        <div class="splash-loader-bar" style="animation-duration: 8.5s;"></div>
+        <div class="splash-loader-bar" style="animation-duration: 8.0s;"></div>
       </div>
     </div>
   </div>
 
   <!-- Priority Alert / Error Popup -->
-  <div id="errorPopup" class="popup-overlay hidden high-priority-z">
+  <div id="errorPopup" class="popup-overlay hidden high-priority-z" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠️</div>
       <h3 class="popup-title">Attention</h3>
@@ -195,7 +222,7 @@
   </div>
 
   <!-- OTP Verification Modal -->
-  <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z">
+  <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">🔐</div>
       <h3 class="popup-title">OTP Verification Code</h3>
@@ -205,7 +232,7 @@
   </div>
 
   <!-- Payout Info Modal -->
-  <div id="payoutInfoModal" class="modal-overlay hidden">
+  <div id="payoutInfoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center;">
@@ -221,23 +248,22 @@
     </div>
   </div>
 
-  <!-- Coming Soon Prize Pool Modal (Attractive Theme Popup) -->
-  <div id="bannerComingSoonModal" class="modal-overlay hidden">
+  <!-- Coming Soon Prize Pool Modal (No Image, Updated Button) -->
+  <div id="bannerComingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
       <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
-      <div class="popup-icon" style="font-size: 2.2rem; margin-bottom: 8px;">🚀</div>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffd700; margin-bottom: 10px;">COMING SOON!</h2>
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffd700; margin-bottom: 12px; margin-top: 5px;">COMING SOON!</h2>
       <div class="info-body" style="background: rgba(27, 83, 244, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
         <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
           This <strong>₹10,00,000 prize pool game</strong> is coming very soon! Meanwhile, other amazing games are available that you can play completely <strong>without any investment</strong>.
         </p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeBannerComingSoonModal()" style="background: linear-gradient(135deg, #ff8008, #ffc837); color: #111; font-weight: 900;">EXPLORE FREE GAMES 🔥</button>
+      <button class="glass-btn primary-btn w-100" onclick="closeBannerComingSoonModal()" style="background: linear-gradient(135deg, #ff8008, #ffc837); color: #111; font-weight: 900;">I UNDERSTAND</button>
     </div>
   </div>
 
   <!-- Monthly Championship Modal -->
-  <div id="comingSoonModal" class="modal-overlay hidden">
+  <div id="comingSoonModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeComingSoonModal()">&times;</button>
       <div class="popup-icon">👑</div>
@@ -253,7 +279,7 @@
   </div>
 
   <!-- Fullscreen Game Arena Overlay -->
-  <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated">
+  <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
     <div class="game-canvas-wrapper" style="width:100%; height:100%; position:relative;">
       <canvas id="heliCanvas"></canvas>
@@ -304,7 +330,7 @@
   </div>
 
   <!-- Welcome Modal -->
-  <div id="welcomeModal" class="modal-overlay hidden">
+  <div id="welcomeModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card popup-animated gpu-accelerated" style="text-align: center;">
       <div class="popup-icon">🎉</div>
       <h2 id="welcomeUserName" style="font-weight: 800; font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary);">Welcome!</h2>
@@ -314,7 +340,7 @@
   </div>
 
   <!-- Info Modal -->
-  <div id="infoModal" class="modal-overlay hidden">
+  <div id="infoModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeInfoModal()">&times;</button>
       <div class="info-header" style="text-align: center; margin-bottom: 12px;">
@@ -330,18 +356,18 @@
   </div>
 
   <!-- Legal Modal -->
-  <div id="legalModal" class="modal-overlay hidden">
+  <div id="legalModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px;">
         <h3 id="legalModalTitle" class="popup-title">Legal Information</h3>
       </div>
-      <div class="info-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px; overflow-y: auto;"></div>
+      <div class="info-body" id="legalModalBody" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px;"></div>
     </div>
   </div>
 
   <!-- Telegram Support Modal -->
-  <div id="telegramModal" class="modal-overlay hidden">
+  <div id="telegramModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
       <div class="popup-icon">💬</div>
@@ -355,7 +381,7 @@
   </div>
 
   <!-- Wallet / UPI Verification Modal -->
-  <div id="walletActivationModal" class="modal-overlay hidden">
+  <div id="walletActivationModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
       <div class="auth-form">
@@ -378,7 +404,7 @@
   </div>
 
   <!-- Auth Modal -->
-  <div id="authModal" class="modal-overlay hidden">
+  <div id="authModal" class="modal-overlay hidden" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
@@ -649,7 +675,7 @@
           setTimeout(() => {
             splashScreen.style.display = 'none';
           }, 500);
-        }, 8500);
+        }, 8000); // Exactly 8 seconds
       }
     });
 
