@@ -56,39 +56,37 @@
       padding: 0 15px;
     }
 
-    /* Hero Banner Styled specifically for Win2Earn Brand */
+    /* Stake Inspired Hero Banner with Background Color & Collage Photo */
     .stake-hero-banner {
-      background: linear-gradient(180deg, #12223c 0%, #070e1a 100%) !important;
-      border: 1px solid rgba(255, 215, 0, 0.25) !important;
+      background: linear-gradient(180deg, #1b53f4 0%, #0d2265 60%, #070e1a 100%) !important;
+      border: 1px solid rgba(255, 215, 0, 0.3) !important;
       border-radius: 24px !important;
-      padding: 22px 18px 28px 18px !important;
+      padding: 24px 18px 28px 18px !important;
       text-align: center;
       position: relative;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(0, 176, 255, 0.15);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(27, 83, 244, 0.4);
       margin-top: 20px;
       margin-bottom: 16px;
       overflow: hidden !important;
     }
 
-    /* Game Photo / Icon Container Style */
-    .hero-game-artwork {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 12px auto;
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      border: 2px solid rgba(255, 215, 0, 0.5);
-      border-radius: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
-      animation: floatBadge 3s ease-in-out infinite;
+    /* Collage Photo Styling inside Banner */
+    .hero-collage-container {
+      width: 100%;
+      height: 160px;
+      margin: 0 auto 14px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      position: relative;
     }
 
-    @keyframes floatBadge {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-6px); }
+    .hero-collage-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .stake-hero-title-big {
@@ -397,11 +395,13 @@
         </div>
       </section>
 
-      <!-- Win2Earn Copter Game Hero Banner -->
+      <!-- Stake Styled Hero Banner with Collage Photo -->
       <section class="stake-hero-banner">
         
-        <!-- Game Helicopter Icon Artwork -->
-        <div class="hero-game-artwork">🚁</div>
+        <!-- Collage Photo Container (GitHub wali file game-collage.jpg set kar di hai) -->
+        <div class="hero-collage-container">
+          <img src="game-collage.jpg" alt="Game Collage Artwork" onerror="this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop'">
+        </div>
 
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
         <div class="stake-hero-title-small">Prize Pool for 10 Winners</div>
