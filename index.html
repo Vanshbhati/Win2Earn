@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Win2Earn - Skill Based Game</title>
+  <title>WIN2EARN - Skill Based Game</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,16 +164,6 @@
     .stake-explore-btn:active {
       transform: scale(0.98);
     }
-
-    /* Strict Modal Scroll Lock */
-    .modal-overlay, .popup-overlay {
-      overflow: hidden !important;
-      overscroll-behavior: none !important;
-    }
-    .modal-card, .popup-box {
-      max-height: 85vh !important;
-      overflow: hidden !important;
-    }
   </style>
 </head>
 <body>
@@ -184,7 +174,7 @@
       <div class="blocker-icon">📱</div>
       <h2 class="blocker-title">Mobile Only Experience</h2>
       <p class="blocker-desc">
-        Win2Earn is exclusively optimized for mobile smartphones. Please open this link on your mobile device to play and win rewards!
+        WIN2EARN is exclusively optimized for mobile smartphones. Please open this link on your mobile device to play and win rewards!
       </p>
     </div>
   </div>
@@ -192,7 +182,7 @@
   <!-- Live Canvas Background -->
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
-  <!-- Splash Screen (Locked & 9 Seconds) -->
+  <!-- Splash Screen -->
   <div id="splashScreen" class="splash-screen gpu-accelerated" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999;" onwheel="event.preventDefault()" ontouchmove="event.preventDefault({passive: false})">
     <div class="splash-content">
       <div class="logo-text" style="font-size: 2.2rem; margin-bottom: 4px;">WIN2EARN</div>
@@ -223,21 +213,20 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal -->
+  <!-- Payout Info Modal (Diamond Removed, Custom Scrollable Text Body Added) -->
   <div id="payoutInfoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated">
+    <div class="modal-card glass-card gpu-accelerated" style="max-height: 80vh; display: flex; flex-direction: column;">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
-      <div class="info-header" style="margin-bottom: 12px; text-align: center;">
-        <span class="popup-icon">💎</span>
+      <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
         <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; max-height: 250px; overflow-y: auto;">
+      <div class="info-body" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; overflow-y: auto; max-height: 220px; padding-right: 6px; margin-bottom: 12px; scrollbar-width: thin; scrollbar-color: rgba(255,215,0,0.4) transparent;">
         <p style="margin-bottom: 10px;">Top winners of the game will receive their payments directly to their UPI ID shortly after the game results are announced.</p>
         <p style="margin-bottom: 10px;">The number of winners depends on the specific game and how many top players are selected for rewards (for example, top 10, top 50, etc.).</p>
         <p style="margin-bottom: 10px;">Every user will be provided daily total ad revenue screenshots in their wallet section.</p>
         <p>Additionally, 50% of the total revenue generated from each game will be distributed among the top players who participated.</p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()" style="margin-top: 10px;">UNDERSTOOD</button>
+      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()" style="flex-shrink: 0;">UNDERSTOOD</button>
     </div>
   </div>
 
@@ -341,7 +330,7 @@
         <h3 class="popup-title">Important Information</h3>
       </div>
       <div class="info-body" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 20px;">
-        <p style="margin-bottom: 10px;">Win2Earn does not charge you a single rupee. This is 100% free skill gaming and strictly NOT gambling or betting.</p>
+        <p style="margin-bottom: 10px;">WIN2EARN does not charge you a single rupee. This is 100% free skill gaming and strictly NOT gambling or betting.</p>
         <p>It is designed purely for entertainment, allowing users to enjoy their time while offering exciting opportunities to earn real cash rewards through pure performance.</p>
       </div>
       <button class="glass-btn primary-btn w-100" onclick="closeInfoModal()">I UNDERSTAND</button>
@@ -431,7 +420,7 @@
 
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px;">
-    <div class="cursive-logo"><span>W</span>in<span class="mid-two">2</span><span>E</span>arn</div>
+    <div class="cursive-logo"><span>W</span>IN<span class="mid-two">2</span><span>E</span>ARN</div>
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="glass-btn secondary-btn" onclick="openAuthModal('login')" style="padding: 6px 12px; font-size: 0.78rem;">Log In</button>
       <button class="glass-btn primary-btn" onclick="openAuthModal('signup')" style="padding: 6px 12px; font-size: 0.78rem;">Sign Up</button>
@@ -482,16 +471,14 @@
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <!-- Center aligned WIN2EARN Title -->
+        <!-- Center aligned WIN2EARN Title in ALL CAPS -->
         <div style="text-align: center; margin-bottom: 12px; width: 100%;">
-          <span class="cursive-logo" style="font-size: 2.2rem !important; display: inline-block;"><span>W</span>in<span class="mid-two">2</span><span>E</span>arn</span>
+          <span class="cursive-logo" style="font-size: 2.2rem !important; display: inline-block;"><span>W</span>IN<span class="mid-two">2</span><span>E</span>ARN</span>
         </div>
 
         <div class="total-prize-box premium-glass-prize">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
-          <!-- 50% ad revenue adjusted smaller to fit in a single line without ... -->
           <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
-          <!-- Updated text: Guaranteed rewards for top players -->
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
 
@@ -499,8 +486,8 @@
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <!-- Fixed bottom subtext line to fit properly inside bounds -->
-        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Cash Rewards</p>
+        <!-- Updated subtext to "Instant Rewards" as requested -->
+        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Rewards</p>
 
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 16px; font-size: 1.05rem;">
           PLAY NOW ➔
@@ -512,7 +499,7 @@
           <span style="font-size: 1.5rem;">💡</span>
           <div>
             <h4 style="font-size: 0.88rem; font-weight: 800; color: var(--text-primary);">Important Information</h4>
-            <p style="font-size: 0.75rem; color: var(--text-secondary);">Read Win2Earn's 100% Free Fair Skill Gaming Commitment</p>
+            <p style="font-size: 0.75rem; color: var(--text-secondary);">Read WIN2EARN's 100% Free Fair Skill Gaming Commitment</p>
           </div>
         </div>
         <span style="font-size: 1.1rem; color: var(--accent-green); font-weight: 800;">➔</span>
@@ -630,7 +617,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p style="font-size: 0.7rem; color: var(--text-muted);">© 2026 Win2Earn Gaming Inc. All Rights Reserved.</p>
+      <p style="font-size: 0.7rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
