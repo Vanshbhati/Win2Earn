@@ -193,12 +193,12 @@
       transform: scale(0.98);
     }
 
-    /* Stake Style Grid Layout for Games */
+    /* Updated Grid Layout for Games strictly to 2 Columns */
     .stake-games-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      padding: 4px;
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 12px !important;
+      padding: 4px !important;
     }
     .stake-game-card {
       background: transparent;
@@ -210,7 +210,7 @@
     .stake-game-poster {
       position: relative;
       width: 100%;
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 4 / 3;
       border-radius: 12px;
       overflow: hidden;
       background-color: #1a2c38;
@@ -561,7 +561,7 @@
 
     </div>
 
-    <!-- Games Tab (Stake Style Grid with Game Name underneath) -->
+    <!-- Games Tab (Grid set to 2 Columns) -->
     <div id="tab-games" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
         <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Daily Tournament Games</h2>
