@@ -70,13 +70,16 @@
       overflow: hidden !important;
     }
 
-    /* Stake 100% Exact Match 3D Overlapping Container */
+    /* Stake Exact Assets Overlapping Container */
     .stake-cutouts-container {
       position: relative;
       width: 100%;
-      height: 185px;
-      margin: 0 auto 6px auto;
+      height: 180px;
+      margin: 0 auto 5px auto;
       pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .game-badge-item {
@@ -93,37 +96,37 @@
       object-fit: contain;
     }
 
-    /* 1. Diamond (Top-Left where Stake has Basketball) - Exact Size & Position */
+    /* 1. Basketball (Top Center-Left - Stake Exact Match) */
     .game-badge-item:nth-child(1) {
-      width: 150px;
-      height: 150px;
-      top: -10px;
-      left: 24%;
-      transform: translateX(-25%) rotate(-12deg);
-      z-index: 2;
-      filter: drop-shadow(0 20px 30px rgba(0, 191, 255, 0.45)) drop-shadow(0 15px 25px rgba(0,0,0,0.85));
-    }
-
-    /* 2. Dice (Bottom-Left where Stake has Diamond) - Exact Overlapping Position */
-    .game-badge-item:nth-child(2) {
-      width: 125px;
-      height: 125px;
-      bottom: 4px;
-      left: 20%;
-      transform: rotate(-20deg);
+      width: 145px;
+      height: 145px;
+      top: -5px;
+      left: calc(50% - 95px);
+      transform: rotate(-10deg);
       z-index: 1;
-      filter: drop-shadow(0 18px 25px rgba(255, 255, 255, 0.25)) drop-shadow(0 15px 25px rgba(0,0,0,0.85));
+      filter: drop-shadow(0 15px 25px rgba(255, 140, 0, 0.4)) drop-shadow(0 10px 20px rgba(0,0,0,0.9));
     }
 
-    /* 3. Money Bag (Right side where Stake has Dice) - Premium Position */
+    /* 2. Blue Diamond (Bottom Left) */
+    .game-badge-item:nth-child(2) {
+      width: 110px;
+      height: 110px;
+      bottom: 5px;
+      left: calc(50% - 100px);
+      transform: rotate(-15deg);
+      z-index: 2;
+      filter: drop-shadow(0 15px 25px rgba(0, 191, 255, 0.5)) drop-shadow(0 10px 20px rgba(0,0,0,0.9));
+    }
+
+    /* 3. Red Dice (Top Right overlapping Basketball & Diamond - Stake Exact) */
     .game-badge-item:nth-child(3) {
-      width: 155px;
-      height: 155px;
-      top: -4px;
-      right: 18%;
-      transform: rotate(14deg);
+      width: 130px;
+      height: 130px;
+      top: 15px;
+      left: calc(50% - 10px);
+      transform: rotate(15deg);
       z-index: 3;
-      filter: drop-shadow(0 20px 30px rgba(255, 215, 0, 0.4)) drop-shadow(0 15px 25px rgba(0,0,0,0.85));
+      filter: drop-shadow(0 20px 30px rgba(255, 0, 0, 0.45)) drop-shadow(0 12px 22px rgba(0,0,0,0.9));
     }
 
     .stake-hero-title-big {
@@ -432,20 +435,20 @@
         </div>
       </section>
 
-      <!-- Stake 100% Exact Match Style Banner with Custom Image Cutouts -->
+      <!-- Stake Exact Style Banner with Basketball, Diamond & Red Dice -->
       <section class="stake-hero-banner">
         <div class="stake-cutouts-container">
-          <!-- Item 1: Diamond (Top-Left where Stake has Basketball) -->
+          <!-- Item 1: Basketball -->
+          <div class="game-badge-item">
+            <img src="basketball.png" alt="Basketball" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3373/3373307.png';">
+          </div>
+          <!-- Item 2: Blue Diamond -->
           <div class="game-badge-item">
             <img src="diamond.png" alt="Diamond" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/997/997945.png';">
           </div>
-          <!-- Item 2: Dice (Bottom-Left where Stake has Diamond) -->
+          <!-- Item 3: Red Dice -->
           <div class="game-badge-item">
-            <img src="dice.png" alt="Dice" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3233/3233496.png';">
-          </div>
-          <!-- Item 3: Money Bag (Right side where Stake has Dice) -->
-          <div class="game-badge-item">
-            <img src="moneybag.png" alt="Money Bag" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/2489/2489756.png';">
+            <img src="reddice.png" alt="Red Dice" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3233/3233496.png';">
           </div>
         </div>
         
