@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;800;900&family=Playfair+Display:ital,wght@1,700;1,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    /* Custom Logo Styling: Fully attached Win2Earn with stretched cursive font, capital W and E, and largest mid 2 */
+    /* Custom Logo Styling */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
@@ -56,36 +56,64 @@
       padding: 0 15px;
     }
 
-    /* Stake Inspired Clean & Professional Hero Banner Styling (Made taller as requested) */
+    /* Stake Inspired Banner with Stacked Game Cutout Assets */
     .stake-hero-banner {
       background: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%) !important;
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
-      border-radius: 20px !important;
-      padding: 36px 18px !important; /* Thoda aur lamba kiya gaya hai */
+      border-radius: 22px !important;
+      padding: 48px 18px 36px 18px !important; /* Made taller to comfortably fit cutout graphics on top */
       text-align: center;
       position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+      margin-top: 55px; /* Leave space for game cutouts floating above */
       margin-bottom: 14px;
-      overflow: hidden;
+      overflow: visible !important; /* Allow cutout elements to overflow nicely on top */
     }
+
+    /* Floating Game Cutouts Container (Stake Style) */
+    .stake-cutouts-container {
+      position: absolute;
+      top: -65px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 290px;
+      height: 95px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .cutout-game-img {
+      position: absolute;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 15px rgba(0,0,0,0.6));
+    }
+    /* Positioning individual game assets like Stake styling */
+    .cutout-1 { width: 75px; height: 75px; left: 10px; bottom: 5px; transform: rotate(-12deg); z-index: 2; }
+    .cutout-2 { width: 90px; height: 90px; left: 65px; bottom: 12px; transform: rotate(-5deg); z-index: 4; }
+    .cutout-3 { width: 100px; height: 100px; left: 130px; bottom: 0px; transform: rotate(4deg); z-index: 5; }
+    .cutout-4 { width: 85px; height: 85px; right: 60px; bottom: 10px; transform: rotate(10deg); z-index: 3; }
+    .cutout-5 { width: 72px; height: 72px; right: 15px; bottom: 5px; transform: rotate(18deg); z-index: 1; }
+
     .stake-hero-title-big {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 2.3rem !important; /* Aur bada size */
+      font-size: 2.3rem !important;
       font-weight: 900 !important;
-      background: linear-gradient(135deg, #fff 20%, #ffd700 60%, #ff8c00 100%) !important; /* Attractive gold/orange gradient */
+      background: linear-gradient(135deg, #ffffff 15%, #ffd700 55%, #ff8c00 100%) !important;
       -webkit-background-clip: text !important;
       -webkit-text-fill-color: transparent !important;
-      margin-bottom: 10px !important;
+      margin-bottom: 8px !important;
       line-height: 1.1;
-      filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.4));
+      filter: drop-shadow(0 2px 10px rgba(255, 215, 0, 0.45));
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
-      font-size: 1.1rem !important; /* Ek line mein fit hone ke liye set kiya */
+      font-size: 1.1rem !important;
       font-weight: 800 !important;
       color: #ffffff !important;
-      white-space: nowrap; /* Ek line mein rakhne ke liye */
-      margin-bottom: 14px !important;
+      white-space: nowrap; /* Ensures it stays strictly in one line */
+      margin-bottom: 12px !important;
     }
     .stake-hero-desc {
       font-size: 0.85rem !important;
@@ -99,8 +127,8 @@
       color: #ffffff !important;
       font-family: 'Plus Jakarta Sans', sans-serif !important;
       font-weight: 800 !important;
-      font-size: 1.05rem !important; /* Button ko bada kiya gaya hai */
-      padding: 16px 24px !important; /* Button ki height aur padding badhayi gayi hai */
+      font-size: 1.05rem !important;
+      padding: 16px 24px !important;
       border-radius: 14px !important;
       border: none !important;
       width: 100% !important;
@@ -366,7 +394,7 @@
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
-      <!-- Live Winners Scrolling Ticker with 50 Indian Names and 5000 Amount -->
+      <!-- Live Winners Scrolling Ticker -->
       <section class="glass-card" style="padding: 10px 14px; margin-bottom: 14px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
         <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase; flex-shrink: 0; z-index: 2;">WINNERS</span>
         <div class="winners-ticker-wrap">
@@ -376,8 +404,16 @@
         </div>
       </section>
 
-      <!-- Updated Stake Style Banner: Taller card, bigger attractive 10,00,000, single-line prize pool, larger explore button -->
+      <!-- Stake Style Banner with Uploaded Game Cutouts Floating Above -->
       <section class="stake-hero-banner">
+        <div class="stake-cutouts-container">
+          <img src="1000315092.jpg" alt="Sniper Game" class="cutout-game-img cutout-1">
+          <img src="1000315066.jpg" alt="Copter Game" class="cutout-game-img cutout-2">
+          <img src="1000315246.jpg" alt="Car Climb Game" class="cutout-game-img cutout-3">
+          <img src="1000315242.jpg" alt="Surf Game" class="cutout-game-img cutout-4">
+          <img src="1000315085.jpg" alt="Bike Race" class="cutout-game-img cutout-5">
+        </div>
+        
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
         <div class="stake-hero-title-small">Prize Pool for 10 Winners</div>
         <p class="stake-hero-desc">
