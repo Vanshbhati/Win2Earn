@@ -1088,7 +1088,7 @@ body.no-scroll {
 
 
 /* ==========================================================================
-   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING (UPDATED FOR BIGGER CARDS)
+   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING (FIXED STAKE-STYLE)
    ========================================================================== */
 
 .reference-top-icons {
@@ -1182,7 +1182,7 @@ body.no-scroll {
   filter: drop-shadow(0 4px 12px rgba(251, 192, 45, 0.5));
 }
 
-/* STRICTLY 2 COLUMNS FOR GAMES GRID - BIGGER & BOLDER CARDS */
+/* STRICTLY 2 COLUMNS FOR GAMES GRID - STAKE STYLE CARDS */
 .reference-features-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
@@ -1195,15 +1195,15 @@ body.no-scroll {
   background: #131C31 !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 28px !important;
-  padding: 36px 16px 24px 16px !important;
-  text-align: center;
+  padding: 14px !important;
+  text-align: left !important;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5) !important;
-  min-height: 270px !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
+  min-height: 240px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  position: relative !important;
+  overflow: hidden !important;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
@@ -1212,39 +1212,43 @@ body.no-scroll {
   border-color: rgba(251, 192, 45, 0.4);
 }
 
-.reference-feature-mini-card .f-icon,
-.reference-feature-mini-card img {
-  font-size: 4.2rem !important;
-  width: 72px !important;
-  height: 72px !important;
-  object-fit: contain;
-  margin-bottom: auto !important; /* Image ko upar push karega aur gap banayega */
-  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
-}
-
-.reference-feature-mini-card .f-title {
-  font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 1.12rem !important;
-  font-weight: 900 !important;
-  color: #FFFFFF !important;
-  letter-spacing: -0.01em;
-  margin-top: 16px !important;   /* Image aur naam ke beech proper gap */
-  margin-bottom: 4px !important;
-  text-transform: uppercase;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
-}
-
-.reference-feature-mini-card .f-desc {
-  font-size: 0.76rem !important;
-  color: #94A3B8 !important;
-  font-weight: 600;
-}
-
-/* Card ke andar top-left par jo 'S' badge hai uski positioning */
+/* Card ke andar top-left par 'S' badge */
 .reference-feature-mini-card .s-badge, 
 .reference-feature-mini-card [class*="badge"] {
   position: absolute;
   top: 14px;
   left: 14px;
+  z-index: 3;
+}
+
+/* Game Image / Icon jo card ke andar rahegi */
+.reference-feature-mini-card .f-icon,
+.reference-feature-mini-card img {
+  width: 100% !important;
+  height: 140px !important;
+  object-fit: cover !important;
+  border-radius: 18px !important;
+  margin-bottom: 10px !important;
+}
+
+/* Game Title - Bold white aur proper spacing ke sath */
+.reference-feature-mini-card .f-title {
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 0.95rem !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+  letter-spacing: -0.01em;
+  margin-top: 4px !important;
+  margin-bottom: 2px !important;
+  text-transform: none !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  display: block !important;
+  width: 100% !important;
+}
+
+.reference-feature-mini-card .f-desc {
+  font-size: 0.72rem !important;
+  color: #94A3B8 !important;
+  font-weight: 600;
 }
 
