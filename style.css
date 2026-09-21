@@ -1198,10 +1198,10 @@ body.no-scroll {
   padding: 14px !important;
   text-align: left !important;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5) !important;
-  min-height: 240px !important;
+  min-height: 220px !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: space-between !important;
+  justify-content: flex-start !important;
   position: relative !important;
   overflow: hidden !important;
   transition: transform 0.2s ease, border-color 0.2s ease;
@@ -1216,39 +1216,41 @@ body.no-scroll {
 .reference-feature-mini-card .s-badge, 
 .reference-feature-mini-card [class*="badge"] {
   position: absolute;
-  top: 14px;
-  left: 14px;
+  top: 22px;
+  left: 22px;
   z-index: 3;
 }
 
-/* Game Image / Icon jo card ke andar rahegi */
+/* Game Image / Icon jo card ke andar upar rahegi */
 .reference-feature-mini-card .f-icon,
 .reference-feature-mini-card img {
   width: 100% !important;
-  height: 140px !important;
+  height: 130px !important;
   object-fit: cover !important;
   border-radius: 18px !important;
   margin-bottom: 10px !important;
+  display: block !important;
 }
 
-/* Game Title - Bold white aur proper spacing ke sath */
+/* Game Title - Bold white aur clean look ke sath IMAGE KE NEECHE */
 .reference-feature-mini-card .f-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.95rem !important;
+  font-size: 0.92rem !important;
   font-weight: 900 !important;
   color: #FFFFFF !important;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.01em !important;
   margin-top: 4px !important;
   margin-bottom: 2px !important;
   text-transform: none !important;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   display: block !important;
   width: 100% !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .reference-feature-mini-card .f-desc {
   font-size: 0.72rem !important;
   color: #94A3B8 !important;
-  font-weight: 600;
+  font-weight: 600 !important;
+  margin: 0 !important;
 }
 
