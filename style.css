@@ -1195,13 +1195,13 @@ body.no-scroll {
   background: #131C31 !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 28px !important;
-  padding: 40px 16px !important;
+  padding: 36px 16px 24px 16px !important;
   text-align: center;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5) !important;
-  min-height: 270px !important;  /* Badi height taaki cards khule-khule lagein */
+  min-height: 270px !important;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   position: relative;
   transition: transform 0.2s ease, border-color 0.2s ease;
@@ -1214,24 +1214,28 @@ body.no-scroll {
 
 .reference-feature-mini-card .f-icon,
 .reference-feature-mini-card img {
-  font-size: 4.2rem !important;  /* Emojis ko bada kiya */
-  width: 72px !important;         /* Images ke liye width */
-  height: 72px !important;        /* Images ke liye height */
+  font-size: 4.2rem !important;
+  width: 72px !important;
+  height: 72px !important;
   object-fit: contain;
-  margin-bottom: 18px !important;
+  margin-bottom: auto !important; /* Image ko upar push karega aur gap banayega */
   filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
 }
 
 .reference-feature-mini-card .f-title {
-  font-size: 1.15rem !important;  /* Game title ko bold aur bada kiya */
+  font-family: 'Plus Jakarta Sans', sans-serif !important;
+  font-size: 1.12rem !important;
   font-weight: 900 !important;
   color: #FFFFFF !important;
-  margin-bottom: 6px;
   letter-spacing: -0.01em;
+  margin-top: 16px !important;   /* Image aur naam ke beech proper gap */
+  margin-bottom: 4px !important;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .reference-feature-mini-card .f-desc {
-  font-size: 0.8rem !important;
+  font-size: 0.76rem !important;
   color: #94A3B8 !important;
   font-weight: 600;
 }
