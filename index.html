@@ -193,7 +193,7 @@
       transform: scale(0.98);
     }
 
-    /* Updated Grid Layout for Games strictly to 2 Columns */
+    /* EXACT STAKE STYLE: Tall Vertical 2-Column Grid Layout */
     .stake-games-grid {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
@@ -210,15 +210,19 @@
     .stake-game-poster {
       position: relative;
       width: 100%;
-      aspect-ratio: 4 / 3;
-      border-radius: 12px;
+      aspect-ratio: 3 / 4 !important; /* Lamba vertical Stake card ratio */
+      border-radius: 16px !important;
       overflow: hidden;
-      background-color: #1a2c38;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      background: linear-gradient(160deg, #162235 0%, #0b1320 100%) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5) !important;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .stake-game-poster:active {
+      transform: scale(0.97);
     }
     .stake-game-poster img {
       width: 100%;
@@ -227,28 +231,30 @@
     }
     .stake-logo-badge {
       position: absolute;
-      top: 6px;
-      left: 6px;
-      background: rgba(0, 0, 0, 0.65);
+      top: 8px;
+      left: 8px;
+      background: rgba(0, 0, 0, 0.75);
       color: #fff;
-      font-size: 9px;
-      font-weight: bold;
-      width: 18px;
-      height: 18px;
+      font-size: 10px;
+      font-weight: 900;
+      width: 22px;
+      height: 22px;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 50%;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      z-index: 2;
     }
     .stake-game-name {
       color: #ffffff;
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      margin-top: 8px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      letter-spacing: -0.01em;
     }
   </style>
 </head>
@@ -561,7 +567,7 @@
 
     </div>
 
-    <!-- Games Tab (Grid set to 2 Columns) -->
+    <!-- Games Tab (Stake-style tall 2 columns grid) -->
     <div id="tab-games" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
         <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Daily Tournament Games</h2>
@@ -572,54 +578,54 @@
         
         <!-- Game 1: Copter Cash (WORKING) -->
         <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+          <div class="stake-game-poster">
             <span class="stake-logo-badge">S</span>
-            <span style="font-size: 3rem;">🚁</span>
+            <span style="font-size: 3.5rem;">🚁</span>
           </div>
           <div class="stake-game-name">Copter Cash</div>
         </div>
 
         <!-- Game 2: Odin's Vault (LOCKED) -->
         <div class="stake-game-card" onclick="openLockedModal()">
-          <div class="stake-game-poster" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+          <div class="stake-game-poster">
             <span class="stake-logo-badge">S</span>
-            <span style="font-size: 3rem;">🛡️</span>
+            <span style="font-size: 3.5rem;">🛡️</span>
           </div>
           <div class="stake-game-name">Odin's Vault</div>
         </div>
 
         <!-- Game 3: Spicy Sixsixsix (LOCKED) -->
         <div class="stake-game-card" onclick="openLockedModal()">
-          <div class="stake-game-poster" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+          <div class="stake-game-poster">
             <span class="stake-logo-badge">S</span>
-            <span style="font-size: 3rem;">🔥</span>
+            <span style="font-size: 3.5rem;">🔥</span>
           </div>
           <div class="stake-game-name">Spicy Sixsixsix</div>
         </div>
 
         <!-- Game 4: Thunder Underworld (LOCKED) -->
         <div class="stake-game-card" onclick="openLockedModal()">
-          <div class="stake-game-poster" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+          <div class="stake-game-poster">
             <span class="stake-logo-badge">S</span>
-            <span style="font-size: 3rem;">⚡</span>
+            <span style="font-size: 3.5rem;">⚡</span>
           </div>
           <div class="stake-game-name">Thunder Underworld</div>
         </div>
 
         <!-- Game 5: Waylanders Forge (LOCKED) -->
         <div class="stake-game-card" onclick="openLockedModal()">
-          <div class="stake-game-poster" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+          <div class="stake-game-poster">
             <span class="stake-logo-badge">S</span>
-            <span style="font-size: 3rem;">⚒️</span>
+            <span style="font-size: 3.5rem;">⚒️</span>
           </div>
           <div class="stake-game-name">Waylanders Forge</div>
         </div>
 
         <!-- Game 6: Duck Hunters (LOCKED) -->
         <div class="stake-game-card" onclick="openLockedModal()">
-          <div class="stake-game-poster" style="background: linear-gradient(135deg, #1e293b, #0f172a);">
+          <div class="stake-game-poster">
             <span class="stake-logo-badge">S</span>
-            <span style="font-size: 3rem;">🦆</span>
+            <span style="font-size: 3.5rem;">🦆</span>
           </div>
           <div class="stake-game-name">Duck Hunters</div>
         </div>
