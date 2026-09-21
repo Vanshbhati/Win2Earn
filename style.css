@@ -1195,10 +1195,10 @@ body.no-scroll {
   background: #131C31 !important;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 24px !important;
-  padding: 22px 14px !important;
+  padding: 28px 14px !important;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
-  min-height: 150px;
+  min-height: 210px; /* Stake games ki tarah size lamba/bada kar diya gaya hai */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1212,19 +1212,19 @@ body.no-scroll {
 }
 
 .reference-feature-mini-card .f-icon {
-  font-size: 2rem !important;
-  margin-bottom: 10px !important;
+  font-size: 2.4rem !important;
+  margin-bottom: 12px !important;
 }
 
 .reference-feature-mini-card .f-title {
-  font-size: 0.88rem !important;
+  font-size: 0.95rem !important;
   font-weight: 800;
   color: #FFFFFF;
   margin-bottom: 4px;
 }
 
 .reference-feature-mini-card .f-desc {
-  font-size: 0.7rem !important;
+  font-size: 0.72rem !important;
   color: #94A3B8;
   font-weight: 600;
 }
