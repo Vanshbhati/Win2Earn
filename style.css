@@ -1088,7 +1088,7 @@ body.no-scroll {
 
 
 /* ==========================================================================
-   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING
+   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING (UPDATED FOR BIGGER CARDS)
    ========================================================================== */
 
 .reference-top-icons {
@@ -1182,54 +1182,65 @@ body.no-scroll {
   filter: drop-shadow(0 4px 12px rgba(251, 192, 45, 0.5));
 }
 
-/* STRICTLY 2 COLUMNS FOR GAMES GRID - ENHANCED SIZE */
+/* STRICTLY 2 COLUMNS FOR GAMES GRID - BIGGER & BOLDER CARDS */
 .reference-features-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 16px !important;
   width: 100% !important;
-  margin-bottom: 20px !important;
+  margin-bottom: 24px !important;
 }
 
 .reference-feature-mini-card {
   background: #131C31 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 24px !important;
-  padding: 32px 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 28px !important;
+  padding: 40px 16px !important;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
-  min-height: 230px !important; /* Cards ki height ko bada kiya gaya hai taaki screenshot jaisa dikhe */
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5) !important;
+  min-height: 270px !important;  /* Badi height taaki cards khule-khule lagein */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
 .reference-feature-mini-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(251, 192, 45, 0.3);
+  transform: translateY(-3px);
+  border-color: rgba(251, 192, 45, 0.4);
 }
 
 .reference-feature-mini-card .f-icon,
 .reference-feature-mini-card img {
-  font-size: 2.8rem !important;
-  width: 56px !important;
-  height: 56px !important;
+  font-size: 4.2rem !important;  /* Emojis ko bada kiya */
+  width: 72px !important;         /* Images ke liye width */
+  height: 72px !important;        /* Images ke liye height */
   object-fit: contain;
-  margin-bottom: 14px !important;
+  margin-bottom: 18px !important;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.4));
 }
 
 .reference-feature-mini-card .f-title {
-  font-size: 1rem !important;
-  font-weight: 800;
-  color: #FFFFFF;
+  font-size: 1.15rem !important;  /* Game title ko bold aur bada kiya */
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
   margin-bottom: 6px;
+  letter-spacing: -0.01em;
 }
 
 .reference-feature-mini-card .f-desc {
-  font-size: 0.75rem !important;
-  color: #94A3B8;
+  font-size: 0.8rem !important;
+  color: #94A3B8 !important;
   font-weight: 600;
+}
+
+/* Card ke andar top-left par jo 'S' badge hai uski positioning */
+.reference-feature-mini-card .s-badge, 
+.reference-feature-mini-card [class*="badge"] {
+  position: absolute;
+  top: 14px;
+  left: 14px;
 }
 
