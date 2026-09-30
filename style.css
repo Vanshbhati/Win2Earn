@@ -1,5 +1,5 @@
 /* ==========================================================================
-   WIN2EARN - PREMIUM DARK LUXURY THEME (MATCHING SCREENSHOT)
+   WIN2EARN - PREMIUM DARK LUXURY THEME (MATCHING SCREENSHOT & 1080x2400 OPTIMIZED)
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -402,7 +402,7 @@ body.no-scroll {
 .close-btn:hover { color: #FFFFFF; }
 
 /* --------------------------------------------------------------------------
-   FULLSCREEN GAME ARENA
+   FULLSCREEN GAME ARENA & 1080x2400 RATIO (9:20) CANVAS FIX
    -------------------------------------------------------------------------- */
 .fullscreen-game-arena {
   position: fixed;
@@ -552,6 +552,7 @@ body.no-scroll {
 #heliCanvas {
   width: 100%;
   height: 100%;
+  object-fit: contain; /* 1080x2400 aspect ratio ko maintain karte hue fit karega */
   display: block;
 }
 
@@ -1088,7 +1089,7 @@ body.no-scroll {
 
 
 /* ==========================================================================
-   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING (FIXED STAKE-STYLE)
+   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING & 1080x2400 IMAGE FIT
    ========================================================================== */
 
 .reference-top-icons {
@@ -1182,7 +1183,7 @@ body.no-scroll {
   filter: drop-shadow(0 4px 12px rgba(251, 192, 45, 0.5));
 }
 
-/* STRICTLY 2 COLUMNS FOR GAMES GRID - STAKE STYLE CARDS */
+/* STRICTLY 2 COLUMNS FOR GAMES GRID - 1080x2400 IMAGES FIT */
 .reference-features-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
@@ -1198,7 +1199,6 @@ body.no-scroll {
   padding: 14px !important;
   text-align: left !important;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5) !important;
-  min-height: 220px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
@@ -1221,15 +1221,16 @@ body.no-scroll {
   z-index: 3;
 }
 
-/* Game Image / Icon jo card ke andar upar rahegi */
+/* 1080x2400 Images ke liye proportionate height aur cover fit */
 .reference-feature-mini-card .f-icon,
 .reference-feature-mini-card img {
   width: 100% !important;
-  height: 130px !important;
+  height: 220px !important;
   object-fit: cover !important;
   border-radius: 18px !important;
   margin-bottom: 10px !important;
   display: block !important;
+  background: #0B1120;
 }
 
 /* Game Title - Bold white aur clean look ke sath IMAGE KE NEECHE */
