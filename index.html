@@ -41,6 +41,7 @@
     .modal-overlay, .popup-overlay {
       overflow: hidden !important;
       touch-action: none !important;
+      transition: opacity 0.25s ease !important;
     }
     .modal-card, .popup-box {
       overflow: hidden !important;
@@ -57,7 +58,7 @@
       transform-origin: center center;
       display: inline-block;
       white-space: nowrap;
-      color: #ffd700; /* Rich golden color for WIN and EARN */
+      color: #ffd700;
     }
     .cursive-logo span {
       letter-spacing: -1.5px !important;
@@ -67,9 +68,37 @@
       font-size: 1.45rem !important;
       vertical-align: baseline;
       display: inline-block;
-      color: #ffffff; /* Clean contrasting white/silver for 2 */
+      color: #ffffff;
       -webkit-text-fill-color: #ffffff;
       text-shadow: none;
+    }
+
+    /* Specific Tournament Card Logo Customization: WIN & EARN Chota, 2 Thoda Bada */
+    .tournament-custom-logo {
+      font-family: 'Playfair Display', 'Times New Roman', serif;
+      font-style: italic;
+      font-weight: 800;
+      font-size: 1.1rem !important;
+      letter-spacing: -1.2px !important;
+      transform: scaleX(1.15);
+      transform-origin: center center;
+      display: inline-block;
+      white-space: nowrap;
+      color: #ffd700;
+    }
+    .tournament-custom-logo span {
+      letter-spacing: -1.2px !important;
+      color: #ffd700;
+      font-size: 1.05rem !important;
+    }
+    .tournament-custom-logo .mid-two {
+      font-size: 1.55rem !important;
+      vertical-align: baseline;
+      display: inline-block;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      text-shadow: none;
+      font-weight: 900;
     }
 
     /* Premium Styled Header Buttons */
@@ -137,8 +166,8 @@
       text-align: center;
       position: relative;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(27, 83, 244, 0.4);
-      margin-top: 10px;
-      margin-bottom: 10px;
+      margin-top: 6px;
+      margin-bottom: 6px;
       overflow: hidden !important;
     }
 
@@ -326,7 +355,7 @@
   </div>
 
   <!-- Priority Alert / Error Popup -->
-  <div id="errorPopup" class="popup-overlay hidden high-priority-z" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="errorPopup" class="popup-overlay hidden high-priority-z gpu-accelerated" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">⚠</div>
       <h3 class="popup-title">Attention</h3>
@@ -336,7 +365,7 @@
   </div>
 
   <!-- OTP Verification Modal -->
-  <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="otpDisplayModal" class="popup-overlay hidden super-high-priority-z gpu-accelerated" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="popup-box glass-card popup-animated gpu-accelerated">
       <div class="popup-icon">🔐</div>
       <h3 class="popup-title">OTP Verification Code</h3>
@@ -346,7 +375,7 @@
   </div>
 
   <!-- Payout Info Modal -->
-  <div id="payoutInfoModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="payoutInfoModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="max-height: 80vh; display: flex; flex-direction: column; overflow: hidden !important;">
       <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
@@ -414,7 +443,7 @@
   </div>
 
   <!-- Welcome Modal -->
-  <div id="welcomeModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="welcomeModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card popup-animated gpu-accelerated" style="text-align: center;">
       <div class="popup-icon">🎉</div>
       <h2 id="welcomeUserName" style="font-weight: 800; font-size: 1.3rem; margin-bottom: 6px; color: var(--text-primary);">Welcome!</h2>
@@ -424,7 +453,7 @@
   </div>
 
   <!-- Legal Modal -->
-  <div id="legalModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="legalModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="max-height: 85vh; display: flex; flex-direction: column; overflow: hidden !important;">
       <button class="close-btn" onclick="closeLegalModal()">&times;</button>
       <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
@@ -436,7 +465,7 @@
   </div>
 
   <!-- Telegram Support Modal -->
-  <div id="telegramModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="telegramModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
       <button class="close-btn" onclick="closeTelegramModal()">&times;</button>
       <div class="popup-icon">💬</div>
@@ -450,7 +479,7 @@
   </div>
 
   <!-- Wallet / UPI Verification Modal -->
-  <div id="walletActivationModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="walletActivationModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeWalletModal()">&times;</button>
       <div class="auth-form">
@@ -473,7 +502,7 @@
   </div>
 
   <!-- Auth Modal -->
-  <div id="authModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+  <div id="authModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
       <button class="close-btn" onclick="closeAuthModal()">&times;</button>
       
@@ -515,13 +544,13 @@
   </header>
 
   <!-- Main Viewports Container -->
-  <main class="main-content">
+  <main class="main-content" style="padding-bottom: 20px;">
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
       
       <!-- Live Winners Scrolling Ticker -->
-      <section class="glass-card" style="padding: 10px 14px; margin-bottom: 14px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
+      <section class="glass-card" style="padding: 10px 14px; margin-bottom: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
         <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase; flex-shrink: 0; z-index: 2;">WINNERS</span>
         <div class="winners-ticker-wrap">
           <div class="winners-ticker-track" style="font-size: 0.78rem; color: var(--text-secondary);">
@@ -550,28 +579,28 @@
         </button>
       </section>
 
-      <section class="tournament-hero-card glass-card" style="margin-bottom: 12px;">
+      <section class="tournament-hero-card glass-card" style="margin-bottom: 6px;">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <div style="text-align: center; margin-bottom: 10px; width: 100%;">
-          <span class="cursive-logo" style="font-size: 1.8rem !important; display: inline-block;"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></span>
+        <div style="text-align: center; margin-bottom: 8px; width: 100%;">
+          <span class="tournament-custom-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></span>
         </div>
 
-        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 10px;">
+        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 8px;">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
           <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
 
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 10px; font-size: 0.78rem;">
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 8px; font-size: 0.78rem;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 10px;">Free Entry • Compete Skillfully • Instant Rewards</p>
+        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 8px;">Free Entry • Compete Skillfully • Instant Rewards</p>
 
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 14px; font-size: 1.05rem;">
+        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 12px; font-size: 1.02rem;">
           PLAY NOW ➔
         </button>
       </section>
@@ -708,20 +737,20 @@
   </main>
 
   <!-- Footer -->
-  <footer class="compact-footer glass-card" style="padding: 14px 16px; text-align: center; margin-bottom: 62px; background: var(--bg-secondary);">
-    <div style="margin-bottom: 6px;">
-      <div class="logo-text" style="font-size: 1rem; justify-content: center; margin-bottom: 2px;">WIN2EARN</div>
-      <p class="footer-tagline" style="font-size: 0.7rem; color: var(--text-secondary);">Skill based gaming platform</p>
+  <footer class="compact-footer glass-card" style="padding: 10px 16px; text-align: center; margin-bottom: 60px; background: var(--bg-secondary);">
+    <div style="margin-bottom: 4px;">
+      <div class="logo-text" style="font-size: 0.95rem; justify-content: center; margin-bottom: 1px;">WIN2EARN</div>
+      <p class="footer-tagline" style="font-size: 0.65rem; color: var(--text-secondary);">Skill based gaming platform</p>
     </div>
     
-    <div class="legal-links" style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 6px;">
+    <div class="legal-links" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px;">
       <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Privacy Policy</a> • 
       <a href="#" onclick="openLegalModal('terms'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Terms & Conditions</a> • 
       <a href="#" onclick="openLegalModal('community'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Community Guidelines</a>
     </div>
 
     <div class="footer-bottom">
-      <p style="font-size: 0.65rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
+      <p style="font-size: 0.62rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
@@ -815,7 +844,7 @@
 
     function closeLegalModal() {
       const modal = document.getElementById('legalModal');
-      if (modal) modal.classList.add('html');
+      if (modal) modal.classList.add('hidden');
     }
   </script>
   <script src="script.js"></script>
