@@ -552,7 +552,7 @@ body.no-scroll {
 #heliCanvas {
   width: 100%;
   height: 100%;
-  object-fit: contain; /* 1080x2400 aspect ratio ko maintain karte hue fit karega */
+  object-fit: contain;
   display: block;
 }
 
@@ -1183,7 +1183,7 @@ body.no-scroll {
   filter: drop-shadow(0 4px 12px rgba(251, 192, 45, 0.5));
 }
 
-/* STRICTLY 2 COLUMNS FOR GAMES GRID - 1080x2400 IMAGES FIT */
+/* STRICTLY 2 COLUMNS FOR GAMES GRID - 1080x2400 IMAGES FIT (UPDATED) */
 .reference-features-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
@@ -1221,14 +1221,14 @@ body.no-scroll {
   z-index: 3;
 }
 
-/* 1080x2400 Images ke liye proportionate height aur cover fit */
+/* 1080x2400 (9:20 ratio) posters ke liye height ko 340px kiya gaya hai taaki image crop na ho */
 .reference-feature-mini-card .f-icon,
 .reference-feature-mini-card img {
   width: 100% !important;
-  height: 220px !important;
+  height: 340px !important;
   object-fit: cover !important;
   border-radius: 18px !important;
-  margin-bottom: 10px !important;
+  margin-bottom: 12px !important;
   display: block !important;
   background: #0B1120;
 }
