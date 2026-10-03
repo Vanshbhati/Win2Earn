@@ -1089,7 +1089,7 @@ body.no-scroll {
 
 
 /* ==========================================================================
-   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING & 1080x2400 IMAGE FIT
+   EXTRA CSS CLASSES FOR SCREENSHOT DESIGN MATCHING & 1080x2400 IMAGE FIT (FIXED)
    ========================================================================== */
 
 .reference-top-icons {
@@ -1187,7 +1187,7 @@ body.no-scroll {
 .reference-features-grid {
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
-  gap: 16px !important;
+  gap: 12px !important;
   width: 100% !important;
   margin-bottom: 24px !important;
 }
@@ -1195,13 +1195,12 @@ body.no-scroll {
 .reference-feature-mini-card {
   background: #131C31 !important;
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 28px !important;
-  padding: 14px !important;
+  border-radius: 24px !important;
+  padding: 10px !important;
   text-align: left !important;
   box-shadow: 0 16px 45px rgba(0, 0, 0, 0.5) !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: flex-start !important;
   position: relative !important;
   overflow: hidden !important;
   transition: transform 0.2s ease, border-color 0.2s ease;
@@ -1216,19 +1215,20 @@ body.no-scroll {
 .reference-feature-mini-card .s-badge, 
 .reference-feature-mini-card [class*="badge"] {
   position: absolute;
-  top: 22px;
-  left: 22px;
+  top: 16px;
+  left: 16px;
   z-index: 3;
 }
 
-/* 1080x2400 (9:20 ratio) posters ke liye height ko 340px kiya gaya hai taaki image crop na ho */
+/* Lambi 9:20 images bina kate poori dikhegi aur gap fix rahega */
 .reference-feature-mini-card .f-icon,
 .reference-feature-mini-card img {
   width: 100% !important;
-  height: 340px !important;
-  object-fit: cover !important;
-  border-radius: 18px !important;
-  margin-bottom: 12px !important;
+  height: auto !important;
+  aspect-ratio: 9 / 20 !important;
+  object-fit: contain !important;
+  border-radius: 14px !important;
+  margin-bottom: 8px !important;
   display: block !important;
   background: #0B1120;
 }
@@ -1236,12 +1236,11 @@ body.no-scroll {
 /* Game Title - Bold white aur clean look ke sath IMAGE KE NEECHE */
 .reference-feature-mini-card .f-title {
   font-family: 'Plus Jakarta Sans', sans-serif !important;
-  font-size: 0.92rem !important;
+  font-size: 0.88rem !important;
   font-weight: 900 !important;
   color: #FFFFFF !important;
   letter-spacing: -0.01em !important;
-  margin-top: 4px !important;
-  margin-bottom: 2px !important;
+  margin: 4px 0 2px 0 !important;
   text-transform: none !important;
   display: block !important;
   width: 100% !important;
@@ -1249,7 +1248,7 @@ body.no-scroll {
 }
 
 .reference-feature-mini-card .f-desc {
-  font-size: 0.72rem !important;
+  font-size: 0.68rem !important;
   color: #94A3B8 !important;
   font-weight: 600 !important;
   margin: 0 !important;
