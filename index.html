@@ -154,17 +154,12 @@
       font-weight: 900;
       padding: 4px 10px;
       border-radius: 20px;
-      cursor: pointer;
       text-transform: uppercase;
       box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
       z-index: 10;
       border: 1px solid rgba(255, 215, 0, 0.3);
       letter-spacing: 0.5px;
       backdrop-filter: blur(6px);
-      transition: transform 0.2s ease;
-    }
-    .banner-coming-soon-badge:active {
-      transform: scale(0.95);
     }
 
     /* Collage Photo Styling inside Banner */
@@ -367,36 +362,6 @@
     </div>
   </div>
 
-  <!-- Coming Soon Prize Pool Modal (Refined Minimal Theme Match) -->
-  <div id="bannerComingSoonModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid rgba(255, 215, 0, 0.25); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);">
-      <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
-      <div style="font-size: 2rem; margin-bottom: 4px;">🚀</div>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: #ffd700; margin-bottom: 12px; letter-spacing: 0.5px;">COMING SOON</h2>
-      <div class="info-body" style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; margin-bottom: 18px;">
-        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
-          This <strong>₹10,00,000 prize pool</strong> event is launching soon. Meanwhile, enjoy our live games completely free with zero investment!
-        </p>
-      </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeBannerComingSoonModal()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0f172a; font-weight: 800; font-size: 0.85rem; padding: 12px; border-radius: 12px;">GOT IT</button>
-    </div>
-  </div>
-
-  <!-- Locked Game Notice Modal -->
-  <div id="lockedGameModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated" style="text-align: center;">
-      <button class="close-btn" onclick="closeLockedGameModal()">&times;</button>
-      <div class="popup-icon">🔒</div>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--accent-gold); margin-bottom: 10px;">GAME LOCKED</h2>
-      <div class="info-body" style="background: rgba(20, 117, 225, 0.05); border: 1px solid var(--glass-border); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
-        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
-          This game is currently locked and will unlock soon! In the meantime, you can enjoy playing <strong>Copter Cash</strong> in the daily tournament.
-        </p>
-      </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeLockedGameModal()">GOT IT</button>
-    </div>
-  </div>
-
   <!-- Fullscreen Game Arena Overlay -->
   <div id="gameScreenModal" class="fullscreen-game-arena hidden gpu-accelerated" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div id="gameEffectOverlay" class="game-effects-layer"></div>
@@ -567,7 +532,7 @@
 
       <!-- Stake Styled Hero Banner -->
       <section class="stake-hero-banner">
-        <div class="banner-coming-soon-badge" onclick="openBannerComingSoonModal()">
+        <div class="banner-coming-soon-badge">
           ⭐ Coming Soon
         </div>
 
@@ -632,7 +597,7 @@
         </div>
 
         <!-- Game 2: Cricket Clash -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/cricketclashgame.jpg" alt="Cricket Clash" onerror="this.src='cricketclashgame.jpg'">
@@ -641,7 +606,7 @@
         </div>
 
         <!-- Game 3: Vice Hustle -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/vicehustlegame.jpg" alt="Vice Hustle" onerror="this.src='vicehustlegame.jpg'">
@@ -650,7 +615,7 @@
         </div>
 
         <!-- Game 4: Drift Legend -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/driftlegendgame.jpg" alt="Drift Legend" onerror="this.src='driftlegendgame.jpg'">
@@ -659,7 +624,7 @@
         </div>
 
         <!-- Game 5: Bike Mayhem -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/bikemayhemgame.jpg" alt="Bike Mayhem" onerror="this.src='bikemayhemgame.jpg'">
@@ -668,7 +633,7 @@
         </div>
 
         <!-- Game 6: Treasure Surf -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/treasuresurfgame.jpg" alt="Treasure Surf" onerror="this.src='treasuresurfgame.jpg'">
@@ -677,7 +642,7 @@
         </div>
 
         <!-- Game 7: Stunt Fury -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/stuntfurygame.jpg" alt="Stunt Fury" onerror="this.src='stuntfurygame.jpg'">
@@ -686,7 +651,7 @@
         </div>
 
         <!-- Game 8: Rich Shot -->
-        <div class="stake-game-card" onclick="openLockedModal()">
+        <div class="stake-game-card" onclick="handleGameLaunch()">
           <div class="stake-game-poster">
             <span class="stake-logo-badge">W2E</span>
             <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/richshotgame.jpg" alt="Rich Shot" onerror="this.src='richshotgame.jpg'">
@@ -804,16 +769,6 @@
       }
     });
 
-    function openBannerComingSoonModal() {
-      const modal = document.getElementById('bannerComingSoonModal');
-      if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeBannerComingSoonModal() {
-      const modal = document.getElementById('bannerComingSoonModal');
-      if (modal) modal.classList.add('hidden');
-    }
-
     function openPayoutInfoModal() {
       const modal = document.getElementById('payoutInfoModal');
       if (modal) modal.classList.remove('hidden');
@@ -821,16 +776,6 @@
 
     function closePayoutInfoModal() {
       const modal = document.getElementById('payoutInfoModal');
-      if (modal) modal.classList.add('hidden');
-    }
-
-    function openLockedModal() {
-      const modal = document.getElementById('lockedGameModal');
-      if (modal) modal.classList.remove('hidden');
-    }
-
-    function closeLockedGameModal() {
-      const modal = document.getElementById('lockedGameModal');
       if (modal) modal.classList.add('hidden');
     }
 
@@ -870,7 +815,7 @@
 
     function closeLegalModal() {
       const modal = document.getElementById('legalModal');
-      if (modal) modal.classList.add('hidden');
+      if (modal) modal.classList.add('html');
     }
   </script>
   <script src="script.js"></script>
