@@ -46,7 +46,7 @@
       overflow: hidden !important;
     }
 
-    /* Theme Matched Logo Styling (Gold & Blue Theme Harmony) */
+    /* Premium & Subtle Logo Styling: WIN & EARN same color, 2 distinct color, no heavy lighting */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
@@ -57,21 +57,19 @@
       transform-origin: center center;
       display: inline-block;
       white-space: nowrap;
-      background: linear-gradient(135deg, #ffffff 30%, #ffd700 70%, #ff8c00 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 5px rgba(255,215,0,0.3));
+      color: #ffffff; /* Clean white for WIN and EARN */
     }
     .cursive-logo span {
       letter-spacing: -1.5px !important;
+      color: #ffffff;
     }
     .cursive-logo .mid-two {
       font-size: 1.45rem !important;
       vertical-align: baseline;
       display: inline-block;
-      background: linear-gradient(135deg, #ffd700, #ff9900);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #f59e0b; /* Solid premium amber/gold for 2 without harsh lighting */
+      -webkit-text-fill-color: #f59e0b;
+      text-shadow: none;
     }
 
     /* Premium Styled Header Buttons */
@@ -198,7 +196,6 @@
       -webkit-text-fill-color: transparent !important;
       margin-bottom: 2px !important;
       line-height: 1.1;
-      filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.3));
     }
     .stake-hero-title-small {
       font-family: 'Orbitron', sans-serif !important;
@@ -288,7 +285,7 @@
       justify-content: center;
       border-radius: 8px;
       border: 1.5px solid #ffd700;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), 0 0 10px rgba(255, 215, 0, 0.4), inset 0 0 6px rgba(255, 215, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
       z-index: 2;
       letter-spacing: 0.8px;
     }
@@ -543,7 +540,7 @@
 
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px;">
-    <div class="cursive-logo"><span>W</span>IN<span class="mid-two">2</span><span>E</span>ARN</div>
+    <div class="cursive-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></div>
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
       <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
@@ -592,7 +589,7 @@
         </div>
 
         <div style="text-align: center; margin-bottom: 10px; width: 100%;">
-          <span class="cursive-logo" style="font-size: 1.8rem !important; display: inline-block;"><span>W</span>IN<span class="mid-two">2</span><span>E</span>ARN</span>
+          <span class="cursive-logo" style="font-size: 1.8rem !important; display: inline-block;"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></span>
         </div>
 
         <div class="total-prize-box premium-glass-prize" style="margin-bottom: 10px;">
