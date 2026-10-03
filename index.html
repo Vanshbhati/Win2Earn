@@ -147,8 +147,8 @@
       position: absolute;
       top: 12px;
       left: 14px;
-      background: linear-gradient(135deg, #ff8008, #ffc837);
-      color: #1a1a2e;
+      background: rgba(15, 23, 42, 0.75);
+      color: #ffd700;
       font-family: 'Orbitron', sans-serif;
       font-size: 9px;
       font-weight: 900;
@@ -156,10 +156,11 @@
       border-radius: 20px;
       cursor: pointer;
       text-transform: uppercase;
-      box-shadow: 0 3px 10px rgba(255, 128, 8, 0.4);
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
       z-index: 10;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(255, 215, 0, 0.3);
       letter-spacing: 0.5px;
+      backdrop-filter: blur(6px);
       transition: transform 0.2s ease;
     }
     .banner-coming-soon-badge:active {
@@ -366,17 +367,18 @@
     </div>
   </div>
 
-  <!-- Coming Soon Prize Pool Modal -->
+  <!-- Coming Soon Prize Pool Modal (Refined Minimal Theme Match) -->
   <div id="bannerComingSoonModal" class="modal-overlay hidden" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid #ffc837; box-shadow: 0 10px 30px rgba(255, 200, 55, 0.25);">
+    <div class="modal-card glass-card gpu-accelerated" style="text-align: center; border: 1px solid rgba(255, 215, 0, 0.25); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);">
       <button class="close-btn" onclick="closeBannerComingSoonModal()">&times;</button>
-      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: #ffd700; margin-bottom: 12px; margin-top: 5px;">COMING SOON!</h2>
-      <div class="info-body" style="background: rgba(27, 83, 244, 0.1); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 16px; padding: 16px; margin-bottom: 20px;">
-        <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.6;">
-          This <strong>₹10,00,000 prize pool game</strong> is coming very soon! Meanwhile, other amazing games are available that you can play completely <strong>without any investment</strong>.
+      <div style="font-size: 2rem; margin-bottom: 4px;">🚀</div>
+      <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: #ffd700; margin-bottom: 12px; letter-spacing: 0.5px;">COMING SOON</h2>
+      <div class="info-body" style="background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 14px; margin-bottom: 18px;">
+        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5;">
+          This <strong>₹10,00,000 prize pool</strong> event is launching soon. Meanwhile, enjoy our live games completely free with zero investment!
         </p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closeBannerComingSoonModal()" style="background: linear-gradient(135deg, #ff8008, #ffc837); color: #111; font-weight: 900;">I UNDERSTAND</button>
+      <button class="glass-btn primary-btn w-100" onclick="closeBannerComingSoonModal()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0f172a; font-weight: 800; font-size: 0.85rem; padding: 12px; border-radius: 12px;">GOT IT</button>
     </div>
   </div>
 
