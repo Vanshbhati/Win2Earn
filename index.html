@@ -334,6 +334,21 @@
       width: 90%;
       position: relative;
     }
+
+    /* Themed Footer Styling matching card layout */
+    .themed-footer {
+      background: linear-gradient(160deg, #121826 0%, #0b101b 100%) !important;
+      border: 1px solid rgba(255, 215, 0, 0.15) !important;
+      border-radius: 20px !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* Themed Floating Telegram Button */
+    .themed-floating-tg {
+      background: linear-gradient(135deg, #0088cc 0%, #005f99 100%) !important;
+      border: 1.5px solid rgba(255, 215, 0, 0.4) !important;
+      box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4) !important;
+    }
   </style>
 </head>
 <body>
@@ -353,7 +368,7 @@
   <canvas id="liveHdBgCanvas" class="live-hd-bg"></canvas>
 
   <!-- Splash Screen -->
-  <div id="splashScreen" class="splash-screen gpu-accelerated" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 999999;" onwheel="event.preventDefault()" ontouchmove="event.preventDefault({passive: false})">
+  <div id="splashScreen" class="splash-screen gpu-accelerated" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999; pointer-events: none;" onwheel="event.preventDefault()" ontouchmove="event.preventDefault({passive: false})">
     <div class="splash-content">
       <div class="logo-text" style="font-size: 2.2rem; margin-bottom: 4px;">WIN2EARN</div>
       <p class="splash-tagline">Skill Based Game</p>
@@ -745,26 +760,26 @@
     </div>
   </main>
 
-  <!-- Footer (Spacious & Clean Layout) -->
-  <footer class="compact-footer glass-card" style="padding: 18px 16px; text-align: center; margin-bottom: 75px; background: var(--bg-secondary);">
+  <!-- Footer (Themed & Spacious) -->
+  <footer class="compact-footer themed-footer" style="padding: 18px 16px; text-align: center; margin-bottom: 75px;">
     <div style="margin-bottom: 8px;">
-      <div class="logo-text" style="font-size: 1.05rem; justify-content: center; margin-bottom: 2px;">WIN2EARN</div>
-      <p class="footer-tagline" style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600;">Skill based gaming platform</p>
+      <div class="cursive-logo" style="font-size: 1.05rem; margin-bottom: 2px;"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></div>
+      <p class="footer-tagline" style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">Skill based gaming platform</p>
     </div>
     
-    <div class="legal-links" style="font-size: 0.74rem; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6;">
-      <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: var(--text-secondary); text-decoration: underline; margin: 0 4px;">Privacy Policy</a> • 
-      <a href="#" onclick="openLegalModal('terms'); return false;" style="color: var(--text-secondary); text-decoration: underline; margin: 0 4px;">Terms & Conditions</a> • 
-      <a href="#" onclick="openLegalModal('community'); return false;" style="color: var(--text-secondary); text-decoration: underline; margin: 0 4px;">Community Guidelines</a>
+    <div class="legal-links" style="font-size: 0.74rem; color: #94a3b8; margin-bottom: 10px; line-height: 1.6;">
+      <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: #cbd5e1; text-decoration: underline; margin: 0 4px;">Privacy Policy</a> • 
+      <a href="#" onclick="openLegalModal('terms'); return false;" style="color: #cbd5e1; text-decoration: underline; margin: 0 4px;">Terms & Conditions</a> • 
+      <a href="#" onclick="openLegalModal('community'); return false;" style="color: #cbd5e1; text-decoration: underline; margin: 0 4px;">Community Guidelines</a>
     </div>
 
     <div class="footer-bottom">
-      <p style="font-size: 0.65rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
+      <p style="font-size: 0.65rem; color: #64748b;">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
   <!-- Floating Telegram Support Button -->
-  <div class="floating-tg-btn-fixed gpu-accelerated" onclick="openTelegramModal()">
+  <div class="floating-tg-btn-fixed themed-floating-tg gpu-accelerated" onclick="openTelegramModal()">
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
