@@ -73,14 +73,14 @@
       text-shadow: none;
     }
 
-    /* Specific Tournament Card Logo Customization: Bada & Clear */
+    /* Specific Tournament Card Logo Customization: Aur Bada & Clear */
     .tournament-custom-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
       font-weight: 800;
-      font-size: 1.35rem !important;
+      font-size: 1.6rem !important;
       letter-spacing: -1.2px !important;
-      transform: scaleX(1.2);
+      transform: scaleX(1.25);
       transform-origin: center center;
       display: inline-block;
       white-space: nowrap;
@@ -89,10 +89,10 @@
     .tournament-custom-logo span {
       letter-spacing: -1.2px !important;
       color: #ffd700;
-      font-size: 1.25rem !important;
+      font-size: 1.45rem !important;
     }
     .tournament-custom-logo .mid-two {
-      font-size: 1.75rem !important;
+      font-size: 2.1rem !important;
       vertical-align: baseline;
       display: inline-block;
       color: #ffffff !important;
@@ -383,7 +383,7 @@
     </div>
   </div>
 
-  <!-- Redesigned Payout Info Modal (No Scroll, Clean Layout, Removed Additional Paragraph) -->
+  <!-- Redesigned Payout Info Modal (No Scroll, Clean Layout) -->
   <div id="payoutInfoModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999; display: flex; align-items: center; justify-content: center;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="redesigned-prize-modal gpu-accelerated">
       <button class="close-btn" onclick="closePayoutInfoModal()" style="top: 14px; right: 14px;">&times;</button>
@@ -553,7 +553,7 @@
   </header>
 
   <!-- Main Viewports Container -->
-  <main class="main-content" style="padding-bottom: 24px;">
+  <main class="main-content" style="padding-bottom: 36px;">
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
@@ -588,26 +588,26 @@
         </button>
       </section>
 
-      <section class="tournament-hero-card glass-card" style="margin-bottom: 24px;">
+      <section class="tournament-hero-card glass-card" style="margin-bottom: 28px;">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <div style="text-align: center; margin-bottom: 12px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 14px; width: 100%;">
           <span class="tournament-custom-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></span>
         </div>
 
-        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 10px;">
+        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 12px;">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
           <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
 
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 10px; font-size: 0.78rem;">
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 10px;">Free Entry • Compete Skillfully • Instant Rewards</p>
+        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Rewards</p>
 
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 12px; font-size: 1.02rem;">
           PLAY NOW ➔
@@ -745,21 +745,21 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="compact-footer glass-card" style="padding: 10px 16px; text-align: center; margin-bottom: 60px; background: var(--bg-secondary);">
-    <div style="margin-bottom: 4px;">
-      <div class="logo-text" style="font-size: 0.95rem; justify-content: center; margin-bottom: 1px;">WIN2EARN</div>
-      <p class="footer-tagline" style="font-size: 0.65rem; color: var(--text-secondary);">Skill based gaming platform</p>
+  <!-- Footer (Spacious & Clean Layout) -->
+  <footer class="compact-footer glass-card" style="padding: 18px 16px; text-align: center; margin-bottom: 75px; background: var(--bg-secondary);">
+    <div style="margin-bottom: 8px;">
+      <div class="logo-text" style="font-size: 1.05rem; justify-content: center; margin-bottom: 2px;">WIN2EARN</div>
+      <p class="footer-tagline" style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600;">Skill based gaming platform</p>
     </div>
     
-    <div class="legal-links" style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 4px;">
-      <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Privacy Policy</a> • 
-      <a href="#" onclick="openLegalModal('terms'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Terms & Conditions</a> • 
-      <a href="#" onclick="openLegalModal('community'); return false;" style="color: var(--text-secondary); text-decoration: underline;">Community Guidelines</a>
+    <div class="legal-links" style="font-size: 0.74rem; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.6;">
+      <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: var(--text-secondary); text-decoration: underline; margin: 0 4px;">Privacy Policy</a> • 
+      <a href="#" onclick="openLegalModal('terms'); return false;" style="color: var(--text-secondary); text-decoration: underline; margin: 0 4px;">Terms & Conditions</a> • 
+      <a href="#" onclick="openLegalModal('community'); return false;" style="color: var(--text-secondary); text-decoration: underline; margin: 0 4px;">Community Guidelines</a>
     </div>
 
     <div class="footer-bottom">
-      <p style="font-size: 0.62rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
+      <p style="font-size: 0.65rem; color: var(--text-muted);">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
     </div>
   </footer>
 
