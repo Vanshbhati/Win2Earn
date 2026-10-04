@@ -18,26 +18,26 @@
       display: none !important;
     }
 
-    /* Target Scrollbar Only For Payout & Legal Info Modal Bodies */
-    .payout-scroll-body, .legal-scroll-body {
+    /* Target Scrollbar Only For Legal Info Modal Bodies */
+    .legal-scroll-body {
       -ms-overflow-style: auto !important;
       scrollbar-width: thin !important;
       scrollbar-color: #f39c12 rgba(255, 255, 255, 0.05) !important;
     }
-    .payout-scroll-body::-webkit-scrollbar, .legal-scroll-body::-webkit-scrollbar {
+    .legal-scroll-body::-webkit-scrollbar {
       display: block !important;
       width: 5px !important;
     }
-    .payout-scroll-body::-webkit-scrollbar-track, .legal-scroll-body::-webkit-scrollbar-track {
+    .legal-scroll-body::-webkit-scrollbar-track {
       background: rgba(255, 255, 255, 0.05) !important;
       border-radius: 10px;
     }
-    .payout-scroll-body::-webkit-scrollbar-thumb, .legal-scroll-body::-webkit-scrollbar-thumb {
+    .legal-scroll-body::-webkit-scrollbar-thumb {
       background: #f39c12 !important;
       border-radius: 10px;
     }
 
-    /* Lock all other popups completely */
+    /* Lock all popups completely - No Scroll */
     .modal-overlay, .popup-overlay {
       overflow: hidden !important;
       touch-action: none !important;
@@ -47,7 +47,7 @@
       overflow: hidden !important;
     }
 
-    /* Premium Golden Logo Styling: WIN & EARN same golden color, 2 distinct contrasting color */
+    /* Premium Golden Logo Styling */
     .cursive-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
@@ -73,14 +73,14 @@
       text-shadow: none;
     }
 
-    /* Specific Tournament Card Logo Customization: WIN & EARN Chota, 2 Thoda Bada */
+    /* Specific Tournament Card Logo Customization: Bada & Clear */
     .tournament-custom-logo {
       font-family: 'Playfair Display', 'Times New Roman', serif;
       font-style: italic;
       font-weight: 800;
-      font-size: 1.1rem !important;
+      font-size: 1.35rem !important;
       letter-spacing: -1.2px !important;
-      transform: scaleX(1.15);
+      transform: scaleX(1.2);
       transform-origin: center center;
       display: inline-block;
       white-space: nowrap;
@@ -89,10 +89,10 @@
     .tournament-custom-logo span {
       letter-spacing: -1.2px !important;
       color: #ffd700;
-      font-size: 1.05rem !important;
+      font-size: 1.25rem !important;
     }
     .tournament-custom-logo .mid-two {
-      font-size: 1.55rem !important;
+      font-size: 1.75rem !important;
       vertical-align: baseline;
       display: inline-block;
       color: #ffffff !important;
@@ -157,7 +157,7 @@
       padding: 0 15px;
     }
 
-    /* Stake Inspired Hero Banner with Background Color & Collage Photo */
+    /* Stake Inspired Hero Banner */
     .stake-hero-banner {
       background: linear-gradient(180deg, #1b53f4 0%, #0d2265 60%, #070e1a 100%) !important;
       border: 1px solid rgba(255, 215, 0, 0.3) !important;
@@ -167,11 +167,10 @@
       position: relative;
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), inset 0 0 25px rgba(27, 83, 244, 0.4);
       margin-top: 6px;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
       overflow: hidden !important;
     }
 
-    /* Coming Soon Small Badge Button on Top Left of Banner */
     .banner-coming-soon-badge {
       position: absolute;
       top: 12px;
@@ -191,7 +190,6 @@
       backdrop-filter: blur(6px);
     }
 
-    /* Collage Photo Styling inside Banner */
     .hero-collage-container {
       width: 100%;
       height: auto !important;
@@ -253,7 +251,7 @@
       transform: scale(0.98);
     }
 
-    /* EXACT STAKE STYLE: Tall Vertical 2-Column Grid Layout */
+    /* Games Grid */
     .stake-games-grid {
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
@@ -292,7 +290,6 @@
       display: block;
     }
     
-    /* Premium Attractive W2E Badge */
     .stake-logo-badge {
       position: absolute;
       top: 10px;
@@ -324,6 +321,18 @@
       overflow: hidden;
       text-overflow: ellipsis;
       letter-spacing: -0.01em;
+    }
+
+    /* Redesigned Clean Modal Style for Prize Pool */
+    .redesigned-prize-modal {
+      background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%) !important;
+      border: 1.5px solid rgba(245, 158, 11, 0.4) !important;
+      border-radius: 24px !important;
+      padding: 24px 20px !important;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(245, 158, 11, 0.15) !important;
+      max-width: 340px;
+      width: 90%;
+      position: relative;
     }
   </style>
 </head>
@@ -374,20 +383,20 @@
     </div>
   </div>
 
-  <!-- Payout Info Modal -->
-  <div id="payoutInfoModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated" style="max-height: 80vh; display: flex; flex-direction: column; overflow: hidden !important;">
-      <button class="close-btn" onclick="closePayoutInfoModal()">&times;</button>
-      <div class="info-header" style="margin-bottom: 12px; text-align: center; flex-shrink: 0;">
-        <h3 class="popup-title">How Is Prize Pool Calculated?</h3>
+  <!-- Redesigned Payout Info Modal (No Scroll, Clean Layout, Removed Additional Paragraph) -->
+  <div id="payoutInfoModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999; display: flex; align-items: center; justify-content: center;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
+    <div class="redesigned-prize-modal gpu-accelerated">
+      <button class="close-btn" onclick="closePayoutInfoModal()" style="top: 14px; right: 14px;">&times;</button>
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="font-size: 2rem; margin-bottom: 6px;">💡</div>
+        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 900; color: #ffd700; letter-spacing: 0.5px;">How Is Prize Pool Calculated?</h3>
       </div>
-      <div class="info-body payout-scroll-body" style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; overflow-y: auto !important; max-height: 220px; padding-right: 10px; margin-bottom: 12px;">
-        <p style="margin-bottom: 10px;">Top winners of the game will receive their payments directly to their UPI ID shortly after the game results are announced.</p>
-        <p style="margin-bottom: 10px;">The number of winners depends on the specific game and how many top players are selected for rewards (for example, top 10, top 50, etc.).</p>
-        <p style="margin-bottom: 10px;">Every user will be provided daily total ad revenue screenshots in their wallet section.</p>
-        <p>Additionally, 50% of the total revenue generated from each game will be distributed among the top players who participated.</p>
+      <div style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 20px; text-align: center;">
+        <p style="margin-bottom: 10px;">Top winners receive payments directly to their verified UPI ID shortly after game results are announced.</p>
+        <p style="margin-bottom: 10px;">The number of winners depends on total participants and top rank brackets (e.g., top 10, top 50).</p>
+        <p>Daily total ad revenue screenshots are transparently provided in your wallet section.</p>
       </div>
-      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()" style="flex-shrink: 0;">UNDERSTOOD</button>
+      <button class="glass-btn primary-btn w-100" onclick="closePayoutInfoModal()" style="padding: 12px; font-weight: 800;">UNDERSTOOD</button>
     </div>
   </div>
 
@@ -544,7 +553,7 @@
   </header>
 
   <!-- Main Viewports Container -->
-  <main class="main-content" style="padding-bottom: 20px;">
+  <main class="main-content" style="padding-bottom: 24px;">
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
@@ -579,26 +588,26 @@
         </button>
       </section>
 
-      <section class="tournament-hero-card glass-card" style="margin-bottom: 6px;">
+      <section class="tournament-hero-card glass-card" style="margin-bottom: 24px;">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
 
-        <div style="text-align: center; margin-bottom: 8px; width: 100%;">
+        <div style="text-align: center; margin-bottom: 12px; width: 100%;">
           <span class="tournament-custom-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></span>
         </div>
 
-        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 8px;">
+        <div class="total-prize-box premium-glass-prize" style="margin-bottom: 10px;">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
           <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
 
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 8px; font-size: 0.78rem;">
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 10px; font-size: 0.78rem;">
           ℹ️ How is Prize Pool Calculated?
         </button>
 
-        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 8px;">Free Entry • Compete Skillfully • Instant Rewards</p>
+        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 10px;">Free Entry • Compete Skillfully • Instant Rewards</p>
 
         <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 12px; font-size: 1.02rem;">
           PLAY NOW ➔
@@ -607,7 +616,7 @@
 
     </div>
 
-    <!-- Games Tab (With W2E Badges) -->
+    <!-- Games Tab -->
     <div id="tab-games" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
         <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Daily Tournament Games</h2>
