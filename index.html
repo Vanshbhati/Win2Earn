@@ -338,6 +338,30 @@
       border: 1.5px solid rgba(255, 215, 0, 0.4) !important;
       box-shadow: 0 6px 20px rgba(0, 136, 204, 0.4) !important;
     }
+
+    /* Locked Leaderboard UI Styles */
+    .leaderboard-locked-card {
+      background: linear-gradient(145deg, #0f172a 0%, #162235 100%);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      border-radius: 24px;
+      padding: 32px 20px;
+      text-align: center;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+      margin-top: 10px;
+    }
+    .lock-icon-circle {
+      width: 70px;
+      height: 70px;
+      background: rgba(245, 158, 11, 0.1);
+      border: 2px solid rgba(245, 158, 11, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px auto;
+      font-size: 2rem;
+      box-shadow: 0 0 20px rgba(245, 158, 11, 0.15);
+    }
   </style>
 </head>
 <body>
@@ -696,17 +720,24 @@
       </div>
     </div>
 
-    <!-- Leaderboard Tab -->
+    <!-- Leaderboard Tab (Locked Interface) -->
     <div id="tab-leaderboard" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
         <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Global Leaderboards</h2>
         <p style="font-size: 0.8rem; color: var(--text-secondary);">Live rankings and real user standings</p>
       </div>
 
-      <div class="lb-type-toggle" style="display: none;"></div>
-
-      <div class="lb-list-container glass-card" id="lbList"></div>
-      <div class="glass-card" id="userRankCard" style="padding: 14px; margin-top: 12px; text-align: center;"></div>
+      <div class="leaderboard-locked-card">
+        <div class="lock-icon-circle">🔒</div>
+        <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: #ffd700; margin-bottom: 8px;">Leaderboard Locked</h3>
+        <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.5; margin-bottom: 20px;">
+          Global rankings and player standings are restricted. Please sign in or register to view the complete leaderboard.
+        </p>
+        <div style="display: flex; gap: 10px;">
+          <button class="glass-btn secondary-btn w-100" onclick="openAuthModal('login')" style="padding: 12px; font-weight: 800;">Log In</button>
+          <button class="glass-btn action-btn w-100" onclick="openAuthModal('signup')" style="padding: 12px; font-weight: 800;">Sign Up</button>
+        </div>
+      </div>
     </div>
 
     <!-- Alerts Tab -->
