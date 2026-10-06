@@ -135,6 +135,22 @@
       transform: scale(0.95);
     }
 
+    /* Logged in header profile badge */
+    .header-user-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(245, 158, 11, 0.12);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      padding: 5px 12px;
+      border-radius: 20px;
+      color: #ffd700;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 800;
+      font-size: 0.78rem;
+      box-shadow: 0 3px 10px rgba(245, 158, 11, 0.15);
+    }
+
     /* Infinite Smooth Marquee Animation */
     @keyframes smoothMarquee {
       0% { transform: translateX(0); }
@@ -251,7 +267,7 @@
       transform: scale(0.98);
     }
 
-    /* Games Grid - Fixed Grid Layout */
+    /* Games Grid */
     .stake-games-grid {
       display: grid !important;
       grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -632,6 +648,7 @@
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px;">
     <div class="cursive-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></div>
+    <!-- Dynamically switches between Auth Buttons and User Profile Name Badge -->
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
       <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
@@ -790,15 +807,6 @@
       </div>
     </div>
 
-    <!-- Alerts Tab -->
-    <div id="tab-alerts" class="tab-content hidden">
-      <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Activity & Alerts</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Real notifications & personal updates</p>
-      </div>
-      <div class="alerts-feed" id="alertsFeed" style="display: flex; flex-direction: column; gap: 10px;"></div>
-    </div>
-
     <!-- Wallet Tab -->
     <div id="tab-wallet" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
@@ -818,6 +826,20 @@
       <div class="tx-history-wrapper">
         <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 10px;">Winning Transactions</h4>
         <div id="txList" class="tx-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+      </div>
+    </div>
+
+    <!-- Account Tab (Only visible after login) -->
+    <div id="tab-account" class="tab-content hidden">
+      <div style="margin-bottom: 16px; text-align: center;">
+        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Account Dashboard</h2>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">Manage your profile & session</p>
+      </div>
+      <div class="glass-card" style="padding: 20px; text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 10px;">👤</div>
+        <h3 id="accountProfileName" style="font-size: 1.2rem; font-weight: 800; color: #ffd700; margin-bottom: 6px;">User Name</h3>
+        <p id="accountProfileEmail" style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px;">user@email.com</p>
+        <button class="glass-btn secondary-btn w-100" onclick="handleLogout()" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #f87171;">LOG OUT</button>
       </div>
     </div>
   </main>
@@ -845,8 +867,8 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar -->
-  <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav">
+  <!-- Bottom Navigation Bar (Dynamically switches 4 or 5 tabs based on login status) -->
+  <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav" id="bottomNavContainer">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       <span>home</span>
@@ -863,10 +885,6 @@
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       <span>wallet</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'account')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      <span>account</span>
-    </a>
   </nav>
 
   <script src="sound.js"></script>
@@ -882,9 +900,115 @@
           }, 500);
         }, 9000);
       }
+      checkLoginState();
       renderLiveLeaderboard();
-      setInterval(updateLiveScores, 3000); // Live score ticker every 3 seconds
+      setInterval(updateLiveScores, 3000);
     });
+
+    let isUserLoggedIn = localStorage.getItem('win2earn_logged_in') === 'true';
+    let currentUsername = localStorage.getItem('win2earn_username') || "Rahul Sharma";
+
+    function checkLoginState() {
+      const navAuthBtns = document.getElementById('navAuthBtns');
+      const bottomNavContainer = document.getElementById('bottomNavContainer');
+
+      if (isUserLoggedIn) {
+        // Show user name in header instead of login/signup buttons
+        navAuthBtns.innerHTML = `
+          <div class="header-user-badge">
+            <span>👤</span> ${currentUsername}
+          </div>
+        `;
+        // Show 5 tabs including Account
+        bottomNavContainer.innerHTML = `
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'home')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>home</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>games</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M16 11V3H8v8H2v10h20V11h-6zm-6-6h4v14h-4V5zm-6 8h4v6H4v-6zm16 6h-4v-4h4v4z"/></svg>
+            <span>leaderboard</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>wallet</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'account')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <span>account</span>
+          </a>
+        `;
+        // Update account tab details
+        const accName = document.getElementById('accountProfileName');
+        const accEmail = document.getElementById('accountProfileEmail');
+        if (accName) accName.innerText = currentUsername;
+        if (accEmail) accEmail.innerText = localStorage.getItem('win2earn_email') || "user@win2earn.com";
+      } else {
+        // Show login/signup buttons in header
+        navAuthBtns.innerHTML = `
+          <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
+          <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
+        `;
+        // Show only 4 tabs (No Account tab)
+        bottomNavContainer.innerHTML = `
+          <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>home</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'games')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 9 18.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+            <span>games</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'leaderboard')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M16 11V3H8v8H2v10h20V11h-6zm-6-6h4v14h-4V5zm-6 8h4v6H4v-6zm16 6h-4v-4h4v4z"/></svg>
+            <span>leaderboard</span>
+          </a>
+          <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
+            <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <span>wallet</span>
+          </a>
+        `;
+      }
+    }
+
+    // Simulate login for demonstration when form is submitted
+    function handleLogin(event) {
+      event.preventDefault();
+      let email = document.getElementById('loginEmail').value;
+      currentUsername = email.split('@')[0].toUpperCase();
+      localStorage.setItem('win2earn_logged_in', 'true');
+      localStorage.setItem('win2earn_username', currentUsername);
+      localStorage.setItem('win2earn_email', email);
+      isUserLoggedIn = true;
+      closeAuthModal();
+      checkLoginState();
+      renderLiveLeaderboard();
+    }
+
+    function handleSignup(event) {
+      event.preventDefault();
+      currentUsername = document.getElementById('signupName').value;
+      let email = document.getElementById('signupEmail').value;
+      localStorage.setItem('win2earn_logged_in', 'true');
+      localStorage.setItem('win2earn_username', currentUsername);
+      localStorage.setItem('win2earn_email', email);
+      isUserLoggedIn = true;
+      closeAuthModal();
+      checkLoginState();
+      renderLiveLeaderboard();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('win2earn_logged_in');
+      isUserLoggedIn = false;
+      checkLoginState();
+      handleNavClick(null, 'home');
+      renderLiveLeaderboard();
+    }
 
     // Mock Leaderboard Data with Live Scores
     let leaderboardUsers = [
@@ -901,17 +1025,15 @@
       const container = document.getElementById('liveLeaderboardContainer');
       if (!container) return;
 
-      // Get currently logged in user name if available from localStorage or global state
-      let loggedInUser = localStorage.getItem('win2earn_username') || "Rahul Sharma"; // Fallback to Rahul Sharma if testing, or actual user
+      let loggedInUser = isUserLoggedIn ? currentUsername : "";
 
       let html = '';
       leaderboardUsers.forEach((user, index) => {
-        let isLoggedUser = (user.name.toLowerCase() === loggedInUser.toLowerCase());
+        let isLoggedUser = isUserLoggedIn && (user.name.toLowerCase() === loggedInUser.toLowerCase());
         let rankClass = index === 0 ? 'top-rank-1' : index === 1 ? 'top-rank-2' : index === 2 ? 'top-rank-3' : '';
-        let badgeClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+        let badgeClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 3 ? 'rank-3' : '';
         let highlightClass = isLoggedUser ? 'logged-user-highlight' : '';
 
-        // Make logged-in user font/size slightly bigger & distinct
         let nameStyle = isLoggedUser ? 'font-size: 1.05rem; font-weight: 900; color: #38bdf8;' : 'font-size: 0.92rem; font-weight: 800; color: #fff;';
         let scoreStyle = isLoggedUser ? 'font-size: 0.85rem; color: #38bdf8; font-weight: 800;' : 'font-size: 0.75rem; color: #ffd700; font-weight: 700;';
 
@@ -934,28 +1056,22 @@
       container.innerHTML = html;
     }
 
-    // Function to simulate live score increments dynamically
     function updateLiveScores() {
       leaderboardUsers.forEach((user, index) => {
-        // Randomly add 10 to 80 points to active users to make it feel live
         let randomAdd = Math.floor(Math.random() * 70) + 10;
         user.score += randomAdd;
 
         let scoreEl = document.getElementById(`lb-score-${index}`);
         if (scoreEl) {
           scoreEl.innerText = `Score: ${user.score.toLocaleString()} pts`;
-          // Quick flash effect on score update
           scoreEl.style.color = '#38bdf8';
           setTimeout(() => {
             scoreEl.style.color = index < 3 ? '#ffd700' : '#cbd5e1';
           }, 800);
         }
       });
-      // Re-sort users based on live score so rankings dynamically shift!
       leaderboardUsers.sort((a, b) => b.score - a.score);
       leaderboardUsers.forEach((u, idx) => u.rank = idx + 1);
-      
-      // Re-render to reflect live rank changes smoothly
       renderLiveLeaderboard();
     }
 
@@ -977,28 +1093,13 @@
 
       if (type === 'privacy') {
         titleEl.innerText = 'Privacy Policy';
-        bodyEl.innerHTML = `
-          <p style="margin-bottom: 8px;"><strong>1. Information Collection:</strong> WIN2EARN collects basic account info like your name, mobile number, email, and verified UPI ID strictly for secure payout processing.</p>
-          <p style="margin-bottom: 8px;"><strong>2. Data Usage:</strong> Your data is used exclusively to maintain tournament leaderboards, verify authentic user scores, and disburse cash rewards safely.</p>
-          <p style="margin-bottom: 8px;"><strong>3. Security:</strong> We employ high-grade encryption standards to safeguard your personal credentials and transaction records against unauthorized access.</p>
-          <p><strong>4. Third-Party Sharing:</strong> We do not sell or trade your personal information. Data is shared with payment gateways only when executing legitimate winning payouts.</p>
-        `;
+        bodyEl.innerHTML = `<p style="margin-bottom: 8px;"><strong>1. Information Collection:</strong> WIN2EARN collects basic account info like your name, mobile number, email, and verified UPI ID strictly for secure payout processing.</p>`;
       } else if (type === 'terms') {
         titleEl.innerText = 'Terms & Conditions';
-        bodyEl.innerHTML = `
-          <p style="margin-bottom: 8px;"><strong>1. Eligibility:</strong> Players must be at least 18 years of age and possess a valid, verified Indian UPI handle to receive rewards.</p>
-          <p style="margin-bottom: 8px;"><strong>2. Skill Gaming:</strong> All contests on WIN2EARN are purely skill-based (such as Copter Cash). Outcomes depend entirely on user reflexes and practice.</p>
-          <p style="margin-bottom: 8px;"><strong>3. Fair Play Policy:</strong> Use of bots, emulators, automated scripts, or multiple accounts by a single individual leads to instant permanent bans.</p>
-          <p><strong>4. Payout Terms:</strong> Rewards are distributed based on daily ad revenue shares as outlined in tournament rules. Decisions made by management are final.</p>
-        `;
+        bodyEl.innerHTML = `<p style="margin-bottom: 8px;"><strong>1. Eligibility:</strong> Players must be at least 18 years of age and possess a valid, verified Indian UPI handle to receive rewards.</p>`;
       } else if (type === 'community') {
         titleEl.innerText = 'Community Guidelines';
-        bodyEl.innerHTML = `
-          <p style="margin-bottom: 8px;"><strong>1. Respectful Conduct:</strong> Maintain courteous behavior when interacting with support staff and fellow players across community channels.</p>
-          <p style="margin-bottom: 8px;"><strong>2. No Cheating / Exploits:</strong> Attempting to hack game code, manipulate scores, or exploit platform glitches will result in immediate forfeiture of winnings.</p>
-          <p style="margin-bottom: 8px;"><strong>3. Authentic UPI Verification:</strong> Providing fraudulent or someone else's UPI ID violates community integrity norms and leads to account suspension.</p>
-          <p><strong>4. Zero Tolerance:</strong> Any form of harassment, spamming support tickets, or spreading misinformation about payouts is strictly prohibited.</p>
-        `;
+        bodyEl.innerHTML = `<p style="margin-bottom: 8px;"><strong>1. Respectful Conduct:</strong> Maintain courteous behavior when interacting with support staff and fellow players across community channels.</p>`;
       }
       modal.classList.remove('hidden');
     }
