@@ -251,12 +251,13 @@
       transform: scale(0.98);
     }
 
-    /* Games Grid */
+    /* Games Grid - Fixed Grid Layout */
     .stake-games-grid {
       display: grid !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 12px !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 14px !important;
       padding: 4px !important;
+      width: 100% !important;
     }
     .stake-game-card {
       background: transparent;
@@ -264,12 +265,12 @@
       flex-direction: column;
       cursor: pointer;
       text-align: left;
+      width: 100% !important;
     }
     .stake-game-poster {
       position: relative;
-      width: 100%;
-      height: auto !important;
-      aspect-ratio: auto !important;
+      width: 100% !important;
+      aspect-ratio: 9 / 16 !important;
       border-radius: 16px !important;
       overflow: hidden;
       background: linear-gradient(160deg, #162235 0%, #0b1320 100%) !important;
@@ -284,9 +285,9 @@
       transform: scale(0.97);
     }
     .stake-game-poster img {
-      width: 100%;
-      height: auto !important;
-      object-fit: contain !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
       display: block;
     }
     
