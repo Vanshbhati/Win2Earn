@@ -135,22 +135,6 @@
       transform: scale(0.95);
     }
 
-    /* Logged in header profile badge */
-    .header-user-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(245, 158, 11, 0.12);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      padding: 5px 12px;
-      border-radius: 20px;
-      color: #ffd700;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      font-weight: 800;
-      font-size: 0.78rem;
-      box-shadow: 0 3px 10px rgba(245, 158, 11, 0.15);
-    }
-
     /* Infinite Smooth Marquee Animation */
     @keyframes smoothMarquee {
       0% { transform: translateX(0); }
@@ -437,6 +421,11 @@
     .rank-2 { background: linear-gradient(135deg, #cbd5e1 0%, #64748b 100%); color: #0f172a; text-shadow: none; }
     .rank-3 { background: linear-gradient(135deg, #f97316 0%, #c2410c 100%); color: #fff; text-shadow: none; }
   </style>
+
+  <!-- Force Clear LocalStorage so Log In / Sign Up buttons show up immediately -->
+  <script>
+    localStorage.clear();
+  </script>
 </head>
 <body>
 
@@ -645,7 +634,7 @@
     </div>
   </div>
 
-  <!-- Top Navigation Bar (With Login and Sign Up Buttons Always Visible) -->
+  <!-- Top Navigation Bar (Always Forces Log In / Sign Up Buttons) -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px;">
     <div class="cursive-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></div>
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
