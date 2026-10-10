@@ -589,29 +589,6 @@
     </div>
   </div>
 
-  <!-- Wallet / UPI Verification Modal -->
-  <div id="walletActivationModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
-    <div class="modal-card glass-card gpu-accelerated">
-      <button class="close-btn" onclick="closeWalletModal()">&times;</button>
-      <div class="auth-form">
-        <div style="text-align: center; margin-bottom: 10px;">
-          <span class="popup-icon">💳</span>
-          <h3 class="popup-title">Verify Payout UPI ID</h3>
-        </div>
-        <p style="font-size: 0.82rem; color: var(--text-secondary); text-align: center; margin-bottom: 12px; line-height: 1.4;">
-          Enter your official valid UPI ID (GPay / PhonePe / Paytm / BHIM) to start playing and receive direct cash rewards.
-        </p>
-        <div style="background: rgba(255, 77, 79, 0.1); border: 1px solid rgba(255, 77, 79, 0.3); border-radius: 12px; padding: 10px; font-size: 0.75rem; color: var(--accent-red); margin-bottom: 14px; line-height: 1.4;">
-          ⚠ <strong>Strict Policy:</strong> Fake UPI IDs will cause instant disqualification. UPI ID cannot be changed once saved.
-        </div>
-        <form onsubmit="activateWallet(event)">
-          <input type="text" id="upiInput" class="glass-input" placeholder="e.g. 9876543210@paytm / name@upi" required style="margin-bottom: 14px;">
-          <button type="submit" class="glass-btn action-btn w-100">SAVE UPI & START GAME</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
   <!-- Auth Modal -->
   <div id="authModal" class="modal-overlay hidden gpu-accelerated" style="z-index: 999999;" onwheel="event.stopPropagation()" ontouchmove="event.stopPropagation()">
     <div class="modal-card glass-card gpu-accelerated">
@@ -648,7 +625,6 @@
   <!-- Top Navigation Bar -->
   <header class="navbar glass-nav" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px;">
     <div class="cursive-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></div>
-    <!-- Dynamically switches between Auth Buttons and User Profile Name Badge -->
     <div class="auth-btns" id="navAuthBtns" style="display: flex; align-items: center; gap: 8px;">
       <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
       <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
@@ -660,203 +636,110 @@
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
-      
-      <!-- Live Winners Scrolling Ticker -->
       <section class="glass-card" style="padding: 10px 14px; margin-bottom: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
         <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase; flex-shrink: 0; z-index: 2;">WINNERS</span>
         <div class="winners-ticker-wrap">
           <div class="winners-ticker-track" style="font-size: 0.78rem; color: var(--text-secondary);">
-            <span>Rahul Won 5000 last week</span> • <span>Amit Won 5000 last week</span> • <span>Priya Won 5000 last week</span> • <span>Sneha Won 5000 last week</span> • <span>Vikram Won 5000 last week</span> • <span>Anjali Won 5000 last week</span> • <span>Rohit Won 5000 last week</span> • <span>Pooja Won 5000 last week</span> • <span>Karan Won 5000 last week</span> • <span>Neha Won 5000 last week</span> • <span>Deepak Won 5000 last week</span> • <span>Simran Won 5000 last week</span> • <span>Manish Won 5000 last week</span> • <span>Divya Won 5000 last week</span> • <span>Ajay Won 5000 last week</span> • <span>Ritu Won 5000 last week</span> • <span>Sandeep Won 5000 last week</span> • <span>Kritika Won 5000 last week</span> • <span>Sunil Won 5000 last week</span> • <span>Megha Won 5000 last week</span> • <span>Vivek Won 5000 last week</span> • <span>Swati Won 5000 last week</span> • <span>Alok Won 5000 last week</span> • <span>Nisha Won 5000 last week</span> • <span>Rajesh Won 5000 last week</span> • <span>Monika Won 5000 last week</span> • <span>Naveen Won 5000 last week</span> • <span>Preeti Won 5000 last week</span> • <span>Gaurav Won 5000 last week</span> • <span>Sonam Won 5000 last week</span> • <span>Vikas Won 5000 last week</span> • <span>Jyoti Won 5000 last week</span> • <span>Sachin Won 5000 last week</span> • <span>Deepika Won 5000 last week</span> • <span>Ankit Won 5000 last week</span> • <span>Shweta Won 5000 last week</span> • <span>Manoj Won 5000 last week</span> • <span>Kajal Won 5000 last week</span> • <span>Pankaj Won 5000 last week</span> • <span>Payal Won 5000 last week</span> • <span>Tarun Won 5000 last week</span> • <span>Meenakshi Won 5000 last week</span> • <span>Sanjay Won 5000 last week</span> • <span>Radha Won 5000 last week</span> • <span>Abhishek Won 5000 last week</span> • <span>Geeta Won 5000 last week</span> • <span>Vineet Won 5000 last week</span> • <span>Rekha Won 5000 last week</span> • <span>Ashish Won 5000 last week</span> • <span>Kiran Won 5000 last week</span>
+            <span>Rahul Won 5000 last week</span> • <span>Amit Won 5000 last week</span> • <span>Priya Won 5000 last week</span> • <span>Sneha Won 5000 last week</span> • <span>Vikram Won 5000 last week</span> • <span>Anjali Won 5000 last week</span> • <span>Rohit Won 5000 last week</span> • <span>Pooja Won 5000 last week</span> • <span>Karan Won 5000 last week</span> • <span>Neha Won 5000 last week</span>
           </div>
         </div>
       </section>
 
-      <!-- Stake Styled Hero Banner -->
       <section class="stake-hero-banner">
-        <div class="banner-coming-soon-badge">
-          ⭐ Coming Soon
-        </div>
-
+        <div class="banner-coming-soon-badge">⭐ Coming Soon</div>
         <div class="hero-collage-container">
           <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/gamethumbnail.jpg" alt="Game Thumbnail Artwork" onerror="this.src='gamethumbnail.jpg'">
         </div>
-
         <h2 class="stake-hero-title-big">₹10,00,000</h2>
         <div class="stake-hero-title-small">Prize Pool for 10 Winners</div>
-        <p class="stake-hero-desc">
-          India's leading skill gaming platform with 100% free daily entries.
-        </p>
-        <button class="stake-explore-btn" onclick="handleNavClick(event, 'games')">
-          Explore Games ➔
-        </button>
+        <p class="stake-hero-desc">India's leading skill gaming platform with 100% free daily entries.</p>
+        <button class="stake-explore-btn" onclick="handleNavClick(event, 'games')">Explore Games ➔</button>
       </section>
 
       <section class="tournament-hero-card glass-card" style="margin-bottom: 28px;">
         <div class="status-badge-wrapper">
           <span class="live-status-pill"><span class="live-dot"></span> DAILY TOURNAMENT LIVE</span>
         </div>
-
         <div style="text-align: center; margin-bottom: 14px; width: 100%;">
           <span class="tournament-custom-logo"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></span>
         </div>
-
         <div class="total-prize-box premium-glass-prize" style="margin-bottom: 12px;">
           <span class="prize-label">DAILY TOURNAMENT POOL</span>
           <div class="prize-amount gold-text" style="font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">50% AD REVENUE SHARE</div>
           <p class="pool-sub-note">Guaranteed rewards for top players every night at 10:00 PM!</p>
         </div>
-
-        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">
-          ℹ️ How is Prize Pool Calculated?
-        </button>
-
-        <p class="hero-subtext" style="font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Rewards</p>
-
-        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 12px; font-size: 1.02rem;">
-          PLAY NOW ➔
-        </button>
+        <button class="glass-btn secondary-btn w-100" onclick="openPayoutInfoModal()" style="margin-bottom: 12px; font-size: 0.78rem;">ℹ️ How is Prize Pool Calculated?</button>
+        <p class="hero-subtext" style="font-size: 0.72rem; text-align: center; margin-bottom: 12px;">Free Entry • Compete Skillfully • Instant Rewards</p>
+        <button class="glass-btn action-btn play-pulse-btn w-100" onclick="handleGameLaunch()" style="padding: 12px; font-size: 1.02rem;">PLAY NOW ➔</button>
       </section>
-
     </div>
 
     <!-- Games Tab -->
     <div id="tab-games" class="tab-content hidden">
       <div style="margin-bottom: 20px; text-align: center; padding: 4px 12px;">
-        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 20%, #ffd700 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; letter-spacing: 0.5px; white-space: nowrap;">DAILY TOURNAMENT GAMES</h2>
-        <p style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600; letter-spacing: 0.2px;">Choose your game and climb the leaderboard</p>
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; background: linear-gradient(135deg, #ffffff 20%, #ffd700 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px;">DAILY TOURNAMENT GAMES</h2>
+        <p style="font-size: 0.8rem; color: #cbd5e1; font-weight: 600;">Choose your game and climb the leaderboard</p>
       </div>
-
       <div class="stake-games-grid">
-        
-        <!-- Game 1: Copter Cash -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/coptercashgame.jpg" alt="Copter Cash" onerror="this.src='Coptercashgame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 2: Cricket Clash -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/cricketclashgame.jpg" alt="Cricket Clash" onerror="this.src='cricketclashgame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 3: Vice Hustle -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/vicehustlegame.jpg" alt="Vice Hustle" onerror="this.src='vicehustlegame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 4: Drift Legend -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/driftlegendgame.jpg" alt="Drift Legend" onerror="this.src='driftlegendgame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 5: Bike Mayhem -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/bikemayhemgame.jpg" alt="Bike Mayhem" onerror="this.src='bikemayhemgame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 6: Treasure Surf -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/treasuresurfgame.jpg" alt="Treasure Surf" onerror="this.src='treasuresurfgame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 7: Stunt Fury -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/stuntfurygame.jpg" alt="Stunt Fury" onerror="this.src='stuntfurygame.jpg'">
-          </div>
-        </div>
-
-        <!-- Game 8: Rich Shot -->
-        <div class="stake-game-card" onclick="handleGameLaunch()">
-          <div class="stake-game-poster">
-            <span class="stake-logo-badge">W2E</span>
-            <img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/richshotgame.jpg" alt="Rich Shot" onerror="this.src='richshotgame.jpg'">
-          </div>
-        </div>
-
+        <div class="stake-game-card" onclick="handleGameLaunch()"><div class="stake-game-poster"><span class="stake-logo-badge">W2E</span><img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/coptercashgame.jpg" alt="Copter Cash" onerror="this.src='Coptercashgame.jpg'"></div></div>
+        <div class="stake-game-card" onclick="handleGameLaunch()"><div class="stake-game-poster"><span class="stake-logo-badge">W2E</span><img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/cricketclashgame.jpg" alt="Cricket Clash" onerror="this.src='cricketclashgame.jpg'"></div></div>
+        <div class="stake-game-card" onclick="handleGameLaunch()"><div class="stake-game-poster"><span class="stake-logo-badge">W2E</span><img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/vicehustlegame.jpg" alt="Vice Hustle" onerror="this.src='vicehustlegame.jpg'"></div></div>
+        <div class="stake-game-card" onclick="handleGameLaunch()"><div class="stake-game-poster"><span class="stake-logo-badge">W2E</span><img src="https://raw.githubusercontent.com/Vanshbhati/Win2Earn/main/driftlegendgame.jpg" alt="Drift Legend" onerror="this.src='driftlegendgame.jpg'"></div></div>
       </div>
     </div>
 
-    <!-- Leaderboard Tab (Live Updated & Logged-User Highlighted) -->
+    <!-- Leaderboard Tab -->
     <div id="tab-leaderboard" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
         <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; font-weight: 900; background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px;">⚡ LIVE GLOBAL LEADERBOARD</h2>
         <p style="font-size: 0.8rem; color: #cbd5e1;">Real-time active scores & tournament rankings</p>
       </div>
-
-      <div class="leaderboard-container" id="liveLeaderboardContainer">
-        <!-- Rendered dynamically by script below -->
-      </div>
+      <div class="leaderboard-container" id="liveLeaderboardContainer"></div>
     </div>
 
-    <!-- Wallet Tab -->
-    <div id="tab-wallet" class="tab-content hidden">
+    <!-- Alerts Tab -->
+    <div id="tab-alerts" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">My Payout Wallet</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Verified payment details & official earnings</p>
+        <h2 style="font-family: 'Orbitron', sans-serif; font-size: 1.25rem; font-weight: 900; background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px;">🔔 TOURNAMENT ALERTS</h2>
+        <p style="font-size: 0.8rem; color: #cbd5e1;">Latest announcements and real-time updates</p>
       </div>
-
-      <div id="profileDetailsContainer"></div>
-
-      <div class="glass-card" style="padding: 18px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
-        <div>
-          <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 800; letter-spacing: 0.05em; display: block; margin-bottom: 4px;">LINKED UPI ID</span>
-          <div id="walletUpiDisplay" style="font-weight: 800; color: var(--accent-green); font-size: 1rem;">Not Linked</div>
+      <div id="alertsFeed" style="display: flex; flex-direction: column; gap: 10px;">
+        <div class="glass-card" style="padding: 14px; border-left: 4px solid #38bdf8;">
+          <div style="font-size: 0.7rem; color: #94a3b8; margin-bottom: 4px;">2 mins ago</div>
+          <div style="font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 4px;">🔥 Daily Tournament Active</div>
+          <div style="font-size: 0.81rem; color: #cbd5e1;">Top 10 players get rewarded every night at 10:00 PM sharp! Play now.</div>
         </div>
       </div>
-
-      <div class="tx-history-wrapper">
-        <h4 style="font-size: 0.9rem; font-weight: 800; color: var(--text-primary); margin-bottom: 10px;">Winning Transactions</h4>
-        <div id="txList" class="tx-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
-      </div>
     </div>
 
-    <!-- Account Tab (Only visible after login) -->
-    <div id="tab-account" class="tab-content hidden">
+    <!-- Profile Tab -->
+    <div id="tab-profile" class="tab-content hidden">
       <div style="margin-bottom: 16px; text-align: center;">
-        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">Account Dashboard</h2>
-        <p style="font-size: 0.8rem; color: var(--text-secondary);">Manage your profile & session</p>
+        <h2 style="font-size: 1.3rem; font-weight: 900; color: var(--text-primary);">User Profile</h2>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">Manage account & verified payment wallet</p>
       </div>
-      <div class="glass-card" style="padding: 20px; text-align: center;">
-        <div style="font-size: 3rem; margin-bottom: 10px;">👤</div>
-        <h3 id="accountProfileName" style="font-size: 1.2rem; font-weight: 800; color: #ffd700; margin-bottom: 6px;">User Name</h3>
-        <p id="accountProfileEmail" style="font-size: 0.85rem; color: #cbd5e1; margin-bottom: 20px;">user@email.com</p>
-        <button class="glass-btn secondary-btn w-100" onclick="handleLogout()" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #f87171;">LOG OUT</button>
+      <div id="profileDetailsContainer">
+        <div class="glass-card" style="padding: 18px; text-align: center; margin-bottom: 12px;">
+          <div style="font-size: 2.5rem; margin-bottom: 8px;">👤</div>
+          <h3 id="profileNameDisplay" style="font-size: 1.1rem; font-weight: 800; color: #ffd700; margin-bottom: 4px;">Guest Player</h3>
+          <p style="font-size: 0.8rem; color: #cbd5e1; margin-bottom: 14px;">Log in or sign up to save scores and win cash.</p>
+          <button class="glass-btn action-btn w-100" onclick="openAuthModal('login')">LOG IN / SIGN UP</button>
+        </div>
       </div>
     </div>
   </main>
 
-  <!-- Footer (Themed & Spacious) -->
+  <!-- Footer -->
   <footer class="compact-footer themed-footer" style="padding: 18px 16px; text-align: center; margin-bottom: 75px;">
     <div style="margin-bottom: 8px;">
       <div class="cursive-logo" style="font-size: 1.05rem; margin-bottom: 2px;"><span>WIN</span><span class="mid-two">2</span><span>EARN</span></div>
       <p class="footer-tagline" style="font-size: 0.72rem; color: #94a3b8; font-weight: 600;">Skill based gaming platform</p>
     </div>
-    
     <div class="legal-links" style="font-size: 0.74rem; color: #94a3b8; margin-bottom: 10px; line-height: 1.6;">
       <a href="#" onclick="openLegalModal('privacy'); return false;" style="color: #cbd5e1; text-decoration: underline; margin: 0 4px;">Privacy Policy</a> • 
       <a href="#" onclick="openLegalModal('terms'); return false;" style="color: #cbd5e1; text-decoration: underline; margin: 0 4px;">Terms & Conditions</a> • 
       <a href="#" onclick="openLegalModal('community'); return false;" style="color: #cbd5e1; text-decoration: underline; margin: 0 4px;">Community Guidelines</a>
     </div>
-
     <div class="footer-bottom">
       <p style="font-size: 0.65rem; color: #64748b;">© 2026 WIN2EARN Gaming Inc. All Rights Reserved.</p>
     </div>
@@ -867,8 +750,8 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar (Hidden by default until login) -->
-  <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav" id="bottomNavContainer" style="display: none;">
+  <!-- Bottom Navigation Bar (Visible before and after login with 5 custom items) -->
+  <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav" id="bottomNavContainer" style="display: flex;">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
       <span>home</span>
@@ -881,9 +764,13 @@
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M16 11V3H8v8H2v10h20V11h-6zm-6-6h4v14h-4V5zm-6 8h4v6H4v-6zm16 6h-4v-4h4v4z"/></svg>
       <span>leaderboard</span>
     </a>
-    <a href="#" class="nav-item" onclick="handleNavClick(event, 'wallet')">
-      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-      <span>wallet</span>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'alerts')">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+      <span>alerts</span>
+    </a>
+    <a href="#" class="nav-item" onclick="handleNavClick(event, 'profile')">
+      <svg class="nav-svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <span>profile</span>
     </a>
   </nav>
 
