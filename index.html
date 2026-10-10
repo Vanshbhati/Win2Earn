@@ -151,7 +151,7 @@
       box-shadow: 0 3px 10px rgba(245, 158, 11, 0.15);
     }
 
-    /* Infinite Smooth Marquee Animation */
+    /* Infinite Smooth Marquee Animation for Winners Ticker */
     @keyframes smoothMarquee {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
@@ -166,11 +166,21 @@
     .winners-ticker-track {
       display: inline-block;
       white-space: nowrap;
-      animation: smoothMarquee 50s linear infinite;
+      animation: smoothMarquee 40s linear infinite;
     }
     .winners-ticker-track span {
       display: inline-block;
-      padding: 0 15px;
+      padding: 0 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #f8fafc;
+    }
+    .winners-ticker-track strong {
+      color: #ffd700;
+    }
+    .winners-ticker-track .win-amt {
+      color: #22c55e;
+      font-weight: 900;
     }
 
     /* Stake Inspired Hero Banner */
@@ -636,11 +646,18 @@
     
     <!-- Home Tab -->
     <div id="tab-home" class="tab-content">
-      <section class="glass-card" style="padding: 10px 14px; margin-bottom: 10px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; overflow: hidden; white-space: nowrap;">
-        <span style="background: var(--accent-gold); color: #000; font-size: 0.65rem; font-weight: 900; padding: 3px 8px; border-radius: 6px; margin-right: 10px; text-transform: uppercase; flex-shrink: 0; z-index: 2;">WINNERS</span>
+      <section class="glass-card" style="padding: 12px 14px; margin-bottom: 12px; background: rgba(15, 23, 42, 0.85); border: 1.5px solid rgba(255, 215, 0, 0.25); display: flex; align-items: center; overflow: hidden; white-space: nowrap; border-radius: 16px; box-shadow: 0 6px 20px rgba(0,0,0,0.4);">
+        <span style="background: linear-gradient(135deg, #ffd700, #d97706); color: #000; font-size: 0.7rem; font-weight: 900; padding: 5px 10px; border-radius: 8px; margin-right: 12px; text-transform: uppercase; flex-shrink: 0; z-index: 2; box-shadow: 0 3px 10px rgba(245,158,11,0.3);">WINNERS</span>
         <div class="winners-ticker-wrap">
-          <div class="winners-ticker-track" style="font-size: 0.78rem; color: var(--text-secondary);">
-            <span>Rahul Won 5000 last week</span> • <span>Amit Won 5000 last week</span> • <span>Priya Won 5000 last week</span> • <span>Sneha Won 5000 last week</span> • <span>Vikram Won 5000 last week</span> • <span>Anjali Won 5000 last week</span> • <span>Rohit Won 5000 last week</span> • <span>Pooja Won 5000 last week</span> • <span>Karan Won 5000 last week</span> • <span>Neha Won 5000 last week</span>
+          <div class="winners-ticker-track">
+            <span><strong>Rahul</strong> won <span class="win-amt">₹62,000</span></span> • 
+            <span><strong>Amit</strong> won <span class="win-amt">₹58,900</span></span> • 
+            <span><strong>Priya</strong> won <span class="win-amt">₹20,400</span></span> • 
+            <span><strong>Vikram</strong> won <span class="win-amt">₹45,000</span></span> • 
+            <span><strong>Sneha</strong> won <span class="win-amt">₹71,500</span></span> • 
+            <span><strong>Rohit</strong> won <span class="win-amt">₹33,800</span></span> • 
+            <span><strong>Anjali</strong> won <span class="win-amt">₹89,200</span></span> • 
+            <span><strong>Karan</strong> won <span class="win-amt">₹19,600</span></span>
           </div>
         </div>
       </section>
@@ -750,7 +767,7 @@
     <svg viewBox="0 0 24 24" class="tg-floating-icon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 0 0-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>
   </div>
 
-  <!-- Bottom Navigation Bar (Visible before and after login with 5 custom items) -->
+  <!-- Bottom Navigation Bar -->
   <nav class="bottom-nav glass-nav-fixed gpu-accelerated compact-bottom-nav" id="bottomNavContainer" style="display: flex;">
     <a href="#" class="nav-item active" onclick="handleNavClick(event, 'home')">
       <svg class="nav-svg" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
