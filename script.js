@@ -47,29 +47,17 @@ function checkLoginState() {
   const navAuthBtns = document.getElementById('navAuthBtns');
   const bottomNavContainer = document.getElementById('bottomNavContainer');
 
-  if (isUserLoggedIn) {
-    if (navAuthBtns) {
-      navAuthBtns.innerHTML = `
-        <div class="header-user-badge">
-          <span>👤</span> ${currentUsername}
-        </div>
-      `;
-    }
-    // Login ke baad bottom navigation bar show hogi
-    if (bottomNavContainer) {
-      bottomNavContainer.style.display = 'flex';
-    }
-  } else {
-    if (navAuthBtns) {
-      navAuthBtns.innerHTML = `
-        <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
-        <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
-      `;
-    }
-    // Bina login ke bottom navigation bar hidden rahegi[span_1](start_span)[span_1](end_span)
-    if (bottomNavContainer) {
-      bottomNavContainer.style.display = 'none';
-    }
+  // Top right par hamesha Log In aur Sign Up buttons hi rahenge
+  if (navAuthBtns) {
+    navAuthBtns.innerHTML = `
+      <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
+      <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
+    `;
+  }
+
+  // Bottom navigation hamesha visible rahegi jaise tumne bola tha
+  if (bottomNavContainer) {
+    bottomNavContainer.style.display = 'flex';
   }
 }
 
