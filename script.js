@@ -37,6 +37,42 @@ const alertsData = [
   { title: "🔥 Daily Tournament Active", desc: "Top 10 daily players get rewards!", time: "2 mins ago" }
 ];
 
+let isUserLoggedIn = localStorage.getItem('win2earn_logged_in') === 'true';
+let currentUsername = localStorage.getItem('win2earn_username') || "Rahul Sharma";
+
+// ==========================================================================
+// LOGIN STATE & BOTTOM NAV CONTROL
+// ==========================================================================
+function checkLoginState() {
+  const navAuthBtns = document.getElementById('navAuthBtns');
+  const bottomNavContainer = document.getElementById('bottomNavContainer');
+
+  if (isUserLoggedIn) {
+    if (navAuthBtns) {
+      navAuthBtns.innerHTML = `
+        <div class="header-user-badge">
+          <span>👤</span> ${currentUsername}
+        </div>
+      `;
+    }
+    // Login ke baad bottom navigation bar show hogi
+    if (bottomNavContainer) {
+      bottomNavContainer.style.display = 'flex';
+    }
+  } else {
+    if (navAuthBtns) {
+      navAuthBtns.innerHTML = `
+        <button class="header-btn-login" onclick="openAuthModal('login')">Log In</button>
+        <button class="header-btn-signup" onclick="openAuthModal('signup')">Sign Up</button>
+      `;
+    }
+    // Bina login ke bottom navigation bar hidden rahegi[span_1](start_span)[span_1](end_span)
+    if (bottomNavContainer) {
+      bottomNavContainer.style.display = 'none';
+    }
+  }
+}
+
 // ==========================================================================
 // PREMIUM SYNTHESIZED SOUND SYSTEM
 // ==========================================================================
@@ -278,6 +314,7 @@ document.addEventListener("click", unlockMobileAudio, { passive: true });
 document.addEventListener("DOMContentLoaded", () => {
   initSplashScreen();
   initTicker();
+  checkLoginState();
   renderLeaderboard('daily');
   renderAlerts();
   initHeliGameListeners();
@@ -557,9 +594,14 @@ function handleLogin(e) {
   e.preventDefault();
   unlockMobileAudio();
   const email = document.getElementById("loginEmail")?.value || "user@example.com";
-  appState.currentUser = { name: email.split("@")[0].toUpperCase(), email, upi: null };
+  currentUsername = email.split("@")[0].toUpperCase();
+  localStorage.setItem('win2earn_logged_in', 'true');
+  localStorage.setItem('win2earn_username', currentUsername);
+  localStorage.setItem('win2earn_email', email);
+  isUserLoggedIn = true;
   closeAuthModal();
-  onUserLoggedIn();
+  checkLoginState();
+  renderLeaderboard('daily');
 }
 
 function handleSignup(e) {
@@ -567,18 +609,29 @@ function handleSignup(e) {
   unlockMobileAudio();
   const name = document.getElementById("signupName")?.value || "Player";
   const email = document.getElementById("signupEmail")?.value || "";
-  appState.currentUser = { name, email, upi: null };
+  currentUsername = name;
+  localStorage.setItem('win2earn_logged_in', 'true');
+  localStorage.setItem('win2earn_username', currentUsername);
+  localStorage.setItem('win2earn_email', email);
+  isUserLoggedIn = true;
   closeAuthModal();
-  onUserLoggedIn();
+  checkLoginState();
+  renderLeaderboard('daily');
 }
 
-function onUserLoggedIn() {
-  document.getElementById("megaBannerCard")?.classList.add("hidden");
+function handleLogout() {
+  localStorage.removeItem('win2earn_logged_in');
+  localStorage.removeItem('win2earn_username');
+  localStorage.removeItem('win2earn_email');
+  isUserLoggedIn = false;
+  checkLoginState();
+  handleNavClick(null, 'home');
+  renderLeaderboard('daily');
 }
 
 function handleGameLaunch() {
   unlockMobileAudio();
-  if (!appState.currentUser) {
+  if (!isUserLoggedIn) {
     openAuthModal('login');
     return;
   }
@@ -1593,8 +1646,8 @@ function handleCrash() {
   if (currentRunEl) currentRunEl.innerText = `${currentRunTotal}`;
   if (dailyTotalEl) dailyTotalEl.innerText = `${appState.dailyScore}`;
 
-  if (rankTextEl && appState.currentUser) {
-    const userRankObj = lbDailyData.find(item => item.name === appState.currentUser.name);
+  if (rankTextEl && isUserLoggedIn) {
+    const userRankObj = lbDailyData.find(item => item.name === currentUsername);
     if (userRankObj) {
       rankTextEl.innerText = `RANK #${userRankObj.rank}`;
     } else {
@@ -1614,13 +1667,13 @@ function handleCrash() {
 }
 
 function updateLeaderboardWithUserScore() {
-  if (!appState.currentUser) return;
+  if (!isUserLoggedIn) return;
   const targetData = lbDailyData;
-  const existingIdx = targetData.findIndex(item => item.name === appState.currentUser.name);
+  const existingIdx = targetData.findIndex(item => item.name === currentUsername);
   if (existingIdx !== -1) {
     targetData[existingIdx].score = appState.dailyScore;
   } else {
-    targetData.push({ rank: targetData.length + 1, name: appState.currentUser.name, score: appState.dailyScore });
+    targetData.push({ rank: targetData.length + 1, name: currentUsername, score: appState.dailyScore });
   }
   targetData.sort((a, b) => b.score - a.score);
   targetData.forEach((item, index) => item.rank = index + 1);
@@ -1628,17 +1681,37 @@ function updateLeaderboardWithUserScore() {
 }
 
 function renderLeaderboard(type) {
-  const container = document.getElementById("lbList");
+  const container = document.getElementById("liveLeaderboardContainer");
   if (!container) return;
   const data = type === 'daily' ? lbDailyData : lbWeeklyData;
 
-  container.innerHTML = data.map(item => `
-    <div class="lb-row">
-      <span class="lb-rank ${item.rank <= 3 ? 'top' + item.rank : ''}">#${item.rank}</span>
-      <span class="lb-name">${item.name}</span>
-      <span class="lb-score">${item.score.toLocaleString()} pts</span>
-    </div>
-  `).join("");
+  let html = '';
+  data.forEach((item, index) => {
+    let isLoggedUser = isUserLoggedIn && (item.name.toLowerCase() === currentUsername.toLowerCase());
+    let rankClass = index === 0 ? 'top-rank-1' : index === 1 ? 'top-rank-2' : index === 2 ? 'top-rank-3' : '';
+    let badgeClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+    let highlightClass = isLoggedUser ? 'logged-user-highlight' : '';
+
+    let nameStyle = isLoggedUser ? 'font-size: 1.05rem; font-weight: 900; color: #38bdf8;' : 'font-size: 0.92rem; font-weight: 800; color: #fff;';
+    let scoreStyle = isLoggedUser ? 'font-size: 0.85rem; color: #38bdf8; font-weight: 800;' : 'font-size: 0.75rem; color: #ffd700; font-weight: 700;';
+
+    html += `
+      <div class="leaderboard-row ${rankClass} ${highlightClass}" id="lb-row-${index}">
+        <div style="display: flex; align-items: center;">
+          <div class="rank-badge ${badgeClass}">${item.rank}</div>
+          <div>
+            <div style="${nameStyle}">${item.name} ${isLoggedUser ? '⭐ (You)' : ''}</div>
+            <div style="${scoreStyle}">Score: ${item.score.toLocaleString()} pts</div>
+          </div>
+        </div>
+        <div style="text-align: right;">
+          <div style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #22c55e; font-size: 0.88rem;">${index === 0 ? "₹5,000" : index === 1 ? "₹3,000" : index === 2 ? "₹2,000" : "₹1,000"}</div>
+          <div style="font-size: 0.65rem; color: #94a3b8;">${index < 3 ? `${index + 1}st Prize` : "Top 10"}</div>
+        </div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
 }
 
 function renderAlerts() {
@@ -1655,7 +1728,7 @@ function renderAlerts() {
 
 function renderProfileWallet() {
   const profileContainer = document.getElementById("profileDetailsContainer");
-  if (!appState.currentUser) {
+  if (!isUserLoggedIn) {
     if (profileContainer) {
       profileContainer.innerHTML = `
         <div class="glass-card" style="padding: 16px; text-align: center;">
@@ -1670,9 +1743,8 @@ function renderProfileWallet() {
     profileContainer.innerHTML = `
       <div class="glass-card" style="padding: 16px; text-align: left;">
         <div style="font-size: 0.72rem; color: #8e8e93; font-weight: 800;">ACCOUNT HOLDER</div>
-        <div style="font-size: 1.1rem; font-weight: 800; color: #1c1c1e;">${appState.currentUser.name}</div>
+        <div style="font-size: 1.1rem; font-weight: 800; color: #1c1c1e;">${currentUsername}</div>
       </div>
     `;
   }
 }
-
